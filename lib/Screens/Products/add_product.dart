@@ -31,7 +31,8 @@ import 'package:mobile_pos/generated/l10n.dart' as lang;
 
 // ignore: must_be_immutable
 class AddProduct extends StatefulWidget {
-  AddProduct({Key? key, this.catName, this.unitsName, this.brandName}) : super(key: key);
+  AddProduct({Key? key, this.catName, this.unitsName, this.brandName})
+      : super(key: key);
 
   // ignore: prefer_typing_uninitialized_variables
   var catName;
@@ -48,11 +49,16 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
-  GetCategoryAndVariationModel data = GetCategoryAndVariationModel(variations: [], categoryName: '');
+  GetCategoryAndVariationModel data =
+      GetCategoryAndVariationModel(variations: [], categoryName: '');
   String productCategory = 'Select Product Category';
   String brandName = 'Select Brand';
   String productUnit = 'Select Unit';
-  late String productName, productStock, productSalePrice, productPurchasePrice, productCode;
+  String productName = "",
+      productStock = "",
+      productSalePrice = "",
+      productPurchasePrice = "",
+      productCode = "";
   String productWholeSalePrice = '0';
   String productDealerPrice = '0';
   String productPicture =
@@ -85,7 +91,9 @@ class _AddProductState extends State<AddProduct> {
         status: 'Uploading... ',
         dismissOnTap: false,
       );
-      var snapshot = await FirebaseStorage.instance.ref('Product Picture/${DateTime.now().millisecondsSinceEpoch}').putFile(file);
+      var snapshot = await FirebaseStorage.instance
+          .ref('Product Picture/${DateTime.now().millisecondsSinceEpoch}')
+          .putFile(file);
       var url = await snapshot.ref.getDownloadURL();
 
       setState(() {
@@ -93,14 +101,16 @@ class _AddProductState extends State<AddProduct> {
       });
     } on firebase_core.FirebaseException catch (e) {
       EasyLoading.dismiss();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.code.toString())));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.code.toString())));
     }
   }
 
   Future<void> scanBarcodeNormal() async {
     String barcodeScanRes;
     try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode('#ff6666', 'Cancel', true, ScanMode.BARCODE);
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
@@ -119,9 +129,15 @@ class _AddProductState extends State<AddProduct> {
 
   @override
   void initState() {
-    widget.catName == null ? productCategory = 'Select Product Category' : productCategory = widget.catName;
-    widget.unitsName == null ? productUnit = 'Select Units' : productUnit = widget.unitsName;
-    widget.brandName == null ? brandName = 'Select Brands' : brandName = widget.brandName;
+    widget.catName == null
+        ? productCategory = 'Select Product Category'
+        : productCategory = widget.catName;
+    widget.unitsName == null
+        ? productUnit = 'Select Units'
+        : productUnit = widget.unitsName;
+    widget.brandName == null
+        ? brandName = 'Select Brands'
+        : brandName = widget.brandName;
     super.initState();
   }
 
@@ -198,7 +214,7 @@ class _AddProductState extends State<AddProduct> {
                       borderRadius: BorderRadius.circular(5.0),
                       border: Border.all(color: kGreyTextColor),
                     ),
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () async {
                         data = await const CategoryList().launch(context);
                         setState(() {
@@ -331,7 +347,7 @@ class _AddProductState extends State<AddProduct> {
                       borderRadius: BorderRadius.circular(5.0),
                       border: Border.all(color: kGreyTextColor),
                     ),
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () async {
                         String data = await const BrandsList().launch(context);
                         setState(() {
@@ -371,7 +387,8 @@ class _AddProductState extends State<AddProduct> {
                           },
                           onFieldSubmitted: (value) {
                             if (codeList.contains(value)) {
-                              EasyLoading.showError('This Product Already added!');
+                              EasyLoading.showError(
+                                  'This Product Already added!');
                               productCodeController.clear();
                             } else {
                               setState(() {
@@ -445,7 +462,8 @@ class _AddProductState extends State<AddProduct> {
                           ),
                           child: GestureDetector(
                             onTap: () async {
-                              String data = await const UnitList().launch(context);
+                              String data =
+                                  await const UnitList().launch(context);
                               setState(() {
                                 productUnit = data;
                               });
@@ -511,48 +529,49 @@ class _AddProductState extends State<AddProduct> {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: AppTextField(
-                          textFieldType: TextFieldType.PHONE,
-                          onChanged: (value) {
-                            setState(() {
-                              productWholeSalePrice = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            labelText: lang.S.of(context).wholeSalePrice,
-                            hintText: '$currency 155',
-                            border: const OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: AppTextField(
-                          textFieldType: TextFieldType.PHONE,
-                          onChanged: (value) {
-                            setState(() {
-                              productDealerPrice = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            labelText: lang.S.of(context).dealerPrice,
-                            hintText: '$currency 130',
-                            border: const OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: Padding(
+                //         padding: const EdgeInsets.all(10.0),
+                //         child: AppTextField(
+                //           textFieldType: TextFieldType.PHONE,
+                //           onChanged: (value) {
+                //             setState(() {
+                //               productWholeSalePrice = value;
+                //             });
+                //           },
+                //           decoration: InputDecoration(
+                //             floatingLabelBehavior: FloatingLabelBehavior.always,
+                //             labelText: lang.S.of(context).wholeSalePrice,
+                //             hintText: '$currency 155',
+                //             border: const OutlineInputBorder(),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     Expanded(
+                //       child: Padding(
+                //         padding: const EdgeInsets.all(10.0),
+                //         child: AppTextField(
+                //           textFieldType: TextFieldType.PHONE,
+                //           onChanged: (value) {
+                //             setState(() {
+                //               productDealerPrice = value;
+                //             });
+                //           },
+                //           decoration: InputDecoration(
+                //             floatingLabelBehavior: FloatingLabelBehavior.always,
+                //             labelText: lang.S.of(context).dealerPrice,
+                //             hintText: '$currency 130',
+                //             border: const OutlineInputBorder(),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+
                 Row(
                   children: [
                     Expanded(
@@ -614,23 +633,31 @@ class _AddProductState extends State<AddProduct> {
                                   width: MediaQuery.of(context).size.width - 80,
                                   child: Center(
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         GestureDetector(
                                           onTap: () async {
-                                            pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+                                            pickedImage =
+                                                await _picker.pickImage(
+                                                    source:
+                                                        ImageSource.gallery);
 
                                             setState(() {
-                                              imageFile = File(pickedImage!.path);
+                                              imageFile =
+                                                  File(pickedImage!.path);
                                               imagePath = pickedImage!.path;
                                             });
 
-                                            Future.delayed(const Duration(milliseconds: 100), () {
+                                            Future.delayed(
+                                                const Duration(
+                                                    milliseconds: 100), () {
                                               Navigator.pop(context);
                                             });
                                           },
                                           child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
                                               const Icon(
                                                 Icons.photo_library_rounded,
@@ -652,17 +679,23 @@ class _AddProductState extends State<AddProduct> {
                                         ),
                                         GestureDetector(
                                           onTap: () async {
-                                            pickedImage = await _picker.pickImage(source: ImageSource.camera);
+                                            pickedImage =
+                                                await _picker.pickImage(
+                                                    source: ImageSource.camera);
                                             setState(() {
-                                              imageFile = File(pickedImage!.path);
+                                              imageFile =
+                                                  File(pickedImage!.path);
                                               imagePath = pickedImage!.path;
                                             });
-                                            Future.delayed(const Duration(milliseconds: 100), () {
+                                            Future.delayed(
+                                                const Duration(
+                                                    milliseconds: 100), () {
                                               Navigator.pop(context);
                                             });
                                           },
                                           child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
                                               const Icon(
                                                 Icons.camera,
@@ -692,8 +725,10 @@ class _AddProductState extends State<AddProduct> {
                             height: 120,
                             width: 120,
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black54, width: 1),
-                              borderRadius: const BorderRadius.all(Radius.circular(120)),
+                              border:
+                                  Border.all(color: Colors.black54, width: 1),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(120)),
                               image: imagePath == 'No Data'
                                   ? DecorationImage(
                                       image: NetworkImage(productPicture),
@@ -709,8 +744,10 @@ class _AddProductState extends State<AddProduct> {
                             height: 120,
                             width: 120,
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black54, width: 1),
-                              borderRadius: const BorderRadius.all(Radius.circular(120)),
+                              border:
+                                  Border.all(color: Colors.black54, width: 1),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(120)),
                               image: DecorationImage(
                                 image: FileImage(imageFile),
                                 fit: BoxFit.cover,
@@ -725,8 +762,10 @@ class _AddProductState extends State<AddProduct> {
                               height: 35,
                               width: 35,
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.white, width: 2),
-                                borderRadius: const BorderRadius.all(Radius.circular(120)),
+                                border:
+                                    Border.all(color: Colors.white, width: 2),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(120)),
                                 color: kMainColor,
                               ),
                               child: const Icon(
@@ -744,19 +783,48 @@ class _AddProductState extends State<AddProduct> {
                 ),
                 ButtonGlobalWithoutIcon(
                   buttontext: lang.S.of(context).saveNPublish,
-                  buttonDecoration: kButtonDecoration.copyWith(color: kMainColor),
+                  buttonDecoration:
+                      kButtonDecoration.copyWith(color: kMainColor),
                   onPressed: () async {
-                    if (!codeList.contains(productCode.toLowerCase()) && !productNameList.contains(productName.toLowerCase())) {
-                      bool result = await InternetConnectionChecker().hasConnection;
+                    print(productName.toString());
+                    if (productName.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please enter product name'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      return;
+                    }
+                    if (productCode.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please enter product Code'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      return;
+                    }
+                    if (!codeList.contains(productCode.toLowerCase()) &&
+                        !productNameList.contains(productName.toLowerCase())) {
+                      bool result =
+                          await InternetConnectionChecker().hasConnection;
                       if (result) {
                         bool status = await PurchaseModel().isActiveBuyer();
                         if (status) {
                           try {
-                            EasyLoading.show(status: 'Loading...', dismissOnTap: false);
+                            EasyLoading.show(
+                                status: 'Loading...', dismissOnTap: false);
 
-                            imagePath == 'No Data' ? null : await uploadFile(imagePath);
+                            imagePath == 'No Data'
+                                ? null
+                                : await uploadFile(imagePath);
                             // ignore: no_leading_underscores_for_local_identifiers
-                            final DatabaseReference _productInformationRef = FirebaseDatabase.instance.ref().child(constUserId).child('Products');
+                            final DatabaseReference _productInformationRef =
+                                FirebaseDatabase.instance
+                                    .ref()
+                                    .child(constUserId)
+                                    .child('Products');
                             _productInformationRef.keepSynced(true);
                             ProductModel productModel = ProductModel(
                               productName,
@@ -778,28 +846,40 @@ class _AddProductState extends State<AddProduct> {
                               productManufacturer,
                               productPicture,
                             );
-                            _productInformationRef.push().set(productModel.toJson());
+                            _productInformationRef
+                                .push()
+                                .set(productModel.toJson());
                             decreaseSubscriptionSale();
-                            EasyLoading.showSuccess('Added Successfully', duration: const Duration(milliseconds: 500));
+                            EasyLoading.showSuccess('Added Successfully',
+                                duration: const Duration(milliseconds: 500));
                             _productInformationRef.onChildAdded.listen((event) {
                               ref.refresh(productProvider);
                             });
-                            Future.delayed(const Duration(milliseconds: 100), () {
+                            Future.delayed(const Duration(milliseconds: 100),
+                                () {
                               const Home().launch(context, isNewTask: true);
                             });
                           } catch (e) {
                             EasyLoading.dismiss();
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(e.toString())));
                           }
                         } else {
                           showLicensePage(context: context);
                         }
                       } else {
                         try {
-                          EasyLoading.show(status: 'Loading...', dismissOnTap: false);
-                          imagePath == 'No Data' ? null : await uploadFile(imagePath);
+                          EasyLoading.show(
+                              status: 'Loading...', dismissOnTap: false);
+                          imagePath == 'No Data'
+                              ? null
+                              : await uploadFile(imagePath);
                           // ignore: no_leading_underscores_for_local_identifiers
-                          final DatabaseReference _productInformationRef = FirebaseDatabase.instance.ref().child(constUserId).child('Products');
+                          final DatabaseReference _productInformationRef =
+                              FirebaseDatabase.instance
+                                  .ref()
+                                  .child(constUserId)
+                                  .child('Products');
                           _productInformationRef.keepSynced(true);
                           ProductModel productModel = ProductModel(
                             productName,
@@ -821,9 +901,12 @@ class _AddProductState extends State<AddProduct> {
                             productManufacturer,
                             productPicture,
                           );
-                          _productInformationRef.push().set(productModel.toJson());
+                          _productInformationRef
+                              .push()
+                              .set(productModel.toJson());
                           decreaseSubscriptionSale();
-                          EasyLoading.showSuccess('Added Successfully', duration: const Duration(milliseconds: 500));
+                          EasyLoading.showSuccess('Added Successfully',
+                              duration: const Duration(milliseconds: 500));
                           _productInformationRef.onChildAdded.listen((event) {
                             ref.refresh(productProvider);
                           });
@@ -832,11 +915,13 @@ class _AddProductState extends State<AddProduct> {
                           });
                         } catch (e) {
                           EasyLoading.dismiss();
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(e.toString())));
                         }
                       }
                     } else {
-                      EasyLoading.showError('Product Code or Name are already added!');
+                      EasyLoading.showError(
+                          'Product Code or Name are already added!');
                     }
                   },
                   buttonTextColor: Colors.white,
@@ -850,11 +935,16 @@ class _AddProductState extends State<AddProduct> {
   }
 
   void decreaseSubscriptionSale() async {
-    final ref = FirebaseDatabase.instance.ref('$constUserId/Subscription/products');
+    final ref =
+        FirebaseDatabase.instance.ref('$constUserId/Subscription/products');
     ref.keepSynced(true);
     var data = await ref.once();
     int beforeSale = int.parse(data.snapshot.value.toString());
     int afterSale = beforeSale - 1;
-    beforeSale != -202 ? FirebaseDatabase.instance.ref('$constUserId/Subscription').update({'products': afterSale}) : null;
+    beforeSale != -202
+        ? FirebaseDatabase.instance
+            .ref('$constUserId/Subscription')
+            .update({'products': afterSale})
+        : null;
   }
 }

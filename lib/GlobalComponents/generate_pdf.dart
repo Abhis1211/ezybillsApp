@@ -693,7 +693,7 @@ class GeneratePdf {
               width: double.infinity,
               color: PdfColors.blueAccent,
               padding: const pw.EdgeInsets.all(10.0),
-              child: pw.Center(child: pw.Text('Powered By Maan Technology', style: pw.TextStyle(color: PdfColors.white, fontWeight: pw.FontWeight.bold))),
+              child: pw.Center(child: pw.Text('Powered By ezyBills(Define Softwares Pvt. Ltd.)', style: pw.TextStyle(color: PdfColors.white, fontWeight: pw.FontWeight.bold))),
             ),
           ]);
         },
