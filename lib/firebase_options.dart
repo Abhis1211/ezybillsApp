@@ -46,21 +46,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAxKb4x7MBCPrwk-n-hLhm9PKc9RWhABwA',
-    appId: '1:453829112125:web:3fdf7875805301bee6d554',
-    messagingSenderId: '453829112125',
-    projectId: 'salespro-19e86',
-    authDomain: 'salespro-19e86.firebaseapp.com',
-    storageBucket: 'salespro-19e86.appspot.com',
+    apiKey: 'AIzaSyDwCj53nI6AOEYGP_EFXnapJuKCaS1fyhw',
+    appId: '1:1027892655296:web:972bf316020fdfb1d12925',
+    messagingSenderId: '1027892655296',
+    projectId: 'ezybills-33844',
+    authDomain: 'ezybills-33844.firebaseapp.com',
+    storageBucket: 'ezybills-33844.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-      apiKey: 'AIzaSyBZKDgHRWPDdlWarcWizDf4ZsP55jRm-SY',
-      appId: '1:77048286492:android:d5b9f26e5e4423b8847ed9',
-      messagingSenderId: '77048286492',
-      projectId: 'salespro-saas-4a6d5',
-      storageBucket: 'salespro-saas-4a6d5.appspot.com',
-      databaseURL: 'https://salespro-saas-4a6d5-default-rtdb.firebaseio.com');
+      apiKey: 'AIzaSyANc42M3i2X-Z8En4X0mF-WQVdbPhItZGA',
+      appId: '1:1027892655296:android:30663076a4699bb1d12925',
+      messagingSenderId: '1027892655296',
+      projectId: 'ezybills-33844',
+      storageBucket: 'ezybills-33844.appspot.com',
+      databaseURL: 'https://ezybills-33844-default-rtdb.firebaseio.com');
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBZKDgHRWPDdlWarcWizDf4ZsP55jRm-SY',

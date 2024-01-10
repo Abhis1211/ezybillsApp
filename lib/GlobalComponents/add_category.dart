@@ -21,7 +21,7 @@ class AddCategory extends StatefulWidget {
 
 class _AddCategoryState extends State<AddCategory> {
   bool showProgress = false;
-  late String categoryName;
+  String categoryName = "";
   bool sizeCheckbox = false;
   bool colorCheckbox = false;
   bool weightCheckbox = false;
@@ -88,26 +88,32 @@ class _AddCategoryState extends State<AddCategory> {
                       child: CheckboxListTile(
                         title: const Text("Size"),
                         value: sizeCheckbox,
-                        checkboxShape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50))),
+                        checkboxShape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50))),
                         onChanged: (newValue) {
                           setState(() {
                             sizeCheckbox = newValue!;
                           });
                         },
-                        controlAffinity: ListTileControlAffinity.leading, //  <-- leading Checkbox
+                        controlAffinity: ListTileControlAffinity
+                            .leading, //  <-- leading Checkbox
                       ),
                     ),
                     Expanded(
                       child: CheckboxListTile(
                         title: const Text("Color"),
                         value: colorCheckbox,
-                        checkboxShape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50))),
+                        checkboxShape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50))),
                         onChanged: (newValue) {
                           setState(() {
                             colorCheckbox = newValue!;
                           });
                         },
-                        controlAffinity: ListTileControlAffinity.leading, //  <-- leading Checkbox
+                        controlAffinity: ListTileControlAffinity
+                            .leading, //  <-- leading Checkbox
                       ),
                     ),
                   ],
@@ -117,49 +123,61 @@ class _AddCategoryState extends State<AddCategory> {
                     Expanded(
                       child: CheckboxListTile(
                         title: const Text("Weight"),
-                        checkboxShape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50))),
+                        checkboxShape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50))),
                         value: weightCheckbox,
                         onChanged: (newValue) {
                           setState(() {
                             weightCheckbox = newValue!;
                           });
                         },
-                        controlAffinity: ListTileControlAffinity.leading, //  <-- leading Checkbox
+                        controlAffinity: ListTileControlAffinity
+                            .leading, //  <-- leading Checkbox
                       ),
                     ),
                     Expanded(
                       child: CheckboxListTile(
                         title: const Text("Capacity"),
-                        checkboxShape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50))),
+                        checkboxShape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50))),
                         value: capacityCheckbox,
                         onChanged: (newValue) {
                           setState(() {
                             capacityCheckbox = newValue!;
                           });
                         },
-                        controlAffinity: ListTileControlAffinity.leading, //  <-- leading Checkbox
+                        controlAffinity: ListTileControlAffinity
+                            .leading, //  <-- leading Checkbox
                       ),
                     ),
                   ],
                 ),
                 CheckboxListTile(
                   title: const Text("Type"),
-                  checkboxShape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50))),
+                  checkboxShape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(50))),
                   value: typeCheckbox,
                   onChanged: (newValue) {
                     setState(() {
                       typeCheckbox = newValue!;
                     });
                   },
-                  controlAffinity: ListTileControlAffinity.leading, //  <-- leading Checkbox
+                  controlAffinity:
+                      ListTileControlAffinity.leading, //  <-- leading Checkbox
                 ),
                 ButtonGlobalWithoutIcon(
                   buttontext: 'Save',
-                  buttonDecoration: kButtonDecoration.copyWith(color: kMainColor),
+                  buttonDecoration:
+                      kButtonDecoration.copyWith(color: kMainColor),
                   onPressed: () async {
                     bool isAlreadyAdded = false;
                     allCategory.value?.forEach((element) {
-                      if (element.categoryName.toLowerCase().removeAllWhiteSpace().contains(
+                      if (element.categoryName
+                          .toLowerCase()
+                          .removeAllWhiteSpace()
+                          .contains(
                             categoryName.toLowerCase().removeAllWhiteSpace(),
                           )) {
                         isAlreadyAdded = true;
@@ -169,7 +187,11 @@ class _AddCategoryState extends State<AddCategory> {
                       showProgress = true;
                     });
                     // ignore: no_leading_underscores_for_local_identifiers
-                    final DatabaseReference _categoryInformationRef = FirebaseDatabase.instance.ref().child(constUserId).child('Categories');
+                    final DatabaseReference _categoryInformationRef =
+                        FirebaseDatabase.instance
+                            .ref()
+                            .child(constUserId)
+                            .child('Categories');
                     _categoryInformationRef.keepSynced(true);
 
                     CategoryModel categoryModel = CategoryModel(
@@ -180,10 +202,18 @@ class _AddCategoryState extends State<AddCategory> {
                       type: typeCheckbox,
                       weight: weightCheckbox,
                     );
-                    isAlreadyAdded ? EasyLoading.showError('Already Added') : _categoryInformationRef.push().set(categoryModel.toJson());
+                    isAlreadyAdded
+                        ? EasyLoading.showError('Already Added')
+                        : _categoryInformationRef
+                            .push()
+                            .set(categoryModel.toJson());
                     setState(() {
                       showProgress = false;
-                      isAlreadyAdded ? null : ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Data Saved Successfully")));
+                      isAlreadyAdded
+                          ? null
+                          : ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text("Data Saved Successfully")));
                     });
                     ref.refresh(categoryProvider);
 

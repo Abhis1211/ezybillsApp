@@ -22,7 +22,7 @@ class AddUnits extends StatefulWidget {
 
 class _AddUnitsState extends State<AddUnits> {
   bool showProgress = false;
-  late String unitsName;
+  String unitsName = "";
 
   @override
   Widget build(BuildContext context) {
@@ -80,20 +80,31 @@ class _AddUnitsState extends State<AddUnits> {
                 onPressed: () async {
                   bool isAlreadyAdded = false;
                   allUnits.value?.forEach((element) {
-                    if (element.unitName.toLowerCase().removeAllWhiteSpace() == unitsName.toLowerCase().removeAllWhiteSpace()) {
+                    if (element.unitName.toLowerCase().removeAllWhiteSpace() ==
+                        unitsName.toLowerCase().removeAllWhiteSpace()) {
                       isAlreadyAdded = true;
                     }
                   });
                   setState(() {
                     showProgress = true;
                   });
-                  final DatabaseReference unitInformationRef = FirebaseDatabase.instance.ref().child(constUserId).child('Units');
+                  final DatabaseReference unitInformationRef = FirebaseDatabase
+                      .instance
+                      .ref()
+                      .child(constUserId)
+                      .child('Units');
                   unitInformationRef.keepSynced(true);
                   UnitModel unitModel = UnitModel(unitsName);
-                  isAlreadyAdded ? EasyLoading.showError('Already Added') : unitInformationRef.push().set(unitModel.toJson());
+                  isAlreadyAdded
+                      ? EasyLoading.showError('Already Added')
+                      : unitInformationRef.push().set(unitModel.toJson());
                   setState(() {
                     showProgress = false;
-                    isAlreadyAdded ? null : ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Data Saved Successfully")));
+                    isAlreadyAdded
+                        ? null
+                        : ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("Data Saved Successfully")));
                   });
 
                   ref.refresh(unitsProvider);

@@ -1,14 +1,13 @@
 {
   "project_info": {
-    "project_number": "1058692988933",
-    "firebase_url": "https://salespro-e3aff-default-rtdb.firebaseio.com",
-    "project_id": "salespro-e3aff",
-    "storage_bucket": "salespro-e3aff.appspot.com"
+    "project_number": "1027892655296",
+    "project_id": "ezybills-33844",
+    "storage_bucket": "ezybills-33844.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1058692988933:android:358b88981d97d854f99c6c",
+        "mobilesdk_app_id": "1:1027892655296:android:30663076a4699bb1d12925",
         "android_client_info": {
           "package_name": "com.ezybills.app"
         }
@@ -16,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBmukL4bX4m1J0331Hix7auPL4E22bhEyY"
+          "current_key": "AIzaSyANc42M3i2X-Z8En4X0mF-WQVdbPhItZGA"
         }
       ],
       "services": {

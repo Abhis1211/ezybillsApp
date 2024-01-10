@@ -239,25 +239,28 @@ class _AddProductState extends State<AddProduct> {
                 ),
                 Row(
                   children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: AppTextField(
-                          textFieldType: TextFieldType.NAME,
-                          onChanged: (value) {
-                            setState(() {
-                              size = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            labelText: lang.S.of(context).size,
-                            hintText: 'M',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ).visible(data.variations.contains('Size')),
+                    data.variations.length > 0
+                        ? Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: AppTextField(
+                                textFieldType: TextFieldType.NAME,
+                                onChanged: (value) {
+                                  setState(() {
+                                    size = value;
+                                  });
+                                },
+                                decoration: InputDecoration(
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  labelText: lang.S.of(context).size,
+                                  hintText: 'M',
+                                  border: OutlineInputBorder(),
+                                ),
+                              ),
+                            ),
+                          ).visible(data.variations.contains('Size'))
+                        : Container(),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
