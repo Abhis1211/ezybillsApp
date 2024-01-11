@@ -13,6 +13,7 @@ const kPremiumPlanColor = Color(0xFF8752EE);
 const kPremiumPlanColor2 = Color(0xFFFF5F00);
 const kTitleColor = Color(0xFF000000);
 bool connected = false;
+bool isfirsttimelogin = false;
 bool isPrintEnable = false;
 List<String> paymentsTypeList = ['Cash', 'Card', 'Check', 'Mobile Pay', 'Due'];
 bool isExpiringInFiveDays = false;
@@ -58,10 +59,24 @@ final otpInputDecoration = InputDecoration(
   enabledBorder: outlineInputBorder(),
 );
 
-List<String> businessCategory = ['Fashion Store', 'Electronics Store', 'Computer Store', 'Vegetable Store', 'Sweet Store', 'Meat Store'];
+List<String> businessCategory = [
+  'Fashion Store',
+  'Electronics Store',
+  'Computer Store',
+  'Vegetable Store',
+  'Sweet Store',
+  'Meat Store'
+];
 List<String> language = ['English'];
 
-List<String> productCategory = ['Fashion', 'Electronics', 'Computer', 'Gadgets', 'Watches', 'Cloths'];
+List<String> productCategory = [
+  'Fashion',
+  'Electronics',
+  'Computer',
+  'Gadgets',
+  'Watches',
+  'Cloths'
+];
 
 ///______________________________________________________________________________________________
 String constUserId = '';
@@ -105,7 +120,8 @@ class CurrentUserData {
     ref.keepSynced(true);
     ref.orderByKey().get().then((value) async {
       for (var element in value.children) {
-        var data = UserRoleModel.fromJson(jsonDecode(jsonEncode(element.value)));
+        var data =
+            UserRoleModel.fromJson(jsonDecode(jsonEncode(element.value)));
         if (data.email == subUserEmail) {
           isSubUserDeleted = false;
           finalUserRoleModel = data;
@@ -122,7 +138,8 @@ class CurrentUserData {
 
     await ref.orderByKey().get().then((value) async {
       for (var element in value.children) {
-        var data = UserRoleModel.fromJson(jsonDecode(jsonEncode(element.value)));
+        var data =
+            UserRoleModel.fromJson(jsonDecode(jsonEncode(element.value)));
         if (data.email == subUserEmail) {
           isMailMatch = false;
           return;
@@ -132,7 +149,11 @@ class CurrentUserData {
     return isMailMatch;
   }
 
-  void putUserData({required String userId, required bool isSubUser, required String title, required String email}) async {
+  void putUserData(
+      {required String userId,
+      required bool isSubUser,
+      required String title,
+      required String email}) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('userId', userId);
     await prefs.setString('subUserEmail', email);

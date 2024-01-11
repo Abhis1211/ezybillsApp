@@ -51,7 +51,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
   String dropdownLangValue = 'English';
   String initialCountry = 'Bangladesh';
   String dropdownValue = '';
-  late String companyName, phoneNumber;
+  String companyName = "", phoneNumber = "";
   double progress = 0.0;
   int openingBalance = 0;
   bool showProgress = false;
@@ -485,6 +485,33 @@ class _ProfileSetupState extends State<ProfileSetup> {
                       buttonDecoration:
                           kButtonDecoration.copyWith(color: kMainColor),
                       onPressed: () async {
+                        print(profilePicture.toString());
+                        if (imagePath == "No Data") {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please select profile image'),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                          return;
+                        }
+                        if (companyName.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text("Please enter CompanyName")));
+                          return;
+                        }
+                        if (phoneNumber.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text("Please enter phone number")));
+                          return;
+                        }
+                        if (phoneNumber.length < 10 ||
+                            phoneNumber.length > 10) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content:
+                                  Text("Please enter valid phone number")));
+                          return;
+                        }
                         try {
                           EasyLoading.show(
                               status: 'Loading...', dismissOnTap: false);
@@ -497,6 +524,8 @@ class _ProfileSetupState extends State<ProfileSetup> {
                                   .ref()
                                   .child(constUserId)
                                   .child('Personal Information');
+                          final prefs = await SharedPreferences.getInstance();
+
                           PersonalInformationModel personalInformation =
                               PersonalInformationModel(
                             businessCategory: dropdownValue,
@@ -514,20 +543,20 @@ class _ProfileSetupState extends State<ProfileSetup> {
                           await personalInformationRef
                               .set(personalInformation.toJson());
                           SellerInfoModel sellerInfoModel = SellerInfoModel(
-                            businessCategory: dropdownValue,
-                            companyName: companyName,
-                            phoneNumber: widget.loginWithPhone
-                                ? PhoneAuth.phoneNumber
-                                : phoneNumber,
-                            countryName: controller.text,
-                            language: dropdownLangValue,
-                            pictureUrl: profilePicture,
-                            userID: FirebaseAuth.instance.currentUser!.uid,
-                            email: FirebaseAuth.instance.currentUser!.email,
-                            subscriptionDate: DateTime.now().toString(),
-                            subscriptionName: 'Free',
-                            subscriptionMethod: 'Not Provided',
-                          );
+                              businessCategory: dropdownValue,
+                              companyName: companyName,
+                              phoneNumber: widget.loginWithPhone
+                                  ? PhoneAuth.phoneNumber
+                                  : phoneNumber,
+                              countryName: controller.text,
+                              language: dropdownLangValue,
+                              pictureUrl: profilePicture,
+                              userID: FirebaseAuth.instance.currentUser!.uid,
+                              email: FirebaseAuth.instance.currentUser!.email,
+                              subscriptionDate: DateTime.now().toString(),
+                              subscriptionName: 'Free',
+                              subscriptionMethod: 'Not Provided',
+                              activeStatus: 0);
                           await FirebaseDatabase.instance
                               .ref()
                               .child('Admin Panel')
@@ -536,13 +565,17 @@ class _ProfileSetupState extends State<ProfileSetup> {
                               .set(sellerInfoModel.toJson());
 
                           EasyLoading.showSuccess('Added Successfully',
-                              duration: const Duration(milliseconds: 1000));
+                                  duration: const Duration(milliseconds: 1000))
+                              .then((value) =>
+                                  prefs.setBool('isfirsttime', true));
 
                           // ignore: use_build_context_synchronously
                           // const PurchasePremiumPlanScreen(
                           //   isCameBack: false,
                           // ).launch(context);
-                          const Home().launch(context);
+                          Verifypop();
+                          await FirebaseAuth.instance.signOut();
+                          // const Home().launch(context);
                         } catch (e) {
                           EasyLoading.dismiss();
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -567,5 +600,73 @@ class _ProfileSetupState extends State<ProfileSetup> {
         );
       });
     });
+  }
+
+  Future<void> Verifypop() async {
+    // void showdeleteShopPopUp(email) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: whiteColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(40.0),
+          ),
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.2,
+            padding:
+                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 28.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: whiteColor,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: Icon(
+                    Icons.check_circle,
+                    color: Colors.green,
+                    size: 80,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Center(
+                  child: Text(
+                    "Thank you for Registration admin will be verify your account shortly",
+                    style: GoogleFonts.poppins(
+                      fontSize: 16.0,
+                      color: kGreyTextColor,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.blue,
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      PhoneAuth().launch(context);
+                    },
+                    child: Text(
+                      "Done",
+                      style: GoogleFonts.poppins(
+                        fontSize: 18.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

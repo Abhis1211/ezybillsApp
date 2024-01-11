@@ -1,15 +1,21 @@
 // ignore_for_file: unused_result
 
+import 'dart:io';
+
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mobile_pos/GlobalComponents/Model/category_model.dart';
 import 'package:mobile_pos/GlobalComponents/button_global.dart';
 import 'package:mobile_pos/Provider/category,brans,units_provide.dart';
 import 'package:mobile_pos/constant.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
 
 class AddCategory extends StatefulWidget {
   const AddCategory({Key? key}) : super(key: key);
@@ -27,6 +33,35 @@ class _AddCategoryState extends State<AddCategory> {
   bool weightCheckbox = false;
   bool capacityCheckbox = false;
   bool typeCheckbox = false;
+  File imageFile = File('No File');
+  final ImagePicker _picker = ImagePicker();
+  XFile? pickedImage;
+  String imagePath = 'No Data';
+  String productPicture =
+      'https://firebasestorage.googleapis.com/v0/b/maanpos.appspot.com/o/Customer%20Picture%2FNo_Image_Available.jpeg?alt=media&token=3de0d45e-0e4a-4a7b-b115-9d6722d5031f';
+
+  Future<void> uploadFile(String filePath) async {
+    File file = File(filePath);
+    try {
+      EasyLoading.show(
+        status: 'Uploading... ',
+        dismissOnTap: false,
+      );
+      var snapshot = await FirebaseStorage.instance
+          .ref('Category Picture/${DateTime.now().millisecondsSinceEpoch}')
+          .putFile(file);
+      var url = await snapshot.ref.getDownloadURL();
+
+      setState(() {
+        productPicture = url.toString();
+      });
+      EasyLoading.dismiss();
+    } on firebase_core.FirebaseException catch (e) {
+      EasyLoading.dismiss();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.code.toString())));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -167,6 +202,172 @@ class _AddCategoryState extends State<AddCategory> {
                   controlAffinity:
                       ListTileControlAffinity.leading, //  <-- leading Checkbox
                 ),
+                Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                // ignore: sized_box_for_whitespace
+                                child: Container(
+                                  height: 200.0,
+                                  width: MediaQuery.of(context).size.width - 80,
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () async {
+                                            pickedImage =
+                                                await _picker.pickImage(
+                                                    source:
+                                                        ImageSource.gallery);
+
+                                            setState(() {
+                                              imageFile =
+                                                  File(pickedImage!.path);
+                                              imagePath = pickedImage!.path;
+                                            });
+
+                                            Future.delayed(
+                                                const Duration(
+                                                    milliseconds: 100), () {
+                                              Navigator.pop(context);
+                                            });
+                                          },
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              const Icon(
+                                                Icons.photo_library_rounded,
+                                                size: 60.0,
+                                                color: kMainColor,
+                                              ),
+                                              Text(
+                                                lang.S.of(context).gallery,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 20.0,
+                                                  color: kMainColor,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 40.0,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () async {
+                                            pickedImage =
+                                                await _picker.pickImage(
+                                                    source: ImageSource.camera);
+                                            setState(() {
+                                              imageFile =
+                                                  File(pickedImage!.path);
+                                              imagePath = pickedImage!.path;
+                                            });
+                                            Future.delayed(
+                                                const Duration(
+                                                    milliseconds: 100), () {
+                                              Navigator.pop(context);
+                                            });
+                                          },
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              const Icon(
+                                                Icons.camera,
+                                                size: 60.0,
+                                                color: kGreyTextColor,
+                                              ),
+                                              Text(
+                                                lang.S.of(context).camera,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 20.0,
+                                                  color: kGreyTextColor,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            });
+                      },
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 120,
+                            width: 120,
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: Colors.black54, width: 1),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(120)),
+                              image: imagePath == 'No Data'
+                                  ? DecorationImage(
+                                      image: NetworkImage(productPicture),
+                                      fit: BoxFit.cover,
+                                    )
+                                  : DecorationImage(
+                                      image: FileImage(imageFile),
+                                      fit: BoxFit.cover,
+                                    ),
+                            ),
+                          ),
+                          Container(
+                            height: 120,
+                            width: 120,
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: Colors.black54, width: 1),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(120)),
+                              image: DecorationImage(
+                                image: FileImage(imageFile),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            // child: imageFile.path == 'No File' ? null : Image.file(imageFile),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              height: 35,
+                              width: 35,
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.white, width: 2),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(120)),
+                                color: kMainColor,
+                              ),
+                              child: const Icon(
+                                Icons.camera_alt_outlined,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                  ],
+                ),
                 ButtonGlobalWithoutIcon(
                   buttontext: 'Save',
                   buttonDecoration:
@@ -191,6 +392,7 @@ class _AddCategoryState extends State<AddCategory> {
                     setState(() {
                       showProgress = true;
                     });
+                    imagePath == 'No Data' ? null : await uploadFile(imagePath);
                     // ignore: no_leading_underscores_for_local_identifiers
                     final DatabaseReference _categoryInformationRef =
                         FirebaseDatabase.instance
@@ -200,6 +402,7 @@ class _AddCategoryState extends State<AddCategory> {
                     _categoryInformationRef.keepSynced(true);
 
                     CategoryModel categoryModel = CategoryModel(
+                      categoryimage: productPicture,
                       categoryName: categoryName,
                       size: sizeCheckbox,
                       color: colorCheckbox,

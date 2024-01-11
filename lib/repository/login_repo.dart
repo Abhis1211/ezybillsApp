@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Screens/Authentication/success_screen.dart';
 
 final logInProvider = ChangeNotifierProvider((ref) => LogInRepo());
@@ -9,24 +13,64 @@ final logInProvider = ChangeNotifierProvider((ref) => LogInRepo());
 class LogInRepo extends ChangeNotifier {
   String email = '';
   String password = '';
+  checkactiveostatus(email) async {
+    String key = '';
+    var sellerdata = [];
+
+    await FirebaseDatabase.instance
+        .ref()
+        .child('Admin Panel')
+        .child('Seller List')
+        .orderByKey()
+        .get()
+        .then((value) async {
+      for (var element in value.children) {
+        var data = jsonDecode(jsonEncode(element.value));
+        if (data['email'].toString() == email) {
+          key = element.key.toString();
+        }
+      }
+    });
+    DatabaseReference ref =
+        FirebaseDatabase.instance.ref("Admin Panel/Seller List/$key");
+    var data = await ref.get();
+    for (var element in data.children) {
+      sellerdata.add(element.value);
+    }
+    return sellerdata[0];
+  }
 
   Future<void> signIn(BuildContext context) async {
     EasyLoading.show(status: 'Login...');
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+      final prefs = await SharedPreferences.getInstance();
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
       print(userCredential.user?.email);
       // ignore: unnecessary_null_comparison
       if (userCredential != null) {
-        EasyLoading.showSuccess('Successful');
-        Future.delayed(const Duration(milliseconds: 500), () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => SuccessScreen(
-                      email: email,
-                    )),
+        var activestatus = await checkactiveostatus(email);
+        if (activestatus == 1) {
+          EasyLoading.showSuccess('Successful')
+              .then((value) => prefs.setBool('isfirsttime', true));
+          Future.delayed(const Duration(milliseconds: 500), () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => SuccessScreen(
+                        email: email,
+                      )),
+            );
+          });
+        } else {
+          EasyLoading.dismiss();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('User not active please contact to Adminstrate'),
+              duration: Duration(seconds: 1),
+            ),
           );
-        });
+        }
       }
     } on FirebaseAuthException catch (e) {
       EasyLoading.showError(e.message.toString());

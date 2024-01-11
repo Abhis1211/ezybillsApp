@@ -1,5 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,9 +13,11 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
+import '../../GlobalComponents/Model/seller_info_model.dart';
 import '../../GlobalComponents/license_verifier.dart';
 import '../../currency.dart';
 import '../../repository/subscription_repo.dart';
+import '../Authentication/phone.dart';
 import '../Home/home.dart';
 import '../language/language_provider.dart';
 
@@ -216,13 +221,17 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void init() async {
+    var activestatus = await checkactiveostatus('sk123@gmail.com');
     setLanguage();
     final prefs = await SharedPreferences.getInstance();
     isPrintEnable = prefs.getBool('isPrintEnable') ?? true;
+
     final String? skipVersion = prefs.getString('skipVersion');
     bool result = await InternetConnectionChecker().hasConnection;
+    print("current user" + currentUser.toString());
     if (result) {
       bool isValid = await PurchaseModel().isActiveBuyer();
+      print("isvalid" + isValid.toString());
       if (isValid) {
         await Future.delayed(const Duration(seconds: 2), () {
           if (isUpdateAvailable &&
@@ -346,10 +355,15 @@ class _SplashScreenState extends State<SplashScreen> {
             );
             // const RedeemConfirmationScreen().launch(context);
           } else {
-            if (currentUser != null) {
+            if (currentUser != null && activestatus == 1) {
               const Home().launch(context);
             } else {
-              const OnBoard().launch(context);
+              isfirsttimelogin = prefs.getBool('isfirsttime') ?? false;
+              if (isfirsttimelogin == false) {
+                const OnBoard().launch(context);
+              } else {
+                PhoneAuth().launch(context);
+              }
             }
           }
         });
@@ -489,6 +503,33 @@ class _SplashScreenState extends State<SplashScreen> {
 
     defaultBlurRadius = 10.0;
     defaultSpreadRadius = 0.5;
+  }
+
+  checkactiveostatus(email) async {
+    String key = '';
+    var sellerdata = [];
+
+    await FirebaseDatabase.instance
+        .ref()
+        .child('Admin Panel')
+        .child('Seller List')
+        .orderByKey()
+        .get()
+        .then((value) async {
+      for (var element in value.children) {
+        var data = jsonDecode(jsonEncode(element.value));
+        if (data['email'].toString() == email) {
+          key = element.key.toString();
+        }
+      }
+    });
+    DatabaseReference ref =
+        FirebaseDatabase.instance.ref("Admin Panel/Seller List/$key");
+    var data = await ref.get();
+    for (var element in data.children) {
+      sellerdata.add(element.value);
+    }
+    return sellerdata[0];
   }
 
   @override

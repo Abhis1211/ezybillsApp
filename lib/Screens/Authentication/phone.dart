@@ -109,6 +109,16 @@ class _PhoneAuthState extends State<PhoneAuth> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                     onPressed: () async {
+                      if (phoneNumber.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("Please enter phone number")));
+                        return;
+                      }
+                      if (phoneNumber.length < 10) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("Please enter valid phone number")));
+                        return;
+                      }
                       EasyLoading.show(status: 'Loading', dismissOnTap: false);
                       try {
                         await FirebaseAuth.instance.verifyPhoneNumber(

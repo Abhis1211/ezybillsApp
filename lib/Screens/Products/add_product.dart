@@ -61,8 +61,7 @@ class _AddProductState extends State<AddProduct> {
       productCode = "";
   String productWholeSalePrice = '0';
   String productDealerPrice = '0';
-  String productPicture =
-      'https://firebasestorage.googleapis.com/v0/b/maanpos.appspot.com/o/Customer%20Picture%2FNo_Image_Available.jpeg?alt=media&token=3de0d45e-0e4a-4a7b-b115-9d6722d5031f';
+  String productPicture = '';
   String productDiscount = 'Not Provided';
   String productManufacturer = 'Not Provided';
   String size = 'Not Provided';
@@ -133,7 +132,7 @@ class _AddProductState extends State<AddProduct> {
         ? productCategory = 'Select Product Category'
         : productCategory = widget.catName;
     widget.unitsName == null
-        ? productUnit = 'Select Units'
+        ? productUnit = 'Select Unit'
         : productUnit = widget.unitsName;
     widget.brandName == null
         ? brandName = 'Select Brands'
@@ -622,6 +621,7 @@ class _AddProductState extends State<AddProduct> {
                     ),
                   ],
                 ),
+
                 Column(
                   children: [
                     const SizedBox(height: 10),
@@ -738,7 +738,9 @@ class _AddProductState extends State<AddProduct> {
                                   const BorderRadius.all(Radius.circular(120)),
                               image: imagePath == 'No Data'
                                   ? DecorationImage(
-                                      image: NetworkImage(productPicture),
+                                      image: NetworkImage(productPicture == ""
+                                          ? "https://firebasestorage.googleapis.com/v0/b/maanpos.appspot.com/o/Customer%20Picture%2FNo_Image_Available.jpeg?alt=media&token=3de0d45e-0e4a-4a7b-b115-9d6722d5031f"
+                                          : productPicture),
                                       fit: BoxFit.cover,
                                     )
                                   : DecorationImage(
@@ -788,6 +790,7 @@ class _AddProductState extends State<AddProduct> {
                     const SizedBox(height: 10),
                   ],
                 ),
+
                 ButtonGlobalWithoutIcon(
                   buttontext: lang.S.of(context).saveNPublish,
                   buttonDecoration:
@@ -803,10 +806,48 @@ class _AddProductState extends State<AddProduct> {
                       );
                       return;
                     }
-                    if (productCode.isEmpty) {
+                    if (productCategory == "Select Product Category") {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Please enter product Code'),
+                          content: Text('Please Select Product Category'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      return;
+                    }
+                    if (productStock.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please Enter Stock'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      return;
+                    }
+
+                    if (productUnit == "Select Unit" || productUnit == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please select unit'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      return;
+                    }
+                    if (productSalePrice.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please Enter sale price'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      return;
+                    }
+                    print("product unit" + productPicture.toString());
+                    if (productPicture.isEmpty || productPicture == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please select product image'),
                           duration: Duration(seconds: 1),
                         ),
                       );
@@ -887,6 +928,7 @@ class _AddProductState extends State<AddProduct> {
                                   .ref()
                                   .child(constUserId)
                                   .child('Products');
+
                           _productInformationRef.keepSynced(true);
                           ProductModel productModel = ProductModel(
                             productName,

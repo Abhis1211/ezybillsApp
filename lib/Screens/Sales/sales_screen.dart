@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -245,25 +246,66 @@ class _SaleProductsState extends State<SaleProducts> {
                                       });
                                     }),
                                     child: Container(
-                                      // padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                                      child: Card(
+                                      decoration: BoxDecoration(
                                         color: currentselectioncategory == i
                                             ? kMainColor
-                                            : Colors.white,
-                                        // height: 50,
-                                        // alignment: Alignment.center,
-                                        child: Center(
-                                            child: Text(
-                                          category[i].categoryName.toString(),
-                                          style: GoogleFonts.jost(
-                                            fontSize: 16.0,
-                                            color: Colors.black,
+                                            : Colors.transparent,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+
+                                      // padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                                      child: Column(
+                                        children: [
+                                          SizedBox(height: 5),
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            child: Container(
+                                              height: 60,
+                                              width: 60,
+                                              child: CachedNetworkImage(
+                                                fit: BoxFit.cover,
+                                                imageUrl:
+                                                    category[i].categoryimage,
+                                                progressIndicatorBuilder: (context,
+                                                        url,
+                                                        downloadProgress) =>
+                                                    Center(
+                                                        child: CircularProgressIndicator(
+                                                            value:
+                                                                downloadProgress
+                                                                    .progress)),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Icon(Icons.error),
+                                              ),
+                                            ),
                                           ),
-                                        ).paddingSymmetric(
-                                                vertical: 15, horizontal: 2)),
-                                      ).paddingOnly(bottom: 10),
-                                    ),
-                                  );
+                                          // Container(
+                                          //   decoration: BoxDecoration(
+                                          //     borderRadius:
+                                          //         BorderRadius.circular(15),
+                                          //     image: DecorationImage(
+                                          //         image: NetworkImage(
+                                          //             category[i]
+                                          //                 .categoryimage),
+                                          //         fit: BoxFit.cover),
+                                          //   ),
+                                          // ),
+                                          Center(
+                                              child: Text(
+                                            category[i].categoryName.toString(),
+                                            style: GoogleFonts.jost(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black,
+                                            ),
+                                          ).paddingSymmetric(
+                                                  vertical: 5, horizontal: 2))
+                                        ],
+                                      ),
+                                    ).paddingSymmetric(horizontal: 2),
+                                  ).paddingOnly(bottom: 15);
                                 });
                           }, error: (e, stack) {
                             return Text(e.toString());
@@ -414,8 +456,8 @@ class _SaleProductsState extends State<SaleProducts> {
                                   ? products[i].productName
                                   : filterlist[i].productName,
                               productDescription: currentproductcategory == ""
-                                  ? products[i].brandName
-                                  : filterlist[i].brandName,
+                                  ? products[i].productCategory
+                                  : filterlist[i].productCategory,
                               productPrice: productPrice,
                               productImage: currentproductcategory == ""
                                   ? products[i].productPicture
@@ -509,39 +551,46 @@ class _ProductCardState extends State<ProductCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(4.0),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(15),
               child: Container(
                 height: 80,
                 width: 80,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage(widget.productImage),
-                      fit: BoxFit.cover),
+                child: CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  imageUrl: widget.productImage,
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      Center(
+                          child: CircularProgressIndicator(
+                              value: downloadProgress.progress)),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
               ),
             ),
-            Row(
-              children: [
-                Text(
-                  widget.productTitle,
-                  style: GoogleFonts.jost(
-                    fontSize: 20.0,
-                    color: Colors.black,
-                  ),
-                ),
-                // const SizedBox(width: 5),
-                // Text(
-                //   ' X $quantity',
-                //   style: GoogleFonts.jost(
-                //     fontSize: 14.0,
-                //     color: Colors.grey.shade500,
-                //   ),
-                // ).visible(quantity != 0),
-              ],
+            // Padding(
+            //   padding: const EdgeInsets.all(4.0),
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(15),
+            //       image: DecorationImage(
+            //           image: NetworkImage(widget.productImage),
+            //           fit: BoxFit.cover),
+            //     ),
+            //   ),
+            // ),
+            Text(
+              widget.productTitle,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.jost(
+                fontSize: 18.0,
+                color: Colors.black,
+              ),
             ),
             Text(
               widget.productDescription,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: GoogleFonts.jost(
                 fontSize: 15.0,
                 color: kGreyTextColor,

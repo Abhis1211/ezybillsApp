@@ -12,6 +12,7 @@ import '../../Provider/profile_provider.dart';
 import '../../constant.dart';
 import '../../currency.dart';
 import '../../model/personal_information_model.dart';
+import '../Authentication/phone.dart';
 import '../Currency/currency_screen.dart';
 import '../Shimmers/home_screen_appbar_shimmer.dart';
 import '../language/language.dart';
@@ -699,7 +700,8 @@ class _SettingScreenState extends State<SettingScreen> {
                       Future.delayed(const Duration(milliseconds: 1000), () {
                         if ((Theme.of(context).platform ==
                             TargetPlatform.android)) {
-                          Restart.restartApp();
+                          // Restart.restartApp();
+                          const SplashScreen().launch(context, isNewTask: true);
                         } else {
                           const SplashScreen().launch(context, isNewTask: true);
                         }

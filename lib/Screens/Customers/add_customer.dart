@@ -484,13 +484,17 @@ class _AddCustomerState extends State<AddCustomer> {
                     buttonDecoration:
                         kButtonDecoration.copyWith(color: kMainColor),
                     onPressed: () async {
-                      print("asddas");
                       if (phoneNumber.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text("Please enter phone number")));
                         return;
                       }
-                      if (customerName.isEmpty) {
+                      if (phoneNumber.length < 10) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("Please enter valid phone number")));
+                        return;
+                      }
+                      if (customerName.isEmpty || customerName == "Guest") {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text("Please enter customer name")));
                         return;
