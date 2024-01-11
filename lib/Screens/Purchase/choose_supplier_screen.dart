@@ -72,11 +72,18 @@ class _PurchaseContactsState extends State<PurchaseContacts> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: customer.length,
                           itemBuilder: (_, index) {
-                            customer[index].type == 'Supplier' ? color = const Color(0xFFA569BD) : Colors.white;
-                            return customer[index].customerName.contains(searchCustomer) && customer[index].type.contains('Supplier')
-                                ? GestureDetector(
+                            customer[index].type == 'Supplier'
+                                ? color = const Color(0xFFA569BD)
+                                : Colors.white;
+                            return customer[index]
+                                        .customerName
+                                        .contains(searchCustomer) &&
+                                    customer[index].type.contains('Supplier')
+                                ? InkWell(
                                     onTap: () {
-                                      AddPurchaseScreen(customerModel: customer[index]).launch(context);
+                                      AddPurchaseScreen(
+                                              customerModel: customer[index])
+                                          .launch(context);
                                       cart.clearCart();
                                     },
                                     child: Padding(
@@ -92,7 +99,8 @@ class _PurchaseContactsState extends State<PurchaseContacts> {
                                               radius: 70.0,
                                               child: ClipOval(
                                                 child: Image.network(
-                                                  customer[index].profilePicture,
+                                                  customer[index]
+                                                      .profilePicture,
                                                   fit: BoxFit.cover,
                                                   width: 120.0,
                                                   height: 120.0,
@@ -102,8 +110,10 @@ class _PurchaseContactsState extends State<PurchaseContacts> {
                                           ),
                                           const SizedBox(width: 10.0),
                                           Column(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 customer[index].customerName,
@@ -123,8 +133,10 @@ class _PurchaseContactsState extends State<PurchaseContacts> {
                                           ),
                                           const Spacer(),
                                           Column(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
                                             children: [
                                               Text(
                                                 '$currency ${customer[index].dueAmount}',
@@ -136,12 +148,15 @@ class _PurchaseContactsState extends State<PurchaseContacts> {
                                               Text(
                                                 lang.S.of(context).due,
                                                 style: GoogleFonts.poppins(
-                                                  color: const Color(0xFFff5f00),
+                                                  color:
+                                                      const Color(0xFFff5f00),
                                                   fontSize: 15.0,
                                                 ),
                                               ),
                                             ],
-                                          ).visible(customer[index].dueAmount != '' && customer[index].dueAmount != '0'),
+                                          ).visible(customer[index].dueAmount !=
+                                                  '' &&
+                                              customer[index].dueAmount != '0'),
                                           const SizedBox(width: 20),
                                           const Icon(
                                             Icons.arrow_forward_ios,
@@ -160,7 +175,10 @@ class _PurchaseContactsState extends State<PurchaseContacts> {
                       child: Text(
                         lang.S.of(context).noSupplier,
                         maxLines: 2,
-                        style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20.0),
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0),
                       ),
                     );
             }, error: (e, stack) {

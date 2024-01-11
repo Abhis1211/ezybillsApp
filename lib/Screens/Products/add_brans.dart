@@ -22,7 +22,7 @@ class AddBrands extends StatefulWidget {
 
 class _AddBrandsState extends State<AddBrands> {
   bool showProgress = false;
-  late String brandName;
+  String brandName = "";
 
   @override
   Widget build(BuildContext context) {
@@ -77,24 +77,45 @@ class _AddBrandsState extends State<AddBrands> {
                 ),
                 ButtonGlobalWithoutIcon(
                   buttontext: lang.S.of(context).save,
-                  buttonDecoration: kButtonDecoration.copyWith(color: kMainColor),
+                  buttonDecoration:
+                      kButtonDecoration.copyWith(color: kMainColor),
                   onPressed: () async {
+                    if (brandName.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Please enter brand")));
+                      return;
+                    }
                     bool isAlreadyAdded = false;
                     allBrands.value?.forEach((element) {
-                      if (element.brandName.toLowerCase().removeAllWhiteSpace() == brandName.toLowerCase().removeAllWhiteSpace()) {
+                      if (element.brandName
+                              .toLowerCase()
+                              .removeAllWhiteSpace() ==
+                          brandName.toLowerCase().removeAllWhiteSpace()) {
                         isAlreadyAdded = true;
                       }
                     });
                     setState(() {
                       showProgress = true;
                     });
-                    final DatabaseReference categoryInformationRef = FirebaseDatabase.instance.ref().child(constUserId).child('Brands');
+                    final DatabaseReference categoryInformationRef =
+                        FirebaseDatabase.instance
+                            .ref()
+                            .child(constUserId)
+                            .child('Brands');
                     categoryInformationRef.keepSynced(true);
                     BrandsModel brandModel = BrandsModel(brandName);
-                    isAlreadyAdded ? EasyLoading.showError('Already Added') : categoryInformationRef.push().set(brandModel.toJson());
+                    isAlreadyAdded
+                        ? EasyLoading.showError('Already Added')
+                        : categoryInformationRef
+                            .push()
+                            .set(brandModel.toJson());
                     setState(() {
                       showProgress = false;
-                      isAlreadyAdded ? null : ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Data Saved Successfully")));
+                      isAlreadyAdded
+                          ? null
+                          : ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text("Data Saved Successfully")));
                     });
                     ref.refresh(brandsProvider);
 

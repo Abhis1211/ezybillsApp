@@ -55,7 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void subscriptionRemainder() async {
     final prefs = await SharedPreferences.getInstance();
 
-    DatabaseReference ref = FirebaseDatabase.instance.ref('$constUserId/Subscription');
+    DatabaseReference ref =
+        FirebaseDatabase.instance.ref('$constUserId/Subscription');
 
     final model = await ref.get();
     var data = jsonDecode(jsonEncode(model.value));
@@ -64,23 +65,28 @@ class _HomeScreenState extends State<HomeScreen> {
       customerPackage = dataModel.subscriptionName;
     });
 
-    final remainTime = DateTime.parse(dataModel.subscriptionDate).difference(DateTime.now());
+    final remainTime =
+        DateTime.parse(dataModel.subscriptionDate).difference(DateTime.now());
 
     if (dataModel.subscriptionName != 'Lifetime') {
-      if (remainTime.inHours.abs().isBetween((dataModel.duration * 24) - 24, dataModel.duration * 24)) {
+      if (remainTime.inHours
+          .abs()
+          .isBetween((dataModel.duration * 24) - 24, dataModel.duration * 24)) {
         await prefs.setBool('isFiveDayRemainderShown', false);
         setState(() {
           isExpiringInOneDays = true;
           isExpiringInFiveDays = false;
         });
-      } else if (remainTime.inHours.abs().isBetween((dataModel.duration * 24) - 120, dataModel.duration * 24)) {
+      } else if (remainTime.inHours.abs().isBetween(
+          (dataModel.duration * 24) - 120, dataModel.duration * 24)) {
         setState(() {
           isExpiringInFiveDays = true;
           isExpiringInOneDays = false;
         });
       }
 
-      final bool? isFiveDayRemainderShown = prefs.getBool('isFiveDayRemainderShown');
+      final bool? isFiveDayRemainderShown =
+          prefs.getBool('isFiveDayRemainderShown');
 
       if (isExpiringInFiveDays && isFiveDayRemainderShown == false) {
         // ignore: use_build_context_synchronously
@@ -169,21 +175,27 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> getPaypalInfo() async {
-    DatabaseReference paypalRef = FirebaseDatabase.instance.ref('Admin Panel/Paypal Info');
+    DatabaseReference paypalRef =
+        FirebaseDatabase.instance.ref('Admin Panel/Paypal Info');
     final paypalData = await paypalRef.get();
-    PaypalInfoModel paypalInfoModel = PaypalInfoModel.fromJson(jsonDecode(jsonEncode(paypalData.value)));
+    PaypalInfoModel paypalInfoModel =
+        PaypalInfoModel.fromJson(jsonDecode(jsonEncode(paypalData.value)));
 
     paypalClientId = paypalInfoModel.paypalClientId;
     paypalClientSecret = paypalInfoModel.paypalClientSecret;
   }
 
   Future<void> getAllSubscriptionPlan() async {
-    final ref = FirebaseDatabase.instance.ref().child('Admin Panel').child('Subscription Plan');
+    final ref = FirebaseDatabase.instance
+        .ref()
+        .child('Admin Panel')
+        .child('Subscription Plan');
     ref.keepSynced(true);
 
     ref.orderByKey().get().then((value) {
       for (var element in value.children) {
-        Subscription.subscriptionPlan.add(SubscriptionPlanModel.fromJson(jsonDecode(jsonEncode(element.value))));
+        Subscription.subscriptionPlan.add(SubscriptionPlanModel.fromJson(
+            jsonDecode(jsonEncode(element.value))));
       }
     });
     for (var element in Subscription.subscriptionPlan) {
@@ -191,10 +203,13 @@ class _HomeScreenState extends State<HomeScreen> {
         Subscription.freeSubscriptionModel.products = element.products;
         Subscription.freeSubscriptionModel.duration = element.duration;
         Subscription.freeSubscriptionModel.dueNumber = element.dueNumber;
-        Subscription.freeSubscriptionModel.partiesNumber = element.partiesNumber;
-        Subscription.freeSubscriptionModel.purchaseNumber = element.purchaseNumber;
+        Subscription.freeSubscriptionModel.partiesNumber =
+            element.partiesNumber;
+        Subscription.freeSubscriptionModel.purchaseNumber =
+            element.purchaseNumber;
         Subscription.freeSubscriptionModel.saleNumber = element.purchaseNumber;
-        Subscription.freeSubscriptionModel.subscriptionDate = DateTime.now().toString();
+        Subscription.freeSubscriptionModel.subscriptionDate =
+            DateTime.now().toString();
       }
     }
   }
@@ -233,13 +248,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              isSubUser ? null : const ProfileDetails().launch(context);
+                              isSubUser
+                                  ? null
+                                  : const ProfileDetails().launch(context);
                             },
                             child: Container(
                               height: 50,
                               width: 50,
                               decoration: BoxDecoration(
-                                image: DecorationImage(image: NetworkImage(details.pictureUrl ?? ''), fit: BoxFit.cover),
+                                image: DecorationImage(
+                                    image:
+                                        NetworkImage(details.pictureUrl ?? ''),
+                                    fit: BoxFit.cover),
                                 borderRadius: BorderRadius.circular(50),
                               ),
                             ),
@@ -252,7 +272,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                isSubUser ? '${details.companyName ?? ''} [$subUserTitle]' : details.companyName ?? '',
+                                isSubUser
+                                    ? '${details.companyName ?? ''} [$subUserTitle]'
+                                    : details.companyName ?? '',
                                 style: GoogleFonts.poppins(
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.w600,
@@ -260,9 +282,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               Text(
-                                '$customerPackage Plan',
+                                details.businessCategory ?? '',
                                 style: GoogleFonts.poppins(
-                                  color: Colors.black,
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.normal,
+                                  color: kGreyTextColor,
                                 ),
                               ),
                             ],
@@ -364,7 +388,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               GestureDetector(
                                 child: const Icon(Icons.keyboard_arrow_left),
                                 onTap: () {
-                                  pageController.previousPage(duration: const Duration(milliseconds: 300), curve: Curves.linear);
+                                  pageController.previousPage(
+                                      duration:
+                                          const Duration(milliseconds: 300),
+                                      curve: Curves.linear);
                                 },
                               ),
                               Container(
@@ -376,7 +403,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   itemCount: images.length,
                                   controller: pageController,
                                   itemBuilder: (_, index) {
-                                    if (images[index].imageUrl.contains('https://firebasestorage.googleapis.com')) {
+                                    if (images[index].imageUrl.contains(
+                                        'https://firebasestorage.googleapis.com')) {
                                       return GestureDetector(
                                         onTap: () {
                                           const PackageScreen().launch(context);
@@ -389,7 +417,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       );
                                     } else {
-                                      YoutubePlayerController videoController = YoutubePlayerController(
+                                      YoutubePlayerController videoController =
+                                          YoutubePlayerController(
                                         flags: const YoutubePlayerFlags(
                                           autoPlay: false,
                                           mute: false,
@@ -408,7 +437,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               GestureDetector(
                                 child: const Icon(Icons.keyboard_arrow_right),
                                 onTap: () {
-                                  pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.linear);
+                                  pageController.nextPage(
+                                      duration:
+                                          const Duration(milliseconds: 300),
+                                      curve: Curves.linear);
                                 },
                               ),
                             ],
@@ -419,23 +451,28 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   } else {
                     return Container(
+                      alignment: Alignment.center,
                       padding: const EdgeInsets.all(10),
                       height: 180,
                       width: 320,
-                      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('images/banner1.png'))),
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('images/banner1.png'))),
                     );
                   }
                 }, error: (e, stack) {
                   return Container(
+                    alignment: Alignment.center,
                     padding: const EdgeInsets.all(10),
                     height: 180,
                     width: 320,
-                    decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('images/banner1.png'))),
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('images/banner1.png'))),
                   );
                 }, loading: () {
                   return const CircularProgressIndicator();
                 }),
-
                 // Padding(
                 //   padding: const EdgeInsets.all(8.0),
                 //   child: Row(
@@ -469,7 +506,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 //     ),
                 //   ),
                 // ),
-
                 // Padding(
                 //   padding: const EdgeInsets.all(8.0),
                 //   child: Row(
@@ -513,7 +549,8 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class HomeGridCards extends StatefulWidget {
-  const HomeGridCards({Key? key, required this.gridItems, required this.color}) : super(key: key);
+  const HomeGridCards({Key? key, required this.gridItems, required this.color})
+      : super(key: key);
   final GridItems gridItems;
   final Color color;
 
@@ -525,32 +562,49 @@ class _HomeGridCardsState extends State<HomeGridCards> {
   Future<bool> subscriptionChecker({
     required String item,
   }) async {
-    final DatabaseReference subscriptionRef = FirebaseDatabase.instance.ref().child(constUserId).child('Subscription');
-    DatabaseReference ref = FirebaseDatabase.instance.ref('$constUserId/Subscription');
+    final DatabaseReference subscriptionRef = FirebaseDatabase.instance
+        .ref()
+        .child(constUserId)
+        .child('Subscription');
+    DatabaseReference ref =
+        FirebaseDatabase.instance.ref('$constUserId/Subscription');
     ref.keepSynced(true);
     subscriptionRef.keepSynced(true);
 
     bool boolValue = true;
 
     await ref.get().then((value) async {
-      final dataModel = SubscriptionModel.fromJson(jsonDecode(jsonEncode(value.value)));
-      final remainTime = DateTime.parse(dataModel.subscriptionDate).difference(DateTime.now());
+      final dataModel =
+          SubscriptionModel.fromJson(jsonDecode(jsonEncode(value.value)));
+      final remainTime =
+          DateTime.parse(dataModel.subscriptionDate).difference(DateTime.now());
       for (var element in Subscription.subscriptionPlan) {
         if (dataModel.subscriptionName == element.subscriptionName) {
           if (remainTime.inHours.abs() > element.duration * 24) {
-            Subscription.freeSubscriptionModel.subscriptionDate = DateTime.now().toString();
+            Subscription.freeSubscriptionModel.subscriptionDate =
+                DateTime.now().toString();
             subscriptionRef.set(Subscription.freeSubscriptionModel.toJson());
             final prefs = await SharedPreferences.getInstance();
             await prefs.setBool('isFiveDayRemainderShown', true);
-          } else if (item == 'Sales' && dataModel.saleNumber <= 0 && dataModel.saleNumber != -202) {
+          } else if (item == 'Sales' &&
+              dataModel.saleNumber <= 0 &&
+              dataModel.saleNumber != -202) {
             boolValue = false;
-          } else if (item == 'Parties' && dataModel.partiesNumber <= 0 && dataModel.partiesNumber != -202) {
+          } else if (item == 'Parties' &&
+              dataModel.partiesNumber <= 0 &&
+              dataModel.partiesNumber != -202) {
             boolValue = false;
-          } else if (item == 'Purchase' && dataModel.purchaseNumber <= 0 && dataModel.purchaseNumber != -202) {
+          } else if (item == 'Purchase' &&
+              dataModel.purchaseNumber <= 0 &&
+              dataModel.purchaseNumber != -202) {
             boolValue = false;
-          } else if (item == 'Products' && dataModel.products <= 0 && dataModel.products != -202) {
+          } else if (item == 'Products' &&
+              dataModel.products <= 0 &&
+              dataModel.products != -202) {
             boolValue = false;
-          } else if (item == 'Due List' && dataModel.dueNumber <= 0 && dataModel.dueNumber != -202) {
+          } else if (item == 'Due List' &&
+              dataModel.dueNumber <= 0 &&
+              dataModel.dueNumber != -202) {
             boolValue = false;
           }
         }
@@ -576,9 +630,11 @@ class _HomeGridCardsState extends State<HomeGridCards> {
       return true;
     } else if (item == 'Sales List' && finalUserRoleModel.salesListPermission) {
       return true;
-    } else if (item == 'Purchase List' && finalUserRoleModel.purchaseListPermission) {
+    } else if (item == 'Purchase List' &&
+        finalUserRoleModel.purchaseListPermission) {
       return true;
-    } else if (item == 'Loss/Profit' && finalUserRoleModel.lossProfitPermission) {
+    } else if (item == 'Loss/Profit' &&
+        finalUserRoleModel.lossProfitPermission) {
       return true;
     } else if (item == 'Expense' && finalUserRoleModel.addExpensePermission) {
       return true;
@@ -606,13 +662,20 @@ class _HomeGridCardsState extends State<HomeGridCards> {
 
                         isSubUser
                             ? checkPermission(item: widget.gridItems.title)
-                                ? await subscriptionChecker(item: widget.gridItems.title)
-                                    ? Navigator.of(context).pushNamed('/${widget.gridItems.route}')
-                                    : EasyLoading.showError('Update your plan first,\nyour limit is over.')
-                                : EasyLoading.showError('Sorry, you have no permission to access this service')
-                            : await subscriptionChecker(item: widget.gridItems.title)
-                                ? Navigator.of(context).pushNamed('/${widget.gridItems.route}')
-                                : EasyLoading.showError('Update your plan first,\nyour limit is over.');
+                                ? await subscriptionChecker(
+                                        item: widget.gridItems.title)
+                                    ? Navigator.of(context)
+                                        .pushNamed('/${widget.gridItems.route}')
+                                    : EasyLoading.showError(
+                                        'Update your plan first,\nyour limit is over.')
+                                : EasyLoading.showError(
+                                    'Sorry, you have no permission to access this service')
+                            : await subscriptionChecker(
+                                    item: widget.gridItems.title)
+                                ? Navigator.of(context)
+                                    .pushNamed('/${widget.gridItems.route}')
+                                : EasyLoading.showError(
+                                    'Update your plan first,\nyour limit is over.');
                       },
                       child: Container(
                         height: 70,

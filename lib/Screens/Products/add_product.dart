@@ -239,7 +239,7 @@ class _AddProductState extends State<AddProduct> {
                 ),
                 Row(
                   children: [
-                    data.variations.length > 0
+                    data.variations != null
                         ? Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -362,7 +362,9 @@ class _AddProductState extends State<AddProduct> {
                           const SizedBox(
                             width: 10.0,
                           ),
-                          Text(brandName),
+                          Text(brandName == null
+                              ? "Select Brand"
+                              : brandName.toString()),
                           const Spacer(),
                           const Icon(Icons.keyboard_arrow_down),
                           const SizedBox(
@@ -463,7 +465,7 @@ class _AddProductState extends State<AddProduct> {
                             borderRadius: BorderRadius.circular(5.0),
                             border: Border.all(color: kGreyTextColor),
                           ),
-                          child: GestureDetector(
+                          child: InkWell(
                             onTap: () async {
                               String data =
                                   await const UnitList().launch(context);
@@ -476,7 +478,9 @@ class _AddProductState extends State<AddProduct> {
                                 const SizedBox(
                                   width: 10.0,
                                 ),
-                                Text(productUnit),
+                                Text(productUnit == null
+                                    ? "Select Unit"
+                                    : productUnit.toString()),
                                 const Spacer(),
                                 const Icon(Icons.keyboard_arrow_down),
                                 const SizedBox(

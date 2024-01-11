@@ -91,6 +91,8 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
   late PersonalInformationModel personalInformationModel;
   @override
   void initState() {
+    setState(() {});
+
     super.initState();
   }
 
@@ -100,8 +102,10 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
       final providerData = consumerRef.watch(cartNotifier);
       final printerData = consumerRef.watch(printerProviderNotifier);
       final personalData = consumerRef.watch(profileDetailsProvider);
+
       return personalData.when(data: (data) {
         invoice = data.invoiceCounter!.toInt();
+
         personalInformationModel = data;
         return Scaffold(
           appBar: AppBar(
@@ -675,8 +679,12 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                     }
                                   },
                                   textAlign: TextAlign.right,
-                                  decoration:
-                                      const InputDecoration(hintText: '0'),
+                                  decoration: InputDecoration(
+                                    hintStyle: const TextStyle(fontSize: 16,color: Colors.black),
+                                      hintText: calculateSubtotal(
+                                              total:
+                                                  providerData.getTotalAmount())
+                                          .toStringAsFixed(2)),
                                 ),
                               ),
                             ],

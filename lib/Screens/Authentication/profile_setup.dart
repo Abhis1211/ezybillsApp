@@ -20,6 +20,7 @@ import '../../model/personal_information_model.dart';
 import '../../model/shop_category_model.dart';
 import '../../model/subscription_plan_model.dart';
 import '../../subscription.dart';
+import '../Home/home.dart';
 import '../subscription/purchase_premium_plan_screen.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
 
@@ -171,9 +172,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    
-    Consumer(builder: (context, ref, __) {
+    return Consumer(builder: (context, ref, __) {
       final categoryList = ref.watch(shopCategoryProvider);
 
       return categoryList.when(data: (categoryList) {
@@ -181,10 +180,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
             ? dropdownValue = categoryList.first.categoryName ?? ''
             : null;
         firstTime = false;
-        return 
-        
-        
-        WillPopScope(
+        return WillPopScope(
           onWillPop: () async => false,
           child: Scaffold(
             appBar: AppBar(
@@ -543,9 +539,10 @@ class _ProfileSetupState extends State<ProfileSetup> {
                               duration: const Duration(milliseconds: 1000));
 
                           // ignore: use_build_context_synchronously
-                          const PurchasePremiumPlanScreen(
-                            isCameBack: false,
-                          ).launch(context);
+                          // const PurchasePremiumPlanScreen(
+                          //   isCameBack: false,
+                          // ).launch(context);
+                          const Home().launch(context);
                         } catch (e) {
                           EasyLoading.dismiss();
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -560,7 +557,6 @@ class _ProfileSetupState extends State<ProfileSetup> {
             ),
           ),
         );
-     
       }, error: (e, stack) {
         return Center(
           child: Text(e.toString()),

@@ -35,7 +35,7 @@ class _AddCustomerState extends State<AddCustomer> {
   var dialogContext;
   bool expanded = false;
   String customerName = 'Guest';
-  String phoneNumber = '000';
+  String phoneNumber = '';
   String customerAddress = 'Not Provided';
   String emailAddress = 'Not Provided';
   String dueAmount = '0';
@@ -57,14 +57,17 @@ class _AddCustomerState extends State<AddCustomer> {
         status: 'Uploading... ',
         dismissOnTap: false,
       );
-      var snapshot = await FirebaseStorage.instance.ref('Customer Picture/${DateTime.now().millisecondsSinceEpoch}').putFile(file);
+      var snapshot = await FirebaseStorage.instance
+          .ref('Customer Picture/${DateTime.now().millisecondsSinceEpoch}')
+          .putFile(file);
       var url = await snapshot.ref.getDownloadURL();
 
       setState(() {
         profilePicture = url.toString();
       });
     } on firebase_core.FirebaseException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.code.toString())));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.code.toString())));
     }
   }
 
@@ -127,96 +130,97 @@ class _AddCustomerState extends State<AddCustomer> {
                     ),
                   ),
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: RadioListTile(
-                        contentPadding: EdgeInsets.zero,
-                        groupValue: groupValue,
-                        title: Text(
-                          lang.S.of(context).retailer,
-                          maxLines: 1,
-                          style: GoogleFonts.poppins(
-                            fontSize: 12.0,
-                          ),
-                        ),
-                        value: 'Retailer',
-                        onChanged: (value) {
-                          setState(() {
-                            groupValue = value.toString();
-                            radioItem = value.toString();
-                          });
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: RadioListTile(
-                        contentPadding: EdgeInsets.zero,
-                        groupValue: groupValue,
-                        title: Text(
-                          lang.S.of(context).dealer,
-                          maxLines: 1,
-                          style: GoogleFonts.poppins(
-                            fontSize: 12.0,
-                          ),
-                        ),
-                        value: 'Dealer',
-                        onChanged: (value) {
-                          setState(() {
-                            groupValue = value.toString();
-                            radioItem = value.toString();
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: RadioListTile(
-                        contentPadding: EdgeInsets.zero,
-                        activeColor: kMainColor,
-                        groupValue: groupValue,
-                        title: Text(
-                          lang.S.of(context).wholesaler,
-                          maxLines: 1,
-                          style: GoogleFonts.poppins(
-                            fontSize: 12.0,
-                          ),
-                        ),
-                        value: 'Wholesaler',
-                        onChanged: (value) {
-                          setState(() {
-                            groupValue = value.toString();
-                            radioItem = value.toString();
-                          });
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: RadioListTile(
-                        contentPadding: EdgeInsets.zero,
-                        activeColor: kMainColor,
-                        groupValue: groupValue,
-                        title: Text(
-                          lang.S.of(context).supplier,
-                          maxLines: 1,
-                          style: GoogleFonts.poppins(
-                            fontSize: 12.0,
-                          ),
-                        ),
-                        value: 'Supplier',
-                        onChanged: (value) {
-                          setState(() {
-                            groupValue = value.toString();
-                            radioItem = value.toString();
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: RadioListTile(
+                //         contentPadding: EdgeInsets.zero,
+                //         groupValue: groupValue,
+                //         title: Text(
+                //           lang.S.of(context).retailer,
+                //           maxLines: 1,
+                //           style: GoogleFonts.poppins(
+                //             fontSize: 12.0,
+                //           ),
+                //         ),
+                //         value: 'Retailer',
+                //         onChanged: (value) {
+                //           setState(() {
+                //             groupValue = value.toString();
+                //             radioItem = value.toString();
+                //           });
+                //         },
+                //       ),
+                //     ),
+                //     Expanded(
+                //       child: RadioListTile(
+                //         contentPadding: EdgeInsets.zero,
+                //         groupValue: groupValue,
+                //         title: Text(
+                //           lang.S.of(context).dealer,
+                //           maxLines: 1,
+                //           style: GoogleFonts.poppins(
+                //             fontSize: 12.0,
+                //           ),
+                //         ),
+                //         value: 'Dealer',
+                //         onChanged: (value) {
+                //           setState(() {
+                //             groupValue = value.toString();
+                //             radioItem = value.toString();
+                //           });
+                //         },
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: RadioListTile(
+                //         contentPadding: EdgeInsets.zero,
+                //         activeColor: kMainColor,
+                //         groupValue: groupValue,
+                //         title: Text(
+                //           lang.S.of(context).wholesaler,
+                //           maxLines: 1,
+                //           style: GoogleFonts.poppins(
+                //             fontSize: 12.0,
+                //           ),
+                //         ),
+                //         value: 'Wholesaler',
+                //         onChanged: (value) {
+                //           setState(() {
+                //             groupValue = value.toString();
+                //             radioItem = value.toString();
+                //           });
+                //         },
+                //       ),
+                //     ),
+                //     Expanded(
+                //       child: RadioListTile(
+                //         contentPadding: EdgeInsets.zero,
+                //         activeColor: kMainColor,
+                //         groupValue: groupValue,
+                //         title: Text(
+                //           lang.S.of(context).supplier,
+                //           maxLines: 1,
+                //           style: GoogleFonts.poppins(
+                //             fontSize: 12.0,
+                //           ),
+                //         ),
+                //         value: 'Supplier',
+                //         onChanged: (value) {
+                //           setState(() {
+                //             groupValue = value.toString();
+                //             radioItem = value.toString();
+                //           });
+                //         },
+                //       ),
+                //     ),
+                //   ],
+                // ),
+
                 Visibility(
                   visible: showProgress,
                   child: const CircularProgressIndicator(
@@ -249,7 +253,9 @@ class _AddCustomerState extends State<AddCustomer> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  expanded == false ? expanded = true : expanded = false;
+                                  expanded == false
+                                      ? expanded = true
+                                      : expanded = false;
                                 });
                               },
                             ),
@@ -265,38 +271,53 @@ class _AddCustomerState extends State<AddCustomer> {
                                   builder: (BuildContext context) {
                                     return Dialog(
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12.0),
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
                                       ),
                                       // ignore: sized_box_for_whitespace
                                       child: Container(
                                         height: 200.0,
-                                        width: MediaQuery.of(context).size.width - 80,
+                                        width:
+                                            MediaQuery.of(context).size.width -
+                                                80,
                                         child: Center(
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
                                               GestureDetector(
                                                 onTap: () async {
-                                                  pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+                                                  pickedImage =
+                                                      await _picker.pickImage(
+                                                          source: ImageSource
+                                                              .gallery);
                                                   setState(() {
-                                                    imageFile = File(pickedImage!.path);
-                                                    imagePath = pickedImage!.path;
+                                                    imageFile =
+                                                        File(pickedImage!.path);
+                                                    imagePath =
+                                                        pickedImage!.path;
                                                   });
-                                                  Future.delayed(const Duration(milliseconds: 100), () {
+                                                  Future.delayed(
+                                                      const Duration(
+                                                          milliseconds: 100),
+                                                      () {
                                                     Navigator.pop(context);
                                                   });
                                                 },
                                                 child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
                                                   children: [
                                                     const Icon(
-                                                      Icons.photo_library_rounded,
+                                                      Icons
+                                                          .photo_library_rounded,
                                                       size: 60.0,
                                                       color: kMainColor,
                                                     ),
                                                     Text(
                                                       'Gallery',
-                                                      style: GoogleFonts.poppins(
+                                                      style:
+                                                          GoogleFonts.poppins(
                                                         fontSize: 20.0,
                                                         color: kMainColor,
                                                       ),
@@ -309,17 +330,26 @@ class _AddCustomerState extends State<AddCustomer> {
                                               ),
                                               GestureDetector(
                                                 onTap: () async {
-                                                  pickedImage = await _picker.pickImage(source: ImageSource.camera);
+                                                  pickedImage =
+                                                      await _picker.pickImage(
+                                                          source: ImageSource
+                                                              .camera);
                                                   setState(() {
-                                                    imageFile = File(pickedImage!.path);
-                                                    imagePath = pickedImage!.path;
+                                                    imageFile =
+                                                        File(pickedImage!.path);
+                                                    imagePath =
+                                                        pickedImage!.path;
                                                   });
-                                                  Future.delayed(const Duration(milliseconds: 100), () {
+                                                  Future.delayed(
+                                                      const Duration(
+                                                          milliseconds: 100),
+                                                      () {
                                                     Navigator.pop(context);
                                                   });
                                                 },
                                                 child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
                                                   children: [
                                                     const Icon(
                                                       Icons.camera,
@@ -328,7 +358,8 @@ class _AddCustomerState extends State<AddCustomer> {
                                                     ),
                                                     Text(
                                                       'Camera',
-                                                      style: GoogleFonts.poppins(
+                                                      style:
+                                                          GoogleFonts.poppins(
                                                         fontSize: 20.0,
                                                         color: kGreyTextColor,
                                                       ),
@@ -349,8 +380,10 @@ class _AddCustomerState extends State<AddCustomer> {
                                   height: 120,
                                   width: 120,
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.black54, width: 1),
-                                    borderRadius: const BorderRadius.all(Radius.circular(120)),
+                                    border: Border.all(
+                                        color: Colors.black54, width: 1),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(120)),
                                     image: imagePath == 'No Data'
                                         ? DecorationImage(
                                             image: NetworkImage(profilePicture),
@@ -369,8 +402,10 @@ class _AddCustomerState extends State<AddCustomer> {
                                     height: 35,
                                     width: 35,
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.white, width: 2),
-                                      borderRadius: const BorderRadius.all(Radius.circular(120)),
+                                      border: Border.all(
+                                          color: Colors.white, width: 2),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(120)),
                                       color: kMainColor,
                                     ),
                                     child: const Icon(
@@ -395,7 +430,8 @@ class _AddCustomerState extends State<AddCustomer> {
                               },
                               decoration: InputDecoration(
                                 border: const OutlineInputBorder(),
-                                floatingLabelBehavior: FloatingLabelBehavior.always,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 labelText: lang.S.of(context).email,
                                 hintText: 'example@example.com',
                               ),
@@ -413,7 +449,8 @@ class _AddCustomerState extends State<AddCustomer> {
                               },
                               decoration: InputDecoration(
                                   border: const OutlineInputBorder(),
-                                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
                                   labelText: lang.S.of(context).address,
                                   hintText: 'Placentia, California(CA), 92870'),
                             ),
@@ -430,7 +467,8 @@ class _AddCustomerState extends State<AddCustomer> {
                               maxLines: 2,
                               decoration: InputDecoration(
                                   border: const OutlineInputBorder(),
-                                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
                                   labelText: lang.S.of(context).previousDue,
                                   hintText: lang.S.of(context).amount),
                             ),
@@ -443,8 +481,20 @@ class _AddCustomerState extends State<AddCustomer> {
                 ),
                 ButtonGlobalWithoutIcon(
                     buttontext: lang.S.of(context).save,
-                    buttonDecoration: kButtonDecoration.copyWith(color: kMainColor),
+                    buttonDecoration:
+                        kButtonDecoration.copyWith(color: kMainColor),
                     onPressed: () async {
+                      print("asddas");
+                      if (phoneNumber.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("Please enter phone number")));
+                        return;
+                      }
+                      if (customerName.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("Please enter customer name")));
+                        return;
+                      }
                       for (var element in customerData.value!) {
                         if (element.phoneNumber == phoneNumber) {
                           EasyLoading.showError('Phone number already exist');
@@ -452,18 +502,23 @@ class _AddCustomerState extends State<AddCustomer> {
                           phoneText.clear();
                         }
                       }
-                      Future.delayed(const Duration(milliseconds: 500), () async {
+                      Future.delayed(const Duration(milliseconds: 500),
+                          () async {
                         if (isPhoneAlready) {
                         } else {
                           try {
-                            EasyLoading.show(status: 'Loading...', dismissOnTap: false);
-                            imagePath == 'No Data' ? null : await uploadFile(imagePath);
+                            EasyLoading.show(
+                                status: 'Loading...', dismissOnTap: false);
+                            imagePath == 'No Data'
+                                ? null
+                                : await uploadFile(imagePath);
                             // ignore: no_leading_underscores_for_local_identifiers
-                            final DatabaseReference _customerInformationRef = FirebaseDatabase.instance
-                                // ignore: deprecated_member_use
-                                .reference()
-                                .child(constUserId)
-                                .child('Customers');
+                            final DatabaseReference _customerInformationRef =
+                                FirebaseDatabase.instance
+                                    // ignore: deprecated_member_use
+                                    .reference()
+                                    .child(constUserId)
+                                    .child('Customers');
                             _customerInformationRef.keepSynced(true);
                             CustomerModel customerModel = CustomerModel(
                               customerName,
@@ -474,21 +529,26 @@ class _AddCustomerState extends State<AddCustomer> {
                               customerAddress,
                               dueAmount,
                             );
-                            _customerInformationRef.push().set(customerModel.toJson());
+                            _customerInformationRef
+                                .push()
+                                .set(customerModel.toJson());
 
                             ///________Subscription_____________________________________________________
                             decreaseSubscriptionSale();
 
                             EasyLoading.showSuccess('Added Successfully!');
-                            _customerInformationRef.onChildAdded.listen((event) {
+                            _customerInformationRef.onChildAdded
+                                .listen((event) {
                               ref.refresh(customerProvider);
                             });
-                            Future.delayed(const Duration(milliseconds: 100), () {
+                            Future.delayed(const Duration(milliseconds: 100),
+                                () {
                               Navigator.pop(context);
                             });
                           } catch (e) {
                             EasyLoading.dismiss();
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(e.toString())));
                           }
                         }
                       });
@@ -504,11 +564,16 @@ class _AddCustomerState extends State<AddCustomer> {
 
   void decreaseSubscriptionSale() async {
     final userId = constUserId;
-    final ref = FirebaseDatabase.instance.ref('$userId/Subscription/partiesNumber');
+    final ref =
+        FirebaseDatabase.instance.ref('$userId/Subscription/partiesNumber');
     ref.keepSynced(true);
     var data = await ref.once();
     int beforeSale = int.parse(data.snapshot.value.toString());
     int afterSale = beforeSale - 1;
-    beforeSale != -202 ? FirebaseDatabase.instance.ref('$userId/Subscription').update({'partiesNumber': afterSale}) : null;
+    beforeSale != -202
+        ? FirebaseDatabase.instance
+            .ref('$userId/Subscription')
+            .update({'partiesNumber': afterSale})
+        : null;
   }
 }

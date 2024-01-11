@@ -83,6 +83,7 @@ dependencies:
   paytm_allinonesdk:
   flutter_tap_payment:
   flutter_sslcommerz:
+  firebase_messaging: 
 #  razorpay_flutter:
 
 dev_dependencies:

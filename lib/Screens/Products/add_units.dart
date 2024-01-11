@@ -78,6 +78,12 @@ class _AddUnitsState extends State<AddUnits> {
                 buttontext: lang.S.of(context).save,
                 buttonDecoration: kButtonDecoration.copyWith(color: kMainColor),
                 onPressed: () async {
+                  if (unitsName.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Please enter unit")));
+                    return;
+                  }
+
                   bool isAlreadyAdded = false;
                   allUnits.value?.forEach((element) {
                     if (element.unitName.toLowerCase().removeAllWhiteSpace() ==

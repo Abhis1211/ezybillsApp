@@ -441,18 +441,21 @@ class _SaleProductsState extends State<SaleProducts> {
             ),
           ],
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {
-        //     Navigator.pop(context);
-        //   },
-        //   child: Text(
-        //     "Add".toString(),
-        //     style: GoogleFonts.jost(
-        //       fontSize: 14.0,
-        //       color: Colors.black,
-        //     ),
-        //   ).paddingSymmetric(horizontal: 2, vertical: 10),
-        // ),
+        floatingActionButtonLocation:
+            FloatingActionButtonLocation.miniCenterFloat,
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          label: Text(
+            "Add".toString(),
+            style: GoogleFonts.jost(
+              fontSize: 14.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ).paddingSymmetric(horizontal: 40, vertical: 10),
+        ),
         // bottomNavigationBar: ButtonGlobal(
         //   iconWidget: Icons.arrow_forward,
         //   buttontext: 'Sales List',

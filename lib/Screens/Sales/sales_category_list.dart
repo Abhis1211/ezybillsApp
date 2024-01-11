@@ -97,6 +97,7 @@ class _SalesCategoryListState extends State<SalesCategoryList> {
                     (index) => CategoryCard(
                       product: demoCategory[index],
                       pressed: () {
+                        print("asdsd");
                         SaleProducts(catName: demoCategory[index].title).launch(context);
                       },
                     ),

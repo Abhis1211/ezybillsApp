@@ -172,6 +172,11 @@ class _AddCategoryState extends State<AddCategory> {
                   buttonDecoration:
                       kButtonDecoration.copyWith(color: kMainColor),
                   onPressed: () async {
+                    if (categoryName.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Please enter category")));
+                      return;
+                    }
                     bool isAlreadyAdded = false;
                     allCategory.value?.forEach((element) {
                       if (element.categoryName

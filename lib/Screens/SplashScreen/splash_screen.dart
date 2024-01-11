@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -58,7 +59,15 @@ class _SplashScreenState extends State<SplashScreen> {
     init();
     getPermission();
     getCurrency();
+    // gettoken();
+
     currentUserData.getUserData();
+  }
+
+  gettoken() async {
+    await FirebaseMessaging.instance.getToken().then((value) {
+      print("token" + value.toString());
+    });
   }
 
   getCurrency() async {
