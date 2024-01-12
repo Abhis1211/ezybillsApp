@@ -843,8 +843,8 @@ class _AddProductState extends State<AddProduct> {
                       );
                       return;
                     }
-                    print("product unit" + productPicture.toString());
-                    if (productPicture.isEmpty || productPicture == null) {
+               
+                    if (imagePath=="No Data") {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Please select product image'),

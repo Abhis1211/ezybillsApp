@@ -1,14 +1,19 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_pos/Screens/Home/home_screen.dart';
 import 'package:mobile_pos/Screens/Report/reports.dart';
 import 'package:mobile_pos/Screens/Settings/settings_screen.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
 import '../../constant.dart';
+import '../Authentication/phone.dart';
 import '../Sales/sales_contact.dart';
 
 class Home extends StatefulWidget {
@@ -24,8 +29,13 @@ class _HomeState extends State<Home> {
   bool isDeviceConnected = false;
   bool isAlertSet = false;
   bool isNoInternet = false;
-
-  static const List<Widget> _widgetOptions = <Widget>[HomeScreen(), SalesContact(), Reports(), SettingScreen()];
+  var currentemail = "";
+  static const List<Widget> _widgetOptions = <Widget>[
+    HomeScreen(),
+    SalesContact(),
+    Reports(),
+    SettingScreen()
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -46,9 +56,35 @@ class _HomeState extends State<Home> {
     }
   }
 
+  checkactiveostatus(email) async* {
+    String key = '';
+    var sellerdata = [];
+
+    await FirebaseDatabase.instance
+        .ref()
+        .child('Admin Panel')
+        .child('Seller List')
+        .orderByKey()
+        .get()
+        .then((value) async {
+      for (var element in value.children) {
+        var data = jsonDecode(jsonEncode(element.value));
+        if (data['email'].toString() == email) {
+          key = element.key.toString();
+        }
+      }
+    });
+    DatabaseReference ref =
+        FirebaseDatabase.instance.ref("Admin Panel/Seller List/$key");
+    var data = await ref.get();
+    for (var element in data.children) {
+      sellerdata.add(element.value);
+    }
+    yield sellerdata[0];
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     isSubUser ? signOutAutoLogin() : null;
   }
@@ -56,9 +92,55 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      body: StreamBuilder(
+          stream: checkactiveostatus(FirebaseAuth.instance.currentUser!.email),
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            return snapshot.data == 0
+                ? Center(
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "your Account is Deactive please Contact to your Admistrative",
+                            style: GoogleFonts.poppins(
+                              fontSize: 16.0,
+                              color: kGreyTextColor,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 20),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.blue,
+                            ),
+                            child: TextButton(
+                              onPressed: () async {
+                                await FirebaseAuth.instance.signOut();
+                                PhoneAuth().launch(context);
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                await prefs.setBool('isSubUser', false);
+                              },
+                              child: Text(
+                                "Log Out",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 18.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : Center(
+                    child: _widgetOptions.elementAt(_selectedIndex),
+                  );
+          }),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         elevation: 6.0,
@@ -77,7 +159,9 @@ class _HomeState extends State<Home> {
             icon: const Icon(FeatherIcons.fileText),
             label: lang.S.of(context).reports,
           ),
-          BottomNavigationBarItem(icon: const Icon(FeatherIcons.settings), label: lang.S.of(context).setting),
+          BottomNavigationBarItem(
+              icon: const Icon(FeatherIcons.settings),
+              label: lang.S.of(context).setting),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,

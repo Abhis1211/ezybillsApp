@@ -37,21 +37,10 @@ class ProfileSetup extends StatefulWidget {
 class _ProfileSetupState extends State<ProfileSetup> {
   final CurrentUserData currentUserData = CurrentUserData();
 
-  @override
-  void initState() {
-    currentUserData.putUserData(
-        userId: FirebaseAuth.instance.currentUser!.uid,
-        isSubUser: false,
-        title: '',
-        email: '');
-    super.initState();
-    freeSubscription();
-  }
-
   String dropdownLangValue = 'English';
   String initialCountry = 'Bangladesh';
   String dropdownValue = '';
-  String companyName = "", phoneNumber = "";
+  String companyName = "", phoneNumber = "", email = "";
   double progress = 0.0;
   int openingBalance = 0;
   bool showProgress = false;
@@ -63,6 +52,20 @@ class _ProfileSetupState extends State<ProfileSetup> {
   File imageFile = File('No File');
   String imagePath = 'No Data';
   TextEditingController controller = TextEditingController();
+  @override
+  void initState() {
+    currentUserData.putUserData(
+        userId: FirebaseAuth.instance.currentUser!.uid,
+        isSubUser: false,
+        title: '',
+        email: '');
+    setState(() {
+      phoneNumber = PhoneAuth.phoneNumber;
+    });
+
+    super.initState();
+    freeSubscription();
+  }
 
   Future<void> uploadFile(String filePath) async {
     File file = File(filePath);
@@ -383,6 +386,30 @@ class _ProfileSetupState extends State<ProfileSetup> {
                         ),
                       ),
                     ),
+                    if (widget.loginWithPhone)
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            labelText: lang.S.of(context).emailText,
+                            hintText: lang.S.of(context).enterYourEmailAddress,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Email can\'n be empty';
+                            } else if (!value.contains('@')) {
+                              return 'Please enter a valid email';
+                            }
+                            return null;
+                          },
+                          onChanged: ((value) => email = value),
+                          onSaved: (value) {
+                            email = value!;
+                          },
+                        ),
+                      ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: AppTextField(
@@ -495,11 +522,25 @@ class _ProfileSetupState extends State<ProfileSetup> {
                           );
                           return;
                         }
+                        if (widget.loginWithPhone) {
+                          if (email.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Please enter Email")));
+                            return;
+                          }
+                          if (!email.contains('@')) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text("Please enter valid email")));
+                            return;
+                          }
+                        }
+
                         if (companyName.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text("Please enter CompanyName")));
                           return;
                         }
+                        print("phone number" + phoneNumber.toString());
                         if (phoneNumber.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text("Please enter phone number")));
@@ -552,7 +593,9 @@ class _ProfileSetupState extends State<ProfileSetup> {
                               language: dropdownLangValue,
                               pictureUrl: profilePicture,
                               userID: FirebaseAuth.instance.currentUser!.uid,
-                              email: FirebaseAuth.instance.currentUser!.email,
+                              email: widget.loginWithPhone
+                                  ? email
+                                  : FirebaseAuth.instance.currentUser!.email,
                               subscriptionDate: DateTime.now().toString(),
                               subscriptionName: 'Free',
                               subscriptionMethod: 'Not Provided',
