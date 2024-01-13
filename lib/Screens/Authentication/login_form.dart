@@ -130,7 +130,7 @@ class _LoginFormState extends State<LoginForm> {
                       buttonDecoration: kButtonDecoration.copyWith(color: kMainColor),
                       onPressed: () {
                         if (validateAndSave()) {
-                          loginProvider.signIn(context);
+                          loginProvider.signIn(context,1);
                         }
                       },
                       buttonTextColor: Colors.white),

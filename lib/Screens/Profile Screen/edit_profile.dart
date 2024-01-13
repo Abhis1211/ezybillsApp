@@ -57,7 +57,8 @@ class _EditProfileState extends State<EditProfile> {
         status: 'Uploading... ',
         dismissOnTap: false,
       );
-      final ref = FirebaseStorage.instance.ref('Profile Picture/${DateTime.now().millisecondsSinceEpoch}');
+      final ref = FirebaseStorage.instance
+          .ref('Profile Picture/${DateTime.now().millisecondsSinceEpoch}');
 
       var snapshot = await ref.putFile(file);
       var url = await snapshot.ref.getDownloadURL();
@@ -66,11 +67,13 @@ class _EditProfileState extends State<EditProfile> {
       });
     } on firebase_core.FirebaseException catch (e) {
       EasyLoading.dismiss();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.code.toString())));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.code.toString())));
     }
   }
 
-  DropdownButton<String> getCategory({required String category, required List<ShopCategoryModel> list}) {
+  DropdownButton<String> getCategory(
+      {required String category, required List<ShopCategoryModel> list}) {
     List<String> categories = [];
     bool inNotInList = true;
     for (var element in list) {
@@ -153,9 +156,11 @@ class _EditProfileState extends State<EditProfile> {
       ),
       body: SingleChildScrollView(
         child: Consumer(builder: (context, ref, child) {
-          AsyncValue<PersonalInformationModel> userProfileDetails = ref.watch(profileDetailsProvider);
-          AsyncValue<List<ShopCategoryModel>> categoryList = ref.watch(shopCategoryProvider);
-
+          AsyncValue<PersonalInformationModel> userProfileDetails =
+              ref.watch(profileDetailsProvider);
+          AsyncValue<List<ShopCategoryModel>> categoryList =
+              ref.watch(shopCategoryProvider);
+          
           return categoryList.when(data: (categoryList) {
             return Center(
               child: Column(
@@ -192,19 +197,23 @@ class _EditProfileState extends State<EditProfile> {
                                     children: [
                                       GestureDetector(
                                         onTap: () async {
-                                          pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+                                          pickedImage = await _picker.pickImage(
+                                              source: ImageSource.gallery);
 
                                           setState(() {
                                             imageFile = File(pickedImage!.path);
                                             imagePath = pickedImage!.path;
                                           });
 
-                                          Future.delayed(const Duration(milliseconds: 100), () {
+                                          Future.delayed(
+                                              const Duration(milliseconds: 100),
+                                              () {
                                             Navigator.pop(context);
                                           });
                                         },
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             const Icon(
                                               Icons.photo_library_rounded,
@@ -226,17 +235,21 @@ class _EditProfileState extends State<EditProfile> {
                                       ),
                                       GestureDetector(
                                         onTap: () async {
-                                          pickedImage = await _picker.pickImage(source: ImageSource.camera);
+                                          pickedImage = await _picker.pickImage(
+                                              source: ImageSource.camera);
                                           setState(() {
                                             imageFile = File(pickedImage!.path);
                                             imagePath = pickedImage!.path;
                                           });
-                                          Future.delayed(const Duration(milliseconds: 100), () {
+                                          Future.delayed(
+                                              const Duration(milliseconds: 100),
+                                              () {
                                             Navigator.pop(context);
                                           });
                                         },
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             const Icon(
                                               Icons.camera,
@@ -349,7 +362,8 @@ class _EditProfileState extends State<EditProfile> {
                           width: 120,
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.black54, width: 1),
-                            borderRadius: const BorderRadius.all(Radius.circular(120)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(120)),
                             image: imagePath == 'No Data'
                                 ? DecorationImage(
                                     image: NetworkImage(profilePicture),
@@ -369,7 +383,8 @@ class _EditProfileState extends State<EditProfile> {
                             width: 35,
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.white, width: 2),
-                              borderRadius: const BorderRadius.all(Radius.circular(120)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(120)),
                               color: kMainColor,
                             ),
                             child: const Icon(
@@ -391,14 +406,19 @@ class _EditProfileState extends State<EditProfile> {
                         builder: (FormFieldState<dynamic> field) {
                           return InputDecorator(
                             decoration: InputDecoration(
-                                floatingLabelBehavior: FloatingLabelBehavior.always,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 labelText: lang.S.of(context).businessCat,
                                 labelStyle: GoogleFonts.poppins(
                                   color: Colors.black,
                                   fontSize: 20.0,
                                 ),
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
-                            child: DropdownButtonHideUnderline(child: getCategory(category: dropdownValue, list: categoryList)),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0))),
+                            child: DropdownButtonHideUnderline(
+                                child: getCategory(
+                                    category: dropdownValue,
+                                    list: categoryList)),
                           );
                         },
                       ),
@@ -408,7 +428,7 @@ class _EditProfileState extends State<EditProfile> {
                     invoiceNumber = details.invoiceCounter!;
                     openingBalance = details.shopOpeningBalance;
                     remainingShopBalance = details.remainingShopBalance;
-
+                    print("counry name" + details.countryName.toString());
                     return Column(
                       children: [
                         Padding(
@@ -471,14 +491,18 @@ class _EditProfileState extends State<EditProfile> {
                               builder: (FormFieldState<dynamic> field) {
                                 return InputDecorator(
                                   decoration: InputDecoration(
-                                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                                      floatingLabelBehavior:
+                                          FloatingLabelBehavior.always,
                                       labelText: lang.S.of(context).language,
                                       labelStyle: GoogleFonts.poppins(
                                         color: Colors.black,
                                         fontSize: 20.0,
                                       ),
-                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
-                                  child: DropdownButtonHideUnderline(child: getLanguage(dropdownLangValue)),
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5.0))),
+                                  child: DropdownButtonHideUnderline(
+                                      child: getLanguage(dropdownLangValue)),
                                 );
                               },
                             ),
@@ -498,30 +522,42 @@ class _EditProfileState extends State<EditProfile> {
                     iconWidget: Icons.arrow_forward,
                     buttontext: lang.S.of(context).continueButton,
                     iconColor: Colors.white,
-                    buttonDecoration: kButtonDecoration.copyWith(color: kMainColor),
+                    buttonDecoration:
+                        kButtonDecoration.copyWith(color: kMainColor),
                     onPressed: () async {
                       if (profilePicture == 'nodata') {
                         setState(() {
-                          profilePicture = userProfileDetails.value!.pictureUrl.toString();
+                          profilePicture =
+                              userProfileDetails.value!.pictureUrl.toString();
                         });
                       }
                       if (companyName == 'nodata') {
                         setState(() {
-                          companyName = userProfileDetails.value!.companyName.toString();
+                          companyName =
+                              userProfileDetails.value!.companyName.toString();
                         });
                       }
                       if (phoneNumber == 'nodata') {
                         setState(() {
-                          phoneNumber = userProfileDetails.value!.phoneNumber.toString();
+                          phoneNumber =
+                              userProfileDetails.value!.phoneNumber.toString();
                         });
                       }
                       try {
-                        EasyLoading.show(status: 'Loading...', dismissOnTap: false);
-                        imagePath == 'No Data' ? null : await uploadFile(imagePath);
+                        EasyLoading.show(
+                            status: 'Loading...', dismissOnTap: false);
+                        imagePath == 'No Data'
+                            ? null
+                            : await uploadFile(imagePath);
                         // ignore: no_leading_underscores_for_local_identifiers
-                        final DatabaseReference _personalInformationRef = FirebaseDatabase.instance.ref().child(constUserId).child('Personal Information');
+                        final DatabaseReference _personalInformationRef =
+                            FirebaseDatabase.instance
+                                .ref()
+                                .child(constUserId)
+                                .child('Personal Information');
                         _personalInformationRef.keepSynced(true);
-                        PersonalInformationModel personalInformation = PersonalInformationModel(
+                        PersonalInformationModel personalInformation =
+                            PersonalInformationModel(
                           businessCategory: dropdownValue,
                           companyName: companyName,
                           phoneNumber: phoneNumber,
@@ -532,14 +568,19 @@ class _EditProfileState extends State<EditProfile> {
                           remainingShopBalance: remainingShopBalance,
                           shopOpeningBalance: openingBalance,
                         );
-                        _personalInformationRef.set(personalInformation.toJson());
+                        _personalInformationRef
+                            .set(personalInformation.toJson());
                         ref.refresh(profileDetailsProvider);
-                        EasyLoading.showSuccess('Updated Successfully', duration: const Duration(milliseconds: 1000));
+                        
+                        EasyLoading.showSuccess('Updated Successfully',
+                            duration: const Duration(milliseconds: 1000));
                         // ignore: use_build_context_synchronously
+                        ref.refresh(profileDetailsProvider);
                         Navigator.pushNamed(context, '/home');
                       } catch (e) {
                         EasyLoading.dismiss();
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(e.toString())));
                       }
                       // Navigator.pushNamed(context, '/otp');
                     },

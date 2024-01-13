@@ -25,7 +25,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, __) {
-      AsyncValue<PersonalInformationModel> userProfileDetails = ref.watch(profileDetailsProvider);
+      AsyncValue<PersonalInformationModel> userProfileDetails =
+          ref.watch(profileDetailsProvider);
 
       return userProfileDetails.when(data: (details) {
         return Scaffold(
@@ -81,7 +82,9 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                       height: 100.0,
                       width: 100.0,
                       decoration: BoxDecoration(
-                        image: DecorationImage(image: NetworkImage(details.pictureUrl ?? ''), fit: BoxFit.cover),
+                        image: DecorationImage(
+                            image: NetworkImage(details.pictureUrl ?? ''),
+                            fit: BoxFit.cover),
                         borderRadius: BorderRadius.circular(50),
                       ),
                     ),
@@ -99,7 +102,9 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                       ),
                       decoration: InputDecoration(
                           labelText: lang.S.of(context).name,
-                          border: const OutlineInputBorder().copyWith(borderSide: const BorderSide(color: kGreyTextColor)),
+                          border: const OutlineInputBorder().copyWith(
+                              borderSide:
+                                  const BorderSide(color: kGreyTextColor)),
                           hoverColor: kGreyTextColor,
                           fillColor: kGreyTextColor),
                       textFieldType: TextFieldType.NAME,
@@ -115,7 +120,9 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                       ),
                       decoration: InputDecoration(
                           labelText: lang.S.of(context).phone,
-                          border: const OutlineInputBorder().copyWith(borderSide: const BorderSide(color: kGreyTextColor)),
+                          border: const OutlineInputBorder().copyWith(
+                              borderSide:
+                                  const BorderSide(color: kGreyTextColor)),
                           hoverColor: kGreyTextColor,
                           fillColor: kGreyTextColor),
                       textFieldType: TextFieldType.NAME,
@@ -131,7 +138,9 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                       ),
                       decoration: InputDecoration(
                         labelText: lang.S.of(context).businessCat,
-                        border: const OutlineInputBorder().copyWith(borderSide: const BorderSide(color: kGreyTextColor)),
+                        border: const OutlineInputBorder().copyWith(
+                            borderSide:
+                                const BorderSide(color: kGreyTextColor)),
                         hoverColor: kGreyTextColor,
                         fillColor: kGreyTextColor,
                       ),
@@ -151,7 +160,9 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                             ),
                             decoration: InputDecoration(
                                 labelText: lang.S.of(context).address,
-                                border: const OutlineInputBorder().copyWith(borderSide: const BorderSide(color: kGreyTextColor)),
+                                border: const OutlineInputBorder().copyWith(
+                                    borderSide: const BorderSide(
+                                        color: kGreyTextColor)),
                                 hoverColor: kGreyTextColor,
                                 fillColor: kGreyTextColor),
                             textFieldType: TextFieldType.NAME,
@@ -169,7 +180,9 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                             ),
                             decoration: InputDecoration(
                                 labelText: lang.S.of(context).language,
-                                border: const OutlineInputBorder().copyWith(borderSide: const BorderSide(color: kGreyTextColor)),
+                                border: const OutlineInputBorder().copyWith(
+                                    borderSide: const BorderSide(
+                                        color: kGreyTextColor)),
                                 hoverColor: kGreyTextColor,
                                 fillColor: kGreyTextColor),
                             textFieldType: TextFieldType.NAME,
@@ -182,19 +195,22 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                     iconWidget: Icons.arrow_forward,
                     buttontext: lang.S.of(context).changePassword,
                     iconColor: Colors.white,
-                    buttonDecoration: kButtonDecoration.copyWith(color: kMainColor),
+                    buttonDecoration:
+                        kButtonDecoration.copyWith(color: kMainColor),
                     onPressed: () async {
                       try {
-                        EasyLoading.show(status: 'Sending Email', dismissOnTap: false);
+                        EasyLoading.show(
+                            status: 'Sending Email', dismissOnTap: false);
                         await FirebaseAuth.instance.sendPasswordResetEmail(
-                          email: FirebaseAuth.instance.currentUser!.email.toString(),
+                          email: FirebaseAuth.instance.currentUser!.email
+                              .toString(),
                         );
                         EasyLoading.showSuccess('Email Sent! Check your Inbox');
                         // ignore: use_build_context_synchronously
-                        const LoginForm(
-                          isEmailLogin: true,
-                        ).launch(context);
-                        FirebaseAuth.instance.signOut();
+                        // const LoginForm(
+                        //   isEmailLogin: true,
+                        // ).launch(context);
+                        // FirebaseAuth.instance.signOut();
                       } catch (e) {
                         EasyLoading.showError(e.toString());
                       }

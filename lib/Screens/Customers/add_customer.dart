@@ -489,7 +489,7 @@ class _AddCustomerState extends State<AddCustomer> {
                             content: Text("Please enter phone number")));
                         return;
                       }
-                      if (phoneNumber.length < 10) {
+                      if (phoneNumber.length < 10 || phoneNumber.length > 10) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text("Please enter valid phone number")));
                         return;

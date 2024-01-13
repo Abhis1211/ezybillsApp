@@ -40,7 +40,7 @@ class LogInRepo extends ChangeNotifier {
     return sellerdata[0];
   }
 
-  Future<void> signIn(BuildContext context) async {
+  Future<void> signIn(BuildContext context, [stafflogin = 0]) async {
     EasyLoading.show(status: 'Login...');
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -50,7 +50,29 @@ class LogInRepo extends ChangeNotifier {
       // ignore: unnecessary_null_comparison
       if (userCredential != null) {
         var activestatus = await checkactiveostatus(email);
-        if (activestatus == 1) {
+        if (stafflogin == 0) {
+          if (activestatus == 1) {
+            EasyLoading.showSuccess('Successful')
+                .then((value) => prefs.setBool('isfirsttime', true));
+            Future.delayed(const Duration(milliseconds: 500), () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SuccessScreen(
+                          email: email,
+                        )),
+              );
+            });
+          } else {
+            EasyLoading.dismiss();
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('User not active please contact to Adminstrate'),
+                duration: Duration(seconds: 1),
+              ),
+            );
+          }
+        } else {
           EasyLoading.showSuccess('Successful')
               .then((value) => prefs.setBool('isfirsttime', true));
           Future.delayed(const Duration(milliseconds: 500), () {
@@ -62,14 +84,6 @@ class LogInRepo extends ChangeNotifier {
                       )),
             );
           });
-        } else {
-          EasyLoading.dismiss();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('User not active please contact to Adminstrate'),
-              duration: Duration(seconds: 1),
-            ),
-          );
         }
       }
     } on FirebaseAuthException catch (e) {

@@ -36,7 +36,8 @@ class _StockListState extends State<StockList> {
       appBar: AppBar(
         title: Text(
           lang.S.of(context).stockList,
-          style: GoogleFonts.poppins(color: Colors.black, fontSize: 22.0, fontWeight: FontWeight.w500),
+          style: GoogleFonts.poppins(
+              color: Colors.black, fontSize: 22.0, fontWeight: FontWeight.w500),
         ),
         iconTheme: const IconThemeData(color: Colors.black),
         centerTitle: true,
@@ -63,21 +64,24 @@ class _StockListState extends State<StockList> {
                             flex: 2,
                             child: Text(
                               lang.S.of(context).product,
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
                           Expanded(
                             flex: 2,
                             child: Text(
                               lang.S.of(context).quantity,
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
                           Expanded(
                             flex: 2,
                             child: Text(
                               lang.S.of(context).purchase,
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
                           Text(
@@ -90,7 +94,8 @@ class _StockListState extends State<StockList> {
                     DataTable(
                       horizontalMargin: 40.0,
                       columnSpacing: 50.0,
-                      headingRowColor: MaterialStateColor.resolveWith((states) => kMainColor.withOpacity(0.2)),
+                      headingRowColor: MaterialStateColor.resolveWith(
+                          (states) => kMainColor.withOpacity(0.2)),
                       columns: const <DataColumn>[
                         DataColumn(
                           label: Text(
@@ -132,14 +137,21 @@ class _StockListState extends State<StockList> {
                                   Expanded(
                                     flex: 2,
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           product[index].productName,
                                           textAlign: TextAlign.start,
                                           style: GoogleFonts.poppins(
-                                            color: product[index].productStock.toInt() < 20 ? Colors.red : Colors.black,
+                                            color: product[index]
+                                                        .productStock
+                                                        .toInt() <
+                                                    20
+                                                ? Colors.red
+                                                : Colors.black,
                                             fontSize: 16.0,
                                           ),
                                         ),
@@ -147,7 +159,12 @@ class _StockListState extends State<StockList> {
                                           product[index].brandName,
                                           textAlign: TextAlign.start,
                                           style: GoogleFonts.poppins(
-                                            color: product[index].productStock.toInt() < 20 ? Colors.red : kGreyTextColor,
+                                            color: product[index]
+                                                        .productStock
+                                                        .toInt() <
+                                                    20
+                                                ? Colors.red
+                                                : kGreyTextColor,
                                             fontSize: 12.0,
                                           ),
                                         ),
@@ -160,7 +177,12 @@ class _StockListState extends State<StockList> {
                                       child: Text(
                                         product[index].productStock,
                                         style: GoogleFonts.poppins(
-                                          color: product[index].productStock.toInt() < 20 ? Colors.red : Colors.black,
+                                          color: product[index]
+                                                      .productStock
+                                                      .toInt() <
+                                                  20
+                                              ? Colors.red
+                                              : Colors.black,
                                         ),
                                       ),
                                     ),
@@ -171,7 +193,12 @@ class _StockListState extends State<StockList> {
                                         child: Text(
                                           '$currency${product[index].productPurchasePrice}',
                                           style: GoogleFonts.poppins(
-                                            color: product[index].productStock.toInt() < 20 ? Colors.red : Colors.black,
+                                            color: product[index]
+                                                        .productStock
+                                                        .toInt() <
+                                                    20
+                                                ? Colors.red
+                                                : Colors.black,
                                           ),
                                         ),
                                       )),
@@ -180,7 +207,12 @@ class _StockListState extends State<StockList> {
                                       child: Text(
                                         '$currency${product[index].productSalePrice}',
                                         style: GoogleFonts.poppins(
-                                          color: product[index].productStock.toInt() < 20 ? Colors.red : Colors.black,
+                                          color: product[index]
+                                                      .productStock
+                                                      .toInt() <
+                                                  20
+                                              ? Colors.red
+                                              : Colors.black,
                                         ),
                                       ),
                                     ),
@@ -211,7 +243,10 @@ class _StockListState extends State<StockList> {
               child: Text(
                 lang.S.of(context).total,
                 textAlign: TextAlign.start,
-                style: GoogleFonts.poppins(color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.w500),
+                style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w500),
               ),
             ),
             Expanded(
@@ -247,15 +282,30 @@ class _StockListState extends State<StockList> {
   void getAllTotal() async {
     // ignore: unused_local_variable
     List<ProductModel> productList = [];
-    await FirebaseDatabase.instance.ref(constUserId).child('Products').orderByKey().get().then((value) {
+    await FirebaseDatabase.instance
+        .ref(constUserId)
+        .child('Products')
+        .orderByKey()
+        .get()
+        .then((value) {
       for (var element in value.children) {
         var data = jsonDecode(jsonEncode(element.value));
-        totalStock = totalStock + int.parse(data['productStock']);
-        totalSalePrice = totalSalePrice + (int.parse(data['productSalePrice']) * int.parse(data['productStock']));
-        totalParPrice = totalParPrice + (int.parse(data['productPurchasePrice']) * int.parse(data['productStock']));
+        setState(() {
+          totalStock = totalStock + int.parse(data['productStock']);
+          totalSalePrice = totalSalePrice +
+              (int.parse(data['productSalePrice']) *
+                  int.parse(data['productStock']));
+          totalParPrice = totalParPrice +
+              (data['productPurchasePrice'] == null ||
+                          data['productPurchasePrice'] == ""
+                      ? int.parse("0")
+                      : int.parse(data['productPurchasePrice'])) *
+                  int.parse(data['productStock']);
+        });
+
+        print("salesprice" + totalSalePrice.toString());
         // productList.add(ProductModel.fromJson(jsonDecode(jsonEncode(element.value))));
       }
     });
-    setState(() {});
   }
 }
