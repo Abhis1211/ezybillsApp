@@ -680,7 +680,8 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                   },
                                   textAlign: TextAlign.right,
                                   decoration: InputDecoration(
-                                    hintStyle: const TextStyle(fontSize: 16,color: Colors.black),
+                                      hintStyle: const TextStyle(
+                                          fontSize: 16, color: Colors.black),
                                       hintText: calculateSubtotal(
                                               total:
                                                   providerData.getTotalAmount())
@@ -718,8 +719,10 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                 style: const TextStyle(fontSize: 16),
                               ),
                               Text(
-                                calculateDueAmount(total: subTotal)
-                                    .toStringAsFixed(2),
+                                paidAmount == 0
+                                    ? "0.00"
+                                    : calculateDueAmount(total: subTotal)
+                                        .toStringAsFixed(2),
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ],
