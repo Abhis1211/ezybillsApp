@@ -39,13 +39,14 @@ class _SaleProductsState extends State<SaleProducts> {
   String productPrice = '0';
   String sentProductPrice = '';
   String currentproductcategory = '';
-  int currentselectioncategory = -1;
+  int currentselectioncategory = 0;
 
   @override
   void initState() {
     widget.catName == null
         ? dropdownValue = 'Fashion'
         : dropdownValue = widget.catName;
+
     super.initState();
   }
 
@@ -174,20 +175,30 @@ class _SaleProductsState extends State<SaleProducts> {
                   flex: 3,
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: AppTextField(
-                      textFieldType: TextFieldType.NAME,
-                      onChanged: (value) {
-                        setState(() {
-                          productCode = value;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        labelText: lang.S.of(context).productCode,
-                        hintText: productCode == '0000' || productCode == '-1'
-                            ? 'Scan product QR code'
-                            : productCode,
-                        border: const OutlineInputBorder(),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: AppTextField(
+                        textFieldType: TextFieldType.NAME,
+                        onChanged: (value) {
+                          setState(() {
+                            productCode = value;
+                          });
+                        },
+                        
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.search),
+                          // border:InputBorder.none,
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          // labelText: lang.S.of(context).productCode,
+                          hintText: productCode == '0000' || productCode == '-1'
+                              ? 'Scan product QR code'
+                              : productCode,
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
                   ),
@@ -199,7 +210,7 @@ class _SaleProductsState extends State<SaleProducts> {
                     child: GestureDetector(
                       onTap: () => scanBarcodeNormal(),
                       child: Container(
-                        height: 60.0,
+                        height: 50.0,
                         width: 100.0,
                         padding: const EdgeInsets.all(5.0),
                         decoration: BoxDecoration(
@@ -215,16 +226,41 @@ class _SaleProductsState extends State<SaleProducts> {
                 ),
               ],
             ),
-
+            Center(
+              child: Text(
+                "All products from",
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.inter(
+                    color: textcolor,
+                    textStyle:
+                        TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500)),
+              ),
+            ),
+            SizedBox(height: 10),
+            Center(
+              child: Text(
+                currentproductcategory.toString(),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.inter(
+                    color: pricecolor,
+                    textStyle:
+                        TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500)),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
             Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: 90,
+                    width: 110,
                     height: MediaQuery.of(context).size.height * 1.0,
                     decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 193, 192, 192),
+                        color: categorybackground,
                         borderRadius:
                             BorderRadius.only(topRight: Radius.circular(20))),
                     padding: EdgeInsets.only(right: 2, left: 2, top: 5),
@@ -232,6 +268,10 @@ class _SaleProductsState extends State<SaleProducts> {
                       children: [
                         Expanded(
                           child: categoryList.when(data: (category) {
+                            if (currentselectioncategory == 0) {
+                              currentproductcategory = category[0].categoryName;
+                            }
+
                             return ListView.builder(
                                 // shrinkWrap: true,
                                 physics: const BouncingScrollPhysics(),
@@ -248,7 +288,7 @@ class _SaleProductsState extends State<SaleProducts> {
                                     child: Container(
                                       decoration: BoxDecoration(
                                         color: currentselectioncategory == i
-                                            ? kMainColor
+                                            ? bgseletedcolor
                                             : Colors.transparent,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -257,28 +297,30 @@ class _SaleProductsState extends State<SaleProducts> {
                                       child: Column(
                                         children: [
                                           SizedBox(height: 5),
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            child: Container(
-                                              height: 60,
-                                              width: 60,
-                                              child: CachedNetworkImage(
-                                                fit: BoxFit.cover,
-                                                imageUrl:
-                                                    category[i].categoryimage,
-                                                progressIndicatorBuilder: (context,
-                                                        url,
-                                                        downloadProgress) =>
-                                                    Center(
-                                                        child: CircularProgressIndicator(
-                                                            value:
-                                                                downloadProgress
-                                                                    .progress)),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Icon(Icons.error),
-                                              ),
+                                          Container(
+                                            height: 80,
+                                            width: 80,
+                                            padding: EdgeInsets.all(5.0),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              border: Border.all(
+                                                  color: Colors.white),
+                                            ),
+                                            child: CachedNetworkImage(
+                                              fit: BoxFit.cover,
+                                              imageUrl:
+                                                  category[i].categoryimage,
+                                              progressIndicatorBuilder: (context,
+                                                      url, downloadProgress) =>
+                                                  Center(
+                                                      child: CircularProgressIndicator(
+                                                          value:
+                                                              downloadProgress
+                                                                  .progress)),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error),
                                             ),
                                           ),
                                           // Container(
@@ -293,15 +335,23 @@ class _SaleProductsState extends State<SaleProducts> {
                                           //   ),
                                           // ),
                                           Center(
-                                              child: Text(
-                                            category[i].categoryName.toString(),
-                                            style: GoogleFonts.jost(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
+                                            child: Text(
+                                              category[i]
+                                                  .categoryName
+                                                  .toString(),
+                                              style: GoogleFonts.inter(
+                                                  textStyle: TextStyle(
+                                                fontSize: 13.0,
+                                                fontWeight: FontWeight.w600,
+                                                color:
+                                                    currentselectioncategory ==
+                                                            i
+                                                        ? Colors.white
+                                                        : fontcolor,
+                                              )),
                                             ),
                                           ).paddingSymmetric(
-                                                  vertical: 5, horizontal: 2))
+                                              vertical: 5, horizontal: 2)
                                         ],
                                       ),
                                     ).paddingSymmetric(horizontal: 2),
@@ -314,30 +364,30 @@ class _SaleProductsState extends State<SaleProducts> {
                                 child: CircularProgressIndicator());
                           }),
                         ),
-                        GestureDetector(
-                          onTap: (() {
-                            setState(() {
-                              currentproductcategory = "";
-                              currentselectioncategory = -1;
-                            });
-                          }),
-                          child: Container(
-                            // padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                            child: Card(
-                              color: Colors.red,
-                              // height: 50,
-                              // alignment: Alignment.center,
-                              child: Center(
-                                  child: Text(
-                                "Reset",
-                                style: GoogleFonts.jost(
-                                  fontSize: 16.0,
-                                  color: Colors.black,
-                                ),
-                              ).paddingSymmetric(horizontal: 2, vertical: 10)),
-                            ).paddingOnly(bottom: 10),
-                          ),
-                        ),
+                        // GestureDetector(
+                        //   onTap: (() {
+                        //     setState(() {
+                        //       currentproductcategory = "";
+                        //       currentselectioncategory = -1;
+                        //     });
+                        //   }),
+                        //   child: Container(
+                        //     // padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                        //     child: Card(
+                        //       color: Colors.red,
+                        //       // height: 50,
+                        //       // alignment: Alignment.center,
+                        //       child: Center(
+                        //           child: Text(
+                        //         "Reset",
+                        //         style: GoogleFonts.jost(
+                        //           fontSize: 16.0,
+                        //           color: Colors.black,
+                        //         ),
+                        //       ).paddingSymmetric(horizontal: 2, vertical: 10)),
+                        //     ).paddingOnly(bottom: 10),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -351,8 +401,8 @@ class _SaleProductsState extends State<SaleProducts> {
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3, // number of items in each row
                             mainAxisSpacing: 10.0, // spacing between rows
-                            crossAxisSpacing: 10.0,
-                            childAspectRatio: 0.4 // spacing between columns
+                            crossAxisSpacing: 8.0,
+                            childAspectRatio: 0.5 // spacing between columns
                             ),
                         // shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
@@ -471,7 +521,7 @@ class _SaleProductsState extends State<SaleProducts> {
                                 productPrice != '0'),
                           );
                         },
-                      );
+                      ).paddingSymmetric(horizontal: 10);
                     }, error: (e, stack) {
                       return Text(e.toString());
                     }, loading: () {
@@ -555,7 +605,7 @@ class _ProductCardState extends State<ProductCard> {
               borderRadius: BorderRadius.circular(15),
               child: Container(
                 height: 80,
-                width: 80,
+                width: 90,
                 child: CachedNetworkImage(
                   fit: BoxFit.cover,
                   imageUrl: widget.productImage,
@@ -578,29 +628,38 @@ class _ProductCardState extends State<ProductCard> {
             //     ),
             //   ),
             // ),
-            Text(
-              widget.productTitle,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.jost(
-                fontSize: 18.0,
-                color: Colors.black,
+            SizedBox(height: 5),
+            Center(
+              child: Text(
+                widget.productTitle,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.inter(
+                    color: bluetxtcolor,
+                    textStyle:
+                        TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600)),
               ),
             ),
-            Text(
-              widget.productDescription,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.jost(
-                fontSize: 15.0,
-                color: kGreyTextColor,
+            // Text(
+            //   widget.productDescription,
+            //   maxLines: 1,
+            //   overflow: TextOverflow.ellipsis,
+            //   style: GoogleFonts.inter(
+            //     fontSize: 15.0,
+            //     color: kGreyTextColor,
+            //   ),
+            // ),
+            Center(
+              child: Text(
+                '$currency${widget.productPrice}',
+                style: GoogleFonts.inter(
+                    color: pricecolor,
+                    textStyle:
+                        TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600)),
+                textAlign: TextAlign.center,
               ),
             ),
-            Text('$currency${widget.productPrice}',
-                style: GoogleFonts.jost(
-                  fontSize: 20.0,
-                  color: Colors.black,
-                )),
+
             // Padding(
             //   padding: const EdgeInsets.only(left: 10.0),
             //   child: Column(

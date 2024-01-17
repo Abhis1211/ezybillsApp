@@ -345,7 +345,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: GridView.count(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    childAspectRatio: 0.9,
+                    childAspectRatio: 0.8,
                     crossAxisSpacing: 5,
                     mainAxisSpacing: 10,
                     crossAxisCount: 3,
@@ -646,70 +646,78 @@ class _HomeGridCardsState extends State<HomeGridCards> {
   Widget build(BuildContext context) {
     // ignore: avoid_unnecessary_containers
     return Consumer(builder: (context, ref, __) {
-      return Stack(
-        alignment: Alignment.bottomCenter,
+      return Column(
+        // alignment: Alignment.bottomCenter,
         children: [
-          SizedBox(
-            width: 120,
-            child: Card(
-              elevation: 2,
-              color: widget.color,
-              child: Column(
-                children: [
-                  TextButton(
-                      onPressed: () async {
-                        setState(() {});
+          Container(
+            height: 100,
+            width: 100,
+            // elevation: 2,
+            // decoration: BoxDecoration(
+            //     // color: widget.color,
+            //     borderRadius: BorderRadius.circular(5.0),
+            //     border: Border.all(color: categorybackground, width: 1)),
 
-                        isSubUser
-                            ? checkPermission(item: widget.gridItems.title)
-                                ? await subscriptionChecker(
-                                        item: widget.gridItems.title)
-                                    ? Navigator.of(context)
-                                        .pushNamed('/${widget.gridItems.route}')
-                                    : EasyLoading.showError(
-                                        'Update your plan first,\nyour limit is over.')
-                                : EasyLoading.showError(
-                                    'Sorry, you have no permission to access this service')
-                            : await subscriptionChecker(
-                                    item: widget.gridItems.title)
-                                ? Navigator.of(context)
-                                    .pushNamed('/${widget.gridItems.route}')
-                                : EasyLoading.showError(
-                                    'Update your plan first,\nyour limit is over.');
-                      },
-                      child: Container(
-                        height: 70,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                widget.gridItems.icon.toString(),
-                              ),
-                              fit: BoxFit.fill),
+            child: TextButton(
+                onPressed: () async {
+                  setState(() {});
+
+                  isSubUser
+                      ? checkPermission(item: widget.gridItems.title)
+                          ? await subscriptionChecker(
+                                  item: widget.gridItems.title)
+                              ? Navigator.of(context)
+                                  .pushNamed('/${widget.gridItems.route}')
+                              : EasyLoading.showError(
+                                  'Update your plan first,\nyour limit is over.')
+                          : EasyLoading.showError(
+                              'Sorry, you have no permission to access this service')
+                      : await subscriptionChecker(item: widget.gridItems.title)
+                          ? Navigator.of(context)
+                              .pushNamed('/${widget.gridItems.route}')
+                          : EasyLoading.showError(
+                              'Update your plan first,\nyour limit is over.');
+                },
+                child: Container(
+                  height: 70,
+                  width: 70,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(
+                          widget.gridItems.icon.toString(),
                         ),
-                      )
+                        fit: BoxFit.fill),
+                  ),
+                )
 
-                      // Image(
-                      //   height: 70,
-                      //   width: 70,
-                      //   image: AssetImage(
-                      //     widget.gridItems.icon.toString(),
-                      //   ),
-                      // ),
-                      ),
-                ],
-              ),
-            ),
+                // Image(
+                //   height: 70,
+                //   width: 70,
+                //   image: AssetImage(
+                //     widget.gridItems.icon.toString(),
+                //   ),
+                // ),
+                ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              widget.gridItems.title.toString(),
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 16),
-              maxLines: 1,
-            ),
+          Text(
+            widget.gridItems.title.toString(),
+            textAlign: TextAlign.center,
+            style: GoogleFonts.inter(
+                textStyle: TextStyle(
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.w500,
+                    color: hometextcolor)),
+            maxLines: 1,
           ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Text(
+          //     widget.gridItems.title.toString(),
+          //     textAlign: TextAlign.center,
+          //     style: const TextStyle(fontSize: 16),
+          //     maxLines: 1,
+          //   ),
+          // ),
         ],
       );
     });

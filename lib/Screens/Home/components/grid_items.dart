@@ -9,33 +9,33 @@ class GridItems {
 
 List<GridItems> getFreeIcons({required BuildContext context}) {
   List<GridItems> freeIcons = [
-    GridItems(title: lang.S.of(context).sale, icon: 'images/sales1.png', route: 'Sales'),
+    GridItems(title: lang.S.of(context).sale, icon: 'images/salesicon.png', route: 'Sales'),
 
-    GridItems(title: lang.S.of(context).parties, icon: 'images/parties1.png', route: 'Parties'),
-    GridItems(title: lang.S.of(context).purchase, icon: 'images/purchase1.png', route: 'Purchase'),
-    GridItems(title: lang.S.of(context).product, icon: 'images/product1.png', route: 'Products'),
-    GridItems(title: lang.S.of(context).dueList, icon: 'images/duelist.png', route: 'Due List'),
-    GridItems(title: lang.S.of(context).stockList, icon: 'images/stock1.png', route: 'Stock'),
+    GridItems(title: lang.S.of(context).parties, icon: 'images/client.png', route: 'Parties'),
+    GridItems(title: lang.S.of(context).purchase, icon: 'images/purchaseicon.png', route: 'Purchase'),
+    GridItems(title: lang.S.of(context).product, icon: 'images/producticon.png', route: 'Products'),
+    GridItems(title: lang.S.of(context).dueList, icon: 'images/duelisticon.png', route: 'Due List'),
+    GridItems(title: lang.S.of(context).stockList, icon: 'images/stocklist.png', route: 'Stock'),
 
-    GridItems(title: lang.S.of(context).reports, icon: 'images/reports1.png', route: 'Reports'),
+    GridItems(title: lang.S.of(context).reports, icon: 'images/reporticon.png', route: 'Reports'),
     GridItems(
       title: lang.S.of(context).saleList,
-      icon: 'images/saleslist.png',
+      icon: 'images/saleslisticon.png',
       route: 'Sales List',
     ),
     GridItems(
       title: lang.S.of(context).purchaseList,
-      icon: 'images/purchaselist.png',
+      icon: 'images/purchaselisticon.png',
       route: 'Purchase List',
     ),
     GridItems(
       title: lang.S.of(context).lossOrProfit,
-      icon: 'images/lossprofit.png',
+      icon: 'images/profitloseicon.png',
       route: 'Loss/Profit',
     ),
     GridItems(
       title: lang.S.of(context).expense,
-      icon: 'images/expenses.png',
+      icon: 'images/expenseicon.png',
       route: 'Expense',
     ),
     // GridItems(
@@ -164,7 +164,7 @@ List<GridItems> enterpriseIcons = [
     title: 'UserRole',
     icon: 'images/userrole.png',
     route: 'UserRole',
-  ),
+  ),  
   GridItems(
     title: 'Backup',
     icon: 'images/backup.png',

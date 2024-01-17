@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:bluetooth_thermal_printer/bluetooth_thermal_printer.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../constant.dart';
@@ -51,6 +54,15 @@ class Printer extends ChangeNotifier {
     return isPrinted;
   }
 
+  Future<Uint8List> imagePathToUint8List(String path) async {
+//converting to Uint8List to pass to printer
+
+    ByteData data = await rootBundle.load(path);
+    Uint8List imageBytes =
+        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    return imageBytes;
+  }
+
   Future<List<int>> getTicket(
       {required PrintTransactionModel printTransactionModel,
       required List<AddToCartModel>? productList}) async {
@@ -61,6 +73,7 @@ class Printer extends ChangeNotifier {
     // final Uint8List imageBytes = data.buffer.asUint8List();
     // final images.Image? imagez = decodeImage(imageBytes);
     // bytes += generator.image(imagez!);
+
     bytes += generator.text(
         printTransactionModel.personalInformationModel.companyName ?? '',
         styles: const PosStyles(
