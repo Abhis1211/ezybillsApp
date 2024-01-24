@@ -699,7 +699,7 @@ class _HomeGridCardsState extends State<HomeGridCards> {
             style: GoogleFonts.inter(
                 textStyle: TextStyle(
                     fontSize: 12.0,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.bold,
                     color: hometextcolor)),
             maxLines: 1,
           ),
