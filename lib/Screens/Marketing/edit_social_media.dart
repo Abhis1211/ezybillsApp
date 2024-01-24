@@ -18,7 +18,7 @@ class _EditSocialmediaState extends State<EditSocialmedia> {
       appBar: AppBar(
         title: Text(
           lang.S.of(context).editSocailMedia,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
             fontSize: 20.0,
           ),
@@ -95,7 +95,7 @@ class SocialMediaEditCard extends StatelessWidget {
           padding: const EdgeInsets.only(left: 8.0),
           child: Text(
             socialMediaName,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 18,
             ),
@@ -116,7 +116,7 @@ class SocialMediaEditCard extends StatelessWidget {
               ),
               Text(
                 'Link',
-                style: GoogleFonts.poppins(fontSize: 15.0, color: Colors.white),
+                style: GoogleFonts.inter(fontSize: 15.0, color: Colors.white),
               ),
             ],
           ),

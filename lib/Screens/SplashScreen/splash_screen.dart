@@ -561,7 +561,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Text(
                     lang.S.of(context).powerdedByAcnoo,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                         color: Colors.black,
                         fontWeight: FontWeight.normal,
                         fontSize: 20.0),
@@ -571,7 +571,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 //   child: Text(
                 //     'V $appVersion',
                 //     textAlign: TextAlign.center,
-                //     style: GoogleFonts.poppins(
+                //     style: GoogleFonts.inter(
                 //         color: Colors.white,
                 //         fontWeight: FontWeight.normal,
                 //         fontSize: 15.0),
@@ -580,6 +580,27 @@ class _SplashScreenState extends State<SplashScreen> {
                 const SizedBox(height: 10),
               ],
             ),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Made In India",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.inter(
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15.0),
+                  ),
+                  Icon(
+                    Icons.favorite,
+                    color: Colors.redAccent,
+                    size: 18.0,
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
           ],
         ),
       ),

@@ -146,7 +146,7 @@ class _EditProfileState extends State<EditProfile> {
         iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
           lang.S.of(context).updateProfile,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
           ),
         ),
@@ -172,7 +172,7 @@ class _EditProfileState extends State<EditProfile> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         color: kGreyTextColor,
                         fontSize: 15.0,
                       ),
@@ -222,7 +222,7 @@ class _EditProfileState extends State<EditProfile> {
                                             ),
                                             Text(
                                               'Gallery',
-                                              style: GoogleFonts.poppins(
+                                              style: GoogleFonts.inter(
                                                 fontSize: 20.0,
                                                 color: kMainColor,
                                               ),
@@ -258,7 +258,7 @@ class _EditProfileState extends State<EditProfile> {
                                             ),
                                             Text(
                                               'Camera',
-                                              style: GoogleFonts.poppins(
+                                              style: GoogleFonts.inter(
                                                 fontSize: 20.0,
                                                 color: kGreyTextColor,
                                               ),
@@ -308,7 +308,7 @@ class _EditProfileState extends State<EditProfile> {
                       //                       ),
                       //                       Text(
                       //                         'Gallery',
-                      //                         style: GoogleFonts.poppins(
+                      //                         style: GoogleFonts.inter(
                       //                           fontSize: 20.0,
                       //                           color: kMainColor,
                       //                         ),
@@ -340,7 +340,7 @@ class _EditProfileState extends State<EditProfile> {
                       //                       ),
                       //                       Text(
                       //                         'Camera',
-                      //                         style: GoogleFonts.poppins(
+                      //                         style: GoogleFonts.inter(
                       //                           fontSize: 20.0,
                       //                           color: kGreyTextColor,
                       //                         ),
@@ -409,7 +409,7 @@ class _EditProfileState extends State<EditProfile> {
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.always,
                                 labelText: lang.S.of(context).businessCat,
-                                labelStyle: GoogleFonts.poppins(
+                                labelStyle: GoogleFonts.inter(
                                   color: Colors.black,
                                   fontSize: 20.0,
                                 ),
@@ -494,7 +494,7 @@ class _EditProfileState extends State<EditProfile> {
                                       floatingLabelBehavior:
                                           FloatingLabelBehavior.always,
                                       labelText: lang.S.of(context).language,
-                                      labelStyle: GoogleFonts.poppins(
+                                      labelStyle: GoogleFonts.inter(
                                         color: Colors.black,
                                         fontSize: 20.0,
                                       ),

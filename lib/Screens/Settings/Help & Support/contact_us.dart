@@ -19,7 +19,7 @@ class _ContactUsState extends State<ContactUs> {
       appBar: AppBar(
         title: Text(
           lang.S.of(context).contactUs,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
             fontSize: 20.0,
           ),
@@ -95,7 +95,7 @@ class _ContactUsState extends State<ContactUs> {
                           Center(
                             child: Text(
                               lang.S.of(context).sendYourEmail,
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.inter(
                                 color: Colors.black,
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.w600,
@@ -109,7 +109,7 @@ class _ContactUsState extends State<ContactUs> {
                                 'Lorem ipsum dolor sit amet, consectetur elit. Interdum cons.',
                                 maxLines: 2,
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.inter(
                                   color: kGreyTextColor,
                                   fontSize: 16.0,
                                 ),

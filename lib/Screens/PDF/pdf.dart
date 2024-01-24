@@ -19,7 +19,7 @@ class PDFViewerPageState extends State<PDFViewerPage> {
       appBar: AppBar(
         title: Text(
           lang.S.of(context).invoiceViewr,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
             fontSize: 20.0,
           ),

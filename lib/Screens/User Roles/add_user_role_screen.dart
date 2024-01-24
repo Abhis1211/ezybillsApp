@@ -56,7 +56,7 @@ class _AddUserRoleState extends State<AddUserRole> {
           backgroundColor: Colors.white,
           title: Text(
             'Add User Role',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
             ),
           ),

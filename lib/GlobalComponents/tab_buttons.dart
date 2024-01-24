@@ -30,7 +30,7 @@ class TabButton extends StatelessWidget {
           onPressed: press,
           child: Text(
             title,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: text,
             ),
           ),
@@ -69,7 +69,7 @@ class TabButtonSmall extends StatelessWidget {
           onPressed: press,
           child: Text(
             title,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: text,
             ),
           ),
@@ -107,7 +107,7 @@ class TabButtonBig extends StatelessWidget {
           onPressed: press,
           child: Text(
             title,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: text,
             ),
           ),

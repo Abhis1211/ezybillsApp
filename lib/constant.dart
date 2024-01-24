@@ -5,7 +5,7 @@ import 'package:mobile_pos/model/user_role_model.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 // const kMainColor = Color(0xFF3F8CFF);
-const kMainColor = Color(0xFF007AD0);
+const kMainColor = Color(0xFF203354);
 const kGreyTextColor = Color(0xFF828282);
 const kBorderColorTextField = Color(0xFFC2C2C2);
 const kDarkWhite = Color(0xFFF1F7F7);

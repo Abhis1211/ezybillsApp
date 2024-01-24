@@ -32,7 +32,7 @@ class _AddDeliveryState extends State<AddDelivery> {
       appBar: AppBar(
         title: Text(
           lang.S.of(context).addNewAddress,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
             fontSize: 20.0,
           ),
@@ -62,7 +62,7 @@ class _AddDeliveryState extends State<AddDelivery> {
                         decoration: InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           labelText: lang.S.of(context).firstName,
-                          labelStyle: GoogleFonts.poppins(
+                          labelStyle: GoogleFonts.inter(
                             color: Colors.black,
                           ),
                           hintText: 'Ibne',
@@ -84,7 +84,7 @@ class _AddDeliveryState extends State<AddDelivery> {
                         decoration: InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           labelText: lang.S.of(context).lastName,
-                          labelStyle: GoogleFonts.poppins(
+                          labelStyle: GoogleFonts.inter(
                             color: Colors.black,
                           ),
                           hintText: 'Rieyad',
@@ -107,7 +107,7 @@ class _AddDeliveryState extends State<AddDelivery> {
                   decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     labelText: lang.S.of(context).email,
-                    labelStyle: GoogleFonts.poppins(
+                    labelStyle: GoogleFonts.inter(
                       color: Colors.black,
                     ),
                     hintText: 'ibneriead@gmail.com',
@@ -127,7 +127,7 @@ class _AddDeliveryState extends State<AddDelivery> {
                   decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     labelText: lang.S.of(context).phone,
-                    labelStyle: GoogleFonts.poppins(
+                    labelStyle: GoogleFonts.inter(
                       color: Colors.black,
                     ),
                     hintText: '+1253 5456 1145',
@@ -148,7 +148,7 @@ class _AddDeliveryState extends State<AddDelivery> {
                         borderSide: BorderSide(color: kGreyTextColor),
                       ),
                       labelText: lang.S.of(context).country,
-                      labelStyle: GoogleFonts.poppins(
+                      labelStyle: GoogleFonts.inter(
                         color: Colors.black,
                       ),
                       hintText: lang.S.of(context).bangladesh,
@@ -171,7 +171,7 @@ class _AddDeliveryState extends State<AddDelivery> {
                       border: const OutlineInputBorder(),
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       labelText: lang.S.of(context).address,
-                      labelStyle: GoogleFonts.poppins(
+                      labelStyle: GoogleFonts.inter(
                         color: Colors.black,
                       ),
                       hintText: 'Placentia, California(CA), 92870'),

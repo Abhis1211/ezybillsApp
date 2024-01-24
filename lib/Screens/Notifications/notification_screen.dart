@@ -18,7 +18,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       appBar: AppBar(
         title: Text(
           lang.S.of(context).notification,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
             fontSize: 20.0,
           ),
@@ -98,7 +98,7 @@ class NotificationCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: 18.0,
                       color: Colors.black,
                     ),
@@ -108,7 +108,7 @@ class NotificationCard extends StatelessWidget {
               const Spacer(),
               Text(
                 time,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   color: kGreyTextColor,
                   fontSize: 12.0,
                 ),
@@ -122,7 +122,7 @@ class NotificationCard extends StatelessWidget {
             padding: const EdgeInsets.only(left: 60.0),
             child: Text(
               description,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 color: kGreyTextColor,
                 fontSize: 14.0,
               ),

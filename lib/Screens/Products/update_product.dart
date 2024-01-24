@@ -100,7 +100,7 @@ class _UpdateProductState extends State<UpdateProduct> {
           iconTheme: const IconThemeData(color: Colors.black),
           title: Text(
             lang.S.of(context).updateProduct,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
@@ -625,7 +625,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                                           ),
                                           Text(
                                             'Gallery',
-                                            style: GoogleFonts.poppins(
+                                            style: GoogleFonts.inter(
                                               fontSize: 20.0,
                                               color: kMainColor,
                                             ),
@@ -657,7 +657,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                                           ),
                                           Text(
                                             lang.S.of(context).camera,
-                                            style: GoogleFonts.poppins(
+                                            style: GoogleFonts.inter(
                                               fontSize: 20.0,
                                               color: kGreyTextColor,
                                             ),

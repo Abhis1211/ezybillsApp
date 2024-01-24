@@ -93,7 +93,7 @@ class _EditCustomerState extends State<EditCustomer> {
           backgroundColor: Colors.white,
           title: Text(
             lang.S.of(context).updateContact,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
             ),
           ),
@@ -150,7 +150,7 @@ class _EditCustomerState extends State<EditCustomer> {
                           title: Text(
                             lang.S.of(context).retailer,
                             maxLines: 1,
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               fontSize: 12.0,
                             ),
                           ),
@@ -170,7 +170,7 @@ class _EditCustomerState extends State<EditCustomer> {
                           title: Text(
                             lang.S.of(context).dealer,
                             maxLines: 1,
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               fontSize: 12.0,
                             ),
                           ),
@@ -195,7 +195,7 @@ class _EditCustomerState extends State<EditCustomer> {
                           title: Text(
                             lang.S.of(context).wholesaler,
                             maxLines: 1,
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               fontSize: 12.0,
                             ),
                           ),
@@ -216,7 +216,7 @@ class _EditCustomerState extends State<EditCustomer> {
                           title: Text(
                             lang.S.of(context).supplier,
                             maxLines: 1,
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               fontSize: 12.0,
                             ),
                           ),
@@ -252,7 +252,7 @@ class _EditCustomerState extends State<EditCustomer> {
                               TextButton(
                                 child: Text(
                                   lang.S.of(context).moreInfo,
-                                  style: GoogleFonts.poppins(
+                                  style: GoogleFonts.inter(
                                     fontSize: 20.0,
                                     color: kMainColor,
                                   ),
@@ -306,7 +306,7 @@ class _EditCustomerState extends State<EditCustomer> {
                                                       ),
                                                       Text(
                                                         lang.S.of(context).gallery,
-                                                        style: GoogleFonts.poppins(
+                                                        style: GoogleFonts.inter(
                                                           fontSize: 20.0,
                                                           color: kMainColor,
                                                         ),
@@ -338,7 +338,7 @@ class _EditCustomerState extends State<EditCustomer> {
                                                       ),
                                                       Text(
                                                         lang.S.of(context).camera,
-                                                        style: GoogleFonts.poppins(
+                                                        style: GoogleFonts.inter(
                                                           fontSize: 20.0,
                                                           color: kGreyTextColor,
                                                         ),

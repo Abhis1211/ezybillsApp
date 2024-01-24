@@ -36,7 +36,7 @@ class _StockListState extends State<StockList> {
       appBar: AppBar(
         title: Text(
           lang.S.of(context).stockList,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
               color: Colors.black, fontSize: 22.0, fontWeight: FontWeight.w500),
         ),
         iconTheme: const IconThemeData(color: Colors.black),
@@ -145,7 +145,7 @@ class _StockListState extends State<StockList> {
                                         Text(
                                           product[index].productName,
                                           textAlign: TextAlign.start,
-                                          style: GoogleFonts.poppins(
+                                          style: GoogleFonts.inter(
                                             color: product[index]
                                                         .productStock
                                                         .toInt() <
@@ -158,7 +158,7 @@ class _StockListState extends State<StockList> {
                                         Text(
                                           product[index].brandName,
                                           textAlign: TextAlign.start,
-                                          style: GoogleFonts.poppins(
+                                          style: GoogleFonts.inter(
                                             color: product[index]
                                                         .productStock
                                                         .toInt() <
@@ -176,7 +176,7 @@ class _StockListState extends State<StockList> {
                                     child: Center(
                                       child: Text(
                                         product[index].productStock,
-                                        style: GoogleFonts.poppins(
+                                        style: GoogleFonts.inter(
                                           color: product[index]
                                                       .productStock
                                                       .toInt() <
@@ -192,7 +192,7 @@ class _StockListState extends State<StockList> {
                                       child: Center(
                                         child: Text(
                                           '$currency${product[index].productPurchasePrice}',
-                                          style: GoogleFonts.poppins(
+                                          style: GoogleFonts.inter(
                                             color: product[index]
                                                         .productStock
                                                         .toInt() <
@@ -206,7 +206,7 @@ class _StockListState extends State<StockList> {
                                     child: Center(
                                       child: Text(
                                         '$currency${product[index].productSalePrice}',
-                                        style: GoogleFonts.poppins(
+                                        style: GoogleFonts.inter(
                                           color: product[index]
                                                       .productStock
                                                       .toInt() <
@@ -243,7 +243,7 @@ class _StockListState extends State<StockList> {
               child: Text(
                 lang.S.of(context).total,
                 textAlign: TextAlign.start,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                     color: Colors.black,
                     fontSize: 14.0,
                     fontWeight: FontWeight.w500),
@@ -253,7 +253,7 @@ class _StockListState extends State<StockList> {
               flex: 2,
               child: Text(
                 totalStock.toString(),
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   color: Colors.black,
                 ),
               ),
@@ -262,14 +262,14 @@ class _StockListState extends State<StockList> {
                 flex: 2,
                 child: Text(
                   '$currency${totalParPrice.toInt().toString()}',
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     color: Colors.black,
                   ),
                 )),
             Text(
               '$currency${totalSalePrice.toInt().toString()}',
               overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 color: Colors.black,
               ),
             ),

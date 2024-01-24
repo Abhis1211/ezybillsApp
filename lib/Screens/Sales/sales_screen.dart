@@ -13,6 +13,7 @@ import 'package:nb_utils/nb_utils.dart';
 
 import '../../Provider/add_to_cart.dart';
 import '../../Provider/category,brans,units_provide.dart';
+import '../../Provider/profile_provider.dart';
 import '../../currency.dart';
 import '../../model/add_to_cart_model.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
@@ -76,7 +77,7 @@ class _SaleProductsState extends State<SaleProducts> {
         appBar: AppBar(
           title: Text(
             lang.S.of(context).addItems,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),
@@ -134,7 +135,7 @@ class _SaleProductsState extends State<SaleProducts> {
             //               ),
             //               Text(
             //                 items.toString(),
-            //                 style: GoogleFonts.poppins(
+            //                 style: GoogleFonts.inter(
             //                   fontSize: 15.0,
             //                   color: Colors.white,
             //                 ),
@@ -149,7 +150,7 @@ class _SaleProductsState extends State<SaleProducts> {
             //               providerData.getTotalAmount() <= 0
             //                   ? 'Cart is empty'
             //                   : 'Total: $currency${providerData.getTotalAmount().toString()}',
-            //               style: GoogleFonts.poppins(
+            //               style: GoogleFonts.inter(
             //                 color: Colors.white,
             //                 fontSize: 16.0,
             //               ),
@@ -188,7 +189,6 @@ class _SaleProductsState extends State<SaleProducts> {
                             productCode = value;
                           });
                         },
-                        
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search),
                           // border:InputBorder.none,
@@ -269,7 +269,9 @@ class _SaleProductsState extends State<SaleProducts> {
                         Expanded(
                           child: categoryList.when(data: (category) {
                             if (currentselectioncategory == 0) {
-                              currentproductcategory = category[0].categoryName;
+                              currentproductcategory = category.length > 0
+                                  ? category[0].categoryName
+                                  : "";
                             }
 
                             return ListView.builder(
@@ -402,7 +404,7 @@ class _SaleProductsState extends State<SaleProducts> {
                             crossAxisCount: 3, // number of items in each row
                             mainAxisSpacing: 10.0, // spacing between rows
                             crossAxisSpacing: 8.0,
-                            childAspectRatio: 0.5 // spacing between columns
+                            childAspectRatio: 0.4 // spacing between columns
                             ),
                         // shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
@@ -591,6 +593,7 @@ class _ProductCardState extends State<ProductCard> {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, __) {
       final providerData = ref.watch(cartNotifier);
+
       for (var element in providerData.cartItemList) {
         if (element.productName == widget.productTitle) {
           quantity = element.quantity;
@@ -649,15 +652,13 @@ class _ProductCardState extends State<ProductCard> {
             //     color: kGreyTextColor,
             //   ),
             // ),
-            Center(
-              child: Text(
-                '$currency${widget.productPrice}',
-                style: GoogleFonts.inter(
-                    color: pricecolor,
-                    textStyle:
-                        TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600)),
-                textAlign: TextAlign.center,
-              ),
+            Text(
+              '$currency${widget.productPrice}',
+              style: GoogleFonts.inter(
+                  color: pricecolor,
+                  textStyle:
+                      TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600)),
+              textAlign: TextAlign.center,
             ),
 
             // Padding(

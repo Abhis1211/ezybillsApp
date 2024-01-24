@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -36,7 +37,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -51,7 +51,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('images/logoandname.png',height: 50,),
+                  Image.asset(
+                    'images/logoandname.png',
+                    height: 50,
+                  ),
                   const SizedBox(
                     height: 30.0,
                   ),
@@ -67,7 +70,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
                               labelText: lang.S.of(context).emailText,
-                              hintText: lang.S.of(context).enterYourEmailAddress,
+                              hintText:
+                                  lang.S.of(context).enterYourEmailAddress,
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -95,7 +99,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     showPass1 = !showPass1;
                                   });
                                 },
-                                icon: Icon(showPass1 ? Icons.visibility_off : Icons.visibility),
+                                icon: Icon(showPass1
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
                               ),
                             ),
                             onChanged: (value) {
@@ -122,14 +128,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
                               labelText: lang.S.of(context).confirmPass,
-                              hintText: lang.S.of(context).pleaseEnterAConfirmPassword,
+                              hintText: lang.S
+                                  .of(context)
+                                  .pleaseEnterAConfirmPassword,
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() {
                                     showPass2 = !showPass2;
                                   });
                                 },
-                                icon: Icon(showPass2 ? Icons.visibility_off : Icons.visibility),
+                                icon: Icon(showPass2
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
                               ),
                             ),
                             onChanged: (value) {
@@ -152,7 +162,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   ButtonGlobalWithoutIcon(
                     buttontext: lang.S.of(context).register,
-                    buttonDecoration: kButtonDecoration.copyWith(color: kMainColor),
+                    buttonDecoration:
+                        kButtonDecoration.copyWith(color: kMainColor),
                     onPressed: () {
                       if (validateAndSave()) {
                         auth.signUp(context);
@@ -165,7 +176,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: [
                       Text(
                         lang.S.of(context).haveAcc,
-                        style: GoogleFonts.poppins(color: kGreyTextColor, fontSize: 15.0),
+                        style: GoogleFonts.inter(
+                            color: kGreyTextColor, fontSize: 15.0),
                       ),
                       TextButton(
                         onPressed: () {
@@ -176,7 +188,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                         child: Text(
                           lang.S.of(context).logIn,
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             color: kMainColor,
                             fontSize: 15.0,
                             fontWeight: FontWeight.bold,
@@ -185,6 +197,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ],
                   ),
+                 
                   TextButton(
                     onPressed: () {
                       const PhoneAuth().launch(context);

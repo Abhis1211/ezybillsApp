@@ -130,7 +130,7 @@ class _PurchaseListEditScreenState extends State<PurchaseListEditScreen> {
             backgroundColor: Colors.white,
             title: Text(
               lang.S.of(context).editPurchaseInvoice,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 color: Colors.black,
               ),
             ),

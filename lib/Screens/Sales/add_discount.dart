@@ -29,7 +29,7 @@ class _AddDiscountState extends State<AddDiscount> {
           backgroundColor: Colors.white,
           title: Text(
             lang.S.of(context).discount,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
             ),
           ),

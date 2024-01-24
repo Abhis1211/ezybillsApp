@@ -59,7 +59,7 @@ class _SingleLossProfitScreenState extends State<SingleLossProfitScreen> {
         backgroundColor: Colors.white,
         title: Text(
           lang.S.of(context).lpDetails,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
           ),
         ),
@@ -162,7 +162,7 @@ class _SingleLossProfitScreenState extends State<SingleLossProfitScreen> {
                             child: Center(
                               child: Text(
                                 widget.transactionModel.productList![index].quantity.toString(),
-                                style: GoogleFonts.poppins(),
+                                style: GoogleFonts.inter(),
                               ),
                             ),
                           ),
@@ -171,14 +171,14 @@ class _SingleLossProfitScreenState extends State<SingleLossProfitScreen> {
                               child: Center(
                                 child: Text(
                                   !profit.isNegative ? "$currency${profit.abs().toInt().toString()}" : '0',
-                                  style: GoogleFonts.poppins(),
+                                  style: GoogleFonts.inter(),
                                 ),
                               )),
                           Expanded(
                             child: Center(
                               child: Text(
                                 profit.isNegative ? "$currency${profit.abs().toInt().toString()}" : '0',
-                                style: GoogleFonts.poppins(),
+                                style: GoogleFonts.inter(),
                               ),
                             ),
                           ),
@@ -209,14 +209,14 @@ class _SingleLossProfitScreenState extends State<SingleLossProfitScreen> {
                           child: Text(
                             lang.S.of(context).total,
                             textAlign: TextAlign.start,
-                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.w500),
+                            style: GoogleFonts.inter(color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.w500),
                           ),
                         ),
                         Expanded(
                           flex: 2,
                           child: Text(
                             widget.transactionModel.totalQuantity.toString(),
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               color: Colors.black,
                             ),
                           ),
@@ -225,14 +225,14 @@ class _SingleLossProfitScreenState extends State<SingleLossProfitScreen> {
                             flex: 2,
                             child: Text(
                               "$currency${getTotalProfit().toInt()}",
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.inter(
                                 color: Colors.black,
                               ),
                             )),
                         Text(
                           "$currency${getTotalLoss().toInt()}",
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             color: Colors.black,
                           ),
                         ),
@@ -256,13 +256,13 @@ class _SingleLossProfitScreenState extends State<SingleLossProfitScreen> {
                           child: Text(
                             lang.S.of(context).discount,
                             textAlign: TextAlign.start,
-                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.w500),
+                            style: GoogleFonts.inter(color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.w500),
                           ),
                         ),
                         Text(
                           "$currency${widget.transactionModel.discountAmount!.toInt().toString()}",
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             color: Colors.black,
                           ),
                         ),
@@ -288,7 +288,7 @@ class _SingleLossProfitScreenState extends State<SingleLossProfitScreen> {
                           child: Text(
                             widget.transactionModel.lossProfit!.isNegative ? lang.S.of(context).totalLoss : lang.S.of(context).totalProfit,
                             textAlign: TextAlign.start,
-                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.w500),
+                            style: GoogleFonts.inter(color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.w500),
                           ),
                         ),
                         Text(
@@ -296,7 +296,7 @@ class _SingleLossProfitScreenState extends State<SingleLossProfitScreen> {
                               ? "$currency${widget.transactionModel.lossProfit!.toInt().abs()}"
                               : "$currency${widget.transactionModel.lossProfit!.toInt()}",
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             color: Colors.black,
                           ),
                         ),

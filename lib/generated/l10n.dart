@@ -2665,6 +2665,14 @@ class S {
       args: [],
     );
   }
+  String get gstenable {
+    return Intl.message(
+      'GST enable',
+      name: 'gstenable',
+      desc: '',
+      args: [],
+    );
+  }
 
   /// `Update your profile to connect your doctor with better impression`
   String get setUpDesc {

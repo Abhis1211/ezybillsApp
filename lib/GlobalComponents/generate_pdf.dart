@@ -14,14 +14,18 @@ import '../model/transition_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 class GeneratePdf {
-  Future<void> generatePurchaseDocument(PurchaseTransitionModel transactions, PersonalInformationModel personalInformation, BuildContext context) async {
+  Future<void> generatePurchaseDocument(
+      PurchaseTransitionModel transactions,
+      PersonalInformationModel personalInformation,
+      BuildContext context) async {
     final pw.Document doc = pw.Document();
     // final netImage = await networkImage(
     //   personalInformation.pictureUrl.toString(),
     // );
     EasyLoading.show(status: 'Generating PDF');
     doc.addPage(pw.MultiPage(
-        pageFormat: PdfPageFormat.letter.copyWith(marginBottom: 1.5 * PdfPageFormat.cm),
+        pageFormat:
+            PdfPageFormat.letter.copyWith(marginBottom: 1.5 * PdfPageFormat.cm),
         margin: pw.EdgeInsets.zero,
         crossAxisAlignment: pw.CrossAxisAlignment.start,
         header: (pw.Context context) {
@@ -39,16 +43,23 @@ class GeneratePdf {
                   //   decoration: pw.BoxDecoration(image: pw.DecorationImage(image: netImage), shape: pw.BoxShape.circle),
                   // ),
                   pw.SizedBox(width: 10.0),
-                  pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
-                    pw.Text(
-                      personalInformation.companyName!,
-                      style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black, fontSize: 25.0, fontWeight: pw.FontWeight.bold),
-                    ),
-                    pw.Text(
-                      'Tel: ${personalInformation.phoneNumber!}',
-                      style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.red),
-                    ),
-                  ]),
+                  pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Text(
+                          personalInformation.companyName!,
+                          style: pw.Theme.of(context).defaultTextStyle.copyWith(
+                              color: PdfColors.black,
+                              fontSize: 25.0,
+                              fontWeight: pw.FontWeight.bold),
+                        ),
+                        pw.Text(
+                          'Tel: ${personalInformation.phoneNumber!}',
+                          style: pw.Theme.of(context)
+                              .defaultTextStyle
+                              .copyWith(color: PdfColors.red),
+                        ),
+                      ]),
                 ]),
                 pw.SizedBox(height: 30.0),
                 pw.Row(children: [
@@ -76,127 +87,161 @@ class GeneratePdf {
                   ),
                 ]),
                 pw.SizedBox(height: 30.0),
-                pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceBetween, children: [
-                  pw.Column(children: [
-                    pw.Row(children: [
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Bill To',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 10.0,
-                        child: pw.Text(
-                          ':',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          transactions.customerName,
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
+                pw.Row(
+                    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                    children: [
+                      pw.Column(children: [
+                        pw.Row(children: [
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Bill To',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 10.0,
+                            child: pw.Text(
+                              ':',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              transactions.customerName,
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                        ]),
+                        pw.Row(children: [
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Phone',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 10.0,
+                            child: pw.Text(
+                              ':',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              transactions.customerPhone,
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                        ]),
+                      ]),
+                      pw.Column(children: [
+                        pw.Row(children: [
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Sells By',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 10.0,
+                            child: pw.Text(
+                              ':',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Admin',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                        ]),
+                        pw.Row(children: [
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Invoice Number',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 10.0,
+                            child: pw.Text(
+                              ':',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              '#${transactions.invoiceNumber}',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                        ]),
+                        pw.Row(children: [
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Date',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 10.0,
+                            child: pw.Text(
+                              ':',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              DateTimeFormat.format(
+                                  DateTime.parse(transactions.purchaseDate),
+                                  format: 'D, M j'),
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                        ]),
+                      ]),
                     ]),
-                    pw.Row(children: [
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Phone',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 10.0,
-                        child: pw.Text(
-                          ':',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          transactions.customerPhone,
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                    ]),
-                  ]),
-                  pw.Column(children: [
-                    pw.Row(children: [
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Sells By',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 10.0,
-                        child: pw.Text(
-                          ':',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Admin',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                    ]),
-                    pw.Row(children: [
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Invoice Number',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 10.0,
-                        child: pw.Text(
-                          ':',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          '#${transactions.invoiceNumber}',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                    ]),
-                    pw.Row(children: [
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Date',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 10.0,
-                        child: pw.Text(
-                          ':',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          DateTimeFormat.format(DateTime.parse(transactions.purchaseDate), format: 'D, M j'),
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                    ]),
-                  ]),
-                ]),
               ],
             ),
           );
@@ -205,54 +250,69 @@ class GeneratePdf {
           return pw.Column(children: [
             pw.Padding(
               padding: const pw.EdgeInsets.all(10.0),
-              child: pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceBetween, children: [
-                pw.Container(
-                  alignment: pw.Alignment.centerRight,
-                  margin: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
-                  padding: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
-                  child: pw.Column(children: [
+              child: pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                  children: [
                     pw.Container(
-                      width: 120.0,
-                      height: 2.0,
-                      color: PdfColors.black,
+                      alignment: pw.Alignment.centerRight,
+                      margin: const pw.EdgeInsets.only(
+                          bottom: 3.0 * PdfPageFormat.mm),
+                      padding: const pw.EdgeInsets.only(
+                          bottom: 3.0 * PdfPageFormat.mm),
+                      child: pw.Column(children: [
+                        pw.Container(
+                          width: 120.0,
+                          height: 2.0,
+                          color: PdfColors.black,
+                        ),
+                        pw.SizedBox(height: 4.0),
+                        pw.Text(
+                          'Customer Signature',
+                          style: pw.Theme.of(context)
+                              .defaultTextStyle
+                              .copyWith(color: PdfColors.black),
+                        )
+                      ]),
                     ),
-                    pw.SizedBox(height: 4.0),
-                    pw.Text(
-                      'Customer Signature',
-                      style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                    )
-                  ]),
-                ),
-                pw.Container(
-                  alignment: pw.Alignment.centerRight,
-                  margin: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
-                  padding: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
-                  child: pw.Column(children: [
                     pw.Container(
-                      width: 120.0,
-                      height: 2.0,
-                      color: PdfColors.black,
+                      alignment: pw.Alignment.centerRight,
+                      margin: const pw.EdgeInsets.only(
+                          bottom: 3.0 * PdfPageFormat.mm),
+                      padding: const pw.EdgeInsets.only(
+                          bottom: 3.0 * PdfPageFormat.mm),
+                      child: pw.Column(children: [
+                        pw.Container(
+                          width: 120.0,
+                          height: 2.0,
+                          color: PdfColors.black,
+                        ),
+                        pw.SizedBox(height: 4.0),
+                        pw.Text(
+                          'Authorized Signature',
+                          style: pw.Theme.of(context)
+                              .defaultTextStyle
+                              .copyWith(color: PdfColors.black),
+                        )
+                      ]),
                     ),
-                    pw.SizedBox(height: 4.0),
-                    pw.Text(
-                      'Authorized Signature',
-                      style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                    )
                   ]),
-                ),
-              ]),
             ),
             pw.Container(
               width: double.infinity,
               color: PdfColors.blueAccent,
               padding: const pw.EdgeInsets.all(10.0),
-              child: pw.Center(child: pw.Text('Powered By Maan Technology', style: pw.TextStyle(color: PdfColors.white, fontWeight: pw.FontWeight.bold))),
+              child: pw.Center(
+                  child: pw.Text('Powered By Maan Technology',
+                      style: pw.TextStyle(
+                          color: PdfColors.white,
+                          fontWeight: pw.FontWeight.bold))),
             ),
           ]);
         },
         build: (pw.Context context) => <pw.Widget>[
               pw.Padding(
-                padding: const pw.EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+                padding: const pw.EdgeInsets.only(
+                    left: 20.0, right: 20.0, bottom: 20.0),
                 child: pw.Column(children: [
                   pw.Table.fromTextArray(
                       context: context,
@@ -276,9 +336,13 @@ class GeneratePdf {
                         3: const pw.FlexColumnWidth(2),
                         4: const pw.FlexColumnWidth(2),
                       },
-                      headerStyle: pw.TextStyle(color: PdfColors.white, fontWeight: pw.FontWeight.bold),
-                      rowDecoration: const pw.BoxDecoration(color: PdfColors.white),
-                      oddRowDecoration: const pw.BoxDecoration(color: PdfColors.grey100),
+                      headerStyle: pw.TextStyle(
+                          color: PdfColors.white,
+                          fontWeight: pw.FontWeight.bold),
+                      rowDecoration:
+                          const pw.BoxDecoration(color: PdfColors.white),
+                      oddRowDecoration:
+                          const pw.BoxDecoration(color: PdfColors.grey100),
                       headerAlignments: <int, pw.Alignment>{
                         0: pw.Alignment.center,
                         1: pw.Alignment.centerLeft,
@@ -294,86 +358,120 @@ class GeneratePdf {
                         4: pw.Alignment.centerRight,
                       },
                       data: <List<String>>[
-                        <String>['SL', 'Item', 'Quantity', 'Unit Price', 'Total Price'],
-                        for (int i = 0; i < transactions.productList!.length; i++)
+                        <String>[
+                          'SL',
+                          'Item',
+                          'Quantity',
+                          'Unit Price',
+                          'Total Price'
+                        ],
+                        for (int i = 0;
+                            i < transactions.productList!.length;
+                            i++)
                           <String>[
                             ('${i + 1}'),
-                            (transactions.productList!.elementAt(i).productName),
-                            (transactions.productList!.elementAt(i).productStock),
-                            (transactions.productList!.elementAt(i).productSalePrice),
-                            ((transactions.productList!.elementAt(i).productSalePrice.toInt() * transactions.productList!.elementAt(i).productStock.toInt()).toString())
+                            (transactions.productList!
+                                .elementAt(i)
+                                .productName),
+                            (transactions.productList!
+                                .elementAt(i)
+                                .productStock),
+                            (transactions.productList!
+                                .elementAt(i)
+                                .productSalePrice),
+                            ((transactions.productList!
+                                        .elementAt(i)
+                                        .productSalePrice
+                                        .toInt() *
+                                    transactions.productList!
+                                        .elementAt(i)
+                                        .productStock
+                                        .toInt())
+                                .toString())
                           ],
                       ]),
                   pw.Paragraph(text: ""),
-                  pw.Row(mainAxisAlignment: pw.MainAxisAlignment.end, children: [
-                    pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.end, mainAxisAlignment: pw.MainAxisAlignment.end, children: [
-                      pw.SizedBox(height: 10.0),
-                      pw.Text(
-                        "Subtotal: ${transactions.totalAmount! + transactions.discountAmount!}",
-                        style: pw.TextStyle(
-                          color: PdfColors.black,
-                          fontWeight: pw.FontWeight.bold,
-                        ),
-                      ),
-                      pw.SizedBox(height: 5.0),
-                      pw.Text(
-                        "Vat: 0.00",
-                        style: pw.TextStyle(
-                          color: PdfColors.black,
-                          fontWeight: pw.FontWeight.bold,
-                        ),
-                      ),
-                      pw.SizedBox(height: 5.0),
-                      pw.Text(
-                        "Tax: 0.00",
-                        style: pw.TextStyle(
-                          color: PdfColors.black,
-                          fontWeight: pw.FontWeight.bold,
-                        ),
-                      ),
-                      pw.SizedBox(height: 5.0),
-                      pw.Text(
-                        "Discount: ${transactions.discountAmount}",
-                        style: pw.TextStyle(
-                          color: PdfColors.black,
-                          fontWeight: pw.FontWeight.bold,
-                        ),
-                      ),
-                      pw.SizedBox(height: 10.0),
-                      pw.Container(
-                        color: PdfColors.blueAccent,
-                        padding: const pw.EdgeInsets.all(5.0),
-                        child: pw.Text("Total Amount: ${transactions.totalAmount}", style: pw.TextStyle(color: PdfColors.white, fontWeight: pw.FontWeight.bold)),
-                      ),
-                      pw.SizedBox(height: 5.0),
-                      pw.Container(
-                        width: 540,
-                        child: pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceBetween, children: [
-                          pw.Text(
-                            "Paid Via: ${transactions.paymentType}",
-                            style: const pw.TextStyle(
-                              color: PdfColors.black,
-                            ),
-                          ),
-                          pw.Text(
-                            "Paid Amount: ${transactions.totalAmount!.toDouble() - transactions.dueAmount!.toDouble()}",
-                            style: pw.TextStyle(
-                              color: PdfColors.black,
-                              fontWeight: pw.FontWeight.bold,
-                            ),
-                          ),
-                        ]),
-                      ),
-                      pw.SizedBox(height: 5.0),
-                      pw.Text(
-                        "Due: ${transactions.dueAmount}",
-                        style: pw.TextStyle(
-                          color: PdfColors.black,
-                          fontWeight: pw.FontWeight.bold,
-                        ),
-                      ),
-                    ]),
-                  ]),
+                  pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.end,
+                      children: [
+                        pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.end,
+                            mainAxisAlignment: pw.MainAxisAlignment.end,
+                            children: [
+                              pw.SizedBox(height: 10.0),
+                              pw.Text(
+                                "Subtotal: ${transactions.totalAmount! + transactions.discountAmount!}",
+                                style: pw.TextStyle(
+                                  color: PdfColors.black,
+                                  fontWeight: pw.FontWeight.bold,
+                                ),
+                              ),
+                              pw.SizedBox(height: 5.0),
+                              pw.Text(
+                                "Vat: 0.00",
+                                style: pw.TextStyle(
+                                  color: PdfColors.black,
+                                  fontWeight: pw.FontWeight.bold,
+                                ),
+                              ),
+                              pw.SizedBox(height: 5.0),
+                              pw.Text(
+                                "Tax: 0.00",
+                                style: pw.TextStyle(
+                                  color: PdfColors.black,
+                                  fontWeight: pw.FontWeight.bold,
+                                ),
+                              ),
+                              pw.SizedBox(height: 5.0),
+                              pw.Text(
+                                "Discount: ${transactions.discountAmount}",
+                                style: pw.TextStyle(
+                                  color: PdfColors.black,
+                                  fontWeight: pw.FontWeight.bold,
+                                ),
+                              ),
+                              pw.SizedBox(height: 10.0),
+                              pw.Container(
+                                color: PdfColors.blueAccent,
+                                padding: const pw.EdgeInsets.all(5.0),
+                                child: pw.Text(
+                                    "Total Amount: ${transactions.totalAmount}",
+                                    style: pw.TextStyle(
+                                        color: PdfColors.white,
+                                        fontWeight: pw.FontWeight.bold)),
+                              ),
+                              pw.SizedBox(height: 5.0),
+                              pw.Container(
+                                width: 540,
+                                child: pw.Row(
+                                    mainAxisAlignment:
+                                        pw.MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      pw.Text(
+                                        "Paid Via: ${transactions.paymentType}",
+                                        style: const pw.TextStyle(
+                                          color: PdfColors.black,
+                                        ),
+                                      ),
+                                      pw.Text(
+                                        "Paid Amount: ${transactions.totalAmount!.toDouble() - transactions.dueAmount!.toDouble()}",
+                                        style: pw.TextStyle(
+                                          color: PdfColors.black,
+                                          fontWeight: pw.FontWeight.bold,
+                                        ),
+                                      ),
+                                    ]),
+                              ),
+                              pw.SizedBox(height: 5.0),
+                              pw.Text(
+                                "Due: ${transactions.dueAmount}",
+                                style: pw.TextStyle(
+                                  color: PdfColors.black,
+                                  fontWeight: pw.FontWeight.bold,
+                                ),
+                              ),
+                            ]),
+                      ]),
                   pw.Padding(padding: const pw.EdgeInsets.all(10)),
                 ]),
               ),
@@ -381,16 +479,20 @@ class GeneratePdf {
     if (Platform.isIOS) {
       EasyLoading.show(status: 'Generating PDF');
       final dir = await getApplicationDocumentsDirectory();
-      final file = File('${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
+      final file = File(
+          '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
 
       final byteData = await doc.save();
       try {
-        await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+        await file.writeAsBytes(byteData.buffer
+            .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
         EasyLoading.showSuccess('Done');
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PDFViewerPage(path: '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
+            builder: (context) => PDFViewerPage(
+                path:
+                    '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
           ),
         );
 
@@ -409,16 +511,20 @@ class GeneratePdf {
         EasyLoading.show(status: 'Generating PDF');
         const downloadsFolderPath = '/storage/emulated/0/Download/';
         Directory dir = Directory(downloadsFolderPath);
-        final file = File('${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
+        final file = File(
+            '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
 
         final byteData = await doc.save();
         try {
-          await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+          await file.writeAsBytes(byteData.buffer
+              .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
           EasyLoading.showSuccess('Done');
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PDFViewerPage(path: '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
+              builder: (context) => PDFViewerPage(
+                  path:
+                      '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
             ),
           );
           // OpenFile.open("/storage/emulated/0/download/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf");
@@ -471,12 +577,16 @@ class GeneratePdf {
     // }
   }
 
-  Future<void> generateSaleDocument(SaleTransactionModel transactions, PersonalInformationModel personalInformation, BuildContext context) async {
+  Future<void> generateSaleDocument(
+      SaleTransactionModel transactions,
+      PersonalInformationModel personalInformation,
+      BuildContext context) async {
     final pw.Document doc = pw.Document();
 
     doc.addPage(
       pw.MultiPage(
-        pageFormat: PdfPageFormat.letter.copyWith(marginBottom: 1.5 * PdfPageFormat.cm),
+        pageFormat:
+            PdfPageFormat.letter.copyWith(marginBottom: 1.5 * PdfPageFormat.cm),
         margin: pw.EdgeInsets.zero,
         crossAxisAlignment: pw.CrossAxisAlignment.start,
         header: (pw.Context context) {
@@ -486,16 +596,23 @@ class GeneratePdf {
               children: [
                 pw.Row(children: [
                   pw.SizedBox(width: 10.0),
-                  pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
-                    pw.Text(
-                      personalInformation.companyName!,
-                      style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black, fontSize: 25.0, fontWeight: pw.FontWeight.bold),
-                    ),
-                    pw.Text(
-                      'Tel: ${personalInformation.phoneNumber!}',
-                      style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.red),
-                    ),
-                  ]),
+                  pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Text(
+                          personalInformation.companyName!,
+                          style: pw.Theme.of(context).defaultTextStyle.copyWith(
+                              color: PdfColors.black,
+                              fontSize: 25.0,
+                              fontWeight: pw.FontWeight.bold),
+                        ),
+                        pw.Text(
+                          'Tel: ${personalInformation.phoneNumber!}',
+                          style: pw.Theme.of(context)
+                              .defaultTextStyle
+                              .copyWith(color: PdfColors.red),
+                        ),
+                      ]),
                 ]),
                 pw.SizedBox(height: 30.0),
                 pw.Row(children: [
@@ -523,127 +640,161 @@ class GeneratePdf {
                   ),
                 ]),
                 pw.SizedBox(height: 30.0),
-                pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceBetween, children: [
-                  pw.Column(children: [
-                    pw.Row(children: [
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Bill To',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 10.0,
-                        child: pw.Text(
-                          ':',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          transactions.customerName,
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
+                pw.Row(
+                    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                    children: [
+                      pw.Column(children: [
+                        pw.Row(children: [
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Bill To',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 10.0,
+                            child: pw.Text(
+                              ':',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              transactions.customerName,
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                        ]),
+                        pw.Row(children: [
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Phone',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 10.0,
+                            child: pw.Text(
+                              ':',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              transactions.customerPhone,
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                        ]),
+                      ]),
+                      pw.Column(children: [
+                        pw.Row(children: [
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Sells By',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 10.0,
+                            child: pw.Text(
+                              ':',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Admin',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                        ]),
+                        pw.Row(children: [
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Invoice Number',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 10.0,
+                            child: pw.Text(
+                              ':',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              '#${transactions.invoiceNumber}',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                        ]),
+                        pw.Row(children: [
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Date',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 10.0,
+                            child: pw.Text(
+                              ':',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              DateTimeFormat.format(
+                                  DateTime.parse(transactions.purchaseDate),
+                                  format: 'D, M j'),
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                        ]),
+                      ]),
                     ]),
-                    pw.Row(children: [
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Phone',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 10.0,
-                        child: pw.Text(
-                          ':',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          transactions.customerPhone,
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                    ]),
-                  ]),
-                  pw.Column(children: [
-                    pw.Row(children: [
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Sells By',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 10.0,
-                        child: pw.Text(
-                          ':',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Admin',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                    ]),
-                    pw.Row(children: [
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Invoice Number',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 10.0,
-                        child: pw.Text(
-                          ':',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          '#${transactions.invoiceNumber}',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                    ]),
-                    pw.Row(children: [
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Date',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 10.0,
-                        child: pw.Text(
-                          ':',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          DateTimeFormat.format(DateTime.parse(transactions.purchaseDate), format: 'D, M j'),
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                    ]),
-                  ]),
-                ]),
               ],
             ),
           );
@@ -652,54 +803,70 @@ class GeneratePdf {
           return pw.Column(children: [
             pw.Padding(
               padding: const pw.EdgeInsets.all(10.0),
-              child: pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceBetween, children: [
-                pw.Container(
-                  alignment: pw.Alignment.centerRight,
-                  margin: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
-                  padding: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
-                  child: pw.Column(children: [
+              child: pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                  children: [
                     pw.Container(
-                      width: 120.0,
-                      height: 2.0,
-                      color: PdfColors.black,
+                      alignment: pw.Alignment.centerRight,
+                      margin: const pw.EdgeInsets.only(
+                          bottom: 3.0 * PdfPageFormat.mm),
+                      padding: const pw.EdgeInsets.only(
+                          bottom: 3.0 * PdfPageFormat.mm),
+                      child: pw.Column(children: [
+                        pw.Container(
+                          width: 120.0,
+                          height: 2.0,
+                          color: PdfColors.black,
+                        ),
+                        pw.SizedBox(height: 4.0),
+                        pw.Text(
+                          'Customer Signature',
+                          style: pw.Theme.of(context)
+                              .defaultTextStyle
+                              .copyWith(color: PdfColors.black),
+                        )
+                      ]),
                     ),
-                    pw.SizedBox(height: 4.0),
-                    pw.Text(
-                      'Customer Signature',
-                      style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                    )
-                  ]),
-                ),
-                pw.Container(
-                  alignment: pw.Alignment.centerRight,
-                  margin: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
-                  padding: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
-                  child: pw.Column(children: [
                     pw.Container(
-                      width: 120.0,
-                      height: 2.0,
-                      color: PdfColors.black,
+                      alignment: pw.Alignment.centerRight,
+                      margin: const pw.EdgeInsets.only(
+                          bottom: 3.0 * PdfPageFormat.mm),
+                      padding: const pw.EdgeInsets.only(
+                          bottom: 3.0 * PdfPageFormat.mm),
+                      child: pw.Column(children: [
+                        pw.Container(
+                          width: 120.0,
+                          height: 2.0,
+                          color: PdfColors.black,
+                        ),
+                        pw.SizedBox(height: 4.0),
+                        pw.Text(
+                          'Authorized Signature',
+                          style: pw.Theme.of(context)
+                              .defaultTextStyle
+                              .copyWith(color: PdfColors.black),
+                        )
+                      ]),
                     ),
-                    pw.SizedBox(height: 4.0),
-                    pw.Text(
-                      'Authorized Signature',
-                      style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                    )
                   ]),
-                ),
-              ]),
             ),
             pw.Container(
               width: double.infinity,
               color: PdfColors.blueAccent,
               padding: const pw.EdgeInsets.all(10.0),
-              child: pw.Center(child: pw.Text('Powered By ezyBills(Define Softwares Pvt. Ltd.)', style: pw.TextStyle(color: PdfColors.white, fontWeight: pw.FontWeight.bold))),
+              child: pw.Center(
+                  child: pw.Text(
+                      'Powered By ezyBills(Define Softwares Pvt. Ltd.)',
+                      style: pw.TextStyle(
+                          color: PdfColors.white,
+                          fontWeight: pw.FontWeight.bold))),
             ),
           ]);
         },
         build: (pw.Context context) => <pw.Widget>[
           pw.Padding(
-            padding: const pw.EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+            padding:
+                const pw.EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
             child: pw.Column(
               children: [
                 pw.Table.fromTextArray(
@@ -724,9 +891,12 @@ class GeneratePdf {
                       3: const pw.FlexColumnWidth(2),
                       4: const pw.FlexColumnWidth(2),
                     },
-                    headerStyle: pw.TextStyle(color: PdfColors.white, fontWeight: pw.FontWeight.bold),
-                    rowDecoration: const pw.BoxDecoration(color: PdfColors.white),
-                    oddRowDecoration: const pw.BoxDecoration(color: PdfColors.blue50),
+                    headerStyle: pw.TextStyle(
+                        color: PdfColors.white, fontWeight: pw.FontWeight.bold),
+                    rowDecoration:
+                        const pw.BoxDecoration(color: PdfColors.white),
+                    oddRowDecoration:
+                        const pw.BoxDecoration(color: PdfColors.blue50),
                     headerAlignments: <int, pw.Alignment>{
                       0: pw.Alignment.center,
                       1: pw.Alignment.centerLeft,
@@ -742,14 +912,33 @@ class GeneratePdf {
                       4: pw.Alignment.centerRight,
                     },
                     data: <List<String>>[
-                      <String>['SL', 'Item', 'Quantity', 'Unit Price', 'Total Price'],
+                      <String>[
+                        'SL',
+                        'Item',
+                        'Quantity',
+                        'Unit Price',
+                        'Total Price'
+                      ],
                       for (int i = 0; i < transactions.productList!.length; i++)
                         <String>[
                           ('${i + 1}'),
-                          (transactions.productList!.elementAt(i).productName.toString()),
-                          (transactions.productList!.elementAt(i).quantity.toString()),
+                          (transactions.productList!
+                              .elementAt(i)
+                              .productName
+                              .toString()),
+                          (transactions.productList!
+                              .elementAt(i)
+                              .quantity
+                              .toString()),
                           (transactions.productList!.elementAt(i).subTotal),
-                          ((int.parse(transactions.productList!.elementAt(i).subTotal) * transactions.productList!.elementAt(i).quantity.toInt()).toString())
+                          ((int.parse(transactions.productList!
+                                      .elementAt(i)
+                                      .subTotal) *
+                                  transactions.productList!
+                                      .elementAt(i)
+                                      .quantity
+                                      .toInt())
+                              .toString())
                         ],
                     ]),
                 pw.Paragraph(text: ""),
@@ -769,14 +958,7 @@ class GeneratePdf {
                           ),
                         ),
                         pw.SizedBox(height: 5.0),
-                        pw.Text(
-                          "VAT/GST: ${transactions.vat ?? 0.00}",
-                          style: pw.TextStyle(
-                            color: PdfColors.black,
-                            fontWeight: pw.FontWeight.bold,
-                          ),
-                        ),
-                        pw.SizedBox(height: 5.0),
+
                         // pw.Text(
                         //   "Tax: 0.00",
                         //   style: pw.TextStyle(
@@ -792,30 +974,46 @@ class GeneratePdf {
                             fontWeight: pw.FontWeight.bold,
                           ),
                         ),
+                         pw.SizedBox(height: 5.0),
+                        pw.Text(
+                          "VAT/GST: ${transactions.vat ?? 0.00}",
+                          style: pw.TextStyle(
+                            color: PdfColors.black,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+
                         pw.SizedBox(height: 5.0),
                         pw.Container(
                           color: PdfColors.blueAccent,
                           padding: const pw.EdgeInsets.all(5.0),
-                          child: pw.Text("Total Amount: ${transactions.totalAmount}", style: pw.TextStyle(color: PdfColors.white, fontWeight: pw.FontWeight.bold)),
+                          child: pw.Text(
+                              "Total Amount: ${transactions.totalAmount}",
+                              style: pw.TextStyle(
+                                  color: PdfColors.white,
+                                  fontWeight: pw.FontWeight.bold)),
                         ),
                         pw.SizedBox(height: 5.0),
                         pw.Container(
                           width: 540,
-                          child: pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceBetween, children: [
-                            pw.Text(
-                              "Paid Via: ${transactions.paymentType}",
-                              style: const pw.TextStyle(
-                                color: PdfColors.black,
-                              ),
-                            ),
-                            pw.Text(
-                              "Paid Amount: ${transactions.totalAmount!.toDouble() - transactions.dueAmount!.toDouble()}",
-                              style: pw.TextStyle(
-                                color: PdfColors.black,
-                                fontWeight: pw.FontWeight.bold,
-                              ),
-                            ),
-                          ]),
+                          child: pw.Row(
+                              mainAxisAlignment:
+                                  pw.MainAxisAlignment.spaceBetween,
+                              children: [
+                                pw.Text(
+                                  "Paid Via: ${transactions.paymentType}",
+                                  style: const pw.TextStyle(
+                                    color: PdfColors.black,
+                                  ),
+                                ),
+                                pw.Text(
+                                  "Paid Amount: ${transactions.totalAmount!.toDouble() - transactions.dueAmount!.toDouble()}",
+                                  style: pw.TextStyle(
+                                    color: PdfColors.black,
+                                    fontWeight: pw.FontWeight.bold,
+                                  ),
+                                ),
+                              ]),
                         ),
                         pw.SizedBox(height: 5.0),
                         pw.Text(
@@ -840,16 +1038,20 @@ class GeneratePdf {
     if (Platform.isIOS) {
       EasyLoading.show(status: 'Generating PDF');
       final dir = await getApplicationDocumentsDirectory();
-      final file = File('${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
+      final file = File(
+          '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
 
       final byteData = await doc.save();
       try {
-        await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+        await file.writeAsBytes(byteData.buffer
+            .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
         EasyLoading.showSuccess('Done');
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PDFViewerPage(path: '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
+            builder: (context) => PDFViewerPage(
+                path:
+                    '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
           ),
         );
         // OpenFile.open("${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf");
@@ -868,16 +1070,20 @@ class GeneratePdf {
         EasyLoading.show(status: 'Generating PDF');
         const downloadsFolderPath = '/storage/emulated/0/Download/';
         Directory dir = Directory(downloadsFolderPath);
-        final file = File('${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
+        final file = File(
+            '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
 
         final byteData = await doc.save();
         try {
-          await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+          await file.writeAsBytes(byteData.buffer
+              .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
           EasyLoading.showSuccess('Created and Saved');
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PDFViewerPage(path: '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
+              builder: (context) => PDFViewerPage(
+                  path:
+                      '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
             ),
           );
           // OpenFile.open("/storage/emulated/0/download/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf");
@@ -889,7 +1095,10 @@ class GeneratePdf {
     }
   }
 
-  Future<void> generateDueDocument(DueTransactionModel transactions, PersonalInformationModel personalInformation, BuildContext context) async {
+  Future<void> generateDueDocument(
+      DueTransactionModel transactions,
+      PersonalInformationModel personalInformation,
+      BuildContext context) async {
     final pw.Document doc = pw.Document();
     // final netImage = await networkImage(
     //   personalInformation.pictureUrl.toString(),
@@ -897,7 +1106,8 @@ class GeneratePdf {
     EasyLoading.show(status: 'Generating PDF');
     doc.addPage(
       pw.MultiPage(
-        pageFormat: PdfPageFormat.letter.copyWith(marginBottom: 1.5 * PdfPageFormat.cm),
+        pageFormat:
+            PdfPageFormat.letter.copyWith(marginBottom: 1.5 * PdfPageFormat.cm),
         margin: pw.EdgeInsets.zero,
         crossAxisAlignment: pw.CrossAxisAlignment.start,
         header: (pw.Context context) {
@@ -915,16 +1125,23 @@ class GeneratePdf {
                   //   decoration: pw.BoxDecoration(image: pw.DecorationImage(image: netImage), shape: pw.BoxShape.circle),
                   // ),
                   pw.SizedBox(width: 10.0),
-                  pw.Column(crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
-                    pw.Text(
-                      personalInformation.companyName!,
-                      style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black, fontSize: 25.0, fontWeight: pw.FontWeight.bold),
-                    ),
-                    pw.Text(
-                      'Tel: ${personalInformation.phoneNumber!}',
-                      style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.red),
-                    ),
-                  ]),
+                  pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Text(
+                          personalInformation.companyName!,
+                          style: pw.Theme.of(context).defaultTextStyle.copyWith(
+                              color: PdfColors.black,
+                              fontSize: 25.0,
+                              fontWeight: pw.FontWeight.bold),
+                        ),
+                        pw.Text(
+                          'Tel: ${personalInformation.phoneNumber!}',
+                          style: pw.Theme.of(context)
+                              .defaultTextStyle
+                              .copyWith(color: PdfColors.red),
+                        ),
+                      ]),
                 ]),
                 pw.SizedBox(height: 30.0),
                 pw.Row(children: [
@@ -952,127 +1169,161 @@ class GeneratePdf {
                   ),
                 ]),
                 pw.SizedBox(height: 30.0),
-                pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceBetween, children: [
-                  pw.Column(children: [
-                    pw.Row(children: [
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Bill To',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 10.0,
-                        child: pw.Text(
-                          ':',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          transactions.customerName,
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
+                pw.Row(
+                    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                    children: [
+                      pw.Column(children: [
+                        pw.Row(children: [
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Bill To',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 10.0,
+                            child: pw.Text(
+                              ':',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              transactions.customerName,
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                        ]),
+                        pw.Row(children: [
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Phone',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 10.0,
+                            child: pw.Text(
+                              ':',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              transactions.customerPhone,
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                        ]),
+                      ]),
+                      pw.Column(children: [
+                        pw.Row(children: [
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Sells By',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 10.0,
+                            child: pw.Text(
+                              ':',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Admin',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                        ]),
+                        pw.Row(children: [
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Invoice Number',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 10.0,
+                            child: pw.Text(
+                              ':',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              '#${transactions.invoiceNumber}',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                        ]),
+                        pw.Row(children: [
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              'Date',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 10.0,
+                            child: pw.Text(
+                              ':',
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                          pw.SizedBox(
+                            width: 100.0,
+                            child: pw.Text(
+                              DateTimeFormat.format(
+                                  DateTime.parse(transactions.purchaseDate),
+                                  format: 'D, M j'),
+                              style: pw.Theme.of(context)
+                                  .defaultTextStyle
+                                  .copyWith(color: PdfColors.black),
+                            ),
+                          ),
+                        ]),
+                      ]),
                     ]),
-                    pw.Row(children: [
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Phone',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 10.0,
-                        child: pw.Text(
-                          ':',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          transactions.customerPhone,
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                    ]),
-                  ]),
-                  pw.Column(children: [
-                    pw.Row(children: [
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Sells By',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 10.0,
-                        child: pw.Text(
-                          ':',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Admin',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                    ]),
-                    pw.Row(children: [
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Invoice Number',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 10.0,
-                        child: pw.Text(
-                          ':',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          '#${transactions.invoiceNumber}',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                    ]),
-                    pw.Row(children: [
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          'Date',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 10.0,
-                        child: pw.Text(
-                          ':',
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                      pw.SizedBox(
-                        width: 100.0,
-                        child: pw.Text(
-                          DateTimeFormat.format(DateTime.parse(transactions.purchaseDate), format: 'D, M j'),
-                          style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                        ),
-                      ),
-                    ]),
-                  ]),
-                ]),
               ],
             ),
           );
@@ -1081,54 +1332,69 @@ class GeneratePdf {
           return pw.Column(children: [
             pw.Padding(
               padding: const pw.EdgeInsets.all(10.0),
-              child: pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceBetween, children: [
-                pw.Container(
-                  alignment: pw.Alignment.centerRight,
-                  margin: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
-                  padding: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
-                  child: pw.Column(children: [
+              child: pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                  children: [
                     pw.Container(
-                      width: 120.0,
-                      height: 2.0,
-                      color: PdfColors.black,
+                      alignment: pw.Alignment.centerRight,
+                      margin: const pw.EdgeInsets.only(
+                          bottom: 3.0 * PdfPageFormat.mm),
+                      padding: const pw.EdgeInsets.only(
+                          bottom: 3.0 * PdfPageFormat.mm),
+                      child: pw.Column(children: [
+                        pw.Container(
+                          width: 120.0,
+                          height: 2.0,
+                          color: PdfColors.black,
+                        ),
+                        pw.SizedBox(height: 4.0),
+                        pw.Text(
+                          'Customer Signature',
+                          style: pw.Theme.of(context)
+                              .defaultTextStyle
+                              .copyWith(color: PdfColors.black),
+                        )
+                      ]),
                     ),
-                    pw.SizedBox(height: 4.0),
-                    pw.Text(
-                      'Customer Signature',
-                      style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                    )
-                  ]),
-                ),
-                pw.Container(
-                  alignment: pw.Alignment.centerRight,
-                  margin: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
-                  padding: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
-                  child: pw.Column(children: [
                     pw.Container(
-                      width: 120.0,
-                      height: 2.0,
-                      color: PdfColors.black,
+                      alignment: pw.Alignment.centerRight,
+                      margin: const pw.EdgeInsets.only(
+                          bottom: 3.0 * PdfPageFormat.mm),
+                      padding: const pw.EdgeInsets.only(
+                          bottom: 3.0 * PdfPageFormat.mm),
+                      child: pw.Column(children: [
+                        pw.Container(
+                          width: 120.0,
+                          height: 2.0,
+                          color: PdfColors.black,
+                        ),
+                        pw.SizedBox(height: 4.0),
+                        pw.Text(
+                          'Authorized Signature',
+                          style: pw.Theme.of(context)
+                              .defaultTextStyle
+                              .copyWith(color: PdfColors.black),
+                        )
+                      ]),
                     ),
-                    pw.SizedBox(height: 4.0),
-                    pw.Text(
-                      'Authorized Signature',
-                      style: pw.Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.black),
-                    )
                   ]),
-                ),
-              ]),
             ),
             pw.Container(
               width: double.infinity,
               color: PdfColors.blueAccent,
               padding: const pw.EdgeInsets.all(10.0),
-              child: pw.Center(child: pw.Text('Powered By Maan Technology', style: pw.TextStyle(color: PdfColors.white, fontWeight: pw.FontWeight.bold))),
+              child: pw.Center(
+                  child: pw.Text('Powered By Maan Technology',
+                      style: pw.TextStyle(
+                          color: PdfColors.white,
+                          fontWeight: pw.FontWeight.bold))),
             ),
           ]);
         },
         build: (pw.Context context) => <pw.Widget>[
           pw.Padding(
-            padding: const pw.EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+            padding:
+                const pw.EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
             child: pw.Column(
               children: [
                 pw.Table.fromTextArray(
@@ -1153,9 +1419,12 @@ class GeneratePdf {
                       3: const pw.FlexColumnWidth(2),
                       4: const pw.FlexColumnWidth(2),
                     },
-                    headerStyle: pw.TextStyle(color: PdfColors.white, fontWeight: pw.FontWeight.bold),
-                    rowDecoration: const pw.BoxDecoration(color: PdfColors.white),
-                    oddRowDecoration: const pw.BoxDecoration(color: PdfColors.blue50),
+                    headerStyle: pw.TextStyle(
+                        color: PdfColors.white, fontWeight: pw.FontWeight.bold),
+                    rowDecoration:
+                        const pw.BoxDecoration(color: PdfColors.white),
+                    oddRowDecoration:
+                        const pw.BoxDecoration(color: PdfColors.blue50),
                     headerAlignments: <int, pw.Alignment>{
                       0: pw.Alignment.center,
                       1: pw.Alignment.centerLeft,
@@ -1173,7 +1442,13 @@ class GeneratePdf {
                     data: <List<String>>[
                       <String>['SL', 'Item', '', '', 'Total Due'],
 
-                      <String>[('${1}'), ('Due'), (''), (''), (transactions.totalDue.toString())],
+                      <String>[
+                        ('${1}'),
+                        ('Due'),
+                        (''),
+                        (''),
+                        (transactions.totalDue.toString())
+                      ],
                       // for (int i = 0; i < transactions.productList!.length; i++)
                       //   <String>[
                       //     ('${i + 1}'),
@@ -1211,26 +1486,32 @@ class GeneratePdf {
                         pw.Container(
                           color: PdfColors.blueAccent,
                           padding: const pw.EdgeInsets.all(5.0),
-                          child: pw.Text("Total Due: ${transactions.totalDue}", style: pw.TextStyle(color: PdfColors.white, fontWeight: pw.FontWeight.bold)),
+                          child: pw.Text("Total Due: ${transactions.totalDue}",
+                              style: pw.TextStyle(
+                                  color: PdfColors.white,
+                                  fontWeight: pw.FontWeight.bold)),
                         ),
                         pw.SizedBox(height: 5.0),
                         pw.Container(
                           width: 540,
-                          child: pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceBetween, children: [
-                            pw.Text(
-                              "Paid Via: ${transactions.paymentType}",
-                              style: const pw.TextStyle(
-                                color: PdfColors.black,
-                              ),
-                            ),
-                            pw.Text(
-                              "Paid Amount: ${transactions.totalDue!.toDouble() - transactions.dueAmountAfterPay!.toDouble()}",
-                              style: pw.TextStyle(
-                                color: PdfColors.black,
-                                fontWeight: pw.FontWeight.bold,
-                              ),
-                            ),
-                          ]),
+                          child: pw.Row(
+                              mainAxisAlignment:
+                                  pw.MainAxisAlignment.spaceBetween,
+                              children: [
+                                pw.Text(
+                                  "Paid Via: ${transactions.paymentType}",
+                                  style: const pw.TextStyle(
+                                    color: PdfColors.black,
+                                  ),
+                                ),
+                                pw.Text(
+                                  "Paid Amount: ${transactions.totalDue!.toDouble() - transactions.dueAmountAfterPay!.toDouble()}",
+                                  style: pw.TextStyle(
+                                    color: PdfColors.black,
+                                    fontWeight: pw.FontWeight.bold,
+                                  ),
+                                ),
+                              ]),
                         ),
                         pw.SizedBox(height: 5.0),
                         pw.Text(
@@ -1255,16 +1536,20 @@ class GeneratePdf {
     if (Platform.isIOS) {
       EasyLoading.show(status: 'Generating PDF');
       final dir = await getApplicationDocumentsDirectory();
-      final file = File('${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
+      final file = File(
+          '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
 
       final byteData = await doc.save();
       try {
-        await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+        await file.writeAsBytes(byteData.buffer
+            .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
         EasyLoading.showSuccess('Done');
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PDFViewerPage(path: '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
+            builder: (context) => PDFViewerPage(
+                path:
+                    '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
           ),
         );
         // OpenFile.open("${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf");
@@ -1282,16 +1567,20 @@ class GeneratePdf {
         EasyLoading.show(status: 'Generating PDF');
         const downloadsFolderPath = '/storage/emulated/0/Download/';
         Directory dir = Directory(downloadsFolderPath);
-        final file = File('${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
+        final file = File(
+            '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
 
         final byteData = await doc.save();
         try {
-          await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+          await file.writeAsBytes(byteData.buffer
+              .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
           EasyLoading.showSuccess('Done');
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PDFViewerPage(path: '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
+              builder: (context) => PDFViewerPage(
+                  path:
+                      '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
             ),
           );
           // OpenFile.open("/storage/emulated/0/download/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf");

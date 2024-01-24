@@ -26,7 +26,7 @@ class _SalesScreenState extends State<SalesScreen> {
         appBar: AppBar(
           title: Text(
             lang.S.of(context).saleList,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),
@@ -116,7 +116,7 @@ class _SalesScreenState extends State<SalesScreen> {
                           Text(
                             'Ibne Riead',
                             textAlign: TextAlign.start,
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               color: Colors.black,
                               fontSize: 15.0,
                             ),
@@ -124,7 +124,7 @@ class _SalesScreenState extends State<SalesScreen> {
                           Text(
                             'July 10, 2021',
                             textAlign: TextAlign.start,
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               color: kGreyTextColor,
                               fontSize: 10.0,
                             ),

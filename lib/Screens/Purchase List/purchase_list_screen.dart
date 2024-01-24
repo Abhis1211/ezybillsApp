@@ -37,7 +37,7 @@ class _PurchaseReportState extends State<PurchaseListScreen> {
         appBar: AppBar(
           title: Text(
             lang.S.of(context).purchaseList,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),

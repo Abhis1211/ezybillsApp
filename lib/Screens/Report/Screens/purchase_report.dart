@@ -54,7 +54,7 @@ class _PurchaseReportState extends State<PurchaseReportScreen> {
         appBar: AppBar(
           title: Text(
             lang.S.of(context).purchaseReport,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),

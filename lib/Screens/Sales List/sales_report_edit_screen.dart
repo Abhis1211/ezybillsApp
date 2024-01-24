@@ -156,7 +156,7 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
             backgroundColor: Colors.white,
             title: Text(
               lang.S.of(context).editSalesInvoice,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 color: Colors.black,
               ),
             ),
@@ -312,7 +312,7 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                                             const SizedBox(width: 5),
                                             Text(
                                               '${providerData.cartItemList[index].quantity}',
-                                              style: GoogleFonts.poppins(
+                                              style: GoogleFonts.inter(
                                                 color: kGreyTextColor,
                                                 fontSize: 15.0,
                                               ),

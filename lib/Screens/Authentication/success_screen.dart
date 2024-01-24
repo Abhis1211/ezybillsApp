@@ -26,12 +26,24 @@ class SuccessScreen extends StatelessWidget {
       return userRoleData.when(data: (data) {
         print('Data');
         if (email == 'phone') {
-          currentUserData.putUserData(userId: FirebaseAuth.instance.currentUser!.uid, isSubUser: false, title: '', email: '');
+          currentUserData.putUserData(
+              userId: FirebaseAuth.instance.currentUser!.uid,
+              isSubUser: false,
+              title: '',
+              email: '');
         } else {
-          currentUserData.putUserData(userId: FirebaseAuth.instance.currentUser!.uid, isSubUser: false, title: '', email: '');
+          currentUserData.putUserData(
+              userId: FirebaseAuth.instance.currentUser!.uid,
+              isSubUser: false,
+              title: '',
+              email: '');
           for (var element in data) {
             if (element.email == email) {
-              currentUserData.putUserData(userId: element.databaseId, isSubUser: true, title: element.userTitle, email: element.email);
+              currentUserData.putUserData(
+                  userId: element.databaseId,
+                  isSubUser: true,
+                  title: element.userTitle,
+                  email: element.email);
               subUserTitle = element.userTitle;
             }
           }
@@ -41,11 +53,11 @@ class SuccessScreen extends StatelessWidget {
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Image(image: AssetImage('images/success.png')),
-              const SizedBox(height: 40.0),
+              Image(image: AssetImage('images/Congratulations.png')).paddingSymmetric(horizontal: 40,vertical: 5),
+              SizedBox(height: 40.0),
               Text(
                 lang.S.of(context).congratulation,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: 25.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
@@ -54,13 +66,13 @@ class SuccessScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris cras",
-                  maxLines: 2,
+                  "Welcome aboard! your POS account was set up successfully.",
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     color: kGreyTextColor,
-                    fontSize: 20.0,
+                    fontSize: 18.0,
                   ),
                 ),
               ),

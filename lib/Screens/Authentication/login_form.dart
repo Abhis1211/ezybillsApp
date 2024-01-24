@@ -117,7 +117,7 @@ class _LoginFormState extends State<LoginForm> {
                         },
                         child: Text(
                           lang.S.of(context).forgotPassword,
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             color: kGreyTextColor,
                             fontSize: 15.0,
                           ),
@@ -139,7 +139,7 @@ class _LoginFormState extends State<LoginForm> {
                     children: [
                       Text(
                         lang.S.of(context).noAcc,
-                        style: GoogleFonts.poppins(color: kGreyTextColor, fontSize: 15.0),
+                        style: GoogleFonts.inter(color: kGreyTextColor, fontSize: 15.0),
                       ),
                       TextButton(
                         onPressed: () {
@@ -148,7 +148,7 @@ class _LoginFormState extends State<LoginForm> {
                         },
                         child: Text(
                           lang.S.of(context).register,
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             color: kMainColor,
                             fontSize: 15.0,
                             fontWeight: FontWeight.bold,

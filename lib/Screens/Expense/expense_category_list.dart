@@ -35,7 +35,7 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
               )),
           title: Text(
             lang.S.of(context).expenseCat,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),
@@ -108,7 +108,7 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
                             flex: 3,
                             child: Text(
                               data[index].categoryName,
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.inter(
                                 fontSize: 18.0,
                                 color: Colors.black,
                               ),

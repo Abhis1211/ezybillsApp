@@ -35,7 +35,7 @@ class _SalesContactState extends State<SalesContact> {
           backgroundColor: Colors.white,
           title: Text(
             lang.S.of(context).chooseCustomer,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
             ),
           ),
@@ -112,14 +112,14 @@ class _SalesContactState extends State<SalesContact> {
                                   children: [
                                     Text(
                                       'Walk-in Customer',
-                                      style: GoogleFonts.poppins(
+                                      style: GoogleFonts.inter(
                                         color: Colors.black,
                                         fontSize: 15.0,
                                       ),
                                     ),
                                     Text(
                                       'Guest',
-                                      style: GoogleFonts.poppins(
+                                      style: GoogleFonts.inter(
                                         color: Colors.grey,
                                         fontSize: 15.0,
                                       ),
@@ -195,14 +195,14 @@ class _SalesContactState extends State<SalesContact> {
                                               children: [
                                                 Text(
                                                   customer[index].customerName,
-                                                  style: GoogleFonts.poppins(
+                                                  style: GoogleFonts.inter(
                                                     color: Colors.black,
                                                     fontSize: 15.0,
                                                   ),
                                                 ),
                                                 // Text(
                                                 //   customer[index].type,
-                                                //   style: GoogleFonts.poppins(
+                                                //   style: GoogleFonts.inter(
                                                 //     color: color,
                                                 //     fontSize: 15.0,
                                                 //   ),  
@@ -218,14 +218,14 @@ class _SalesContactState extends State<SalesContact> {
                                               children: [
                                                 Text(
                                                   '$currency ${customer[index].dueAmount}',
-                                                  style: GoogleFonts.poppins(
+                                                  style: GoogleFonts.inter(
                                                     color: Colors.black,
                                                     fontSize: 15.0,
                                                   ),
                                                 ),
                                                 Text(
                                                   lang.S.of(context).due,
-                                                  style: GoogleFonts.poppins(
+                                                  style: GoogleFonts.inter(
                                                     color:
                                                         const Color(0xFFff5f00),
                                                     fontSize: 15.0,
@@ -293,14 +293,14 @@ class _SalesContactState extends State<SalesContact> {
                               children: [
                                 Text(
                                   'Walk-in Customer',
-                                  style: GoogleFonts.poppins(
+                                  style: GoogleFonts.inter(
                                     color: Colors.black,
                                     fontSize: 15.0,
                                   ),
                                 ),
                                 Text(
                                   'Guest',
-                                  style: GoogleFonts.poppins(
+                                  style: GoogleFonts.inter(
                                     color: Colors.grey,
                                     fontSize: 15.0,
                                   ),

@@ -22,7 +22,7 @@ class _ReportsState extends State<Reports> {
       appBar: AppBar(
         title: Text(
           lang.S.of(context).reports,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
             fontSize: 20.0,
           ),
@@ -92,7 +92,7 @@ class ReportCard extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: Text(
                 title,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   color: Colors.black,
                 ),
               ),

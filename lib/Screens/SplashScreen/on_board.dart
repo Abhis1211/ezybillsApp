@@ -32,11 +32,6 @@ class _OnBoardState extends State<OnBoard> {
         "title": lang.S.of(context).choseYourFeature,
         "description": lang.S.of(context).choseyourfeatureDesciption,
       },
-      {
-        "icon": 'images/onboard3.png',
-        "title": lang.S.of(context).allBusinessSolutions,
-        "description": lang.S.of(context).allBusinessolutionDescrip,
-      },
     ];
     return sliderList;
   }
@@ -79,12 +74,16 @@ class _OnBoardState extends State<OnBoard> {
                   PageView.builder(
                     itemCount: sliderList.length,
                     controller: pageController,
-                    onPageChanged: (int index) => setState(() => currentIndexPage = index),
+                    onPageChanged: (int index) =>
+                        setState(() => currentIndexPage = index),
                     itemBuilder: (_, index) {
                       return Column(
                         children: [
                           const SizedBox(height: 30),
-                          Image.asset(sliderList[index]['icon'], fit: BoxFit.fill, width: context.width() - 100, height: context.width() - 100),
+                          Image.asset(sliderList[index]['icon'],
+                              fit: BoxFit.fill,
+                              width: context.width() - 100,
+                              height: context.width() - 100),
                           const SizedBox(height: 30),
                           Padding(
                             padding: const EdgeInsets.all(10.0),
@@ -100,7 +99,8 @@ class _OnBoardState extends State<OnBoard> {
                           ),
                           // ignore: sized_box_for_whitespace
                           Padding(
-                            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                            padding:
+                                const EdgeInsets.only(left: 20.0, right: 20.0),
                             // ignore: sized_box_for_whitespace
                             child: Container(
                               width: context.width(),
@@ -109,7 +109,7 @@ class _OnBoardState extends State<OnBoard> {
                                 textAlign: TextAlign.center,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 5,
-                                style: GoogleFonts.jost(
+                                style: GoogleFonts.inter(
                                   fontSize: 15.0,
                                   color: kGreyTextColor,
                                 ),
@@ -138,11 +138,17 @@ class _OnBoardState extends State<OnBoard> {
                 iconWidget: null,
                 buttontext: lang.S.of(context).next,
                 iconColor: Colors.white,
-                buttonDecoration: kButtonDecoration.copyWith(color: kMainColor, borderRadius: const BorderRadius.all(Radius.circular(30))),
+                buttonDecoration: kButtonDecoration.copyWith(
+                    color: kMainColor,
+                    borderRadius: const BorderRadius.all(Radius.circular(30))),
                 onPressed: () {
                   setState(
                     () {
-                      currentIndexPage < 2 ? pageController.nextPage(duration: const Duration(microseconds: 1000), curve: Curves.bounceInOut) : const PhoneAuth().launch(context);
+                      currentIndexPage < 1
+                          ? pageController.nextPage(
+                              duration: const Duration(microseconds: 1000),
+                              curve: Curves.bounceInOut)
+                          : const PhoneAuth().launch(context);
                       // : const SignInScreen().launch(context);
                     },
                   );

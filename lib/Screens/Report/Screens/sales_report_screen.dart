@@ -63,7 +63,7 @@ class _SalesReportScreenState extends State<SalesReportScreen> {
         appBar: AppBar(
           title: Text(
             lang.S.of(context).salesReport,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),

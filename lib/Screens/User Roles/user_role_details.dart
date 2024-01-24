@@ -99,7 +99,7 @@ class _UserRoleDetailsState extends State<UserRoleDetails> {
           backgroundColor: Colors.white,
           title: Text(
             'User Role Details',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
             ),
           ),

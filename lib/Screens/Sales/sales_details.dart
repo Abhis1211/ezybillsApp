@@ -44,7 +44,7 @@ class _SalesDetailsState extends State<SalesDetails> {
         appBar: AppBar(
           title: Text(
             lang.S.of(context).salesDetails,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),
@@ -80,7 +80,7 @@ class _SalesDetailsState extends State<SalesDetails> {
                     children: [
                       Text(
                         providerData.cartItemList[index].productName.toString(),
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.inter(
                           color: kGreyTextColor,
                           fontSize: 15.0,
                         ),
@@ -113,7 +113,7 @@ class _SalesDetailsState extends State<SalesDetails> {
                               const SizedBox(width: 5),
                               Text(
                                 '${providerData.cartItemList[index].quantity}',
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.inter(
                                   color: kGreyTextColor,
                                   fontSize: 15.0,
                                 ),
@@ -145,7 +145,7 @@ class _SalesDetailsState extends State<SalesDetails> {
                         right: 0,
                         child: Text(
                           '$currency${providerData.cartItemList[index].subTotal.toString()}',
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             color: kGreyTextColor,
                             fontSize: 15.0,
                           ),
@@ -167,7 +167,7 @@ class _SalesDetailsState extends State<SalesDetails> {
                 children: [
                   Text(
                     lang.S.of(context).subTotal,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       color: kGreyTextColor,
                       fontSize: 15.0,
                     ),
@@ -175,7 +175,7 @@ class _SalesDetailsState extends State<SalesDetails> {
                   const Spacer(),
                   Text(
                     providerData.getTotalAmount().toString(),
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       color: kGreyTextColor,
                       fontSize: 15.0,
                     ),
@@ -193,7 +193,7 @@ class _SalesDetailsState extends State<SalesDetails> {
                   children: [
                     Text(
                       lang.S.of(context).discount,
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         color: kGreyTextColor,
                         fontSize: 15.0,
                       ),
@@ -201,7 +201,7 @@ class _SalesDetailsState extends State<SalesDetails> {
                     const Spacer(),
                     Text(
                       providerData.discountType == 'USD' ? providerData.discount.toString() : '${providerData.discount} %',
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         color: kGreyTextColor,
                         fontSize: 15.0,
                       ),
@@ -220,7 +220,7 @@ class _SalesDetailsState extends State<SalesDetails> {
                   children: [
                     Text(
                       lang.S.of(context).total,
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         color: Colors.black,
                         fontSize: 20.0,
                       ),
@@ -228,7 +228,7 @@ class _SalesDetailsState extends State<SalesDetails> {
                     const Spacer(),
                     Text(
                       providerData.getTotalAmount().toString(),
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         color: Colors.black,
                         fontSize: 20.0,
                       ),

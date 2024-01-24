@@ -42,7 +42,7 @@ class _LossProfitScreenState extends State<LossProfitScreen> {
           backgroundColor: Colors.white,
           title: Text(
             lang.S.of(context).lp,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
             ),
           ),

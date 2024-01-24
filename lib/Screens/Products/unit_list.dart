@@ -26,7 +26,7 @@ class _UnitListState extends State<UnitList> {
       appBar: AppBar(
         title: Text(
           lang.S.of(context).units,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
             fontSize: 20.0,
           ),
@@ -112,7 +112,7 @@ class _UnitListState extends State<UnitList> {
                                   children: [
                                     Text(
                                       data[i].unitName,
-                                      style: GoogleFonts.poppins(
+                                      style: GoogleFonts.inter(
                                         fontSize: 18.0,
                                         color: Colors.black,
                                       ),
@@ -128,7 +128,7 @@ class _UnitListState extends State<UnitList> {
                                     //       itemBuilder: (context, index) {
                                     //         return Text(
                                     //           '${variations[index]}, ',
-                                    //           style: GoogleFonts.poppins(
+                                    //           style: GoogleFonts.inter(
                                     //             fontSize: 14.0,
                                     //             color: Colors.grey,
                                     //           ),
@@ -187,7 +187,7 @@ class _UnitListState extends State<UnitList> {
                 //                     flex: 3,
                 //                     child: Text(
                 //                       title.unitName,
-                //                       style: GoogleFonts.poppins(
+                //                       style: GoogleFonts.inter(
                 //                         fontSize: 18.0,
                 //                         color: Colors.black,
                 //                       ),

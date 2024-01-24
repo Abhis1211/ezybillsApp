@@ -45,7 +45,7 @@ class _ExpenseListState extends State<ExpenseList> {
         appBar: AppBar(
           title: Text(
             lang.S.of(context).expenseReport,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),

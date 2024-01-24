@@ -69,7 +69,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
           backgroundColor: Colors.white,
           title: Text(
             lang.S.of(context).CustomerDetails,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
             ),
           ),

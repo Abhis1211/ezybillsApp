@@ -21,7 +21,7 @@ class _AddPromoCodeState extends State<AddPromoCode> {
         backgroundColor: Colors.white,
         title: Text(
           lang.S.of(context).promoCode,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
           ),
         ),
@@ -49,7 +49,7 @@ class _AddPromoCodeState extends State<AddPromoCode> {
             Center(
               child: Text(
                 lang.S.of(context).seeAllPromoCode,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   color: kGreyTextColor,
                   fontSize: 15.0,
                 ),

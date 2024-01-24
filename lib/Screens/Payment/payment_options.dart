@@ -22,7 +22,7 @@ class _PaymentOptionsState extends State<PaymentOptions> {
       appBar: AppBar(
         title: Text(
           lang.S.of(context).payment,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
             fontSize: 20.0,
           ),
@@ -89,7 +89,7 @@ class _PaymentOptionsState extends State<PaymentOptions> {
                     ),
                     Text(
                       lang.S.of(context).masterCard,
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 15.0,
                       ),
                     ),
@@ -115,7 +115,7 @@ class _PaymentOptionsState extends State<PaymentOptions> {
                     ),
                     Text(
                       lang.S.of(context).instrucation,
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 15.0,
                       ),
                     ),
@@ -141,7 +141,7 @@ class _PaymentOptionsState extends State<PaymentOptions> {
                     ),
                     Text(
                       lang.S.of(context).cash,
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 15.0,
                       ),
                     ),

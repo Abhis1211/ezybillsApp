@@ -70,7 +70,7 @@ class _EditSaleInvoiceSaleProductsState extends State<EditSaleInvoiceSaleProduct
         appBar: AppBar(
           title: Text(
             lang.S.of(context).addItems,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),

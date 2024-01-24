@@ -79,7 +79,7 @@ class _AddCustomerState extends State<AddCustomer> {
         backgroundColor: Colors.white,
         title: Text(
           lang.S.of(context).addContact,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
           ),
         ),
@@ -139,7 +139,7 @@ class _AddCustomerState extends State<AddCustomer> {
                 //         title: Text(
                 //           lang.S.of(context).retailer,
                 //           maxLines: 1,
-                //           style: GoogleFonts.poppins(
+                //           style: GoogleFonts.inter(
                 //             fontSize: 12.0,
                 //           ),
                 //         ),
@@ -159,7 +159,7 @@ class _AddCustomerState extends State<AddCustomer> {
                 //         title: Text(
                 //           lang.S.of(context).dealer,
                 //           maxLines: 1,
-                //           style: GoogleFonts.poppins(
+                //           style: GoogleFonts.inter(
                 //             fontSize: 12.0,
                 //           ),
                 //         ),
@@ -184,7 +184,7 @@ class _AddCustomerState extends State<AddCustomer> {
                 //         title: Text(
                 //           lang.S.of(context).wholesaler,
                 //           maxLines: 1,
-                //           style: GoogleFonts.poppins(
+                //           style: GoogleFonts.inter(
                 //             fontSize: 12.0,
                 //           ),
                 //         ),
@@ -205,7 +205,7 @@ class _AddCustomerState extends State<AddCustomer> {
                 //         title: Text(
                 //           lang.S.of(context).supplier,
                 //           maxLines: 1,
-                //           style: GoogleFonts.poppins(
+                //           style: GoogleFonts.inter(
                 //             fontSize: 12.0,
                 //           ),
                 //         ),
@@ -246,7 +246,7 @@ class _AddCustomerState extends State<AddCustomer> {
                             TextButton(
                               child: Text(
                                 lang.S.of(context).moreInfo,
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.inter(
                                   fontSize: 20.0,
                                   color: kMainColor,
                                 ),
@@ -317,7 +317,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                                     Text(
                                                       'Gallery',
                                                       style:
-                                                          GoogleFonts.poppins(
+                                                          GoogleFonts.inter(
                                                         fontSize: 20.0,
                                                         color: kMainColor,
                                                       ),
@@ -359,7 +359,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                                     Text(
                                                       'Camera',
                                                       style:
-                                                          GoogleFonts.poppins(
+                                                          GoogleFonts.inter(
                                                         fontSize: 20.0,
                                                         color: kGreyTextColor,
                                                       ),

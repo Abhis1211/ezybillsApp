@@ -36,7 +36,7 @@ class _CheckEMailState extends State<CheckEMail> {
                     ),
                     Text(
                       lang.S.of(context).gotEmail,
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 25.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -48,7 +48,7 @@ class _CheckEMailState extends State<CheckEMail> {
                       child: Text(
                         lang.S.of(context).sendEmail,
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.inter(
                           fontSize: 20.0,
                           color: Colors.black,
                         ),
@@ -56,7 +56,7 @@ class _CheckEMailState extends State<CheckEMail> {
                     ),
                     Text(
                       'example@johndoe.com',
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 20.0,
                         color: Colors.black,
                       ),
@@ -80,7 +80,7 @@ class _CheckEMailState extends State<CheckEMail> {
                       },
                       child: Text(
                         lang.S.of(context).checkEmail,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.inter(
                           color: kMainColor,
                         ),
                       ),

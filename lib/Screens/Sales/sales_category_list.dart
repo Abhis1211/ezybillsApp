@@ -30,7 +30,7 @@ class _SalesCategoryListState extends State<SalesCategoryList> {
             )),
         title: Text(
           lang.S.of(context).categories,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
             fontSize: 20.0,
           ),

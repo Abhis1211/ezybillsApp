@@ -40,7 +40,7 @@ class _AddExpenseCategoryState extends State<AddExpenseCategory> {
               )),
           title: Text(
             lang.S.of(context).addExpenseCat,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),

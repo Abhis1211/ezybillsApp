@@ -27,7 +27,7 @@ class _BrandsListState extends State<BrandsList> {
       appBar: AppBar(
         title: Text(
           lang.S.of(context).brands,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
             fontSize: 20.0,
           ),
@@ -113,7 +113,7 @@ class _BrandsListState extends State<BrandsList> {
                                         children: [
                                           Text(
                                             data[i].brandName,
-                                            style: GoogleFonts.poppins(
+                                            style: GoogleFonts.inter(
                                               fontSize: 18.0,
                                               color: Colors.black,
                                             ),
@@ -129,7 +129,7 @@ class _BrandsListState extends State<BrandsList> {
                                           //       itemBuilder: (context, index) {
                                           //         return Text(
                                           //           '${variations[index]}, ',
-                                          //           style: GoogleFonts.poppins(
+                                          //           style: GoogleFonts.inter(
                                           //             fontSize: 14.0,
                                           //             color: Colors.grey,
                                           //           ),

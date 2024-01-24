@@ -33,7 +33,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
           appBar: AppBar(
             title: Text(
               lang.S.of(context).profile,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 color: Colors.black,
                 fontSize: 20.0,
               ),
@@ -58,7 +58,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                       ),
                       Text(
                         lang.S.of(context).edit,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.inter(
                           color: kMainColor,
                         ),
                       ),

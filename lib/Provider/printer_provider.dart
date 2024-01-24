@@ -1,13 +1,17 @@
 import 'dart:typed_data';
-
+import 'dart:io';
+import 'package:image/image.dart';
 import 'package:bluetooth_thermal_printer/bluetooth_thermal_printer.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:mobile_pos/Provider/profile_provider.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../constant.dart';
 import '../model/add_to_cart_model.dart';
+import '../model/personal_information_model.dart';
 import '../model/print_transaction_model.dart';
 
 final printerProviderNotifier = ChangeNotifierProvider((ref) => Printer());
@@ -221,20 +225,6 @@ class Printer extends ChangeNotifier {
     ]);
     bytes += generator.row([
       PosColumn(
-          text: 'Vat/Gst',
-          width: 8,
-          styles: const PosStyles(
-            align: PosAlign.left,
-          )),
-      PosColumn(
-          text: '${printTransactionModel.transitionModel!.vat}',
-          width: 4,
-          styles: const PosStyles(
-            align: PosAlign.right,
-          )),
-    ]);
-    bytes += generator.row([
-      PosColumn(
           text: 'Discount',
           width: 8,
           styles: const PosStyles(
@@ -244,6 +234,20 @@ class Printer extends ChangeNotifier {
           text: printTransactionModel.transitionModel?.discountAmount
                   .toString() ??
               '',
+          width: 4,
+          styles: const PosStyles(
+            align: PosAlign.right,
+          )),
+    ]);
+    bytes += generator.row([
+      PosColumn(
+          text: 'Gst',
+          width: 8,
+          styles: const PosStyles(
+            align: PosAlign.left,
+          )),
+      PosColumn(
+          text: '${printTransactionModel.transitionModel!.vat}',
           width: 4,
           styles: const PosStyles(
             align: PosAlign.right,
@@ -328,15 +332,30 @@ class Printer extends ChangeNotifier {
     bytes += generator.text('Thank you!',
         styles: const PosStyles(align: PosAlign.center, bold: true));
 
-    bytes += generator.text(printTransactionModel.transitionModel!.purchaseDate,
-        styles: const PosStyles(align: PosAlign.center), linesAfter: 1);
+    bytes += generator.text(
+        DateFormat('dd-MM-yyyy h:mm a').format(DateTime.parse(
+            printTransactionModel.transitionModel!.purchaseDate)),
+        styles: const PosStyles(align: PosAlign.center),
+        linesAfter: 1);
 
     bytes += generator.text(
         'Note: Goods once sold will not be taken back or exchanged.',
         styles: const PosStyles(align: PosAlign.center, bold: false),
         linesAfter: 1);
+    // bytes += generator.qrcode(
+    //   'https://ezyBills.com',
+    //   size: QRSize.Size4,
+    // );
+    // final ByteData data = await rootBundle.load(
+    //     "https://firebasestorage.googleapis.com/v0/b/ezybills-33844.appspot.com/o/Profile%20Picture%2F1706040091954?alt=media&token=b2c621d8-1031-4d61-a44f-d0b86068a8ce");
+    // var bytess = data.buffer.asUint8List();
+    // var image = decodeImage(bytess);
+    // bytes += generator.image(image!, align: PosAlign.center);
+    // bytes += generator.hr();
+    // generator.text("",
+    //     styles: const PosStyles(align: PosAlign.center, bold: false),
+    //     linesAfter: 1);
 
-    bytes += generator.qrcode('https://ezyBills.com', size: QRSize.Size4);
     bytes += generator.text(
         'Developed By: ezyBills(Define Softwares Pvt. Ltd.)',
         styles: const PosStyles(align: PosAlign.center),

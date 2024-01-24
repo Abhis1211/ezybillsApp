@@ -29,7 +29,7 @@ class _ProductListState extends State<ProductList> {
             iconTheme: const IconThemeData(color: Colors.black),
             title: Text(
               lang.S.of(context).productList,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 color: Colors.black,
               ),
             ),

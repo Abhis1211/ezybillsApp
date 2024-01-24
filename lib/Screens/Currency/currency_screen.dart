@@ -27,7 +27,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
           backgroundColor: Colors.white,
           title: Text(
             'Currency',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
             ),
           ),
@@ -51,6 +51,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
                         selectedColor: Colors.white,
                         selectedTileColor: kMainColor.withOpacity(.7),
                         onTap: () {
+                          print(currencys[index].symbol .toString());
                           setState(() {
                             selectedCurrency = currencys[index];
                           });

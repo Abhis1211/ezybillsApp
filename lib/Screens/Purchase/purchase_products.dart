@@ -69,7 +69,7 @@ class _PurchaseProductsState extends State<PurchaseProducts> {
         appBar: AppBar(
           title: Text(
             lang.S.of(context).productList,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),

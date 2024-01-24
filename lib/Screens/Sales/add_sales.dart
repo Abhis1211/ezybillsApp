@@ -112,7 +112,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
             backgroundColor: Colors.white,
             title: Text(
               lang.S.of(context).addSales,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 color: Colors.black,
               ),
             ),
@@ -296,7 +296,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                             const SizedBox(width: 5),
                                             Text(
                                               '${providerData.cartItemList[index].quantity}',
-                                              style: GoogleFonts.poppins(
+                                              style: GoogleFonts.inter(
                                                 color: kGreyTextColor,
                                                 fontSize: 15.0,
                                               ),
@@ -409,188 +409,199 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'VAT/GST',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: context.width() / 4,
-                                    height: 40.0,
-                                    child: Center(
-                                      child: AppTextField(
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.allow(
-                                              RegExp(r'^\d*\.?\d{0,2}'))
-                                        ],
-                                        controller:
-                                            vatPercentageEditingController,
-                                        onChanged: (value) {
-                                          if (value == '') {
-                                            setState(() {
-                                              percentage = 0.0;
-                                              vatAmountEditingController.text =
-                                                  0.toString();
-                                              vatAmount = 0;
-                                            });
-                                          } else {
-                                            setState(() {
-                                              vatAmount =
-                                                  (value.toDouble() / 100) *
-                                                      providerData
-                                                          .getTotalAmount()
-                                                          .toDouble();
-                                              vatAmountEditingController.text =
-                                                  vatAmount.toString();
-                                            });
-                                          }
-                                        },
-                                        textAlign: TextAlign.right,
-                                        decoration: InputDecoration(
-                                          contentPadding:
-                                              const EdgeInsets.only(right: 6.0),
-                                          hintText: '0',
-                                          border: const OutlineInputBorder(
-                                              gapPadding: 0.0,
-                                              borderSide: BorderSide(
-                                                  color: Color(0xFFff5f00))),
-                                          enabledBorder:
-                                              const OutlineInputBorder(
-                                                  gapPadding: 0.0,
-                                                  borderSide: BorderSide(
-                                                      color:
-                                                          Color(0xFFff5f00))),
-                                          disabledBorder:
-                                              const OutlineInputBorder(
-                                                  gapPadding: 0.0,
-                                                  borderSide: BorderSide(
-                                                      color:
-                                                          Color(0xFFff5f00))),
-                                          focusedBorder:
-                                              const OutlineInputBorder(
-                                                  gapPadding: 0.0,
-                                                  borderSide: BorderSide(
-                                                      color:
-                                                          Color(0xFFff5f00))),
-                                          prefixIconConstraints:
-                                              const BoxConstraints(
-                                                  maxWidth: 30.0,
-                                                  minWidth: 30.0),
-                                          prefixIcon: Container(
-                                            padding: const EdgeInsets.only(
-                                                top: 8.0, left: 8.0),
-                                            height: 40,
-                                            decoration: const BoxDecoration(
-                                                color: Color(0xFFff5f00),
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(4.0),
-                                                    bottomLeft:
-                                                        Radius.circular(4.0))),
-                                            child: const Text(
-                                              '%',
-                                              style: TextStyle(
-                                                  fontSize: 18.0,
-                                                  color: Colors.white),
+                        if (personalInformationModel.gstenable == true)
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'VAT/GST',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: context.width() / 4,
+                                      height: 40.0,
+                                      child: Center(
+                                        child: AppTextField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'^\d*\.?\d{0,2}'))
+                                          ],
+                                          controller:
+                                              vatPercentageEditingController,
+                                          onChanged: (value) {
+                                            if (value == '') {
+                                              setState(() {
+                                                percentage = 0.0;
+                                                vatAmountEditingController
+                                                    .text = 0.toString();
+                                                vatAmount = 0;
+                                              });
+                                            } else {
+                                              setState(() {
+                                                vatAmount =
+                                                    (value.toDouble() / 100) *
+                                                        providerData
+                                                            .getTotalAmount()
+                                                            .toDouble();
+                                                vatAmountEditingController
+                                                        .text =
+                                                    vatAmount.toString();
+                                              });
+                                            }
+                                          },
+                                          textAlign: TextAlign.right,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                const EdgeInsets.only(
+                                                    right: 6.0),
+                                            hintText: '0',
+                                            border: const OutlineInputBorder(
+                                                gapPadding: 0.0,
+                                                borderSide: BorderSide(
+                                                    color: Color(0xFFff5f00))),
+                                            enabledBorder:
+                                                const OutlineInputBorder(
+                                                    gapPadding: 0.0,
+                                                    borderSide: BorderSide(
+                                                        color:
+                                                            Color(0xFFff5f00))),
+                                            disabledBorder:
+                                                const OutlineInputBorder(
+                                                    gapPadding: 0.0,
+                                                    borderSide: BorderSide(
+                                                        color:
+                                                            Color(0xFFff5f00))),
+                                            focusedBorder:
+                                                const OutlineInputBorder(
+                                                    gapPadding: 0.0,
+                                                    borderSide: BorderSide(
+                                                        color:
+                                                            Color(0xFFff5f00))),
+                                            prefixIconConstraints:
+                                                const BoxConstraints(
+                                                    maxWidth: 30.0,
+                                                    minWidth: 30.0),
+                                            prefixIcon: Container(
+                                              padding: const EdgeInsets.only(
+                                                  top: 8.0, left: 8.0),
+                                              height: 40,
+                                              decoration: const BoxDecoration(
+                                                  color: Color(0xFFff5f00),
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  4.0),
+                                                          bottomLeft:
+                                                              Radius.circular(
+                                                                  4.0))),
+                                              child: const Text(
+                                                '%',
+                                                style: TextStyle(
+                                                    fontSize: 18.0,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
+                                          textFieldType: TextFieldType.PHONE,
                                         ),
-                                        textFieldType: TextFieldType.PHONE,
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 4.0,
-                                  ),
-                                  SizedBox(
-                                    width: context.width() / 4,
-                                    height: 40.0,
-                                    child: Center(
-                                      child: AppTextField(
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.allow(
-                                              RegExp(r'^\d*\.?\d{0,2}'))
-                                        ],
-                                        controller: vatAmountEditingController,
-                                        onChanged: (value) {
-                                          if (value == '') {
-                                            setState(() {
-                                              vatAmount = 0;
-                                              vatPercentageEditingController
-                                                  .clear();
-                                            });
-                                          } else {
-                                            setState(() {
-                                              vatAmount = double.parse(value);
-                                              vatPercentageEditingController
-                                                  .text = ((vatAmount * 100) /
-                                                      providerData
-                                                          .getTotalAmount())
-                                                  .toString();
-                                            });
-                                          }
-                                        },
-                                        textAlign: TextAlign.right,
-                                        decoration: InputDecoration(
-                                          contentPadding:
-                                              const EdgeInsets.only(right: 6.0),
-                                          hintText: '0',
-                                          border: const OutlineInputBorder(
-                                              gapPadding: 0.0,
-                                              borderSide: BorderSide(
-                                                  color: kMainColor)),
-                                          enabledBorder:
-                                              const OutlineInputBorder(
-                                                  gapPadding: 0.0,
-                                                  borderSide: BorderSide(
-                                                      color: kMainColor)),
-                                          disabledBorder:
-                                              const OutlineInputBorder(
-                                                  gapPadding: 0.0,
-                                                  borderSide: BorderSide(
-                                                      color: kMainColor)),
-                                          focusedBorder:
-                                              const OutlineInputBorder(
-                                                  gapPadding: 0.0,
-                                                  borderSide: BorderSide(
-                                                      color: kMainColor)),
-                                          prefixIconConstraints:
-                                              const BoxConstraints(
-                                                  maxWidth: 30.0,
-                                                  minWidth: 30.0),
-                                          prefixIcon: Container(
-                                            alignment: Alignment.center,
-                                            height: 40,
-                                            decoration: const BoxDecoration(
-                                                color: kMainColor,
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(4.0),
-                                                    bottomLeft:
-                                                        Radius.circular(4.0))),
-                                            child: Text(
-                                              currency,
-                                              style: const TextStyle(
-                                                  fontSize: 14.0,
-                                                  color: Colors.white),
+                                    const SizedBox(
+                                      width: 4.0,
+                                    ),
+                                    SizedBox(
+                                      width: context.width() / 4,
+                                      height: 40.0,
+                                      child: Center(
+                                        child: AppTextField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'^\d*\.?\d{0,2}'))
+                                          ],
+                                          controller:
+                                              vatAmountEditingController,
+                                          onChanged: (value) {
+                                            if (value == '') {
+                                              setState(() {
+                                                vatAmount = 0;
+                                                vatPercentageEditingController
+                                                    .clear();
+                                              });
+                                            } else {
+                                              setState(() {
+                                                vatAmount = double.parse(value);
+                                                vatPercentageEditingController
+                                                    .text = ((vatAmount * 100) /
+                                                        providerData
+                                                            .getTotalAmount())
+                                                    .toString();
+                                              });
+                                            }
+                                          },
+                                          textAlign: TextAlign.right,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                const EdgeInsets.only(
+                                                    right: 6.0),
+                                            hintText: '0',
+                                            border: const OutlineInputBorder(
+                                                gapPadding: 0.0,
+                                                borderSide: BorderSide(
+                                                    color: kMainColor)),
+                                            enabledBorder:
+                                                const OutlineInputBorder(
+                                                    gapPadding: 0.0,
+                                                    borderSide: BorderSide(
+                                                        color: kMainColor)),
+                                            disabledBorder:
+                                                const OutlineInputBorder(
+                                                    gapPadding: 0.0,
+                                                    borderSide: BorderSide(
+                                                        color: kMainColor)),
+                                            focusedBorder:
+                                                const OutlineInputBorder(
+                                                    gapPadding: 0.0,
+                                                    borderSide: BorderSide(
+                                                        color: kMainColor)),
+                                            prefixIconConstraints:
+                                                const BoxConstraints(
+                                                    maxWidth: 30.0,
+                                                    minWidth: 30.0),
+                                            prefixIcon: Container(
+                                              alignment: Alignment.center,
+                                              height: 40,
+                                              decoration: const BoxDecoration(
+                                                  color: kMainColor,
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  4.0),
+                                                          bottomLeft:
+                                                              Radius.circular(
+                                                                  4.0))),
+                                              child: Text(
+                                                currency,
+                                                style: const TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
+                                          textFieldType: TextFieldType.PHONE,
                                         ),
-                                        textFieldType: TextFieldType.PHONE,
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Row(

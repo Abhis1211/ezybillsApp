@@ -23,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
           lang.S.of(context).contactDetials,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
           ),
         ),
@@ -67,7 +67,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             Text(
               lang.S.of(context).clarence,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontWeight: FontWeight.bold,
                 fontSize: 25.0,
                 color: Colors.black,
@@ -75,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             Text(
               '+1 (732) 343-4343',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 20.0,
                 color: Colors.black,
               ),
@@ -130,7 +130,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Text(
                         lang.S.of(context).dailyTransaction,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.inter(
                           fontSize: 20.0,
                           color: Colors.black,
                         ),
@@ -196,7 +196,7 @@ class Transactions extends StatelessWidget {
         children: [
           Text(
             title,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: 20.0,
               color: tranColor,
             ),
@@ -204,7 +204,7 @@ class Transactions extends StatelessWidget {
           const Spacer(),
           Text(
             amount,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: 20.0,
               color: tranColor,
             ),
@@ -257,7 +257,7 @@ class IconWithText extends StatelessWidget {
             Text(
               title,
               maxLines: 1,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 20.0,
                 color: iconColor,
               ),

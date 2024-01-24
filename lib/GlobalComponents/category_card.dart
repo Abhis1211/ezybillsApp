@@ -23,7 +23,7 @@ class CategoryCard extends StatelessWidget {
             flex: 3,
             child: Text(
               product.title,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 18.0,
                 color: Colors.black,
               ),

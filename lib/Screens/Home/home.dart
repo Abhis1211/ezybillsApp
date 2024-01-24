@@ -103,7 +103,7 @@ class _HomeState extends State<Home> {
                         children: [
                           Text(
                             "your Account is Deactive please Contact to your Admistrative",
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               fontSize: 16.0,
                               color: kGreyTextColor,
                             ),
@@ -126,7 +126,7 @@ class _HomeState extends State<Home> {
                               },
                               child: Text(
                                 "Log Out",
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.inter(
                                   fontSize: 18.0,
                                   color: Colors.white,
                                 ),

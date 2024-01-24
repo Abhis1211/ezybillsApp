@@ -39,7 +39,7 @@ class _AddBrandsState extends State<AddBrands> {
               )),
           title: Text(
             lang.S.of(context).addBrand,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),

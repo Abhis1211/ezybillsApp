@@ -275,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 isSubUser
                                     ? '${details.companyName ?? ''} [$subUserTitle]'
                                     : details.companyName ?? '',
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.inter(
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black,
@@ -283,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               Text(
                                 details.businessCategory ?? '',
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.inter(
                                   fontSize: 15.0,
                                   fontWeight: FontWeight.normal,
                                   color: kGreyTextColor,
@@ -302,7 +302,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           //   child: Center(
                           //     child: Text(
                           //       '$currency 450',
-                          //       style: GoogleFonts.poppins(
+                          //       style: GoogleFonts.inter(
                           //         fontSize: 20.0,
                           //         color: Colors.black,
                           //       ),
@@ -340,21 +340,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     return const HomeScreenAppBarShimmer();
                   }),
                 ),
-                Container(
-                  padding: const EdgeInsets.all(10.0),
-                  child: GridView.count(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    childAspectRatio: 0.8,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 10,
-                    crossAxisCount: 3,
-                    children: List.generate(
-                      freeIcons.length,
-                      (index) => HomeGridCards(
-                        gridItems: freeIcons[index],
-                        color: color[index],
-                      ),
+                GridView.count(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  childAspectRatio: 1.0,
+                  padding: EdgeInsets.zero,
+                  crossAxisSpacing: 5,
+                  mainAxisSpacing: 10,
+                  crossAxisCount: 3,
+                  children: List.generate(
+                    freeIcons.length,
+                    (index) => HomeGridCards(
+                      gridItems: freeIcons[index],
+                      color: color[index],
                     ),
                   ),
                 ),
@@ -376,7 +374,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             lang.S.of(context).whatNew,
                             textAlign: TextAlign.start,
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 20.0,
@@ -482,7 +480,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 //       ),
                 //       Text(
                 //         'Business',
-                //         style: GoogleFonts.poppins(
+                //         style: GoogleFonts.inter(
                 //           color: Colors.black,
                 //           fontWeight: FontWeight.bold,
                 //           fontSize: 20.0,
@@ -515,7 +513,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 //       ),
                 //       Text(
                 //         'Enterprise',
-                //         style: GoogleFonts.poppins(
+                //         style: GoogleFonts.inter(
                 //           color: Colors.black,
                 //           fontWeight: FontWeight.bold,
                 //           fontSize: 20.0,
@@ -653,10 +651,6 @@ class _HomeGridCardsState extends State<HomeGridCards> {
             height: 100,
             width: 100,
             // elevation: 2,
-            // decoration: BoxDecoration(
-            //     // color: widget.color,
-            //     borderRadius: BorderRadius.circular(5.0),
-            //     border: Border.all(color: categorybackground, width: 1)),
 
             child: TextButton(
                 onPressed: () async {

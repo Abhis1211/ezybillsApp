@@ -102,7 +102,7 @@ class _AddExpenseState extends State<AddExpense> {
           backgroundColor: Colors.white,
           title: Text(
             lang.S.of(context).addExpense,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
             ),
           ),

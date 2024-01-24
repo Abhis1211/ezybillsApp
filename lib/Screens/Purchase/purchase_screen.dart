@@ -45,7 +45,7 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
         appBar: AppBar(
           title: Text(
             'Purchase',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),
@@ -92,7 +92,7 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
                             ),
                             Text(
                               items.toString(),
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.inter(
                                 fontSize: 15.0,
                                 color: Colors.white,
                               ),
@@ -105,7 +105,7 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
                         child: Center(
                           child: Text(
                             'Total: $currency$total',
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               color: Colors.white,
                               fontSize: 16.0,
                             ),

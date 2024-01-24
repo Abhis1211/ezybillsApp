@@ -30,7 +30,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               children: [
                 Text(
                   lang.S.of(context).forgotPassword,
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -43,7 +43,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       color: kGreyTextColor,
                       fontSize: 20.0,
                     ),

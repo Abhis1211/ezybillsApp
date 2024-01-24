@@ -41,7 +41,6 @@ class _SettingScreenState extends State<SettingScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     printerIsEnable();
     getCurrency();
@@ -93,6 +92,8 @@ class _SettingScreenState extends State<SettingScreen> {
                         children: [
                           GestureDetector(
                             onTap: () {
+                              print("pcikture url" +
+                                  details.pictureUrl.toString());
                               isSubUser
                                   ? null
                                   : const ProfileDetails().launch(context);
@@ -120,7 +121,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                 isSubUser
                                     ? '${details.companyName ?? ''} [$subUserTitle]'
                                     : details.companyName ?? '',
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.inter(
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
@@ -128,7 +129,7 @@ class _SettingScreenState extends State<SettingScreen> {
                               ),
                               Text(
                                 details.businessCategory ?? '',
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.inter(
                                   fontSize: 15.0,
                                   fontWeight: FontWeight.normal,
                                   color: kGreyTextColor,
@@ -152,7 +153,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 ListTile(
                   title: Text(
                     lang.S.of(context).profile,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       color: Colors.black,
                       fontSize: 18.0,
                     ),
@@ -173,7 +174,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 //   onTap: () => EasyLoading.showError('Coming Soon'),
                 //   title: Text(
                 //     'Create Online Store',
-                //     style: GoogleFonts.poppins(
+                //     style: GoogleFonts.inter(
                 //       color: Colors.black,
                 //       fontSize: 18.0,
                 //     ),
@@ -210,7 +211,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 //                 padding: const EdgeInsets.only(left: 24.0),
                 //                 child: Text(
                 //                   'Settings',
-                //                   style: GoogleFonts.poppins(
+                //                   style: GoogleFonts.inter(
                 //                     fontSize: 18.0,
                 //                     color: expanded == false ? Colors.black : kMainColor,
                 //                   ),
@@ -233,7 +234,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 //             child: ListTile(
                 //               title: Text(
                 //                 'Notification Setting',
-                //                 style: GoogleFonts.poppins(
+                //                 style: GoogleFonts.inter(
                 //                   color: Colors.black,
                 //                   fontSize: 16.0,
                 //                 ),
@@ -259,7 +260,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 //             child: ListTile(
                 //               title: Text(
                 //                 'Language Setting',
-                //                 style: GoogleFonts.poppins(
+                //                 style: GoogleFonts.inter(
                 //                   color: Colors.black,
                 //                   fontSize: 16.0,
                 //                 ),
@@ -281,7 +282,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 //                         ),
                 //                         Text(
                 //                           'Select Language',
-                //                           style: GoogleFonts.poppins(
+                //                           style: GoogleFonts.inter(
                 //                             color: Colors.black,
                 //                             fontSize: 20.0,
                 //                             fontWeight: FontWeight.bold,
@@ -320,7 +321,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 //             child: ListTile(
                 //               title: Text(
                 //                 'Online Store Setting',
-                //                 style: GoogleFonts.poppins(
+                //                 style: GoogleFonts.inter(
                 //                   color: Colors.black,
                 //                   fontSize: 16.0,
                 //                 ),
@@ -337,7 +338,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 //             child: ListTile(
                 //               title: Text(
                 //                 'App Update',
-                //                 style: GoogleFonts.poppins(
+                //                 style: GoogleFonts.inter(
                 //                   color: Colors.black,
                 //                   fontSize: 16.0,
                 //                 ),
@@ -378,7 +379,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 //                 padding: const EdgeInsets.only(left: 24.0),
                 //                 child: Text(
                 //                   'Help & Support',
-                //                   style: GoogleFonts.poppins(
+                //                   style: GoogleFonts.inter(
                 //                     fontSize: 18.0,
                 //                     color: expandedHelp == false ? Colors.black : kMainColor,
                 //                   ),
@@ -401,7 +402,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 //             child: ListTile(
                 //               title: Text(
                 //                 'FAQs',
-                //                 style: GoogleFonts.poppins(
+                //                 style: GoogleFonts.inter(
                 //                   color: Colors.black,
                 //                   fontSize: 16.0,
                 //                 ),
@@ -421,7 +422,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 //               },
                 //               title: Text(
                 //                 'Contact Us',
-                //                 style: GoogleFonts.poppins(
+                //                 style: GoogleFonts.inter(
                 //                   color: Colors.black,
                 //                   fontSize: 16.0,
                 //                 ),
@@ -462,7 +463,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 //                 padding: const EdgeInsets.only(left: 24.0),
                 //                 child: Text(
                 //                   'About Us',
-                //                   style: GoogleFonts.poppins(
+                //                   style: GoogleFonts.inter(
                 //                     fontSize: 18.0,
                 //                     color: expandedAbout == false ? Colors.black : kMainColor,
                 //                   ),
@@ -485,7 +486,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 //             child: ListTile(
                 //               title: Text(
                 //                 'About Sales Pro',
-                //                 style: GoogleFonts.poppins(
+                //                 style: GoogleFonts.inter(
                 //                   color: Colors.black,
                 //                   fontSize: 16.0,
                 //                 ),
@@ -502,7 +503,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 //             child: ListTile(
                 //               title: Text(
                 //                 'Privacy Policy',
-                //                 style: GoogleFonts.poppins(
+                //                 style: GoogleFonts.inter(
                 //                   color: Colors.black,
                 //                   fontSize: 16.0,
                 //                 ),
@@ -519,7 +520,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 //             child: ListTile(
                 //               title: Text(
                 //                 'Terms & Conditions',
-                //                 style: GoogleFonts.poppins(
+                //                 style: GoogleFonts.inter(
                 //                   color: Colors.black,
                 //                   fontSize: 16.0,
                 //                 ),
@@ -540,7 +541,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 ListTile(
                   title: Text(
                     lang.S.of(context).printing,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       color: Colors.black,
                       fontSize: 18.0,
                     ),
@@ -565,7 +566,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 // ListTile(
                 //   title: Text(
                 //     lang.S.of(context).subscription,
-                //     style: GoogleFonts.poppins(
+                //     style: GoogleFonts.inter(
                 //       color: Colors.black,
                 //       fontSize: 18.0,
                 //     ),
@@ -588,7 +589,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 ListTile(
                   title: Text(
                     lang.S.of(context).userRole,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       color: Colors.black,
                       fontSize: 18.0,
                     ),
@@ -631,7 +632,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   },
                   title: Text(
                     lang.S.of(context).currency,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       color: Colors.black,
                       fontSize: 18.0,
                     ),
@@ -645,7 +646,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     children: [
                       Text(
                         '($currency)',
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.inter(
                           color: Colors.black,
                           fontSize: 18.0,
                         ),
@@ -662,7 +663,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 ListTile(
                   title: Text(
                     lang.S.of(context).selectLang,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       color: Colors.black,
                       fontSize: 18.0,
                     ),
@@ -684,7 +685,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 ListTile(
                   title: Text(
                     lang.S.of(context).logOut,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       color: Colors.black,
                       fontSize: 18.0,
                     ),
@@ -726,7 +727,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
                         'ezyBills V-$appVersion',
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.inter(
                           color: kGreyTextColor,
                           fontSize: 16.0,
                         ),
@@ -796,7 +797,7 @@ class _NoticationSettingsState extends State<NoticationSettings> {
           Center(
             child: Text(
               'Do Not Disturb',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 color: Colors.black,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w600,
@@ -810,7 +811,7 @@ class _NoticationSettingsState extends State<NoticationSettings> {
                 'Lorem ipsum dolor sit amet, consectetur elit. Interdum cons.',
                 maxLines: 2,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   color: kGreyTextColor,
                   fontSize: 16.0,
                 ),
@@ -822,7 +823,7 @@ class _NoticationSettingsState extends State<NoticationSettings> {
             children: [
               Text(
                 notificationText,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   color: Colors.black,
                   fontSize: 16.0,
                 ),

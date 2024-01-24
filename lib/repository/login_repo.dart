@@ -67,7 +67,7 @@ class LogInRepo extends ChangeNotifier {
             EasyLoading.dismiss();
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text('User not active please contact to Adminstrate'),
+                content: Text('Please Contact ezyBills Team to Active Your Account'),
                 duration: Duration(seconds: 1),
               ),
             );

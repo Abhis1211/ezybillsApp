@@ -52,7 +52,7 @@ class _PurchaseListState extends State<PurchaseList> {
       appBar: AppBar(
         title: Text(
           'Purchase List',
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
             fontSize: 20.0,
           ),
@@ -163,7 +163,7 @@ class _PurchaseListState extends State<PurchaseList> {
                                 Text(
                                   'Riead',
                                   textAlign: TextAlign.start,
-                                  style: GoogleFonts.poppins(
+                                  style: GoogleFonts.inter(
                                     color: Colors.black,
                                     fontSize: 15.0,
                                   ),

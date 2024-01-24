@@ -96,7 +96,7 @@ class _PackageScreenState extends State<PackageScreen> {
         backgroundColor: Colors.white,
         title: Text(
           lang.S.of(context).yourPack,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
           ),
         ),

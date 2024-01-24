@@ -26,7 +26,7 @@ class _CategoryListState extends State<CategoryList> {
       appBar: AppBar(
         title: Text(
           'Categories',
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
             fontSize: 20.0,
           ),
@@ -119,7 +119,7 @@ class _CategoryListState extends State<CategoryList> {
                                           children: [
                                             Text(
                                               data[i].categoryName,
-                                              style: GoogleFonts.poppins(
+                                              style: GoogleFonts.inter(
                                                 fontSize: 18.0,
                                                 color: Colors.black,
                                               ),
@@ -135,7 +135,7 @@ class _CategoryListState extends State<CategoryList> {
                                             //       itemBuilder: (context, index) {
                                             //         return Text(
                                             //           '${variations[index]}, ',
-                                            //           style: GoogleFonts.poppins(
+                                            //           style: GoogleFonts.inter(
                                             //             fontSize: 14.0,
                                             //             color: Colors.grey,
                                             //           ),

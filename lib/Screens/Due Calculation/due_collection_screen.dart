@@ -90,7 +90,7 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
             backgroundColor: Colors.white,
             title: Text(
               lang.S.of(context).collectDue,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 color: Colors.black,
               ),
             ),

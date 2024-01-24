@@ -39,7 +39,7 @@ class _AddUnitsState extends State<AddUnits> {
               )),
           title: Text(
             lang.S.of(context).addUnit,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),

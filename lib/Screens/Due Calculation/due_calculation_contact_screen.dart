@@ -26,7 +26,7 @@ class _DueCalculationContactScreenState extends State<DueCalculationContactScree
         backgroundColor: Colors.white,
         title: Text(
           lang.S.of(context).dueList,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
           ),
         ),
@@ -85,14 +85,14 @@ class _DueCalculationContactScreenState extends State<DueCalculationContactScree
                                         children: [
                                           Text(
                                             customer[index].customerName,
-                                            style: GoogleFonts.poppins(
+                                            style: GoogleFonts.inter(
                                               color: Colors.black,
                                               fontSize: 15.0,
                                             ),
                                           ),
                                           Text(
                                             customer[index].type,
-                                            style: GoogleFonts.poppins(
+                                            style: GoogleFonts.inter(
                                               color: color,
                                               fontSize: 15.0,
                                             ),
@@ -106,14 +106,14 @@ class _DueCalculationContactScreenState extends State<DueCalculationContactScree
                                         children: [
                                           Text(
                                             '$currency ${customer[index].dueAmount}',
-                                            style: GoogleFonts.poppins(
+                                            style: GoogleFonts.inter(
                                               color: Colors.black,
                                               fontSize: 15.0,
                                             ),
                                           ),
                                           Text(
                                             lang.S.of(context).due,
-                                            style: GoogleFonts.poppins(
+                                            style: GoogleFonts.inter(
                                               color: const Color(0xFFff5f00),
                                               fontSize: 15.0,
                                             ),

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,7 +13,6 @@ import 'package:mobile_pos/GlobalComponents/button_global.dart';
 import 'package:mobile_pos/Screens/Authentication/phone.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../GlobalComponents/Model/seller_info_model.dart';
 import '../../Provider/shop_category_provider.dart';
 import '../../constant.dart';
@@ -20,8 +20,6 @@ import '../../model/personal_information_model.dart';
 import '../../model/shop_category_model.dart';
 import '../../model/subscription_plan_model.dart';
 import '../../subscription.dart';
-import '../Home/home.dart';
-import '../subscription/purchase_premium_plan_screen.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
 
 class ProfileSetup extends StatefulWidget {
@@ -117,7 +115,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
   }
 
   bool firstTime = true;
-
+  bool _switchValue = false;
   DropdownButton<String> getLanguage() {
     List<DropdownMenuItem<String>> dropDownLangItems = [];
     for (String lang in language) {
@@ -190,7 +188,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
               iconTheme: const IconThemeData(color: Colors.black),
               title: Text(
                 lang.S.of(context).setUpProfile,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   color: Colors.black,
                 ),
               ),
@@ -209,7 +207,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.inter(
                           color: kGreyTextColor,
                           fontSize: 15.0,
                         ),
@@ -261,7 +259,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                                               ),
                                               Text(
                                                 lang.S.of(context).gallery,
-                                                style: GoogleFonts.poppins(
+                                                style: GoogleFonts.inter(
                                                   fontSize: 20.0,
                                                   color: kMainColor,
                                                 ),
@@ -299,7 +297,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                                               ),
                                               Text(
                                                 lang.S.of(context).camera,
-                                                style: GoogleFonts.poppins(
+                                                style: GoogleFonts.inter(
                                                   fontSize: 20.0,
                                                   color: kGreyTextColor,
                                                 ),
@@ -370,7 +368,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
                                   labelText: lang.S.of(context).businessCat,
-                                  labelStyle: GoogleFonts.poppins(
+                                  labelStyle: GoogleFonts.inter(
                                     color: Colors.black,
                                     fontSize: 20.0,
                                   ),
@@ -473,7 +471,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
                                   labelText: lang.S.of(context).language,
-                                  labelStyle: GoogleFonts.poppins(
+                                  labelStyle: GoogleFonts.inter(
                                     color: Colors.black,
                                     fontSize: 20.0,
                                   ),
@@ -502,8 +500,28 @@ class _ProfileSetupState extends State<ProfileSetup> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 40.0,
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            lang.S.of(context).gstenable,
+                            style: GoogleFonts.inter(
+                              fontSize: 15.0,
+                              color: Colors.black,
+                            ),
+                          ),
+                          CupertinoSwitch(
+                            value: _switchValue,
+                            onChanged: (value) {
+                              setState(() {
+                                _switchValue = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                     ButtonGlobal(
                       iconWidget: Icons.arrow_forward,
@@ -569,20 +587,21 @@ class _ProfileSetupState extends State<ProfileSetup> {
 
                           PersonalInformationModel personalInformation =
                               PersonalInformationModel(
-                            businessCategory: dropdownValue,
-                            companyName: companyName,
-                            phoneNumber: widget.loginWithPhone
-                                ? PhoneAuth.phoneNumber
-                                : phoneNumber,
-                            countryName: controller.text,
-                            language: dropdownLangValue,
-                            pictureUrl: profilePicture,
-                            shopOpeningBalance: openingBalance,
-                            remainingShopBalance: openingBalance,
-                            invoiceCounter: 1,
-                          );
+                                  businessCategory: dropdownValue,
+                                  companyName: companyName,
+                                  phoneNumber: widget.loginWithPhone
+                                      ? PhoneAuth.phoneNumber
+                                      : phoneNumber,
+                                  countryName: controller.text,
+                                  language: dropdownLangValue,
+                                  pictureUrl: profilePicture,
+                                  shopOpeningBalance: openingBalance,
+                                  remainingShopBalance: openingBalance,
+                                  invoiceCounter: 1,
+                                  gstenable: _switchValue);
                           await personalInformationRef
                               .set(personalInformation.toJson());
+
                           SellerInfoModel sellerInfoModel = SellerInfoModel(
                               businessCategory: dropdownValue,
                               companyName: companyName,
@@ -678,7 +697,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                 Center(
                   child: Text(
                     "Thank you for Registration admin will be verify your account shortly",
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: 16.0,
                       color: kGreyTextColor,
                     ),
@@ -698,7 +717,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                     },
                     child: Text(
                       "Done",
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 18.0,
                         color: Colors.white,
                       ),

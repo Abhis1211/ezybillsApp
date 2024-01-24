@@ -24,7 +24,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       appBar: AppBar(
         title: Text(
           lang.S.of(context).deliveryAddress,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
             fontSize: 20.0,
           ),
@@ -73,7 +73,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                                       ),
                                       Text(
                                         '${deliveryAddress[index].firstName} / ${deliveryAddress[index].addressType}',
-                                        style: GoogleFonts.poppins(
+                                        style: GoogleFonts.inter(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20.0,
                                           color: Colors.black,
@@ -91,7 +91,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                                         child: Text(
                                           deliveryAddress[index].addressLocation,
                                           maxLines: 2,
-                                          style: GoogleFonts.poppins(
+                                          style: GoogleFonts.inter(
                                             color: kGreyTextColor,
                                           ),
                                         ),
@@ -111,7 +111,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                                   padding: const EdgeInsets.only(left: 20.0, top: 10.0, bottom: 30.0),
                                   child: Text(
                                     deliveryAddress[index].phoneNumber,
-                                    style: GoogleFonts.poppins(
+                                    style: GoogleFonts.inter(
                                       color: Colors.black,
                                     ),
                                   ),

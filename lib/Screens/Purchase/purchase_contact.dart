@@ -24,7 +24,7 @@ class _PurchaseContactState extends State<PurchaseContact> {
         backgroundColor: Colors.white,
         title: Text(
           'Choose a Customer',
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
           ),
         ),
@@ -88,14 +88,14 @@ class _PurchaseContactState extends State<PurchaseContact> {
                         children: [
                           Text(
                             customer.customerName,
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               color: Colors.black,
                               fontSize: 15.0,
                             ),
                           ),
                           Text(
                             customer.phoneNumber,
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               color: kGreyTextColor,
                               fontSize: 15.0,
                             ),

@@ -26,7 +26,7 @@ class _UserRoleScreenState extends State<UserRoleScreen> {
           backgroundColor: Colors.white,
           title: Text(
             lang.S.of(context).userRole,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
             ),
           ),

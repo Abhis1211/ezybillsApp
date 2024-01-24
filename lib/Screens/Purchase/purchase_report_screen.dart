@@ -26,7 +26,7 @@ class _PurchaseReportScreenState extends State<PurchaseReportScreen> {
         appBar: AppBar(
           title: Text(
             'Purchase Report',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),
@@ -139,7 +139,7 @@ class _PurchaseReportScreenState extends State<PurchaseReportScreen> {
                                       child: Text(
                                         salesReport[index].customerName,
                                         textAlign: TextAlign.start,
-                                        style: GoogleFonts.poppins(
+                                        style: GoogleFonts.inter(
                                           color: Colors.black,
                                         ),
                                       ),
@@ -149,7 +149,7 @@ class _PurchaseReportScreenState extends State<PurchaseReportScreen> {
                                     flex: 1,
                                     child: Text(
                                       salesReport[index].purchaseQuantity,
-                                      style: GoogleFonts.poppins(
+                                      style: GoogleFonts.inter(
                                         color: Colors.black,
                                       ),
                                     ),
@@ -157,7 +157,7 @@ class _PurchaseReportScreenState extends State<PurchaseReportScreen> {
                                   Expanded(
                                     child: Text(
                                       salesReport[index].purchasePrice,
-                                      style: GoogleFonts.poppins(
+                                      style: GoogleFonts.inter(
                                         color: Colors.black,
                                       ),
                                     ),

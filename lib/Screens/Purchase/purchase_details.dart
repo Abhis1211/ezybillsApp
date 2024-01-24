@@ -36,7 +36,7 @@ class _PurchaseDetailsState extends State<PurchaseDetails> {
       appBar: AppBar(
         title: Text(
           'Purchase Details',
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.black,
             fontSize: 20.0,
           ),
@@ -73,7 +73,7 @@ class _PurchaseDetailsState extends State<PurchaseDetails> {
                   children: [
                     Text(
                       cart.cartItem[index].productName.toString(),
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         color: kGreyTextColor,
                         fontSize: 15.0,
                       ),
@@ -81,7 +81,7 @@ class _PurchaseDetailsState extends State<PurchaseDetails> {
                     const Spacer(),
                     Text(
                       '$currency${cart.cartItem[index].unitPrice.toString()}',
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         color: kGreyTextColor,
                         fontSize: 15.0,
                       ),
@@ -101,7 +101,7 @@ class _PurchaseDetailsState extends State<PurchaseDetails> {
               children: [
                 Text(
                   'Subtotal',
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     color: kGreyTextColor,
                     fontSize: 15.0,
                   ),
@@ -109,7 +109,7 @@ class _PurchaseDetailsState extends State<PurchaseDetails> {
                 const Spacer(),
                 Text(
                   cart.getTotalAmount().toString(),
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     color: kGreyTextColor,
                     fontSize: 15.0,
                   ),
@@ -123,7 +123,7 @@ class _PurchaseDetailsState extends State<PurchaseDetails> {
               children: [
                 Text(
                   'Discount',
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     color: kGreyTextColor,
                     fontSize: 15.0,
                   ),
@@ -131,7 +131,7 @@ class _PurchaseDetailsState extends State<PurchaseDetails> {
                 const Spacer(),
                 Text(
                   '00',
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     color: kGreyTextColor,
                     fontSize: 15.0,
                   ),
@@ -153,7 +153,7 @@ class _PurchaseDetailsState extends State<PurchaseDetails> {
                 children: [
                   Text(
                     'Total',
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       color: Colors.black,
                       fontSize: 15.0,
                     ),
@@ -161,7 +161,7 @@ class _PurchaseDetailsState extends State<PurchaseDetails> {
                   const Spacer(),
                   Text(
                     cart.getTotalAmount().toString(),
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       color: Colors.black,
                       fontSize: 15.0,
                     ),

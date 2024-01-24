@@ -32,7 +32,7 @@ class _PaymentCompletedState extends State<PaymentCompleted> {
         appBar: AppBar(
           title: Text(
             lang.S.of(context).paymentComplete,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),
@@ -77,7 +77,7 @@ class _PaymentCompletedState extends State<PaymentCompleted> {
                           children: [
                             Text(
                               lang.S.of(context).total,
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.inter(
                                 fontSize: 20.0,
                                 color: Colors.black,
                               ),
@@ -87,7 +87,7 @@ class _PaymentCompletedState extends State<PaymentCompleted> {
                             ),
                             Text(
                               providerData.getTotalAmount().toString(),
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.inter(
                                 fontSize: 20.0,
                                 color: kGreyTextColor,
                               ),
@@ -111,7 +111,7 @@ class _PaymentCompletedState extends State<PaymentCompleted> {
                           children: [
                             Text(
                               lang.S.of(context).retur,
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.inter(
                                 fontSize: 20.0,
                                 color: Colors.black,
                               ),
@@ -121,7 +121,7 @@ class _PaymentCompletedState extends State<PaymentCompleted> {
                             ),
                             Text(
                               '$currency 00.00',
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.inter(
                                 fontSize: 20.0,
                                 color: kGreyTextColor,
                               ),

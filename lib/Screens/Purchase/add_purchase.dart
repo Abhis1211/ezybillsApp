@@ -88,7 +88,7 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
             backgroundColor: Colors.white,
             title: Text(
               lang.S.of(context).addPurchase,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 color: Colors.black,
               ),
             ),
@@ -254,7 +254,7 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
                                             const SizedBox(width: 5),
                                             Text(
                                               providerData.cartItemPurchaseList[index].productStock,
-                                              style: GoogleFonts.poppins(
+                                              style: GoogleFonts.inter(
                                                 color: kGreyTextColor,
                                                 fontSize: 15.0,
                                               ),

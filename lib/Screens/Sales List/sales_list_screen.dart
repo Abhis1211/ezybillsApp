@@ -37,7 +37,7 @@ class _SalesListScreenState extends State<SalesListScreen> {
         appBar: AppBar(
           title: Text(
             lang.S.of(context).saleList,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),

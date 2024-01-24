@@ -78,7 +78,7 @@ class _AddCategoryState extends State<AddCategory> {
               )),
           title: Text(
             'Add Category',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.black,
               fontSize: 20.0,
             ),
@@ -253,7 +253,7 @@ class _AddCategoryState extends State<AddCategory> {
                                               ),
                                               Text(
                                                 lang.S.of(context).gallery,
-                                                style: GoogleFonts.poppins(
+                                                style: GoogleFonts.inter(
                                                   fontSize: 20.0,
                                                   color: kMainColor,
                                                 ),
@@ -291,7 +291,7 @@ class _AddCategoryState extends State<AddCategory> {
                                               ),
                                               Text(
                                                 lang.S.of(context).camera,
-                                                style: GoogleFonts.poppins(
+                                                style: GoogleFonts.inter(
                                                   fontSize: 20.0,
                                                   color: kGreyTextColor,
                                                 ),
