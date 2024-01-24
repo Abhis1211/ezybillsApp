@@ -198,12 +198,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ],
                   ),
                  
-                  TextButton(
-                    onPressed: () {
-                      const PhoneAuth().launch(context);
-                    },
-                    child: Text(lang.S.of(context).loginWithPhone),
-                  ),
+                 
                 ],
               ),
             ),

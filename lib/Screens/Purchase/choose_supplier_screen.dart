@@ -189,6 +189,7 @@ class _PurchaseContactsState extends State<PurchaseContacts> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: kMainColor,
             child: const Icon(Icons.add),
             onPressed: () {
               const AddCustomer().launch(context);

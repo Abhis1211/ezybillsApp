@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_pos/GlobalComponents/button_global.dart';
+import 'package:mobile_pos/Screens/Authentication/phone.dart';
 import 'package:mobile_pos/Screens/Authentication/register_form.dart';
 import 'package:mobile_pos/repository/login_repo.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -10,7 +11,7 @@ import 'forgot_password.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key, required this.isEmailLogin}) : super(key: key);
+  const LoginForm({Key? key, this.isEmailLogin = false}) : super(key: key);
 
   final bool isEmailLogin;
 
@@ -44,7 +45,10 @@ class _LoginFormState extends State<LoginForm> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('images/logoandname.png',height: 50,),
+                  Image.asset(
+                    'images/logoandname.png',
+                    height: 50,
+                  ),
                   const SizedBox(
                     height: 30.0,
                   ),
@@ -60,7 +64,8 @@ class _LoginFormState extends State<LoginForm> {
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
                               labelText: lang.S.of(context).emailText,
-                              hintText: lang.S.of(context).enterYourEmailAddress,
+                              hintText:
+                                  lang.S.of(context).enterYourEmailAddress,
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -88,7 +93,9 @@ class _LoginFormState extends State<LoginForm> {
                                     showPassword = !showPassword;
                                   });
                                 },
-                                icon: Icon(showPassword ? Icons.visibility_off : Icons.visibility),
+                                icon: Icon(showPassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
                               ),
                             ),
                             validator: (value) {
@@ -127,10 +134,12 @@ class _LoginFormState extends State<LoginForm> {
                   ).visible(widget.isEmailLogin),
                   ButtonGlobalWithoutIcon(
                       buttontext: lang.S.of(context).logIn,
-                      buttonDecoration: kButtonDecoration.copyWith(color: kMainColor),
+                      buttonDecoration:
+                          kButtonDecoration.copyWith(color: kMainColor),
                       onPressed: () {
                         if (validateAndSave()) {
-                          loginProvider.signIn(context,1);
+                          loginProvider.signIn(
+                              context, widget.isEmailLogin == true ? 1 : 0);
                         }
                       },
                       buttonTextColor: Colors.white),
@@ -139,7 +148,8 @@ class _LoginFormState extends State<LoginForm> {
                     children: [
                       Text(
                         lang.S.of(context).noAcc,
-                        style: GoogleFonts.inter(color: kGreyTextColor, fontSize: 15.0),
+                        style: GoogleFonts.inter(
+                            color: kGreyTextColor, fontSize: 15.0),
                       ),
                       TextButton(
                         onPressed: () {
@@ -157,6 +167,15 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ],
                   ).visible(widget.isEmailLogin),
+                  TextButton(
+                    onPressed: () {
+                      const PhoneAuth().launch(context);
+                    },
+                    child: Text(
+                      lang.S.of(context).loginWithPhone,
+                      style: TextStyle(color: kMainColor),
+                    ),
+                  ),
                 ],
               ),
             ),

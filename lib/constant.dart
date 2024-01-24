@@ -21,6 +21,7 @@ const textcolor= Color(0xFF677294);
 const hometextcolor= Color(0xFF4F4F4F);
 bool connected = false;
 bool isfirsttimelogin = false;
+bool isprofilesetup= false;
 bool isPrintEnable = false;
 List<String> paymentsTypeList = ['Cash', 'Card', 'Check', 'Mobile Pay', 'Due'];
 bool isExpiringInFiveDays = false;

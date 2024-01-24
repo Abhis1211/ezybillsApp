@@ -50,6 +50,7 @@ class LogInRepo extends ChangeNotifier {
       // ignore: unnecessary_null_comparison
       if (userCredential != null) {
         var activestatus = await checkactiveostatus(email);
+        print("satff login.." + stafflogin.toString());
         if (stafflogin == 0) {
           if (activestatus == 1) {
             EasyLoading.showSuccess('Successful')
@@ -67,7 +68,8 @@ class LogInRepo extends ChangeNotifier {
             EasyLoading.dismiss();
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text('Please Contact ezyBills Team to Active Your Account'),
+                content:
+                    Text('Please Contact ezyBills Team to Active Your Account'),
                 duration: Duration(seconds: 1),
               ),
             );

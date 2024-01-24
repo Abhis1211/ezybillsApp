@@ -325,7 +325,8 @@ class _SalesContactState extends State<SalesContact> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add),
+          backgroundColor: kMainColor,
+            child: const Icon(Icons.add,),
             onPressed: () {
               const AddCustomer().launch(context);
             }),

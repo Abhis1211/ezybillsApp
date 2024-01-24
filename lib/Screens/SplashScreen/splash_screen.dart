@@ -17,7 +17,9 @@ import '../../GlobalComponents/Model/seller_info_model.dart';
 import '../../GlobalComponents/license_verifier.dart';
 import '../../currency.dart';
 import '../../repository/subscription_repo.dart';
+import '../Authentication/login_form.dart';
 import '../Authentication/phone.dart';
+import '../Authentication/profile_setup.dart';
 import '../Home/home.dart';
 import '../language/language_provider.dart';
 
@@ -357,13 +359,25 @@ class _SplashScreenState extends State<SplashScreen> {
             // const RedeemConfirmationScreen().launch(context);
           } else {
             if (currentUser != null && activestatus == 1) {
-              const Home().launch(context);
+              isprofilesetup = prefs.getBool('isprofilesetup') ?? false;
+              if (isprofilesetup == true) {
+                const Home().launch(context);
+              } else {
+                ProfileSetup(
+                  loginWithPhone:
+                      currentUser!.phoneNumber == null ? false : true,
+                ).launch(context);
+              }
             } else {
               isfirsttimelogin = prefs.getBool('isfirsttime') ?? false;
+
               if (isfirsttimelogin == false) {
                 const OnBoard().launch(context);
               } else {
-                PhoneAuth().launch(context);
+                LoginForm(
+                  isEmailLogin: true,
+                ).launch(context);
+                // PhoneAuth().launch(context);
               }
             }
           }

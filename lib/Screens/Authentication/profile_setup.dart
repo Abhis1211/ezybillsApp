@@ -628,8 +628,10 @@ class _ProfileSetupState extends State<ProfileSetup> {
 
                           EasyLoading.showSuccess('Added Successfully',
                                   duration: const Duration(milliseconds: 1000))
-                              .then((value) =>
-                                  prefs.setBool('isfirsttime', true));
+                              .then((value) {
+                            prefs.setBool('isfirsttime', true);
+                            prefs.setBool('isprofilesetup', true);
+                          });
 
                           // ignore: use_build_context_synchronously
                           // const PurchasePremiumPlanScreen(

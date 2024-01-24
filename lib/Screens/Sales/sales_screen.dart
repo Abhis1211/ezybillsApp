@@ -635,7 +635,7 @@ class _ProductCardState extends State<ProductCard> {
             Center(
               child: Text(
                 widget.productTitle,
-                maxLines: 2,
+                maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.inter(
                     color: bluetxtcolor,
@@ -652,13 +652,15 @@ class _ProductCardState extends State<ProductCard> {
             //     color: kGreyTextColor,
             //   ),
             // ),
-            Text(
-              '$currency${widget.productPrice}',
-              style: GoogleFonts.inter(
-                  color: pricecolor,
-                  textStyle:
-                      TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600)),
-              textAlign: TextAlign.center,
+            Center(
+              child: Text(
+                '$currency${widget.productPrice}',
+                style: GoogleFonts.inter(
+                    color: pricecolor,
+                    textStyle:
+                        TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600)),
+                textAlign: TextAlign.center,
+              ),
             ),
 
             // Padding(
