@@ -560,9 +560,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   checkfirsttimelogin(email) async {
+    print(email.toString());
     String key = '';
     var sellerdata = [];
-
     await FirebaseDatabase.instance
         .ref()
         .child('Admin Panel')
@@ -577,14 +577,23 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       }
     });
-    DatabaseReference ref =
-        FirebaseDatabase.instance.ref("Admin Panel/Seller List/$key");
-    var data = await ref.get();
-    for (var element in data.children) {
-      sellerdata.add(element.value);
+    print("key" + key.toString());
+    if (key == null || key == "") {
+      sellerdata = [];
+    } else {
+      DatabaseReference ref =
+          FirebaseDatabase.instance.ref("Admin Panel/Seller List/$key");
+
+      var data = await ref.get();
+      print("hgdsh" + data.toString());
+      for (var element in data.children) {
+        sellerdata.add(element.value);
+      }
     }
+
     print("seller" + sellerdata.toString());
-    return sellerdata.length > 0 ? sellerdata[8] : 0;
+
+    return sellerdata.length > 0 ? sellerdata[9] : 0;
   }
 
   @override

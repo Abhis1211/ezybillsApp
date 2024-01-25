@@ -10,6 +10,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_pos/GlobalComponents/button_global.dart';
+import 'package:mobile_pos/Screens/Authentication/login_form.dart';
 import 'package:mobile_pos/Screens/Authentication/phone.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -619,7 +620,8 @@ class _ProfileSetupState extends State<ProfileSetup> {
                               subscriptionName: 'Free',
                               subscriptionMethod: 'Not Provided',
                               activeStatus: 0,
-                              profileSetup: 1);
+                              profileSetup: 1,
+                              created_date: DateTime.now().toString());
                           await FirebaseDatabase.instance
                               .ref()
                               .child('Admin Panel')
@@ -716,7 +718,9 @@ class _ProfileSetupState extends State<ProfileSetup> {
                   ),
                   child: TextButton(
                     onPressed: () {
-                      PhoneAuth().launch(context);
+                      LoginForm(
+                        isEmailLogin: true,
+                      ).launch(context);
                     },
                     child: Text(
                       "Done",

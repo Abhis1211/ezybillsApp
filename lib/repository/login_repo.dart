@@ -46,7 +46,7 @@ class LogInRepo extends ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      print(userCredential.user?.email);
+      print(userCredential.user?.email.toString());
       // ignore: unnecessary_null_comparison
       if (userCredential != null) {
         var activestatus = await checkactiveostatus(email);

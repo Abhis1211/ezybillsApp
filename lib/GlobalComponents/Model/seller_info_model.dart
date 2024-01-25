@@ -12,6 +12,7 @@ class SellerInfoModel {
     this.subscriptionMethod,
     this.activeStatus,
     this.profileSetup,
+    this.created_date,
     this.email,
   });
 
@@ -28,7 +29,7 @@ class SellerInfoModel {
     subscriptionMethod = json['subscriptionMethod'];
     activeStatus = json['activeStatus'];
     profileSetup = json['profileSetup'];
-    email = json['email'];
+    created_date = json['created_date'];
   }
   dynamic phoneNumber;
   String? companyName;
@@ -43,6 +44,7 @@ class SellerInfoModel {
   int? activeStatus;
   int? profileSetup;
   String? email;
+  String? created_date;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -59,6 +61,7 @@ class SellerInfoModel {
     map['activeStatus'] = activeStatus;
     map['profileSetup'] = profileSetup;
     map['email'] = email;
+    map['created_date'] = created_date;
     return map;
   }
 }
