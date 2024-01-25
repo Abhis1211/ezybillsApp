@@ -13,7 +13,7 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
-import '../../GlobalComponents/Model/seller_info_model.dart';
+
 import '../../GlobalComponents/license_verifier.dart';
 import '../../currency.dart';
 import '../../repository/subscription_repo.dart';
@@ -80,6 +80,7 @@ class _SplashScreenState extends State<SplashScreen> {
   getCurrency() async {
     final prefs = await SharedPreferences.getInstance();
     currency = prefs.getString('currency') ?? '\$';
+
     currencyName = prefs.getString('currencyName') ?? 'United States Dollar';
   }
 
@@ -223,7 +224,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void init() async {
-    var activestatus = await checkactiveostatus('sk123@gmail.com');
+    // var activestatus =
+    //     await checkfirsttimelogin(currentUser == null ? 0 : currentUser!.email);
     setLanguage();
     final prefs = await SharedPreferences.getInstance();
     isPrintEnable = prefs.getBool('isPrintEnable') ?? true;
@@ -236,7 +238,7 @@ class _SplashScreenState extends State<SplashScreen> {
       bool isValid = await PurchaseModel().isActiveBuyer();
       print("isvalid" + isValid.toString());
       if (isValid) {
-        await Future.delayed(const Duration(seconds: 2), () {
+        await Future.delayed(const Duration(seconds: 2), () async {
           if (isUpdateAvailable &&
               (skipVersion == null || skipVersion != newUpdateVersion)) {
             showDialog(
@@ -358,10 +360,20 @@ class _SplashScreenState extends State<SplashScreen> {
             );
             // const RedeemConfirmationScreen().launch(context);
           } else {
-            if (currentUser != null && activestatus == 1) {
-              isprofilesetup = prefs.getBool('isprofilesetup') ?? false;
-              if (isprofilesetup == true) {
-                const Home().launch(context);
+            if (currentUser != null) {
+              var isprofilesetup = await checkfirsttimelogin(
+                  currentUser == null ? 0 : currentUser!.email);
+
+              print("isprofilesetup" + isprofilesetup.toString());
+              if (currentUser != null) {
+                if (isprofilesetup == 1) {
+                  const Home().launch(context);
+                } else {
+                  ProfileSetup(
+                    loginWithPhone:
+                        currentUser!.phoneNumber == null ? false : true,
+                  ).launch(context);
+                }
               } else {
                 ProfileSetup(
                   loginWithPhone:
@@ -544,7 +556,35 @@ class _SplashScreenState extends State<SplashScreen> {
     for (var element in data.children) {
       sellerdata.add(element.value);
     }
-    return sellerdata[0];
+    return sellerdata.length > 0 ? sellerdata[0] : 0;
+  }
+
+  checkfirsttimelogin(email) async {
+    String key = '';
+    var sellerdata = [];
+
+    await FirebaseDatabase.instance
+        .ref()
+        .child('Admin Panel')
+        .child('Seller List')
+        .orderByKey()
+        .get()
+        .then((value) async {
+      for (var element in value.children) {
+        var data = jsonDecode(jsonEncode(element.value));
+        if (data['email'].toString() == email) {
+          key = element.key.toString();
+        }
+      }
+    });
+    DatabaseReference ref =
+        FirebaseDatabase.instance.ref("Admin Panel/Seller List/$key");
+    var data = await ref.get();
+    for (var element in data.children) {
+      sellerdata.add(element.value);
+    }
+    print("seller" + sellerdata.toString());
+    return sellerdata.length > 0 ? sellerdata[8] : 0;
   }
 
   @override

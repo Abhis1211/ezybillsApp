@@ -169,7 +169,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
                   Flexible(
                     child: TextButton(
                       onPressed: () {
-                        const LoginForm(isEmailLogin: false).launch(context);
+                        const LoginForm(isEmailLogin: true).launch(context);
                       },
                       
                       child: Text(

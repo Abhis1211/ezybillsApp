@@ -618,7 +618,8 @@ class _ProfileSetupState extends State<ProfileSetup> {
                               subscriptionDate: DateTime.now().toString(),
                               subscriptionName: 'Free',
                               subscriptionMethod: 'Not Provided',
-                              activeStatus: 0);
+                              activeStatus: 0,
+                              profileSetup: 1);
                           await FirebaseDatabase.instance
                               .ref()
                               .child('Admin Panel')

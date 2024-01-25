@@ -139,7 +139,7 @@ class _LoginFormState extends State<LoginForm> {
                       onPressed: () {
                         if (validateAndSave()) {
                           loginProvider.signIn(
-                              context, widget.isEmailLogin == true ? 1 : 0);
+                              context, widget.isEmailLogin == true ? 0 : 1);
                         }
                       },
                       buttonTextColor: Colors.white),
@@ -175,7 +175,7 @@ class _LoginFormState extends State<LoginForm> {
                       lang.S.of(context).loginWithPhone,
                       style: TextStyle(color: kMainColor),
                     ),
-                  ),
+                  ).visible(widget.isEmailLogin),
                 ],
               ),
             ),

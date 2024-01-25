@@ -219,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     subscriptionRemainder();
-    getPaypalInfo();
+    // getPaypalInfo();
     getAllSubscriptionPlan();
   }
 

@@ -37,6 +37,16 @@ class _OnBoardState extends State<OnBoard> {
   }
 
   List<Map<String, dynamic>> sliderList = [];
+  @override
+  void initState() {
+    getdata();
+    super.initState();
+  }
+
+  getdata() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isfirsttime', true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +61,9 @@ class _OnBoardState extends State<OnBoard> {
               padding: const EdgeInsets.only(right: 20),
               child: TextButton(
                 onPressed: () {
-                  const PhoneAuth().launch(context);
+                  const LoginForm(
+                    isEmailLogin: true,
+                  ).launch(context);
                   // const SignInScreen().launch(context);
                   // Navigator.pushNamed(context, '/signIn');
                 },
@@ -148,7 +160,9 @@ class _OnBoardState extends State<OnBoard> {
                           ? pageController.nextPage(
                               duration: const Duration(microseconds: 1000),
                               curve: Curves.bounceInOut)
-                          : const PhoneAuth().launch(context);
+                          : const LoginForm(
+                              isEmailLogin: true,
+                            ).launch(context);
                       // : const SignInScreen().launch(context);
                     },
                   );
