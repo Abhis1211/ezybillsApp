@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,7 +37,7 @@ class _SettingScreenState extends State<SettingScreen> {
   bool expandedHelp = false;
   bool expandedAbout = false;
   bool selected = false;
-
+  bool updateswitchvalue = false;
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
     EasyLoading.showSuccess('Successfully Logged Out');
@@ -41,9 +45,30 @@ class _SettingScreenState extends State<SettingScreen> {
 
   @override
   void initState() {
-    super.initState();
     printerIsEnable();
+    setState(() {
+      updateswitchvalue = true;
+    });
     getCurrency();
+    getgstdata();
+    super.initState();
+  }
+
+  getgstdata() async {
+    final userRef = FirebaseDatabase.instance
+        .ref(constUserId)
+        .child('Personal Information');
+
+    final model = await userRef.get();
+    var data = jsonDecode(jsonEncode(model.value));
+    if (data == null) {
+      return null;
+    } else {
+      var personal_information_model = PersonalInformationModel.fromJson(data);
+      setState(() {
+        _switchValue = personal_information_model.gstenable!;
+      });
+    }
   }
 
   getCurrency() async {
@@ -66,6 +91,7 @@ class _SettingScreenState extends State<SettingScreen> {
     }
   }
 
+  bool _switchValue = false;
   void printerIsEnable() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -88,6 +114,8 @@ class _SettingScreenState extends State<SettingScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: userProfileDetails.when(data: (details) {
+                      // _switchValue = details.gstenable!;
+
                       return Row(
                         children: [
                           GestureDetector(
@@ -561,7 +589,65 @@ class _SettingScreenState extends State<SettingScreen> {
                     },
                   ),
                 ),
+                ListTile(
+                  title: Text(
+                    lang.S.of(context).gstenable,
+                    style: GoogleFonts.inter(
+                      color: Colors.black,
+                      fontSize: 18.0,
+                    ),
+                  ),
+                  leading: Image.asset("images/gst.png",
+                      height: 25, color: kMainColor),
+                  // Icon(
+                  //   Icons.money,
+                  //   color: kMainColor,
+                  // ),
+                  trailing: Switch.adaptive(
+                    value: _switchValue,
+                    onChanged: (bool value) async {
+                      // final prefs = await SharedPreferences.getInstance();
+                      // await prefs.setBool('isPrintEnable', value);
+                      setState(() {
+                        _switchValue = !_switchValue;
+                        // updateswitchvalue == true;
+                      });
+                      final DatabaseReference userinfo = await FirebaseDatabase
+                          .instance
+                          .ref()
+                          .child(constUserId)
+                          .child('Personal Information');
 
+                      await userinfo.update({
+                        "gstenable": value,
+                      });
+                    },
+                  ),
+                ),
+
+                // Padding(
+                //   padding: const EdgeInsets.all(10.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Text(
+                //         lang.S.of(context).gstenable,
+                //         style: GoogleFonts.inter(
+                //           fontSize: 15.0,
+                //           color: Colors.black,
+                //         ),
+                //       ),
+                //       CupertinoSwitch(
+                //         value: _switchValue,
+                //         onChanged: (value) {
+                //           setState(() {
+                //             _switchValue = value;
+                //           });
+                //         },
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 // ///_________subscription_____________________________________________________
                 // ListTile(
                 //   title: Text(

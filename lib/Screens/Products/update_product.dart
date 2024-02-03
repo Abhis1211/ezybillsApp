@@ -36,7 +36,8 @@ class UpdateProduct extends StatefulWidget {
 class _UpdateProductState extends State<UpdateProduct> {
   late String productKey;
   late ProductModel updatedProductModel;
-  GetCategoryAndVariationModel data = GetCategoryAndVariationModel(variations: [], categoryName: '');
+  GetCategoryAndVariationModel data =
+      GetCategoryAndVariationModel(variations: [], categoryName: '');
   bool showProgress = false;
   final ImagePicker _picker = ImagePicker();
   XFile? pickedImage;
@@ -50,13 +51,16 @@ class _UpdateProductState extends State<UpdateProduct> {
         status: 'Uploading... ',
         dismissOnTap: false,
       );
-      var snapshot = await FirebaseStorage.instance.ref('Product Picture/${DateTime.now().millisecondsSinceEpoch}').putFile(file);
+      var snapshot = await FirebaseStorage.instance
+          .ref('Product Picture/${DateTime.now().millisecondsSinceEpoch}')
+          .putFile(file);
       var url = await snapshot.ref.getDownloadURL();
       setState(() {
         updatedProductModel.productPicture = url.toString();
       });
     } on firebase_core.FirebaseException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.code.toString())));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.code.toString())));
     }
   }
 
@@ -76,7 +80,8 @@ class _UpdateProductState extends State<UpdateProduct> {
   }
 
   void deleteProduct({required WidgetRef wRef}) {
-    DatabaseReference ref = FirebaseDatabase.instance.ref("$constUserId/Products/$productKey");
+    DatabaseReference ref =
+        FirebaseDatabase.instance.ref("$constUserId/Products/$productKey");
     ref.keepSynced(true);
 
     ref.remove();
@@ -141,7 +146,8 @@ class _UpdateProductState extends State<UpdateProduct> {
                                     Expanded(
                                       child: ButtonGlobalWithoutIcon(
                                         buttontext: lang.S.of(context).cancel,
-                                        buttonDecoration: kButtonDecoration.copyWith(color: Colors.green),
+                                        buttonDecoration: kButtonDecoration
+                                            .copyWith(color: Colors.green),
                                         onPressed: (() {
                                           Navigator.pop(context1);
                                         }),
@@ -151,10 +157,13 @@ class _UpdateProductState extends State<UpdateProduct> {
                                     Expanded(
                                       child: ButtonGlobalWithoutIcon(
                                         buttontext: lang.S.of(context).delete,
-                                        buttonDecoration: kButtonDecoration.copyWith(color: Colors.red),
+                                        buttonDecoration: kButtonDecoration
+                                            .copyWith(color: Colors.red),
                                         onPressed: (() {
                                           deleteProduct(wRef: ref);
-                                          Future.delayed(const Duration(milliseconds: 500), () {
+                                          Future.delayed(
+                                              const Duration(milliseconds: 500),
+                                              () {
                                             ref.refresh(productProvider);
                                             Navigator.pop(context1);
                                             Navigator.pop(context);
@@ -461,7 +470,8 @@ class _UpdateProductState extends State<UpdateProduct> {
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: AppTextField(
-                          initialValue: widget.productModel!.productPurchasePrice,
+                          initialValue:
+                              widget.productModel!.productPurchasePrice,
                           textFieldType: TextFieldType.PHONE,
                           onChanged: (value) {
                             setState(() {
@@ -499,76 +509,78 @@ class _UpdateProductState extends State<UpdateProduct> {
                     ),
                   ],
                 ),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: Padding(
+                //         padding: const EdgeInsets.all(10.0),
+                //         child: AppTextField(
+                //           initialValue: widget.productModel!.productWholeSalePrice,
+                //           textFieldType: TextFieldType.PHONE,
+                //           onChanged: (value) {
+                //             setState(() {
+                //               updatedProductModel.productWholeSalePrice = value;
+                //             });
+                //           },
+                //           decoration: InputDecoration(
+                //             floatingLabelBehavior: FloatingLabelBehavior.always,
+                //             labelText: lang.S.of(context).wholeSalePrice,
+                //             hintText: '$currency 155',
+                //             border: const OutlineInputBorder(),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     Expanded(
+                //       child: Padding(
+                //         padding: const EdgeInsets.all(10.0),
+                //         child: AppTextField(
+                //           initialValue: widget.productModel!.productDealerPrice,
+                //           textFieldType: TextFieldType.PHONE,
+                //           onChanged: (value) {
+                //             setState(() {
+                //               updatedProductModel.productDealerPrice = value;
+                //             });
+                //           },
+                //           decoration: InputDecoration(
+                //             floatingLabelBehavior: FloatingLabelBehavior.always,
+                //             labelText: lang.S.of(context).dealerPrice,
+                //             hintText: '$currency 130',
+                //             border: const OutlineInputBorder(),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+
                 Row(
                   children: [
+                    // Expanded(
+                    //     child: Padding(
+                    //   padding: const EdgeInsets.all(10.0),
+                    //   child: AppTextField(
+                    //     textFieldType: TextFieldType.PHONE,
+                    //     initialValue: widget.productModel!.productDiscount,
+                    //     onChanged: (value) {
+                    //       setState(() {
+                    //         updatedProductModel.productDiscount = value;
+                    //       });
+                    //     },
+                    //     decoration: InputDecoration(
+                    //       floatingLabelBehavior: FloatingLabelBehavior.always,
+                    //       labelText: lang.S.of(context).discount,
+                    //       hintText: '$currency 34.90',
+                    //       border: const OutlineInputBorder(),
+                    //     ),
+                    //   ),
+                    // )),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: AppTextField(
-                          initialValue: widget.productModel!.productWholeSalePrice,
-                          textFieldType: TextFieldType.PHONE,
-                          onChanged: (value) {
-                            setState(() {
-                              updatedProductModel.productWholeSalePrice = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            labelText: lang.S.of(context).wholeSalePrice,
-                            hintText: '$currency 155',
-                            border: const OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: AppTextField(
-                          initialValue: widget.productModel!.productDealerPrice,
-                          textFieldType: TextFieldType.PHONE,
-                          onChanged: (value) {
-                            setState(() {
-                              updatedProductModel.productDealerPrice = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            labelText: lang.S.of(context).dealerPrice,
-                            hintText: '$currency 130',
-                            border: const OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: AppTextField(
-                        textFieldType: TextFieldType.PHONE,
-                        initialValue: widget.productModel!.productDiscount,
-                        onChanged: (value) {
-                          setState(() {
-                            updatedProductModel.productDiscount = value;
-                          });
-                        },
-                        decoration: InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          labelText: lang.S.of(context).discount,
-                          hintText: '$currency 34.90',
-                          border: const OutlineInputBorder(),
-                        ),
-                      ),
-                    )),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: AppTextField(
-                          initialValue: widget.productModel!.productManufacturer,
+                          initialValue:
+                              widget.productModel!.productManufacturer,
                           textFieldType: TextFieldType.NAME,
                           onChanged: (value) {
                             setState(() {
@@ -606,17 +618,21 @@ class _UpdateProductState extends State<UpdateProduct> {
                                   children: [
                                     GestureDetector(
                                       onTap: () async {
-                                        pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+                                        pickedImage = await _picker.pickImage(
+                                            source: ImageSource.gallery);
                                         setState(() {
                                           imageFile = File(pickedImage!.path);
                                           imagePath = pickedImage!.path;
                                         });
-                                        Future.delayed(const Duration(milliseconds: 100), () {
+                                        Future.delayed(
+                                            const Duration(milliseconds: 100),
+                                            () {
                                           Navigator.pop(context);
                                         });
                                       },
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           const Icon(
                                             Icons.photo_library_rounded,
@@ -638,17 +654,21 @@ class _UpdateProductState extends State<UpdateProduct> {
                                     ),
                                     GestureDetector(
                                       onTap: () async {
-                                        pickedImage = await _picker.pickImage(source: ImageSource.camera);
+                                        pickedImage = await _picker.pickImage(
+                                            source: ImageSource.camera);
                                         setState(() {
                                           imageFile = File(pickedImage!.path);
                                           imagePath = pickedImage!.path;
                                         });
-                                        Future.delayed(const Duration(milliseconds: 100), () {
+                                        Future.delayed(
+                                            const Duration(milliseconds: 100),
+                                            () {
                                           Navigator.pop(context);
                                         });
                                       },
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           const Icon(
                                             Icons.camera,
@@ -679,10 +699,12 @@ class _UpdateProductState extends State<UpdateProduct> {
                         width: 120,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black54, width: 1),
-                          borderRadius: const BorderRadius.all(Radius.circular(120)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(120)),
                           image: imagePath == 'No Data'
                               ? DecorationImage(
-                                  image: NetworkImage(widget.productModel!.productPicture),
+                                  image: NetworkImage(
+                                      widget.productModel!.productPicture),
                                   fit: BoxFit.cover,
                                 )
                               : DecorationImage(
@@ -699,7 +721,8 @@ class _UpdateProductState extends State<UpdateProduct> {
                           width: 35,
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.white, width: 2),
-                            borderRadius: const BorderRadius.all(Radius.circular(120)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(120)),
                             color: kMainColor,
                           ),
                           child: const Icon(
@@ -715,12 +738,78 @@ class _UpdateProductState extends State<UpdateProduct> {
                 const SizedBox(height: 20),
                 ButtonGlobalWithoutIcon(
                   buttontext: lang.S.of(context).saveNPublish,
-                  buttonDecoration: kButtonDecoration.copyWith(color: kMainColor),
+                  buttonDecoration:
+                      kButtonDecoration.copyWith(color: kMainColor),
                   onPressed: () async {
+                    if (updatedProductModel.productName.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please enter product name'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      return;
+                    }
+
+                    if (productCategory == "Select Product Category") {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please Select Product Category'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      return;
+                    }
+                    if (updatedProductModel.productStock.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please Enter Stock'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      return;
+                    }
+
+                    if (updatedProductModel.productUnit == "Select Unit" ||
+                        updatedProductModel.productUnit == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please select unit'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      return;
+                    }
+                    if (double.parse(updatedProductModel.productSalePrice) <
+                        double.parse(
+                            updatedProductModel.productPurchasePrice)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                              'MRP price must be grater then purchase price'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      return;
+                    }
+
+                    if (updatedProductModel.productSalePrice.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please Enter sale price'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      return;
+                    }
                     try {
-                      imagePath == 'No Data' ? null : await uploadFile(imagePath);
-                      EasyLoading.show(status: 'Loading...', dismissOnTap: false);
-                      DatabaseReference ref = FirebaseDatabase.instance.ref("$constUserId/Products/$productKey");
+                      imagePath == 'No Data'
+                          ? null
+                          : await uploadFile(imagePath);
+                      EasyLoading.show(
+                          status: 'Loading...', dismissOnTap: false);
+                      DatabaseReference ref = FirebaseDatabase.instance
+                          .ref("$constUserId/Products/$productKey");
                       ref.keepSynced(true);
                       ref.update({
                         'productName': updatedProductModel.productName,
@@ -734,15 +823,21 @@ class _UpdateProductState extends State<UpdateProduct> {
                         'productCode': updatedProductModel.productCode,
                         'productStock': updatedProductModel.productStock,
                         'productUnit': updatedProductModel.productUnit,
-                        'productSalePrice': updatedProductModel.productSalePrice,
-                        'productPurchasePrice': updatedProductModel.productPurchasePrice,
+                        'productSalePrice':
+                            updatedProductModel.productSalePrice,
+                        'productPurchasePrice':
+                            updatedProductModel.productPurchasePrice,
                         'productDiscount': updatedProductModel.productDiscount,
-                        'productWholeSalePrice': updatedProductModel.productWholeSalePrice,
-                        'productDealerPrice': updatedProductModel.productDealerPrice,
-                        'productManufacturer': updatedProductModel.productManufacturer,
+                        'productWholeSalePrice':
+                            updatedProductModel.productWholeSalePrice,
+                        'productDealerPrice':
+                            updatedProductModel.productDealerPrice,
+                        'productManufacturer':
+                            updatedProductModel.productManufacturer,
                         'productPicture': updatedProductModel.productPicture,
                       });
-                      EasyLoading.showSuccess('Added Successfully', duration: const Duration(milliseconds: 500));
+                      EasyLoading.showSuccess('Added Successfully',
+                          duration: const Duration(milliseconds: 500));
 
                       //ref.refresh(productProvider);
                       Future.delayed(const Duration(milliseconds: 100), () {
@@ -750,7 +845,8 @@ class _UpdateProductState extends State<UpdateProduct> {
                       });
                     } catch (e) {
                       EasyLoading.dismiss();
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(content: Text(e.toString())));
                     }
                   },
                   buttonTextColor: Colors.white,

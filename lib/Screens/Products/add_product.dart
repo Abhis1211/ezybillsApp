@@ -806,6 +806,7 @@ class _AddProductState extends State<AddProduct> {
                       );
                       return;
                     }
+
                     if (productCategory == "Select Product Category") {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
@@ -834,6 +835,18 @@ class _AddProductState extends State<AddProduct> {
                       );
                       return;
                     }
+                    if (double.parse(productSalePrice) <
+                        double.parse(productPurchasePrice)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                              'MRP price must be grater then purchase price'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      return;
+                    }
+
                     if (productSalePrice.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
@@ -843,16 +856,16 @@ class _AddProductState extends State<AddProduct> {
                       );
                       return;
                     }
-               
-                    if (imagePath=="No Data") {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please select product image'),
-                          duration: Duration(seconds: 1),
-                        ),
-                      );
-                      return;
-                    }
+                    //product Image validatin
+                    // if (imagePath == "No Data") {
+                    //   ScaffoldMessenger.of(context).showSnackBar(
+                    //     const SnackBar(
+                    //       content: Text('Please select product image'),
+                    //       duration: Duration(seconds: 1),
+                    //     ),
+                    //   );
+                    //   return;
+                    // }
                     if (!codeList.contains(productCode.toLowerCase()) &&
                         !productNameList.contains(productName.toLowerCase())) {
                       bool result =
