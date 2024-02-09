@@ -656,21 +656,26 @@ class _HomeGridCardsState extends State<HomeGridCards> {
                 onPressed: () async {
                   setState(() {});
 
-                  isSubUser
-                      ? checkPermission(item: widget.gridItems.title)
-                          ? await subscriptionChecker(
-                                  item: widget.gridItems.title)
-                              ? Navigator.of(context)
-                                  .pushNamed('/${widget.gridItems.route}')
-                              : EasyLoading.showError(
-                                  'Update your plan first,\nyour limit is over.')
-                          : EasyLoading.showError(
-                              'Sorry, you have no permission to access this service')
-                      : await subscriptionChecker(item: widget.gridItems.title)
-                          ? Navigator.of(context)
-                              .pushNamed('/${widget.gridItems.route}')
-                          : EasyLoading.showError(
-                              'Update your plan first,\nyour limit is over.');
+                  // isSubUser
+                  //     ? checkPermission(item: widget.gridItems.title)
+                  //         ? await subscriptionChecker(
+                  //                 item: widget.gridItems.title)
+                  //             ?
+
+                  //              Navigator.of(context)
+                  //                 .pushNamed('/${widget.gridItems.route}')
+                  //             :
+
+                  //             EasyLoading.showError(
+                  //                 'Update your plan first,\nyour limit is over.')
+                  //         : EasyLoading.showError(
+                  //             'Sorry, you have no permission to access this service')
+                  //     : await subscriptionChecker(item: widget.gridItems.title)
+                  //         ?
+                  Navigator.of(context).pushNamed('/${widget.gridItems.route}');
+                  
+                  // : EasyLoading.showError(
+                  //     'Update your plan first,\nyour limit is over.');
                 },
                 child: Container(
                   height: 70,

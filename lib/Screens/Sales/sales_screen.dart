@@ -588,7 +588,8 @@ class ProductCard extends StatefulWidget {
 
 class _ProductCardState extends State<ProductCard> {
   int quantity = 0;
-
+  String productPicture =
+      'https://firebasestorage.googleapis.com/v0/b/maanpos.appspot.com/o/Customer%20Picture%2FNo_Image_Available.jpeg?alt=media&token=3de0d45e-0e4a-4a7b-b115-9d6722d5031f';
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, __) {
@@ -616,7 +617,9 @@ class _ProductCardState extends State<ProductCard> {
                       Center(
                           child: CircularProgressIndicator(
                               value: downloadProgress.progress)),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
+                  errorWidget: (context, url, error) => ClipRRect(
+                   
+                      child: Image.network(productPicture,height: 20,)),
                 ),
               ),
             ),
