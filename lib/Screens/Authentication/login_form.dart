@@ -167,6 +167,15 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ],
                   ).visible(widget.isEmailLogin),
+                  TextButton(
+                    onPressed: () {
+                      const LoginForm(isEmailLogin: false).launch(context);
+                    },
+                    child: Text(
+                      lang.S.of(context).staffLogin,
+                      style: TextStyle(color: kMainColor),
+                    ),
+                  ).visible(widget.isEmailLogin),
                   // TextButton(
                   //   onPressed: () {
                   //     const PhoneAuth().launch(context);
