@@ -1,6 +1,7 @@
 class PersonalInformationModel {
   PersonalInformationModel({
     this.phoneNumber,
+    this.altphoneNumber,
     this.companyName,
     this.pictureUrl,
     this.businessCategory,
@@ -14,6 +15,7 @@ class PersonalInformationModel {
 
   PersonalInformationModel.fromJson(dynamic json) {
     phoneNumber = json['phoneNumber'];
+    altphoneNumber = json['altphoneNumber'];
     companyName = json['companyName'];
     pictureUrl = json['pictureUrl'];
     businessCategory = json['businessCategory'];
@@ -25,6 +27,7 @@ class PersonalInformationModel {
     remainingShopBalance = json['remainingShopBalance'];
   }
   dynamic phoneNumber;
+  dynamic altphoneNumber;
   String? companyName;
   String? pictureUrl;
   String? businessCategory;
@@ -38,6 +41,7 @@ class PersonalInformationModel {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['phoneNumber'] = phoneNumber;
+    map['altphoneNumber'] = altphoneNumber;
     map['companyName'] = companyName;
     map['pictureUrl'] = pictureUrl;
     map['businessCategory'] = businessCategory;

@@ -1,14 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_pos/Provider/product_provider.dart';
-import 'package:mobile_pos/Screens/Products/update_product.dart';
-import 'package:nb_utils/nb_utils.dart';
-import '../../GlobalComponents/button_global.dart';
 import '../../constant.dart';
 import '../../currency.dart';
+import 'package:flutter/material.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../GlobalComponents/button_global.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:mobile_pos/Provider/product_provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:mobile_pos/Screens/Products/update_product.dart';
 
 class ProductList extends StatefulWidget {
   const ProductList({Key? key}) : super(key: key);
@@ -21,6 +21,7 @@ class _ProductListState extends State<ProductList> {
   TextEditingController serach = TextEditingController();
   String productPicture =
       'https://firebasestorage.googleapis.com/v0/b/maanpos.appspot.com/o/Customer%20Picture%2FNo_Image_Available.jpeg?alt=media&token=3de0d45e-0e4a-4a7b-b115-9d6722d5031f';
+  
   var Filterdata = [];
   @override
   Widget build(BuildContext context) {
@@ -40,49 +41,49 @@ class _ProductListState extends State<ProductList> {
             ),
             centerTitle: true,
           ),
-          body: SingleChildScrollView(
-            child: providerData.when(data: (products) {
-              return products.isNotEmpty
-                  ? Column(
-                      children: [
-                        TextField(
-                          onChanged: ((value) {
-                            setState(() {
-                              Filterdata = products
-                                  .where((element) => element.productName
-                                      .toLowerCase()
-                                      .contains(value.toLowerCase()))
-                                  .toList();
-                            });
+          body: providerData.when(data: (products) {
+            return products.isNotEmpty
+                ? Column(
+                    children: [
+                      TextField(
+                        onChanged: ((value) {
+                          setState(() {
+                            Filterdata = products
+                                .where((element) => element.productName
+                                    .toLowerCase()
+                                    .contains(value.toLowerCase()))
+                                .toList();
+                          });
 
-                            print("filterdata" + Filterdata.toString());
-                            print(value.toString());
-                          }),
-                          controller: serach,
-                          decoration: InputDecoration(
-                            hintText: 'Search product name',
-                            // Add a clear button to the search bar
-                            suffixIcon: IconButton(
-                              icon: Icon(Icons.clear),
-                              onPressed: () => serach.clear(),
-                            ),
-                            // Add a search icon or button to the search bar
-                            prefixIcon: IconButton(
-                              icon: Icon(Icons.search),
-                              onPressed: () {
-                                // Perform the search here
-                              },
-                            ),
-
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
+                          print("filterdata" + Filterdata.toString());
+                          print(value.toString());
+                        }),
+                        controller: serach,
+                        decoration: InputDecoration(
+                          hintText: 'Search product name',
+                          // Add a clear button to the search bar
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.clear),
+                            onPressed: () => serach.clear(),
                           ),
-                        ).paddingSymmetric(horizontal: 15),
-                        ListView.builder(
+                          // Add a search icon or button to the search bar
+                          prefixIcon: IconButton(
+                            icon: Icon(Icons.search),
+                            onPressed: () {
+                              // Perform the search here
+                            },
+                          ),
+
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                        ),
+                      ).paddingSymmetric(horizontal: 15),
+                      Expanded(
+                        child: ListView.builder(
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,
-                            physics: const NeverScrollableScrollPhysics(),
+                            // physics: const NeverScrollableScrollPhysics(),
                             itemCount: serach.text.isNotEmpty
                                 ? Filterdata.length
                                 : products.length,
@@ -131,24 +132,24 @@ class _ProductListState extends State<ProductList> {
                                 ),
                               );
                             }),
-                      ],
-                    )
-                  : Center(
-                      child: Text(
-                        lang.S.of(context).addProduct,
-                        maxLines: 2,
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0),
                       ),
-                    );
-            }, error: (e, stack) {
-              return Text(e.toString());
-            }, loading: () {
-              return const Center(child: CircularProgressIndicator());
-            }),
-          ),
+                    ],
+                  )
+                : Center(
+                    child: Text(
+                      lang.S.of(context).addProduct,
+                      maxLines: 2,
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15.0),
+                    ),
+                  );
+          }, error: (e, stack) {
+            return Text(e.toString());
+          }, loading: () {
+            return const Center(child: CircularProgressIndicator());
+          }),
           bottomNavigationBar: ButtonGlobal(
             iconWidget: Icons.add,
             buttontext: lang.S.of(context).addNewProduct,

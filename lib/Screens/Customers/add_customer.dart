@@ -1,23 +1,20 @@
-// ignore: import_of_legacy_library_into_null_safe
-// ignore_for_file: unused_result
-
 import 'dart:io';
-
-import 'package:firebase_core/firebase_core.dart' as firebase_core;
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:mobile_pos/constant.dart';
+import '../../Provider/customer_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile_pos/GlobalComponents/button_global.dart';
-import 'package:mobile_pos/Screens/Customers/Model/customer_model.dart';
-import 'package:mobile_pos/constant.dart';
-import 'package:nb_utils/nb_utils.dart';
-
-import '../../Provider/customer_provider.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mobile_pos/GlobalComponents/button_global.dart';
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:mobile_pos/Screens/Customers/Model/customer_model.dart';
+// ignore: import_of_legacy_library_into_null_safe
+// ignore_for_file: unused_result
 
 class AddCustomer extends StatefulWidget {
   const AddCustomer({Key? key}) : super(key: key);
@@ -109,6 +106,7 @@ class _AddCustomerState extends State<AddCustomer> {
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       labelText: lang.S.of(context).phone,
                       hintText: lang.S.of(context).enterYourPhoneNumber,
+                      hintStyle: TextStyle(color: Colors.grey.withOpacity(0.5)),
                       border: const OutlineInputBorder(),
                     ),
                   ),
@@ -126,6 +124,7 @@ class _AddCustomerState extends State<AddCustomer> {
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       labelText: lang.S.of(context).name,
                       hintText: lang.S.of(context).enterYourName,
+                      hintStyle: TextStyle(color: Colors.grey.withOpacity(0.5)),
                       border: const OutlineInputBorder(),
                     ),
                   ),
@@ -316,8 +315,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                                     ),
                                                     Text(
                                                       'Gallery',
-                                                      style:
-                                                          GoogleFonts.inter(
+                                                      style: GoogleFonts.inter(
                                                         fontSize: 20.0,
                                                         color: kMainColor,
                                                       ),
@@ -358,8 +356,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                                     ),
                                                     Text(
                                                       'Camera',
-                                                      style:
-                                                          GoogleFonts.inter(
+                                                      style: GoogleFonts.inter(
                                                         fontSize: 20.0,
                                                         color: kGreyTextColor,
                                                       ),
@@ -433,7 +430,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.always,
                                 labelText: lang.S.of(context).email,
-                                hintText: 'example@example.com',
+                                hintText: 'example@ezybills.com',
+                                hintStyle: TextStyle(
+                                    color: Colors.grey.withOpacity(0.5)),
                               ),
                             ),
                           ),
@@ -452,7 +451,10 @@ class _AddCustomerState extends State<AddCustomer> {
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
                                   labelText: lang.S.of(context).address,
-                                  hintText: 'Placentia, California(CA), 92870'),
+                                  hintStyle: TextStyle(
+                                      color: Colors.grey.withOpacity(0.5)),
+                                  hintText:
+                                      '123, Atlanta complex,Althan,Surat'),
                             ),
                           ),
                           Padding(
@@ -466,11 +468,14 @@ class _AddCustomerState extends State<AddCustomer> {
                               },
                               maxLines: 2,
                               decoration: InputDecoration(
-                                  border: const OutlineInputBorder(),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                  labelText: lang.S.of(context).previousDue,
-                                  hintText: lang.S.of(context).amount),
+                                border: const OutlineInputBorder(),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                                labelText: lang.S.of(context).previousDue,
+                                hintText: lang.S.of(context).amount,
+                                hintStyle: TextStyle(
+                                    color: Colors.grey.withOpacity(0.5)),
+                              ),
                             ),
                           ),
                         ],

@@ -1,23 +1,23 @@
 import 'dart:convert';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_pos/Screens/Home/components/grid_items.dart';
-import 'package:mobile_pos/Screens/Profile%20Screen/profile_details.dart';
-import 'package:mobile_pos/constant.dart';
-import 'package:mobile_pos/model/subscription_model.dart';
-import 'package:mobile_pos/model/subscription_plan_model.dart';
-import 'package:nb_utils/nb_utils.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import '../../Provider/homepage_image_provider.dart';
-import '../../Provider/profile_provider.dart';
-import '../../model/paypal_info_model.dart';
 import '../../subscription.dart';
-import '../Shimmers/home_screen_appbar_shimmer.dart';
+import 'package:flutter/material.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:mobile_pos/constant.dart';
+import '../../model/paypal_info_model.dart';
 import '../subscription/package_screen.dart';
+import '../../Provider/profile_provider.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../Provider/homepage_image_provider.dart';
+import '../Shimmers/home_screen_appbar_shimmer.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:firebase_database/firebase_database.dart';
+import 'package:mobile_pos/model/subscription_model.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mobile_pos/model/subscription_plan_model.dart';
+import 'package:mobile_pos/Screens/Home/components/grid_items.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:mobile_pos/Screens/Profile%20Screen/profile_details.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -218,9 +218,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    subscriptionRemainder();
+    // subscriptionRemainder();
     // getPaypalInfo();
-    getAllSubscriptionPlan();
+    // getAllSubscriptionPlan();
   }
 
   @override
@@ -343,7 +343,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 GridView.count(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  childAspectRatio: 1.0,
+                  childAspectRatio: 0.9,
                   padding: EdgeInsets.zero,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 10,
@@ -648,7 +648,7 @@ class _HomeGridCardsState extends State<HomeGridCards> {
         // alignment: Alignment.bottomCenter,
         children: [
           Container(
-            height: 100,
+            height: 110,
             width: 100,
             // elevation: 2,
 
@@ -673,7 +673,7 @@ class _HomeGridCardsState extends State<HomeGridCards> {
                   //     : await subscriptionChecker(item: widget.gridItems.title)
                   //         ?
                   Navigator.of(context).pushNamed('/${widget.gridItems.route}');
-                  
+
                   // : EasyLoading.showError(
                   //     'Update your plan first,\nyour limit is over.');
                 },
@@ -703,10 +703,10 @@ class _HomeGridCardsState extends State<HomeGridCards> {
             textAlign: TextAlign.center,
             style: GoogleFonts.inter(
                 textStyle: TextStyle(
-                    fontSize: 12.0,
+                    fontSize: 15.0,
                     fontWeight: FontWeight.bold,
                     color: hometextcolor)),
-            maxLines: 1,
+            maxLines: 2,
           ),
           // Padding(
           //   padding: const EdgeInsets.all(8.0),

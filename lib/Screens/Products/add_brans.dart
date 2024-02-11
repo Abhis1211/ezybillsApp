@@ -1,20 +1,21 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:mobile_pos/constant.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mobile_pos/GlobalComponents/button_global.dart';
+import 'package:mobile_pos/Screens/Products/Model/brands_model.dart';
+import 'package:mobile_pos/Provider/category,brans,units_provide.dart';
+
 // ignore_for_file: unused_result
 
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_pos/GlobalComponents/button_global.dart';
-import 'package:mobile_pos/Provider/category,brans,units_provide.dart';
-import 'package:mobile_pos/Screens/Products/Model/brands_model.dart';
-import 'package:mobile_pos/constant.dart';
-import 'package:nb_utils/nb_utils.dart';
-import 'package:mobile_pos/generated/l10n.dart' as lang;
-
 class AddBrands extends StatefulWidget {
-  const AddBrands({Key? key}) : super(key: key);
-
+  AddBrands({Key? key, this.brandmodel}) : super(key: key);
+  BrandsModel? brandmodel;
   @override
   // ignore: library_private_types_in_public_api
   _AddBrandsState createState() => _AddBrandsState();
@@ -23,6 +24,14 @@ class AddBrands extends StatefulWidget {
 class _AddBrandsState extends State<AddBrands> {
   bool showProgress = false;
   String brandName = "";
+  @override
+  void initState() {
+    if (widget.brandmodel != null) {
+      brandName = widget.brandmodel!.brandName;
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +72,9 @@ class _AddBrandsState extends State<AddBrands> {
                 ),
                 AppTextField(
                   textFieldType: TextFieldType.NAME,
+                  initialValue: widget.brandmodel != null
+                      ? widget.brandmodel!.brandName
+                      : null,
                   onChanged: (value) {
                     setState(() {
                       brandName = value;
@@ -129,6 +141,30 @@ class _AddBrandsState extends State<AddBrands> {
           ),
         ),
       );
+    });
+  }
+
+  updatebrand() async {
+    var brandkey = "";
+    final sref = FirebaseDatabase.instance.ref(constUserId).child('Brands');
+    sref.keepSynced(true);
+    sref.orderByKey().get().then((value) {
+      for (var element in value.children) {
+        var sdata = jsonDecode(jsonEncode(element.value));
+        if (sdata['brandName'].toString() == brandName.toString()) {
+          brandkey = element.key.toString();
+        }
+      }
+    });
+    final DatabaseReference shopCategoryRef = FirebaseDatabase.instance
+        .ref()
+        .child(constUserId)
+        .child('Brands')
+        .child(brandkey.toString());
+    // .child('Admin Panel')
+    // .child('Category');
+    await shopCategoryRef.update({
+      "brandName": brandName,
     });
   }
 }

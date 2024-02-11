@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_pos/model/user_role_model.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:mobile_pos/model/user_role_model.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 // const kMainColor = Color(0xFF3F8CFF);
 const kMainColor = Color(0xFF203354);
@@ -12,18 +12,23 @@ const kDarkWhite = Color(0xFFF1F7F7);
 const kPremiumPlanColor = Color(0xFF8752EE);
 const kPremiumPlanColor2 = Color(0xFFFF5F00);
 const kTitleColor = Color(0xFF000000);
-const categorybackground= Color(0xFFD9E7E5);
-const fontcolor= Color(0xFF225C78);
-const bgseletedcolor= Color(0xFF81B2CA);
-const bluetxtcolor= Color(0xFF122265);
-const pricecolor= Color(0xFFEE1E5F);
-const textcolor= Color(0xFF677294);
-const hometextcolor= Color(0xFF4F4F4F);
+const categorybackground = Color(0xFFD9E7E5);
+const fontcolor = Color(0xFF225C78);
+const bgseletedcolor = Color(0xFF81B2CA);
+const bluetxtcolor = Color(0xFF122265);
+const pricecolor = Color(0xFFEE1E5F);
+const textcolor = Color(0xFF677294);
+const hometextcolor = Color(0xFF4F4F4F);
 bool connected = false;
 bool isfirsttimelogin = false;
-bool isprofilesetup= false;
+bool isprofilesetup = false;
 bool isPrintEnable = false;
-List<String> paymentsTypeList = ['Cash', 'Card', 'Check', 'Mobile Pay', 'Due'];
+List<String> paymentsTypeList = [
+  'Cash',
+  'UPI Payment',
+  'Debit/Credit Card',
+  'Credit/Due'
+];
 bool isExpiringInFiveDays = false;
 bool isExpiringInOneDays = false;
 const String appVersion = '5.3';

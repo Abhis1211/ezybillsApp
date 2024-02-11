@@ -1,26 +1,27 @@
-// ignore_for_file: unused_result
-
-import 'dart:convert';
 import 'dart:io';
-
-import 'package:firebase_core/firebase_core.dart' as firebase_core;
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:mobile_pos/GlobalComponents/button_global.dart';
-import 'package:mobile_pos/Provider/product_provider.dart';
-import 'package:mobile_pos/model/product_model.dart';
-import 'package:nb_utils/nb_utils.dart';
-
-import '../../GlobalComponents/Model/category_model.dart';
+import 'dart:convert';
+import 'brands_list.dart';
+import '../Home/home.dart';
 import '../../constant.dart';
 import '../../currency.dart';
 import '../Home/home_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import '../../GlobalComponents/category_list.dart';
+import 'package:mobile_pos/model/product_model.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:firebase_database/firebase_database.dart';
+import '../../GlobalComponents/Model/category_model.dart';
+import 'package:mobile_pos/Provider/product_provider.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mobile_pos/GlobalComponents/button_global.dart';
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
+
+// ignore_for_file: unused_result
 
 // ignore: must_be_immutable
 class UpdateProduct extends StatefulWidget {
@@ -43,6 +44,8 @@ class _UpdateProductState extends State<UpdateProduct> {
   XFile? pickedImage;
   File imageFile = File('No File');
   String imagePath = 'No Data';
+  String productPicture =
+      'https://firebasestorage.googleapis.com/v0/b/maanpos.appspot.com/o/Customer%20Picture%2FNo_Image_Available.jpeg?alt=media&token=3de0d45e-0e4a-4a7b-b115-9d6722d5031f';
 
   Future<void> uploadFile(String filePath) async {
     File file = File(filePath);
@@ -231,18 +234,27 @@ class _UpdateProductState extends State<UpdateProduct> {
                       borderRadius: BorderRadius.circular(5.0),
                       border: Border.all(color: kGreyTextColor),
                     ),
-                    child: Row(
-                      children: [
-                        const SizedBox(
-                          width: 10.0,
-                        ),
-                        Text(widget.productModel!.productCategory),
-                        const Spacer(),
-                        const Icon(Icons.keyboard_arrow_down),
-                        const SizedBox(
-                          width: 10.0,
-                        ),
-                      ],
+                    child: InkWell(
+                      onTap: () async {
+                        data = await const CategoryList().launch(context);
+                        setState(() {
+                          widget.productModel!.productCategory =
+                              data.categoryName;
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          const SizedBox(
+                            width: 10.0,
+                          ),
+                          Text(widget.productModel!.productCategory),
+                          const Spacer(),
+                          const Icon(Icons.keyboard_arrow_down),
+                          const SizedBox(
+                            width: 10.0,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -361,18 +373,26 @@ class _UpdateProductState extends State<UpdateProduct> {
                       borderRadius: BorderRadius.circular(5.0),
                       border: Border.all(color: kGreyTextColor),
                     ),
-                    child: Row(
-                      children: [
-                        const SizedBox(
-                          width: 10.0,
-                        ),
-                        Text(widget.productModel!.brandName),
-                        const Spacer(),
-                        const Icon(Icons.keyboard_arrow_down),
-                        const SizedBox(
-                          width: 10.0,
-                        ),
-                      ],
+                    child: InkWell(
+                      onTap: () async {
+                        String data = await const BrandsList().launch(context);
+                        setState(() {
+                          widget.productModel!.brandName = data;
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          const SizedBox(
+                            width: 10.0,
+                          ),
+                          Text(widget.productModel!.brandName),
+                          const Spacer(),
+                          const Icon(Icons.keyboard_arrow_down),
+                          const SizedBox(
+                            width: 10.0,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -703,8 +723,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                               const BorderRadius.all(Radius.circular(120)),
                           image: imagePath == 'No Data'
                               ? DecorationImage(
-                                  image: NetworkImage(
-                                      widget.productModel!.productPicture),
+                                  image: NetworkImage(productPicture),
                                   fit: BoxFit.cover,
                                 )
                               : DecorationImage(
@@ -760,15 +779,15 @@ class _UpdateProductState extends State<UpdateProduct> {
                       );
                       return;
                     }
-                    if (updatedProductModel.productStock.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please Enter Stock'),
-                          duration: Duration(seconds: 1),
-                        ),
-                      );
-                      return;
-                    }
+                    // if (updatedProductModel.productStock.isEmpty) {
+                    //   ScaffoldMessenger.of(context).showSnackBar(
+                    //     const SnackBar(
+                    //       content: Text('Please Enter Stock'),
+                    //       duration: Duration(seconds: 1),
+                    //     ),
+                    //   );
+                    //   return;
+                    // }
 
                     if (updatedProductModel.productUnit == "Select Unit" ||
                         updatedProductModel.productUnit == null) {
@@ -836,12 +855,11 @@ class _UpdateProductState extends State<UpdateProduct> {
                             updatedProductModel.productManufacturer,
                         'productPicture': updatedProductModel.productPicture,
                       });
-                      EasyLoading.showSuccess('Added Successfully',
+                      EasyLoading.showSuccess('Upadted Successfully',
                           duration: const Duration(milliseconds: 500));
-
                       //ref.refresh(productProvider);
                       Future.delayed(const Duration(milliseconds: 100), () {
-                        const HomeScreen().launch(context, isNewTask: true);
+                        const Home().launch(context, isNewTask: true);
                       });
                     } catch (e) {
                       EasyLoading.dismiss();

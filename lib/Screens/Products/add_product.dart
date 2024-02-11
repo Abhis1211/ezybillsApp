@@ -1,33 +1,31 @@
-// ignore_for_file: unused_result, use_build_context_synchronously
-
 import 'dart:io';
-
-import 'package:firebase_core/firebase_core.dart' as firebase_core;
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:mobile_pos/GlobalComponents/button_global.dart';
-import 'package:mobile_pos/GlobalComponents/category_list.dart';
-import 'package:mobile_pos/Screens/Products/brands_list.dart';
-import 'package:mobile_pos/Screens/Products/unit_list.dart';
-import 'package:mobile_pos/model/product_model.dart';
-import 'package:mobile_pos/repository/subscription_repo.dart';
-import 'package:nb_utils/nb_utils.dart';
-import 'package:mobile_pos/generated/l10n.dart' as lang;
-import '../../GlobalComponents/Model/category_model.dart';
-import '../../Provider/product_provider.dart';
+import '../Home/home.dart';
 import '../../constant.dart';
 import '../../currency.dart';
-import '../Home/home.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:nb_utils/nb_utils.dart';
+import '../../Provider/product_provider.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mobile_pos/model/product_model.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:firebase_database/firebase_database.dart';
+import '../../GlobalComponents/Model/category_model.dart';
+import 'package:mobile_pos/Screens/Products/unit_list.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mobile_pos/Screens/Products/brands_list.dart';
+import 'package:mobile_pos/repository/subscription_repo.dart';
+import 'package:mobile_pos/GlobalComponents/button_global.dart';
+import 'package:mobile_pos/GlobalComponents/category_list.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+// ignore_for_file: unused_result, use_build_context_synchronously
 
 // ignore: must_be_immutable
 class AddProduct extends StatefulWidget {
@@ -172,7 +170,10 @@ class _AddProductState extends State<AddProduct> {
                   itemBuilder: (context, snapshot, animation, index) {
                     final json = snapshot.value as Map<dynamic, dynamic>;
                     final product = ProductModel.fromJson(json);
-                    codeList.add(product.productCode.toLowerCase());
+                    if (product.productCode.isNotEmpty) {
+                      codeList.add(product.productCode.toLowerCase());
+                    }
+
                     productNameList.add(product.productName.toLowerCase());
                     return Container();
                   },
@@ -816,20 +817,29 @@ class _AddProductState extends State<AddProduct> {
                       );
                       return;
                     }
-                    if (productStock.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please Enter Stock'),
-                          duration: Duration(seconds: 1),
-                        ),
-                      );
-                      return;
-                    }
+                    // if (productStock.isEmpty) {
+                    //   ScaffoldMessenger.of(context).showSnackBar(
+                    //     const SnackBar(
+                    //       content: Text('Please Enter Stock'),
+                    //       duration: Duration(seconds: 1),
+                    //     ),
+                    //   );
+                    //   return;
+                    // }
 
                     if (productUnit == "Select Unit" || productUnit == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Please select unit'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      return;
+                    }
+                    if (productSalePrice.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please Enter sale price'),
                           duration: Duration(seconds: 1),
                         ),
                       );
@@ -847,15 +857,6 @@ class _AddProductState extends State<AddProduct> {
                       return;
                     }
 
-                    if (productSalePrice.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please Enter sale price'),
-                          duration: Duration(seconds: 1),
-                        ),
-                      );
-                      return;
-                    }
                     //product Image validatin
                     // if (imagePath == "No Data") {
                     //   ScaffoldMessenger.of(context).showSnackBar(
@@ -866,8 +867,10 @@ class _AddProductState extends State<AddProduct> {
                     //   );
                     //   return;
                     // }
-                    if (!codeList.contains(productCode.toLowerCase()) &&
-                        !productNameList.contains(productName.toLowerCase())) {
+                    print("code list" + codeList.toString());
+
+                    print("code list" + productNameList.toString());
+                    if (!codeList.contains(productCode.toLowerCase())) {
                       bool result =
                           await InternetConnectionChecker().hasConnection;
                       if (result) {

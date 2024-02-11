@@ -1,27 +1,27 @@
-import 'dart:convert';
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart' as firebase_core;
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+import '../../constant.dart';
+import '../../subscription.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:nb_utils/nb_utils.dart';
+import '../../model/shop_category_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile_pos/GlobalComponents/button_global.dart';
-import 'package:mobile_pos/Screens/Authentication/login_form.dart';
-import 'package:mobile_pos/Screens/Authentication/phone.dart';
-import 'package:nb_utils/nb_utils.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../GlobalComponents/Model/seller_info_model.dart';
-import '../../Provider/shop_category_provider.dart';
-import '../../constant.dart';
-import '../../model/personal_information_model.dart';
-import '../../model/shop_category_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../model/subscription_plan_model.dart';
-import '../../subscription.dart';
+import '../../Provider/shop_category_provider.dart';
+import '../../model/personal_information_model.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:firebase_database/firebase_database.dart';
+import '../../GlobalComponents/Model/seller_info_model.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mobile_pos/Screens/Authentication/phone.dart';
+import 'package:mobile_pos/GlobalComponents/button_global.dart';
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:mobile_pos/Screens/Authentication/login_form.dart';
 
 class ProfileSetup extends StatefulWidget {
   const ProfileSetup({Key? key, required this.loginWithPhone})
@@ -39,7 +39,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
   String dropdownLangValue = 'English';
   String initialCountry = 'Bangladesh';
   String dropdownValue = '';
-  String companyName = "", phoneNumber = "", email = "";
+  String companyName = "", phoneNumber = "", altphoneNumber = "", email = "";
   double progress = 0.0;
   int openingBalance = 0;
   bool showProgress = false;
@@ -76,14 +76,16 @@ class _ProfileSetupState extends State<ProfileSetup> {
       var snapshot = await FirebaseStorage.instance
           .ref('Profile Picture/${DateTime.now().millisecondsSinceEpoch}')
           .putFile(file);
+
       var url = await snapshot.ref.getDownloadURL();
       setState(() {
         profilePicture = url.toString();
       });
-    } on firebase_core.FirebaseException catch (e) {
+    } on Exception catch (e) {
       EasyLoading.dismiss();
+      print("akjdhukasdhsajk" + e.toString());
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.code.toString())));
+          .showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 
@@ -201,19 +203,19 @@ class _ProfileSetupState extends State<ProfileSetup> {
               child: Center(
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        lang.S.of(context).setUpDesc,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.inter(
-                          color: kGreyTextColor,
-                          fontSize: 15.0,
-                        ),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(10.0),
+                    //   child: Text(
+                    //     lang.S.of(context).setUpDesc,
+                    //     maxLines: 2,
+                    //     overflow: TextOverflow.ellipsis,
+                    //     textAlign: TextAlign.center,
+                    //     style: GoogleFonts.inter(
+                    //       color: kGreyTextColor,
+                    //       fontSize: 15.0,
+                    //     ),
+                    //   ),
+                    // ),
                     GestureDetector(
                       onTap: () {
                         showDialog(
@@ -447,6 +449,27 @@ class _ProfileSetupState extends State<ProfileSetup> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
+                      child: SizedBox(
+                        height: 60.0,
+                        child: AppTextField(
+                          readOnly: false,
+                          textFieldType: TextFieldType.PHONE,
+                          // initialValue: PhoneAuth.phoneNumber,
+                          onChanged: (value) {
+                            setState(() {
+                              altphoneNumber = value;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            labelText: "Alternate phone number ",
+                            hintText: "Enter alternate phone number",
+                            border: const OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
                       child: AppTextField(
                         // ignore: deprecated_member_use
                         textFieldType: TextFieldType.ADDRESS,
@@ -590,7 +613,8 @@ class _ProfileSetupState extends State<ProfileSetup> {
                               PersonalInformationModel(
                                   businessCategory: dropdownValue,
                                   companyName: companyName,
-                                  phoneNumber: widget.loginWithPhone
+                                  phoneNumber: altphoneNumber,
+                                  altphoneNumber: widget.loginWithPhone
                                       ? PhoneAuth.phoneNumber
                                       : phoneNumber,
                                   countryName: controller.text,
@@ -609,6 +633,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                               phoneNumber: widget.loginWithPhone
                                   ? PhoneAuth.phoneNumber
                                   : phoneNumber,
+                              altphoneNumber: altphoneNumber,
                               countryName: controller.text,
                               language: dropdownLangValue,
                               pictureUrl: profilePicture,
@@ -635,7 +660,6 @@ class _ProfileSetupState extends State<ProfileSetup> {
                             prefs.setBool('isfirsttime', true);
                             prefs.setBool('isprofilesetup', true);
                           });
-
                           // ignore: use_build_context_synchronously
                           // const PurchasePremiumPlanScreen(
                           //   isCameBack: false,

@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_pos/GlobalComponents/button_global.dart';
-import 'package:mobile_pos/Screens/Authentication/phone.dart';
-import 'package:mobile_pos/Screens/Authentication/register_form.dart';
-import 'package:mobile_pos/repository/login_repo.dart';
-import 'package:nb_utils/nb_utils.dart';
 import '../../constant.dart';
 import 'forgot_password.dart';
+import 'package:flutter/material.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_pos/repository/login_repo.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:mobile_pos/Screens/Authentication/phone.dart';
+import 'package:mobile_pos/GlobalComponents/button_global.dart';
+import 'package:mobile_pos/Screens/Authentication/register_form.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key, this.isEmailLogin = false}) : super(key: key);
@@ -167,15 +167,15 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ],
                   ).visible(widget.isEmailLogin),
-                  TextButton(
-                    onPressed: () {
-                      const PhoneAuth().launch(context);
-                    },
-                    child: Text(
-                      lang.S.of(context).loginWithPhone,
-                      style: TextStyle(color: kMainColor),
-                    ),
-                  ).visible(widget.isEmailLogin),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     const PhoneAuth().launch(context);
+                  //   },
+                  //   child: Text(
+                  //     lang.S.of(context).loginWithPhone,
+                  //     style: TextStyle(color: kMainColor),
+                  //   ),
+                  // ).visible(widget.isEmailLogin),
                 ],
               ),
             ),

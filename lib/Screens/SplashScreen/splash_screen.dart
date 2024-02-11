@@ -1,27 +1,27 @@
-// ignore_for_file: use_build_context_synchronously
 import 'dart:convert';
-
+import '../Home/home.dart';
+import '../../currency.dart';
+import '../Authentication/phone.dart';
+import 'package:flutter/material.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:provider/provider.dart';
+import 'package:mobile_pos/constant.dart';
+import '../Authentication/login_form.dart';
+import '../language/language_provider.dart';
+import '../Authentication/profile_setup.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../repository/subscription_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../GlobalComponents/license_verifier.dart';
+import 'package:mobile_pos/generated/l10n.dart' as lang;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:mobile_pos/Screens/SplashScreen/on_board.dart';
-import 'package:mobile_pos/constant.dart';
-import 'package:nb_utils/nb_utils.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
-import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:mobile_pos/Screens/SplashScreen/on_board.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+// ignore_for_file: use_build_context_synchronously
 
-import '../../GlobalComponents/license_verifier.dart';
-import '../../currency.dart';
-import '../../repository/subscription_repo.dart';
-import '../Authentication/login_form.dart';
-import '../Authentication/phone.dart';
-import '../Authentication/profile_setup.dart';
-import '../Home/home.dart';
-import '../language/language_provider.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -593,7 +593,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     print("seller" + sellerdata.toString());
 
-    return sellerdata.length > 0 ? sellerdata[9] : 0;
+    return sellerdata.length > 0 ? sellerdata[10] : 0;
   }
 
   @override

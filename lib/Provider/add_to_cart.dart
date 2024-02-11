@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_pos/model/product_model.dart';
-
 import '../model/add_to_cart_model.dart';
+import 'package:mobile_pos/model/product_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 final cartNotifier = ChangeNotifierProvider((ref) => CartNotifier());
 
@@ -16,13 +15,13 @@ class CartNotifier extends ChangeNotifier {
 
   void addProductsInSales(ProductModel products, [cntx]) {
     productList.add(products);
-    if (cntx != null)
-      ScaffoldMessenger.of(cntx).showSnackBar(
-        const SnackBar(
-          content: Text('Add product to cart'),
-          duration: Duration(milliseconds: 30),
-        ),
-      );
+    if (cntx != null) EasyLoading.showSuccess('Add product to cart');
+    // ScaffoldMessenger.of(cntx).showSnackBar(
+    //   const SnackBar(
+    //     content: Text('Add product to cart'),
+    //     duration: Duration(milliseconds: 500),
+    //   ),
+    // );
     notifyListeners();
   }
 

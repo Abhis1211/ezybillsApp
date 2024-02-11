@@ -1,6 +1,7 @@
 class SellerInfoModel {
   SellerInfoModel({
     this.phoneNumber,
+    this.altphoneNumber,
     this.companyName,
     this.pictureUrl,
     this.businessCategory,
@@ -17,6 +18,7 @@ class SellerInfoModel {
   });
 
   SellerInfoModel.fromJson(dynamic json) {
+    altphoneNumber = json['altphoneNumber'];
     phoneNumber = json['phoneNumber'];
     companyName = json['companyName'];
     pictureUrl = json['pictureUrl'];
@@ -32,6 +34,7 @@ class SellerInfoModel {
     created_date = json['created_date'];
   }
   dynamic phoneNumber;
+  dynamic altphoneNumber;
   String? companyName;
   String? pictureUrl;
   String? businessCategory;
@@ -49,6 +52,7 @@ class SellerInfoModel {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['phoneNumber'] = phoneNumber;
+    map['altphoneNumber'] = altphoneNumber;
     map['companyName'] = companyName;
     map['pictureUrl'] = pictureUrl;
     map['businessCategory'] = businessCategory;

@@ -1,22 +1,21 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import '../../currency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:flutter_cart/flutter_cart.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_pos/Provider/product_provider.dart';
-import 'package:mobile_pos/Screens/Customers/Model/customer_model.dart';
-import 'package:mobile_pos/constant.dart';
 import 'package:nb_utils/nb_utils.dart';
-
 import '../../Provider/add_to_cart.dart';
-import '../../Provider/category,brans,units_provide.dart';
-import '../../Provider/profile_provider.dart';
-import '../../currency.dart';
+import 'package:mobile_pos/constant.dart';
 import '../../model/add_to_cart_model.dart';
+import '../../Provider/profile_provider.dart';
+import 'package:flutter_cart/flutter_cart.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
+import '../../Provider/category,brans,units_provide.dart';
+import 'package:mobile_pos/Provider/product_provider.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:mobile_pos/Screens/Customers/Model/customer_model.dart';
 
 // ignore: must_be_immutable
 class SaleProducts extends StatefulWidget {
@@ -400,13 +399,14 @@ class _SaleProductsState extends State<SaleProducts> {
                               element.productCategory == currentproductcategory)
                           .toList();
                       return GridView.builder(
+                        padding: EdgeInsets.zero,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3, // number of items in each row
                             mainAxisSpacing: 10.0, // spacing between rows
                             crossAxisSpacing: 8.0,
-                            childAspectRatio: 0.4 // spacing between columns
+                            childAspectRatio: 0.5 // spacing between columns
                             ),
-                        // shrinkWrap: true,
+                        shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
                         itemCount: currentproductcategory == ""
                             ? products.length
@@ -538,18 +538,26 @@ class _SaleProductsState extends State<SaleProducts> {
         floatingActionButtonLocation:
             FloatingActionButtonLocation.miniCenterFloat,
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          label: Text(
-            "Add".toString(),
-            style: GoogleFonts.jost(
-              fontSize: 14.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ).paddingSymmetric(horizontal: 40, vertical: 10),
-        ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            label: providerData.cartItemList.length <= 0
+                ? Text(
+                    "Add".toString(),
+                    style: GoogleFonts.jost(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ).paddingSymmetric(horizontal: 40, vertical: 10)
+                : Text(
+                    "next".toString(),
+                    style: GoogleFonts.jost(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ).paddingSymmetric(horizontal: 40, vertical: 10)),
         // bottomNavigationBar: ButtonGlobal(
         //   iconWidget: Icons.arrow_forward,
         //   buttontext: 'Sales List',
@@ -574,6 +582,7 @@ class ProductCard extends StatefulWidget {
   ProductCard(
       {Key? key,
       required this.productTitle,
+      this.productbrand,
       required this.productDescription,
       required this.productPrice,
       required this.productImage})
@@ -581,7 +590,7 @@ class ProductCard extends StatefulWidget {
 
   // final Product product;
   String productImage, productTitle, productDescription, productPrice;
-
+  String? productbrand;
   @override
   State<ProductCard> createState() => _ProductCardState();
 }
@@ -600,117 +609,120 @@ class _ProductCardState extends State<ProductCard> {
           quantity = element.quantity;
         }
       }
-      return Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Container(
-                height: 80,
-                width: 90,
-                child: CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  imageUrl: widget.productImage,
-                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                      Center(
-                          child: CircularProgressIndicator(
-                              value: downloadProgress.progress)),
-                  errorWidget: (context, url, error) => ClipRRect(
-                   
-                      child: Image.network(productPicture,height: 20,)),
-                ),
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Container(
+              height: 80,
+              width: 90,
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                imageUrl: widget.productImage,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Center(
+                        child: CircularProgressIndicator(
+                            value: downloadProgress.progress)),
+                errorWidget: (context, url, error) => ClipRRect(
+                    child: Image.network(
+                  productPicture,
+                  height: 20,
+                )),
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.all(4.0),
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.circular(15),
-            //       image: DecorationImage(
-            //           image: NetworkImage(widget.productImage),
-            //           fit: BoxFit.cover),
-            //     ),
-            //   ),
-            // ),
-            SizedBox(height: 5),
-            Center(
-              child: Text(
-                widget.productTitle,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.inter(
-                    color: bluetxtcolor,
-                    textStyle:
-                        TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600)),
-              ),
+          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(4.0),
+          //   child: Container(
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(15),
+          //       image: DecorationImage(
+          //           image: NetworkImage(widget.productImage),
+          //           fit: BoxFit.cover),
+          //     ),
+          //   ),
+          // ),
+          SizedBox(height: 5),
+          Center(
+            child: Text(
+              widget.productTitle,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.inter(
+                  color: bluetxtcolor,
+                  textStyle:
+                      TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600)),
             ),
-            // Text(
-            //   widget.productDescription,
-            //   maxLines: 1,
-            //   overflow: TextOverflow.ellipsis,
-            //   style: GoogleFonts.inter(
-            //     fontSize: 15.0,
-            //     color: kGreyTextColor,
-            //   ),
-            // ),
-            Center(
-              child: Text(
-                '$currency${widget.productPrice}',
-                style: GoogleFonts.inter(
-                    color: pricecolor,
-                    textStyle:
-                        TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600)),
-                textAlign: TextAlign.center,
-              ),
+          ),
+          widget.productbrand != null
+              ? Center(
+                  child: Text(
+                    widget.productbrand.toString(),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.inter(
+                      fontSize: 10.0,
+                      color: kGreyTextColor,
+                    ),
+                  ),
+                )
+              : Container(),
+          Center(
+            child: Text(
+              '$currency${widget.productPrice}',
+              style: GoogleFonts.inter(
+                  color: pricecolor,
+                  textStyle:
+                      TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600)),
+              textAlign: TextAlign.center,
             ),
+          ),
 
-            // Padding(
-            //   padding: const EdgeInsets.only(left: 10.0),
-            //   child: Column(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     mainAxisSize: MainAxisSize.min,
-            //     children: [
-            //       Row(
-            //         children: [
-            //           Text(
-            //             widget.productTitle,
-            //             style: GoogleFonts.jost(
-            //               fontSize: 20.0,
-            //               color: Colors.black,
-            //             ),
-            //           ),
-            //           // const SizedBox(width: 5),
-            //           // Text(
-            //           //   ' X $quantity',
-            //           //   style: GoogleFonts.jost(
-            //           //     fontSize: 14.0,
-            //           //     color: Colors.grey.shade500,
-            //           //   ),
-            //           // ).visible(quantity != 0),
-            //         ],
-            //       ),
-            //       Text(
-            //         widget.productDescription,
-            //         style: GoogleFonts.jost(
-            //           fontSize: 15.0,
-            //           color: kGreyTextColor,
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // const Spacer(),
-            // Text(
-            //   '$currency${widget.productPrice}',
-            //   style: GoogleFonts.jost(
-            //     fontSize: 20.0,
-            //     color: Colors.black,
-            //   ),
-            // ),
-          ],
-        ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 10.0),
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     mainAxisSize: MainAxisSize.min,
+          //     children: [
+          //       Row(
+          //         children: [
+          //           Text(
+          //             widget.productTitle,
+          //             style: GoogleFonts.jost(
+          //               fontSize: 20.0,
+          //               color: Colors.black,
+          //             ),
+          //           ),
+          //           // const SizedBox(width: 5),
+          //           // Text(
+          //           //   ' X $quantity',
+          //           //   style: GoogleFonts.jost(
+          //           //     fontSize: 14.0,
+          //           //     color: Colors.grey.shade500,
+          //           //   ),
+          //           // ).visible(quantity != 0),
+          //         ],
+          //       ),
+          //       Text(
+          //         widget.productDescription,
+          //         style: GoogleFonts.jost(
+          //           fontSize: 15.0,
+          //           color: kGreyTextColor,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // const Spacer(),
+          // Text(
+          //   '$currency${widget.productPrice}',
+          //   style: GoogleFonts.jost(
+          //     fontSize: 20.0,
+          //     color: Colors.black,
+          //   ),
+          // ),
+        ],
       );
     });
   }

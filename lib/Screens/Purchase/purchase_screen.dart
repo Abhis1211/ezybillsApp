@@ -1,17 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_cart/flutter_cart.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_pos/GlobalComponents/add_category.dart';
-import 'package:mobile_pos/GlobalComponents/button_global.dart';
-import 'package:mobile_pos/Provider/product_provider.dart';
-import 'package:mobile_pos/Screens/Purchase/purchase_details.dart';
-import 'package:mobile_pos/Screens/Sales/sales_screen.dart';
-import 'package:nb_utils/nb_utils.dart';
-
 import '../../constant.dart';
 import '../../currency.dart';
+import 'package:flutter/material.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:flutter_cart/flutter_cart.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_pos/Provider/product_provider.dart';
+import 'package:mobile_pos/Screens/Sales/sales_screen.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mobile_pos/GlobalComponents/add_category.dart';
+import 'package:mobile_pos/GlobalComponents/button_global.dart';
+import 'package:mobile_pos/Screens/Purchase/purchase_details.dart';
 
 // ignore: must_be_immutable
 class PurchaseScreen extends StatefulWidget {
@@ -33,7 +32,9 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
 
   @override
   void initState() {
-    widget.catName == null ? dropdownValue = 'Fashion' : dropdownValue = widget.catName;
+    widget.catName == null
+        ? dropdownValue = 'Fashion'
+        : dropdownValue = widget.catName;
     super.initState();
   }
 
@@ -57,10 +58,14 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
           actions: [
             PopupMenuButton(
               itemBuilder: (BuildContext bc) => [
-                const PopupMenuItem(value: "/addPromoCode", child: Text('Add Promo Code')),
-                const PopupMenuItem(value: "/addDiscount", child: Text('Add Discount')),
-                const PopupMenuItem(value: "/settings", child: Text('Cancel All Product')),
-                const PopupMenuItem(value: "/settings", child: Text('Vat Doesn\'t Apply')),
+                const PopupMenuItem(
+                    value: "/addPromoCode", child: Text('Add Promo Code')),
+                const PopupMenuItem(
+                    value: "/addDiscount", child: Text('Add Discount')),
+                const PopupMenuItem(
+                    value: "/settings", child: Text('Cancel All Product')),
+                const PopupMenuItem(
+                    value: "/settings", child: Text('Vat Doesn\'t Apply')),
               ],
               onSelected: (value) {
                 Navigator.pushNamed(context, '$value');
@@ -166,7 +171,8 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
                           const AddCategory().launch(context);
                         },
                         child: Container(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                          padding:
+                              const EdgeInsets.only(left: 20.0, right: 20.0),
                           width: 50.0,
                           height: 50.0,
                           decoration: BoxDecoration(
@@ -190,8 +196,13 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            cart.addToCart(productId: items, unitPrice: products[index].productSalePrice.toInt(), productName: products[index].productName);
-                            EasyLoading.showSuccess('Added To Cart', duration: const Duration(milliseconds: 1000));
+                            cart.addToCart(
+                                productId: items,
+                                unitPrice:
+                                    products[index].productSalePrice.toInt(),
+                                productName: products[index].productName);
+                            EasyLoading.showSuccess('Added To Cart',
+                                duration: const Duration(milliseconds: 1000));
                             setState(() {
                               total = cart.getTotalAmount().toString();
                               items++;
@@ -202,6 +213,7 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
                             productDescription: products[index].brandName,
                             productPrice: products[index].productSalePrice,
                             productImage: products[index].productPicture,
+                            productbrand: products[index].brandName,
                           ),
                         );
                       });

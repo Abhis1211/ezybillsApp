@@ -1,34 +1,31 @@
-// ignore_for_file: unused_result, use_build_context_synchronously
-
 import 'dart:convert';
-
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_pos/Provider/add_to_cart.dart';
-import 'package:mobile_pos/Provider/customer_provider.dart';
-import 'package:mobile_pos/Provider/profile_provider.dart';
-import 'package:mobile_pos/Provider/transactions_provider.dart';
-import 'package:mobile_pos/Screens/Report/Screens/sales_report_screen.dart';
-import 'package:mobile_pos/Screens/Sales/sales_screen.dart';
-import 'package:mobile_pos/model/transition_model.dart';
-import 'package:nb_utils/nb_utils.dart';
-
-import '../../Provider/printer_provider.dart';
-import '../../Provider/product_provider.dart';
-import '../../Provider/seles_report_provider.dart';
+import '../Home/home.dart';
 import '../../constant.dart';
 import '../../currency.dart';
-import '../../model/personal_information_model.dart';
-import '../../model/print_transaction_model.dart';
 import '../../subscription.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:nb_utils/nb_utils.dart';
+import '../../Provider/printer_provider.dart';
+import '../../Provider/product_provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../Customers/Model/customer_model.dart';
-import '../Home/home.dart';
+import '../../model/print_transaction_model.dart';
+import '../../Provider/seles_report_provider.dart';
+import '../../model/personal_information_model.dart';
+import 'package:mobile_pos/Provider/add_to_cart.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_pos/model/transition_model.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:firebase_database/firebase_database.dart';
+import 'package:mobile_pos/Provider/profile_provider.dart';
+import 'package:mobile_pos/Provider/customer_provider.dart';
+import 'package:mobile_pos/Screens/Sales/sales_screen.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mobile_pos/Provider/transactions_provider.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:mobile_pos/Screens/Report/Screens/sales_report_screen.dart';
+// ignore_for_file: unused_result, use_build_context_synchronously
 
 // ignore: must_be_immutable
 class AddSalesScreen extends StatefulWidget {
@@ -122,7 +119,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
           ),
           body: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Column(
                 children: [
                   Row(
@@ -172,7 +169,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -203,7 +200,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
 
                   ///_______Added_ItemS__________________________________________________
                   Container(
@@ -263,70 +260,65 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      SizedBox(
-                                        width: 80,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                providerData
-                                                    .quantityDecrease(index);
-                                              },
-                                              child: Container(
-                                                height: 20,
-                                                width: 20,
-                                                decoration: const BoxDecoration(
-                                                  color: kMainColor,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(10)),
-                                                ),
-                                                child: const Center(
-                                                  child: Text(
-                                                    '-',
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.white),
-                                                  ),
-                                                ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              providerData
+                                                  .quantityDecrease(index);
+                                            },
+                                            child: Container(
+                                              height: 20,
+                                              width: 20,
+                                              decoration: const BoxDecoration(
+                                                color: kMainColor,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10)),
                                               ),
-                                            ),
-                                            const SizedBox(width: 5),
-                                            Text(
-                                              '${providerData.cartItemList[index].quantity}',
-                                              style: GoogleFonts.inter(
-                                                color: kGreyTextColor,
-                                                fontSize: 15.0,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 5),
-                                            GestureDetector(
-                                              onTap: () {
-                                                providerData
-                                                    .quantityIncrease(index);
-                                              },
-                                              child: Container(
-                                                height: 20,
-                                                width: 20,
-                                                decoration: const BoxDecoration(
-                                                  color: kMainColor,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(10)),
-                                                ),
-                                                child: const Center(
-                                                    child: Text(
-                                                  '+',
+                                              child: const Center(
+                                                child: Text(
+                                                  '-',
                                                   style: TextStyle(
                                                       fontSize: 14,
                                                       color: Colors.white),
-                                                )),
+                                                ),
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                          const SizedBox(width: 7),
+                                          Text(
+                                            '${providerData.cartItemList[index].quantity}',
+                                            style: GoogleFonts.inter(
+                                              color: kGreyTextColor,
+                                              fontSize: 15.0,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 7),
+                                          GestureDetector(
+                                            onTap: () {
+                                              providerData
+                                                  .quantityIncrease(index);
+                                            },
+                                            child: Container(
+                                              height: 20,
+                                              width: 20,
+                                              decoration: const BoxDecoration(
+                                                color: kMainColor,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10)),
+                                              ),
+                                              child: const Center(
+                                                  child: Text(
+                                                '+',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.white),
+                                              )),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                       const SizedBox(width: 10),
                                       GestureDetector(
@@ -351,7 +343,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                       ],
                     ).visible(providerData.cartItemList.isNotEmpty),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
 
                   ///_______Add_Button__________________________________________________
                   GestureDetector(
@@ -375,7 +367,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                       )),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
 
                   ///_____Total______________________________
                   Container(
@@ -388,8 +380,9 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                       children: [
                         Container(
                           padding: const EdgeInsets.all(10),
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Color(0xffEAEFFA),
+                              border: Border.all(color: Colors.black),
                               borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(10),
                                   topLeft: Radius.circular(10))),
@@ -398,26 +391,29 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                             children: [
                               Text(
                                 lang.S.of(context).subTotal,
-                                style: const TextStyle(fontSize: 16),
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 providerData
                                     .getTotalAmount()
                                     .toStringAsFixed(2),
-                                style: const TextStyle(fontSize: 16),
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
                         ),
                         if (personalInformationModel.gstenable == true)
                           Padding(
-                            padding: const EdgeInsets.all(10.0),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10.0, vertical: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
-                                  'VAT/GST',
-                                  style: TextStyle(fontSize: 16),
+                                  'GST',
+                                  style: TextStyle(fontSize: 14),
                                 ),
                                 Row(
                                   children: [
@@ -426,6 +422,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                       height: 40.0,
                                       child: Center(
                                         child: AppTextField(
+                                          textStyle: TextStyle(fontSize: 14),
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(
                                                 RegExp(r'^\d*\.?\d{0,2}'))
@@ -519,6 +516,8 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                       height: 40.0,
                                       child: Center(
                                         child: AppTextField(
+                                          textStyle:
+                                              const TextStyle(fontSize: 14),
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(
                                                 RegExp(r'^\d*\.?\d{0,2}'))
@@ -603,13 +602,13 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                             ),
                           ),
                         Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 lang.S.of(context).discount,
-                                style: const TextStyle(fontSize: 16),
+                                style: const TextStyle(fontSize: 14),
                               ),
                               SizedBox(
                                 width: context.width() / 4,
@@ -636,6 +635,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                       }
                                     }
                                   },
+                                  style: const TextStyle(fontSize: 14),
                                   textAlign: TextAlign.right,
                                   decoration: const InputDecoration(
                                     hintText: '0',
@@ -646,32 +646,40 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
+                        SizedBox(height: 5),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Color(0xffEAEFFA),
+                            border: Border.symmetric(
+                                horizontal: BorderSide(color: Colors.black)),
+                          ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 lang.S.of(context).total,
-                                style: const TextStyle(fontSize: 16),
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 calculateSubtotal(
                                         total: providerData.getTotalAmount())
                                     .toStringAsFixed(2),
-                                style: const TextStyle(fontSize: 16),
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 lang.S.of(context).paidAmount,
-                                style: const TextStyle(fontSize: 16),
+                                style: const TextStyle(fontSize: 14),
                               ),
                               SizedBox(
                                 width: context.width() / 4,
@@ -689,10 +697,11 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                       });
                                     }
                                   },
+                                  style: TextStyle(fontSize: 14),
                                   textAlign: TextAlign.right,
                                   decoration: InputDecoration(
                                       hintStyle: const TextStyle(
-                                          fontSize: 16, color: Colors.black),
+                                          fontSize: 14, color: Colors.black),
                                       hintText: calculateSubtotal(
                                               total:
                                                   providerData.getTotalAmount())
@@ -702,43 +711,46 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                             ],
                           ),
                         ),
+                        SizedBox(height: 10),
                         Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 lang.S.of(context).returnAmount,
-                                style: const TextStyle(fontSize: 16),
+                                style: const TextStyle(fontSize: 14),
                               ),
                               Text(
                                 calculateReturnAmount(total: subTotal)
                                     .abs()
                                     .toStringAsFixed(2),
-                                style: const TextStyle(fontSize: 16),
+                                style: const TextStyle(fontSize: 14),
                               ),
                             ],
                           ),
                         ),
+                        SizedBox(height: 10),
                         Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 lang.S.of(context).dueAmount,
-                                style: const TextStyle(fontSize: 16),
+                                style: const TextStyle(fontSize: 14),
                               ),
                               Text(
                                 paidAmount == 0
                                     ? "0.00"
                                     : calculateDueAmount(total: subTotal)
                                         .toStringAsFixed(2),
-                                style: const TextStyle(fontSize: 16),
+                                style: const TextStyle(fontSize: 14),
                               ),
                             ],
                           ),
                         ),
+                        SizedBox(height: 10),
                       ],
                     ),
                   ),
