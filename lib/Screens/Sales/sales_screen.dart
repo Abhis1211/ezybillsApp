@@ -439,69 +439,81 @@ class _SaleProductsState extends State<SaleProducts> {
                           }
                           return GestureDetector(
                             onTap: () async {
-                              if (products[i].productStock.toInt() <= 0) {
-                                EasyLoading.showError('Out of stock');
-                              } else {
-                                if (widget.customerModel!.type
-                                    .contains('Retailer')) {
-                                  sentProductPrice =
-                                      currentproductcategory == ""
-                                          ? products[i].productSalePrice
-                                          : filterlist[i].productSalePrice;
-                                } else if (widget.customerModel!.type
-                                    .contains('Dealer')) {
-                                  sentProductPrice =
-                                      currentproductcategory == ""
-                                          ? products[i].productDealerPrice
-                                          : filterlist[i].productDealerPrice;
-                                } else if (widget.customerModel!.type
-                                    .contains('Wholesaler')) {
-                                  sentProductPrice =
-                                      currentproductcategory == ""
-                                          ? products[i].productWholeSalePrice
-                                          : filterlist[i].productWholeSalePrice;
-                                } else if (widget.customerModel!.type
-                                    .contains('Supplier')) {
-                                  sentProductPrice =
-                                      currentproductcategory == ""
-                                          ? products[i].productPurchasePrice
-                                          : filterlist[i].productPurchasePrice;
-                                } else if (widget.customerModel!.type
-                                    .contains('Guest')) {
-                                  sentProductPrice =
-                                      currentproductcategory == ""
-                                          ? products[i].productSalePrice
-                                          : filterlist[i].productSalePrice;
+                              print(filterlist[i].productStock.toString());
+                              print(int.parse(products[i].productStock)
+                                  .toString());
+                              if ((currentproductcategory == ""
+                                          ? products[i].productStock.toString()
+                                          : filterlist[i]
+                                              .productStock
+                                              .toString())
+                                      .toString() !=
+                                  "") {
+                                if (int.parse(currentproductcategory == ""
+                                        ? products[i].productStock.toString()
+                                        : filterlist[i]
+                                            .productStock
+                                            .toString()) <=
+                                    0) {
+                                  EasyLoading.showError('Out of stock');
+                                  return;
                                 }
-
-                                AddToCartModel cartItem = AddToCartModel(
-                                  productName: currentproductcategory == ""
-                                      ? products[i].productName
-                                      : filterlist[i].productName,
-                                  subTotal: sentProductPrice,
-                                  productId: currentproductcategory == ""
-                                      ? products[i].productCode
-                                      : filterlist[i].productCode,
-                                  productBrandName: currentproductcategory == ""
-                                      ? products[i].brandName
-                                      : filterlist[i].brandName,
-                                  productPurchasePrice:
-                                      currentproductcategory == ""
-                                          ? products[i].productPurchasePrice
-                                          : filterlist[i].productPurchasePrice,
-                                  stock: int.parse(products[i].productStock),
-                                  uuid: currentproductcategory == ""
-                                      ? products[i].productCode
-                                      : filterlist[i].productCode,
-                                );
-                                providerData.addToCartRiverPod(cartItem);
-                                providerData.addProductsInSales(
-                                    currentproductcategory == ""
-                                        ? products[i]
-                                        : filterlist[i],
-                                    context);
-                                // Navigator.pop(context);
                               }
+
+                              if (widget.customerModel!.type
+                                  .contains('Retailer')) {
+                                sentProductPrice = currentproductcategory == ""
+                                    ? products[i].productSalePrice
+                                    : filterlist[i].productSalePrice;
+                              } else if (widget.customerModel!.type
+                                  .contains('Dealer')) {
+                                sentProductPrice = currentproductcategory == ""
+                                    ? products[i].productDealerPrice
+                                    : filterlist[i].productDealerPrice;
+                              } else if (widget.customerModel!.type
+                                  .contains('Wholesaler')) {
+                                sentProductPrice = currentproductcategory == ""
+                                    ? products[i].productWholeSalePrice
+                                    : filterlist[i].productWholeSalePrice;
+                              } else if (widget.customerModel!.type
+                                  .contains('Supplier')) {
+                                sentProductPrice = currentproductcategory == ""
+                                    ? products[i].productPurchasePrice
+                                    : filterlist[i].productPurchasePrice;
+                              } else if (widget.customerModel!.type
+                                  .contains('Guest')) {
+                                sentProductPrice = currentproductcategory == ""
+                                    ? products[i].productSalePrice
+                                    : filterlist[i].productSalePrice;
+                              }
+
+                              AddToCartModel cartItem = AddToCartModel(
+                                productName: currentproductcategory == ""
+                                    ? products[i].productName
+                                    : filterlist[i].productName,
+                                subTotal: sentProductPrice,
+                                productId: currentproductcategory == ""
+                                    ? products[i].productCode
+                                    : filterlist[i].productCode,
+                                productBrandName: currentproductcategory == ""
+                                    ? products[i].brandName
+                                    : filterlist[i].brandName,
+                                productPurchasePrice:
+                                    currentproductcategory == ""
+                                        ? products[i].productPurchasePrice
+                                        : filterlist[i].productPurchasePrice,
+                                stock: int.parse(products[i].productStock),
+                                uuid: currentproductcategory == ""
+                                    ? products[i].productCode
+                                    : filterlist[i].productCode,
+                              );
+                              providerData.addToCartRiverPod(cartItem);
+                              providerData.addProductsInSales(
+                                  currentproductcategory == ""
+                                      ? products[i]
+                                      : filterlist[i],
+                                  context);
+                              // Navigator.pop(context);
                             },
                             child: ProductCard(
                               productTitle: currentproductcategory == ""

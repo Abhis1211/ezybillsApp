@@ -1,24 +1,21 @@
-// ignore_for_file: unused_result
-
 import 'dart:io';
-import 'package:firebase_core/firebase_core.dart' as firebase_core;
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import '../../constant.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nb_utils/nb_utils.dart';
+import '../../Provider/profile_provider.dart';
+import '../../model/shop_category_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile_pos/GlobalComponents/button_global.dart';
-import 'package:nb_utils/nb_utils.dart';
-
-import '../../Provider/profile_provider.dart';
 import '../../Provider/shop_category_provider.dart';
-import '../../constant.dart';
 import '../../model/personal_information_model.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
-
-import '../../model/shop_category_model.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mobile_pos/GlobalComponents/button_global.dart';
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
+// ignore_for_file: unused_result
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key, required this.profile}) : super(key: key);
@@ -31,9 +28,12 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   String dropdownLangValue = 'English';
-  String initialCountry = 'Bangladesh';
+  String initialCountry = '';
   String dropdownValue = '';
-  String companyName = 'nodata', phoneNumber = 'nodata', email = '';
+  String companyName = 'nodata',
+      phoneNumber = 'nodata',
+      altNumber = '',
+      email = '';
   double progress = 0.0;
   int invoiceNumber = 0;
   bool showProgress = false;
@@ -469,6 +469,26 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10.0),
+                          child: SizedBox(
+                            height: 60.0,
+                            child: AppTextField(
+                              readOnly: false,
+                              textFieldType: TextFieldType.PHONE,
+                              initialValue: details.altphoneNumber,
+                              onChanged: (value) {
+                                setState(() {
+                                  altNumber = value;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                labelText: "Alternate phone number",
+                                border: const OutlineInputBorder(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
                           child: AppTextField(
                             initialValue: details.countryName,
                             onChanged: (value) {
@@ -483,31 +503,31 @@ class _EditProfileState extends State<EditProfile> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: SizedBox(
-                            height: 60.0,
-                            child: FormField(
-                              builder: (FormFieldState<dynamic> field) {
-                                return InputDecorator(
-                                  decoration: InputDecoration(
-                                      floatingLabelBehavior:
-                                          FloatingLabelBehavior.always,
-                                      labelText: lang.S.of(context).language,
-                                      labelStyle: GoogleFonts.inter(
-                                        color: Colors.black,
-                                        fontSize: 20.0,
-                                      ),
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5.0))),
-                                  child: DropdownButtonHideUnderline(
-                                      child: getLanguage(dropdownLangValue)),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(10.0),
+                        //   child: SizedBox(
+                        //     height: 60.0,
+                        //     child: FormField(
+                        //       builder: (FormFieldState<dynamic> field) {
+                        //         return InputDecorator(
+                        //           decoration: InputDecoration(
+                        //               floatingLabelBehavior:
+                        //                   FloatingLabelBehavior.always,
+                        //               labelText: lang.S.of(context).language,
+                        //               labelStyle: GoogleFonts.inter(
+                        //                 color: Colors.black,
+                        //                 fontSize: 20.0,
+                        //               ),
+                        //               border: OutlineInputBorder(
+                        //                   borderRadius:
+                        //                       BorderRadius.circular(5.0))),
+                        //           child: DropdownButtonHideUnderline(
+                        //               child: getLanguage(dropdownLangValue)),
+                        //         );
+                        //       },
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     );
                   }, error: (e, stack) {
@@ -561,9 +581,13 @@ class _EditProfileState extends State<EditProfile> {
                           businessCategory: dropdownValue,
                           companyName: companyName,
                           phoneNumber: phoneNumber,
-                          countryName: initialCountry,
+                          countryName: initialCountry == ""
+                              ? widget.profile.countryName
+                              : initialCountry,
                           email: widget.profile.email,
-                          altphoneNumber: widget.profile.altphoneNumber,
+                          altphoneNumber: altNumber == ""
+                              ? widget.profile.altphoneNumber
+                              : altNumber,
                           invoiceCounter: invoiceNumber,
                           language: dropdownLangValue,
                           pictureUrl: profilePicture,
