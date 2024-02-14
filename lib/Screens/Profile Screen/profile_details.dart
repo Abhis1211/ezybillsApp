@@ -102,6 +102,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                       ),
                       decoration: InputDecoration(
                           labelText: lang.S.of(context).name,
+                          hintText: lang.S.of(context).name,
                           border: const OutlineInputBorder().copyWith(
                               borderSide:
                                   const BorderSide(color: kGreyTextColor)),
@@ -113,6 +114,31 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: AppTextField(
+                      onTap: () {
+                        print("object=>>>>>>>>> " + details.email.toString());
+                      },
+                      readOnly: true,
+                      cursorColor: kGreyTextColor,
+                      controller: TextEditingController(
+                        text: details.email,
+                      ),
+                      decoration: InputDecoration(
+                          labelText: lang.S.of(context).emailText,
+                          border: const OutlineInputBorder().copyWith(
+                              borderSide:
+                                  const BorderSide(color: kGreyTextColor)),
+                          hoverColor: kGreyTextColor,
+                          fillColor: kGreyTextColor),
+                      textFieldType: TextFieldType.NAME,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: AppTextField(
+                      onTap: () {
+                        print("object=>>>>>>>>> " +
+                            details.phoneNumber.toString());
+                      },
                       readOnly: true,
                       cursorColor: kGreyTextColor,
                       controller: TextEditingController(
@@ -120,6 +146,28 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                       ),
                       decoration: InputDecoration(
                           labelText: lang.S.of(context).phone,
+                          border: const OutlineInputBorder().copyWith(
+                              borderSide:
+                                  const BorderSide(color: kGreyTextColor)),
+                          hoverColor: kGreyTextColor,
+                          fillColor: kGreyTextColor),
+                      textFieldType: TextFieldType.NAME,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: AppTextField(
+                       onTap: () {
+                        print("object=>>>>>>>>> " +
+                            details.altphoneNumber.toString());
+                      },
+                      readOnly: true,
+                      cursorColor: kGreyTextColor,
+                      controller: TextEditingController(
+                        text: details.altphoneNumber,
+                      ),
+                      decoration: InputDecoration(
+                          labelText: "Alternate phone number ",
                           border: const OutlineInputBorder().copyWith(
                               borderSide:
                                   const BorderSide(color: kGreyTextColor)),
