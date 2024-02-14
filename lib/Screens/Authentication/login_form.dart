@@ -165,7 +165,7 @@ class _LoginFormState extends State<LoginForm> {
                           ),
                         ),
                       ),
-                    ],
+                    ],                               
                   ).visible(widget.isEmailLogin),
                   TextButton(
                     onPressed: () {
