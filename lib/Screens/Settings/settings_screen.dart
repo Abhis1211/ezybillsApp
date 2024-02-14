@@ -694,56 +694,56 @@ class _SettingScreenState extends State<SettingScreen> {
                 ).visible(!isSubUser),
 
                 ///____________Currency________________________________________________
-                ListTile(
-                  onTap: () async {
-                    await const CurrencyScreen().launch(context);
+                // ListTile(
+                //   onTap: () async {
+                //     await const CurrencyScreen().launch(context);
 
-                    setState(() {});
+                //     setState(() {});
 
-                    // showCurrencyPicker(
-                    //   context: context,
-                    //   showFlag: true,
-                    //   showCurrencyName: true,
-                    //   showCurrencyCode: true,
-                    //   onSelect: (Currency c) async {
-                    //     final prefs = await SharedPreferences.getInstance();
-                    //     await prefs.setString('currency', c.symbol);
-                    //     await prefs.setString('currencyName', c.name);
-                    //     setState(() {
-                    //       currency = c.symbol;
-                    //       currencyName = c.name;
-                    //     });
-                    //   },
-                    // );
-                  },
-                  title: Text(
-                    lang.S.of(context).currency,
-                    style: GoogleFonts.inter(
-                      color: Colors.black,
-                      fontSize: 18.0,
-                    ),
-                  ),
-                  leading: const Icon(
-                    Icons.currency_rupee_rounded,
-                    color: kMainColor,
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        '($currency)',
-                        style: GoogleFonts.inter(
-                          color: Colors.black,
-                          fontSize: 18.0,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 4.0,
-                      ),
-                      const Icon(Icons.arrow_forward_ios),
-                    ],
-                  ),
-                ),
+                //     // showCurrencyPicker(
+                //     //   context: context,
+                //     //   showFlag: true,
+                //     //   showCurrencyName: true,
+                //     //   showCurrencyCode: true,
+                //     //   onSelect: (Currency c) async {
+                //     //     final prefs = await SharedPreferences.getInstance();
+                //     //     await prefs.setString('currency', c.symbol);
+                //     //     await prefs.setString('currencyName', c.name);
+                //     //     setState(() {
+                //     //       currency = c.symbol;
+                //     //       currencyName = c.name;
+                //     //     });
+                //     //   },
+                //     // );
+                //   },
+                //   title: Text(
+                //     lang.S.of(context).currency,
+                //     style: GoogleFonts.inter(
+                //       color: Colors.black,
+                //       fontSize: 18.0,
+                //     ),
+                //   ),
+                //   leading: const Icon(
+                //     Icons.currency_rupee_rounded,
+                //     color: kMainColor,
+                //   ),
+                //   trailing: Row(
+                //     mainAxisSize: MainAxisSize.min,
+                //     children: [
+                //       Text(
+                //         '($currency)',
+                //         style: GoogleFonts.inter(
+                //           color: Colors.black,
+                //           fontSize: 18.0,
+                //         ),
+                //       ),
+                //       const SizedBox(
+                //         width: 4.0,
+                //       ),
+                //       const Icon(Icons.arrow_forward_ios),
+                //     ],
+                //   ),
+                // ),
 
                 // ///_____________________________________________________________________________language
                 // ListTile(

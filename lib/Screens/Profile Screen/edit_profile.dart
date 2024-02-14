@@ -33,7 +33,7 @@ class _EditProfileState extends State<EditProfile> {
   String dropdownLangValue = 'English';
   String initialCountry = 'Bangladesh';
   String dropdownValue = '';
-  String companyName = 'nodata', phoneNumber = 'nodata';
+  String companyName = 'nodata', phoneNumber = 'nodata', email = '';
   double progress = 0.0;
   int invoiceNumber = 0;
   bool showProgress = false;
@@ -160,7 +160,7 @@ class _EditProfileState extends State<EditProfile> {
               ref.watch(profileDetailsProvider);
           AsyncValue<List<ShopCategoryModel>> categoryList =
               ref.watch(shopCategoryProvider);
-          
+
           return categoryList.when(data: (categoryList) {
             return Center(
               child: Column(
@@ -562,6 +562,8 @@ class _EditProfileState extends State<EditProfile> {
                           companyName: companyName,
                           phoneNumber: phoneNumber,
                           countryName: initialCountry,
+                          email: widget.profile.email,
+                          altphoneNumber: widget.profile.altphoneNumber,
                           invoiceCounter: invoiceNumber,
                           language: dropdownLangValue,
                           pictureUrl: profilePicture,
@@ -571,7 +573,7 @@ class _EditProfileState extends State<EditProfile> {
                         _personalInformationRef
                             .set(personalInformation.toJson());
                         ref.refresh(profileDetailsProvider);
-                        
+
                         EasyLoading.showSuccess('Updated Successfully',
                             duration: const Duration(milliseconds: 1000));
                         // ignore: use_build_context_synchronously

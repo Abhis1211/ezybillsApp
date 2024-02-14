@@ -431,7 +431,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                       child: SizedBox(
                         height: 60.0,
                         child: AppTextField(
-                          readOnly: widget.loginWithPhone ? true : false,
+                          // readOnly: widget.loginWithPhone ? true : false,
                           textFieldType: TextFieldType.PHONE,
                           initialValue: PhoneAuth.phoneNumber,
                           onChanged: (value) {
@@ -611,12 +611,16 @@ class _ProfileSetupState extends State<ProfileSetup> {
 
                           PersonalInformationModel personalInformation =
                               PersonalInformationModel(
+                                  email: widget.loginWithPhone
+                                      ? email
+                                      : FirebaseAuth
+                                          .instance.currentUser!.email,
                                   businessCategory: dropdownValue,
                                   companyName: companyName,
-                                  phoneNumber: altphoneNumber,
-                                  altphoneNumber: widget.loginWithPhone
+                                  phoneNumber: widget.loginWithPhone
                                       ? PhoneAuth.phoneNumber
                                       : phoneNumber,
+                                  altphoneNumber: altphoneNumber,
                                   countryName: controller.text,
                                   language: dropdownLangValue,
                                   pictureUrl: profilePicture,

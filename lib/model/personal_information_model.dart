@@ -11,6 +11,7 @@ class PersonalInformationModel {
     this.gstenable,
     required this.shopOpeningBalance,
     required this.remainingShopBalance,
+    this.email,
   });
 
   PersonalInformationModel.fromJson(dynamic json) {
@@ -25,6 +26,7 @@ class PersonalInformationModel {
     gstenable = json['gstenable'];
     shopOpeningBalance = json['shopOpeningBalance'];
     remainingShopBalance = json['remainingShopBalance'];
+    email = json['email'];
   }
   dynamic phoneNumber;
   dynamic altphoneNumber;
@@ -33,6 +35,7 @@ class PersonalInformationModel {
   String? businessCategory;
   String? language;
   String? countryName;
+  dynamic email;
   int? invoiceCounter;
   bool? gstenable;
   late int shopOpeningBalance;
@@ -51,6 +54,7 @@ class PersonalInformationModel {
     map['gstenable'] = gstenable;
     map['shopOpeningBalance'] = shopOpeningBalance;
     map['remainingShopBalance'] = remainingShopBalance;
+    map['email'] = email;
     return map;
   }
 }
