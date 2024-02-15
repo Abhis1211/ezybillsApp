@@ -178,6 +178,7 @@ class _BrandsListState extends State<BrandsList> {
                                                 .instance
                                                 .ref(constUserId)
                                                 .child('Brands');
+
                                             sref.keepSynced(true);
                                             sref
                                                 .orderByKey()
@@ -192,11 +193,18 @@ class _BrandsListState extends State<BrandsList> {
                                                     data[i]
                                                         .brandName
                                                         .toString()) {
+                                                  print("dssdsadsad" +
+                                                      sdata['brandName']
+                                                          .toString());
+                                                  print("dssdsadsad" +
+                                                      sdata['brandName']
+                                                          .toString());
                                                   brandkey =
                                                       element.key.toString();
                                                 }
                                               }
                                             });
+                                            print(brandkey.toString());
                                             DatabaseReference wref =
                                                 FirebaseDatabase.instance.ref(
                                                     "$constUserId/Brands/$brandkey");

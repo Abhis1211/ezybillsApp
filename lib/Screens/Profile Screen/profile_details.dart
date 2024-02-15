@@ -1,17 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import '../../constant.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nb_utils/nb_utils.dart';
+import '../../Provider/profile_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../model/personal_information_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mobile_pos/GlobalComponents/button_global.dart';
 import 'package:mobile_pos/Screens/Authentication/login_form.dart';
 import 'package:mobile_pos/Screens/Profile%20Screen/edit_profile.dart';
-import 'package:nb_utils/nb_utils.dart';
-
-import '../../Provider/profile_provider.dart';
-import '../../constant.dart';
-import '../../model/personal_information_model.dart';
-import 'package:mobile_pos/generated/l10n.dart' as lang;
 
 class ProfileDetails extends StatefulWidget {
   const ProfileDetails({Key? key}) : super(key: key);
@@ -157,7 +156,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: AppTextField(
-                       onTap: () {
+                      onTap: () {
                         print("object=>>>>>>>>> " +
                             details.altphoneNumber.toString());
                       },
@@ -197,46 +196,22 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: AppTextField(
-                            readOnly: true,
-                            cursorColor: kGreyTextColor,
-                            controller: TextEditingController(
-                              text: details.countryName,
-                            ),
-                            decoration: InputDecoration(
-                                labelText: lang.S.of(context).address,
-                                border: const OutlineInputBorder().copyWith(
-                                    borderSide: const BorderSide(
-                                        color: kGreyTextColor)),
-                                hoverColor: kGreyTextColor,
-                                fillColor: kGreyTextColor),
-                            textFieldType: TextFieldType.NAME,
-                          ),
+                    child: Expanded(
+                      child: AppTextField(
+                        readOnly: true,
+                        cursorColor: kGreyTextColor,
+                        controller: TextEditingController(
+                          text: details.countryName,
                         ),
-                        const SizedBox(
-                          width: 10.0,
-                        ),
-                        Expanded(
-                          child: AppTextField(
-                            readOnly: true,
-                            cursorColor: kGreyTextColor,
-                            controller: TextEditingController(
-                              text: details.language,
-                            ),
-                            decoration: InputDecoration(
-                                labelText: lang.S.of(context).language,
-                                border: const OutlineInputBorder().copyWith(
-                                    borderSide: const BorderSide(
-                                        color: kGreyTextColor)),
-                                hoverColor: kGreyTextColor,
-                                fillColor: kGreyTextColor),
-                            textFieldType: TextFieldType.NAME,
-                          ),
-                        ),
-                      ],
+                        decoration: InputDecoration(
+                            labelText: lang.S.of(context).address,
+                            border: const OutlineInputBorder().copyWith(
+                                borderSide:
+                                    const BorderSide(color: kGreyTextColor)),
+                            hoverColor: kGreyTextColor,
+                            fillColor: kGreyTextColor),
+                        textFieldType: TextFieldType.NAME,
+                      ),
                     ),
                   ),
                   ButtonGlobal(
