@@ -439,9 +439,6 @@ class _SaleProductsState extends State<SaleProducts> {
                           }
                           return GestureDetector(
                             onTap: () async {
-                              print(filterlist[i].productStock.toString());
-                              print(int.parse(products[i].productStock)
-                                  .toString());
                               if ((currentproductcategory == ""
                                           ? products[i].productStock.toString()
                                           : filterlist[i]
@@ -502,10 +499,24 @@ class _SaleProductsState extends State<SaleProducts> {
                                     currentproductcategory == ""
                                         ? products[i].productPurchasePrice
                                         : filterlist[i].productPurchasePrice,
-                                stock: int.parse(products[i].productStock),
+                                stock: (currentproductcategory == ""
+                                                ? products[i]
+                                                    .productStock
+                                                    .toString()
+                                                : filterlist[i]
+                                                    .productStock
+                                                    .toString())
+                                            .toString() !=
+                                        ""
+                                    ? 0
+                                    : int.parse(currentproductcategory == ""
+                                        ? products[i].productStock.toString()
+                                        : filterlist[i]
+                                            .productStock
+                                            .toString()),
                                 uuid: currentproductcategory == ""
-                                    ? products[i].productCode
-                                    : filterlist[i].productCode,
+                                    ? products[i].productCode.toString()
+                                    : filterlist[i].productCode.toString(),
                               );
                               providerData.addToCartRiverPod(cartItem);
                               providerData.addProductsInSales(
