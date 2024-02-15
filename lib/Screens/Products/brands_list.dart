@@ -164,7 +164,11 @@ class _BrandsListState extends State<BrandsList> {
                                         // buttonTextColor: Colors.black,
                                       ),
                                       SizedBox(width: 5),
-                                      Icon(Icons.edit),
+                                      GestureDetector(
+                                          onTap: () {
+                                            
+                                          },
+                                          child: Icon(Icons.edit)),
                                       SizedBox(width: 10),
                                       GestureDetector(
                                           onTap: () {
