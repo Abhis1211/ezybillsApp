@@ -14,7 +14,8 @@ import 'package:mobile_pos/Provider/category,brans,units_provide.dart';
 // ignore_for_file: unused_result
 
 class AddBrands extends StatefulWidget {
-  AddBrands({Key? key, this.brandmodel}) : super(key: key);
+  final type;
+  AddBrands({Key? key, this.brandmodel, this.type = 0}) : super(key: key);
   BrandsModel? brandmodel;
   @override
   // ignore: library_private_types_in_public_api
@@ -118,9 +119,11 @@ class _AddBrandsState extends State<AddBrands> {
                     BrandsModel brandModel = BrandsModel(brandName);
                     isAlreadyAdded
                         ? EasyLoading.showError('Already Added')
-                        : categoryInformationRef
-                            .push()
-                            .set(brandModel.toJson());
+                        : widget.type == 1
+                            ? await updatebrand()
+                            : categoryInformationRef
+                                .push()
+                                .set(brandModel.toJson());
                     setState(() {
                       showProgress = false;
                       isAlreadyAdded
@@ -129,10 +132,10 @@ class _AddBrandsState extends State<AddBrands> {
                               const SnackBar(
                                   content: Text("Data Saved Successfully")));
                     });
-                    ref.refresh(brandsProvider);
+                    await ref.refresh(brandsProvider);
 
                     // ignore: use_build_context_synchronously
-                    isAlreadyAdded ? null : Navigator.pop(context);
+                    isAlreadyAdded ? null : Navigator.pop(context, true);
                   },
                   buttonTextColor: Colors.white,
                 ),
@@ -147,15 +150,20 @@ class _AddBrandsState extends State<AddBrands> {
   updatebrand() async {
     var brandkey = "";
     final sref = FirebaseDatabase.instance.ref(constUserId).child('Brands');
-    sref.keepSynced(true);
-    sref.orderByKey().get().then((value) {
+
+    await sref.get().then((value) {
       for (var element in value.children) {
         var sdata = jsonDecode(jsonEncode(element.value));
-        if (sdata['brandName'].toString() == brandName.toString()) {
-          brandkey = element.key.toString();
+        if (sdata['brandName'].toString() ==
+            widget.brandmodel!.brandName.toString()) {
+          print("cd" + element.key.toString());
+          setState(() {
+            brandkey = element.key.toString();
+          });
         }
       }
     });
+    print("sadsd" + brandkey.toString());
     final DatabaseReference shopCategoryRef = FirebaseDatabase.instance
         .ref()
         .child(constUserId)

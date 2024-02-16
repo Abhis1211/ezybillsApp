@@ -164,10 +164,17 @@ class _BrandsListState extends State<BrandsList> {
                                         // buttonTextColor: Colors.black,
                                       ),
                                       SizedBox(width: 5),
-                                      Icon(Icons.edit),
-                                      SizedBox(width: 10),
                                       GestureDetector(
                                           onTap: () {
+                                            AddBrands(
+                                                    brandmodel: data[i],
+                                                    type: 1)
+                                                .launch(context);
+                                          },
+                                          child: Icon(Icons.edit)),
+                                      SizedBox(width: 10),
+                                      GestureDetector(
+                                          onTap: () async {
                                             List brandList = [];
                                             var brandkey = "";
                                             final sref = FirebaseDatabase
@@ -175,11 +182,7 @@ class _BrandsListState extends State<BrandsList> {
                                                 .ref(constUserId)
                                                 .child('Brands');
 
-                                            sref.keepSynced(true);
-                                            sref
-                                                .orderByKey()
-                                                .get()
-                                                .then((value) {
+                                            await sref.get().then((value) {
                                               for (var element
                                                   in value.children) {
                                                 var sdata = jsonDecode(
@@ -189,14 +192,10 @@ class _BrandsListState extends State<BrandsList> {
                                                     data[i]
                                                         .brandName
                                                         .toString()) {
-                                                  print("dssdsadsad" +
-                                                      sdata['brandName']
-                                                          .toString());
-                                                  print("dssdsadsad" +
-                                                      sdata['brandName']
-                                                          .toString());
-                                                  brandkey =
-                                                      element.key.toString();
+                                                  setState(() {
+                                                    brandkey =
+                                                        element.key.toString();
+                                                  });
                                                 }
                                               }
                                             });
@@ -209,6 +208,7 @@ class _BrandsListState extends State<BrandsList> {
                                             ref.refresh(brandsProvider);
                                           },
                                           child: Icon(Icons.delete)),
+                                    
                                     ],
                                   ),
                                 ),
@@ -227,4 +227,28 @@ class _BrandsListState extends State<BrandsList> {
       ),
     );
   }
+
+  // updatebrand(ref, brandname, editbrandname) {
+  //   List brandList = [];
+  //   var brandkey = "";
+  //   final sref = FirebaseDatabase.instance.ref(constUserId).child('Brands');
+
+  //   sref.keepSynced(true);
+  //   sref.orderByKey().get().then((value) {
+  //     for (var element in value.children) {
+  //       var sdata = jsonDecode(jsonEncode(element.value));
+  //       if (sdata['brandName'].toString() == brandname.toString()) {
+  //         print("dssdsadsad" + sdata['brandName'].toString());
+  //         print("dssdsadsad" + sdata['brandName'].toString());
+  //         brandkey = element.key.toString();
+  //       }
+  //     }
+  //   });
+  //   print(brandkey.toString());
+  //   DatabaseReference wref =
+  //       FirebaseDatabase.instance.ref("$constUserId/Brands/$brandkey");
+  //   wref.keepSynced(true);
+  //   wref.update({"brandName": editbrandname});
+  //   ref.refresh(brandsProvider);
+  // }
 }

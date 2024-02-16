@@ -1,24 +1,25 @@
-// ignore_for_file: unused_result
-
 import 'dart:io';
-
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:mobile_pos/constant.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile_pos/GlobalComponents/Model/category_model.dart';
-import 'package:mobile_pos/GlobalComponents/button_global.dart';
-import 'package:mobile_pos/Provider/category,brans,units_provide.dart';
-import 'package:mobile_pos/constant.dart';
-import 'package:nb_utils/nb_utils.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mobile_pos/GlobalComponents/button_global.dart';
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:mobile_pos/GlobalComponents/Model/category_model.dart';
+import 'package:mobile_pos/Provider/category,brans,units_provide.dart';
+// ignore_for_file: unused_result
 
 class AddCategory extends StatefulWidget {
-  const AddCategory({Key? key}) : super(key: key);
+  final CategoryModel? model;
+  final type;
+  const AddCategory({Key? key, this.model, this.type = 0}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -64,6 +65,15 @@ class _AddCategoryState extends State<AddCategory> {
   }
 
   @override
+  void initState() {
+    if (widget.model != null) {
+      categoryName = widget.model!.categoryName;
+    }
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, __) {
       final allCategory = ref.watch(categoryProvider);
@@ -103,6 +113,8 @@ class _AddCategoryState extends State<AddCategory> {
                 ),
                 AppTextField(
                   textFieldType: TextFieldType.NAME,
+                  initialValue:
+                      widget.model != null ? widget.model!.categoryName : null,
                   onChanged: (value) {
                     setState(() {
                       categoryName = value;
@@ -316,15 +328,21 @@ class _AddCategoryState extends State<AddCategory> {
                                   Border.all(color: Colors.black54, width: 1),
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(120)),
-                              image: imagePath == 'No Data'
+                              image: widget.type == 1
                                   ? DecorationImage(
-                                      image: NetworkImage(productPicture),
+                                      image: NetworkImage(
+                                          widget.model!.categoryimage),
                                       fit: BoxFit.cover,
                                     )
-                                  : DecorationImage(
-                                      image: FileImage(imageFile),
-                                      fit: BoxFit.cover,
-                                    ),
+                                  : imagePath == 'No Data'
+                                      ? DecorationImage(
+                                          image: NetworkImage(productPicture),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : DecorationImage(
+                                          image: FileImage(imageFile),
+                                          fit: BoxFit.cover,
+                                        ),
                             ),
                           ),
                           Container(
@@ -410,11 +428,14 @@ class _AddCategoryState extends State<AddCategory> {
                       type: typeCheckbox,
                       weight: weightCheckbox,
                     );
+
                     isAlreadyAdded
                         ? EasyLoading.showError('Already Added')
-                        : _categoryInformationRef
-                            .push()
-                            .set(categoryModel.toJson());
+                        : widget.type == 1
+                            ? await updatecate()
+                            : _categoryInformationRef
+                                .push()
+                                .set(categoryModel.toJson());
                     setState(() {
                       showProgress = false;
                       isAlreadyAdded
@@ -435,6 +456,42 @@ class _AddCategoryState extends State<AddCategory> {
           ),
         ),
       );
+    });
+  }
+
+  updatecate() async {
+    var brandkey = "";
+    final sref = FirebaseDatabase.instance.ref(constUserId).child('Categories');
+
+    await sref.get().then((value) {
+      for (var element in value.children) {
+        var sdata = jsonDecode(jsonEncode(element.value));
+        if (sdata['categoryName'].toString() ==
+            widget.model!.categoryName.toString()) {
+          print("cd" + element.key.toString());
+          setState(() {
+            brandkey = element.key.toString();
+          });
+        }
+      }
+    });
+    print("sadsd" + brandkey.toString());
+    final DatabaseReference shopCategoryRef = FirebaseDatabase.instance
+        .ref()
+        .child(constUserId)
+        .child('Categories')
+        .child(brandkey.toString());
+    // .child('Admin Panel')
+    // .child('Category');
+
+    await shopCategoryRef.update({
+      'categoryName': categoryName,
+      'categoryImage': productPicture,
+      'variationSize': sizeCheckbox,
+      'variationColor': colorCheckbox,
+      'variationCapacity': capacityCheckbox,
+      'variationType': typeCheckbox,
+      'variationWeight': weightCheckbox,
     });
   }
 }

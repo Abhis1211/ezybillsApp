@@ -1,13 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_pos/GlobalComponents/Model/category_model.dart';
-import 'package:mobile_pos/GlobalComponents/add_category.dart';
-import 'package:mobile_pos/constant.dart';
-import 'package:nb_utils/nb_utils.dart';
-
-import '../Provider/category,brans,units_provide.dart';
+import 'dart:convert';
 import 'button_global.dart';
+import 'package:flutter/material.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:mobile_pos/constant.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../Provider/category,brans,units_provide.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:mobile_pos/GlobalComponents/add_category.dart';
+import 'package:mobile_pos/GlobalComponents/Model/category_model.dart';
 
 // ignore: must_be_immutable
 class CategoryList extends StatefulWidget {
@@ -70,7 +71,7 @@ class _CategoryListState extends State<CategoryList> {
                     flex: 1,
                     child: GestureDetector(
                       onTap: () {
-                        const AddCategory().launch(context);
+                        AddCategory().launch(context);
                       },
                       child: Container(
                         padding: const EdgeInsets.only(left: 20.0, right: 20.0),
@@ -104,10 +105,17 @@ class _CategoryListState extends State<CategoryList> {
                           data[i].type ? variations.add('Type') : null;
                           data[i].weight ? variations.add('Weight') : null;
 
-                          GetCategoryAndVariationModel get = GetCategoryAndVariationModel(categoryName: data[i].categoryName, variations: variations);
+                          GetCategoryAndVariationModel get =
+                              GetCategoryAndVariationModel(
+                                  categoryName: data[i].categoryName,
+                                  variations: variations);
                           return data[i].categoryName.contains(search)
                               ? Padding(
-                                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 10.0,
+                                      right: 10.0,
+                                      bottom: 10,
+                                      top: 10),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -115,7 +123,8 @@ class _CategoryListState extends State<CategoryList> {
                                         flex: 3,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               data[i].categoryName,
@@ -145,17 +154,66 @@ class _CategoryListState extends State<CategoryList> {
                                           ],
                                         ),
                                       ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: ButtonGlobalWithoutIcon(
-                                          buttontext: 'Select',
-                                          buttonDecoration: kButtonDecoration.copyWith(color: kDarkWhite),
-                                          onPressed: () {
-                                            Navigator.pop(context, get);
-                                          },
-                                          buttonTextColor: Colors.black,
-                                        ),
+                                      TextIcon(
+                                        text: 'Select',
+                                        // buttonDecoration: kButtonDecoration
+                                        //     .copyWith(color: kDarkWhite),
+                                        onTap: () {
+                                          Navigator.pop(
+                                              context, data[i].categoryName);
+                                        },
                                       ),
+                                      SizedBox(width: 5),
+                                      GestureDetector(
+                                          onTap: () {
+                                            AddCategory(
+                                              model: data[i],
+                                              type: 1,
+                                            ).launch(
+                                              context,
+                                            );
+                                            // AddBrands(
+                                            //         brandmodel: data[i],
+                                            //         type: 1)
+                                            //     .launch(context);
+                                          },
+                                          child: Icon(Icons.edit)),
+                                      SizedBox(width: 10),
+                                      GestureDetector(
+                                          onTap: () async {
+                                            List brandList = [];
+                                            var brandkey = "";
+                                            final sref = FirebaseDatabase
+                                                .instance
+                                                .ref(constUserId)
+                                                .child('Categories');
+
+                                            await sref.get().then((value) {
+                                              for (var element
+                                                  in value.children) {
+                                                var sdata = jsonDecode(
+                                                    jsonEncode(element.value));
+                                                if (sdata['categoryName']
+                                                        .toString() ==
+                                                    data[i]
+                                                        .categoryName
+                                                        .toString()) {
+                                                  setState(() {
+                                                    brandkey =
+                                                        element.key.toString();
+                                                  });
+                                                }
+                                              }
+                                            });
+                                            print(brandkey.toString());
+                                            DatabaseReference wref =
+                                                FirebaseDatabase.instance.ref(
+                                                    "$constUserId/Categories/$brandkey");
+                                            wref.keepSynced(true);
+                                            await wref.remove();
+                                            ref.refresh(categoryProvider);
+                                          },
+                                          child: Icon(Icons.delete)),
                                     ],
                                   ),
                                 )
