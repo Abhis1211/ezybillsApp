@@ -196,22 +196,20 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Expanded(
-                      child: AppTextField(
-                        readOnly: true,
-                        cursorColor: kGreyTextColor,
-                        controller: TextEditingController(
-                          text: details.countryName,
-                        ),
-                        decoration: InputDecoration(
-                            labelText: lang.S.of(context).address,
-                            border: const OutlineInputBorder().copyWith(
-                                borderSide:
-                                    const BorderSide(color: kGreyTextColor)),
-                            hoverColor: kGreyTextColor,
-                            fillColor: kGreyTextColor),
-                        textFieldType: TextFieldType.NAME,
+                    child: AppTextField(
+                      readOnly: true,
+                      cursorColor: kGreyTextColor,
+                      controller: TextEditingController(
+                        text: details.countryName,
                       ),
+                      decoration: InputDecoration(
+                          labelText: lang.S.of(context).address,
+                          border: const OutlineInputBorder().copyWith(
+                              borderSide:
+                                  const BorderSide(color: kGreyTextColor)),
+                          hoverColor: kGreyTextColor,
+                          fillColor: kGreyTextColor),
+                      textFieldType: TextFieldType.NAME,
                     ),
                   ),
                   ButtonGlobal(

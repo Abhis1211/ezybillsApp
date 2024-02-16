@@ -506,7 +506,7 @@ class _SaleProductsState extends State<SaleProducts> {
                                                 : filterlist[i]
                                                     .productStock
                                                     .toString())
-                                            .toString() !=
+                                            .toString() ==
                                         ""
                                     ? 0
                                     : int.parse(currentproductcategory == ""
@@ -518,6 +518,7 @@ class _SaleProductsState extends State<SaleProducts> {
                                     ? products[i].productCode.toString()
                                     : filterlist[i].productCode.toString(),
                               );
+                              print("caritem"+ cartItem.toString());
                               providerData.addToCartRiverPod(cartItem);
                               providerData.addProductsInSales(
                                   currentproductcategory == ""
