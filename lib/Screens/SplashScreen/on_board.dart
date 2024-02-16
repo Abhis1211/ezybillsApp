@@ -78,7 +78,7 @@ class _OnBoardState extends State<OnBoard> {
             ),
             Container(
               padding: const EdgeInsets.only(top: 20, bottom: 20),
-              height: 550,
+              height: 555,
               width: context.width(),
               child: Stack(
                 alignment: Alignment.bottomCenter,
