@@ -132,11 +132,11 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
     dropdownValue = widget.profile.businessCategory ?? '';
     dropdownLangValue = widget.profile.language ?? '';
     profilePicture = widget.profile.pictureUrl ?? '';
+    profileRepo.getDetails();
+    super.initState();
   }
 
   @override
@@ -428,7 +428,6 @@ class _EditProfileState extends State<EditProfile> {
                     invoiceNumber = details.invoiceCounter!;
                     openingBalance = details.shopOpeningBalance;
                     remainingShopBalance = details.remainingShopBalance;
-                    print("counry name" + details.countryName.toString());
                     return Column(
                       children: [
                         Padding(

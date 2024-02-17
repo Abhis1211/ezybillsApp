@@ -9,19 +9,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mobile_pos/GlobalComponents/button_global.dart';
-import 'package:mobile_pos/Screens/Authentication/login_form.dart';
+
 import 'package:mobile_pos/Screens/Profile%20Screen/edit_profile.dart';
 
 class ProfileDetails extends StatefulWidget {
-  const ProfileDetails({Key? key}) : super(key: key);
-
+ const ProfileDetails({Key? key}) : super(key: key);
   @override
-  // ignore: library_private_types_in_public_api
-  _ProfileDetailsState createState() => _ProfileDetailsState();
+  State<ProfileDetails> createState() => _ProfileDetailsState();
 }
 
+@override
 class _ProfileDetailsState extends State<ProfileDetails> {
+
   @override
+  void initState() {
+    print("dsaddasdsa");
+    profileRepo.getDetails();
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, __) {
       AsyncValue<PersonalInformationModel> userProfileDetails =

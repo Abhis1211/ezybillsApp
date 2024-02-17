@@ -155,6 +155,7 @@ class _AddProductState extends State<AddProduct> {
         centerTitle: true,
       ),
       body: Consumer(builder: (context, ref, __) {
+        final providerData = ref.watch(productProvider);
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
@@ -870,124 +871,144 @@ class _AddProductState extends State<AddProduct> {
                     print("code list" + codeList.toString());
 
                     print("code list" + productNameList.toString());
-                    if (!codeList.contains(productCode.toLowerCase())) {
-                      bool result =
-                          await InternetConnectionChecker().hasConnection;
-                      if (result) {
-                        bool status = await PurchaseModel().isActiveBuyer();
-                        if (status) {
-                          try {
-                            EasyLoading.show(
-                                status: 'Loading...', dismissOnTap: false);
+                    providerData.when(
+                        data: (products) async {
+                          if (!codeList.contains(productCode.toLowerCase())) {
+                            bool result =
+                                await InternetConnectionChecker().hasConnection;
+                            if (result) {
+                              bool status =
+                                  await PurchaseModel().isActiveBuyer();
+                              if (status) {
+                                try {
+                                  EasyLoading.show(
+                                      status: 'Loading...',
+                                      dismissOnTap: false);
 
-                            imagePath == 'No Data'
-                                ? null
-                                : await uploadFile(imagePath);
-                            // ignore: no_leading_underscores_for_local_identifiers
-                            final DatabaseReference _productInformationRef =
-                                FirebaseDatabase.instance
-                                    .ref()
-                                    .child(constUserId)
-                                    .child('Products');
-                            _productInformationRef.keepSynced(true);
-                            ProductModel productModel = ProductModel(
-                              productName,
-                              productCategory,
-                              size,
-                              color,
-                              weight,
-                              capacity,
-                              type,
-                              brandName,
-                              productCode,
-                              productStock,
-                              productUnit,
-                              productSalePrice,
-                              productPurchasePrice,
-                              productDiscount,
-                              productWholeSalePrice,
-                              productDealerPrice,
-                              productManufacturer,
-                              productPicture,
-                            );
-                            _productInformationRef
-                                .push()
-                                .set(productModel.toJson());
-                            decreaseSubscriptionSale();
-                            EasyLoading.showSuccess('Added Successfully',
-                                duration: const Duration(milliseconds: 500));
-                            _productInformationRef.onChildAdded.listen((event) {
-                              ref.refresh(productProvider);
-                            });
-                            Future.delayed(const Duration(milliseconds: 100),
-                                () {
-                              const Home().launch(context, isNewTask: true);
-                            });
-                          } catch (e) {
-                            EasyLoading.dismiss();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(e.toString())));
+                                  imagePath == 'No Data'
+                                      ? null
+                                      : await uploadFile(imagePath);
+                                  // ignore: no_leading_underscores_for_local_identifiers
+                                  final DatabaseReference
+                                      _productInformationRef = FirebaseDatabase
+                                          .instance
+                                          .ref()
+                                          .child(constUserId)
+                                          .child('Products');
+                                  _productInformationRef.keepSynced(true);
+
+                                  ProductModel productModel = ProductModel(
+                                    productName,
+                                    productCategory,
+                                    size,
+                                    color,
+                                    weight,
+                                    capacity,
+                                    type,
+                                    brandName,
+                                    productCode.isEmpty
+                                        ? (products.length + 1).toString()
+                                        : productCode,
+                                    productStock,
+                                    productUnit,
+                                    productSalePrice,
+                                    productPurchasePrice,
+                                    productDiscount,
+                                    productWholeSalePrice,
+                                    productDealerPrice,
+                                    productManufacturer,
+                                    productPicture,
+                                  );
+
+                                  print("product code" +
+                                      productModel.productCode.toString());
+                                  _productInformationRef
+                                      .push()
+                                      .set(productModel.toJson());
+                                  decreaseSubscriptionSale();
+                                  EasyLoading.showSuccess('Added Successfully',
+                                      duration:
+                                          const Duration(milliseconds: 500));
+                                  _productInformationRef.onChildAdded
+                                      .listen((event) {
+                                    ref.refresh(productProvider);
+                                  });
+                                  Future.delayed(
+                                      const Duration(milliseconds: 100), () {
+                                    const Home()
+                                        .launch(context, isNewTask: true);
+                                  });
+                                } catch (e) {
+                                  EasyLoading.dismiss();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text(e.toString())));
+                                }
+                              } else {
+                                showLicensePage(context: context);
+                              }
+                            } else {
+                              try {
+                                EasyLoading.show(
+                                    status: 'Loading...', dismissOnTap: false);
+                                imagePath == 'No Data'
+                                    ? null
+                                    : await uploadFile(imagePath);
+                                // ignore: no_leading_underscores_for_local_identifiers
+                                final DatabaseReference _productInformationRef =
+                                    FirebaseDatabase.instance
+                                        .ref()
+                                        .child(constUserId)
+                                        .child('Products');
+
+                                _productInformationRef.keepSynced(true);
+                                ProductModel productModel = ProductModel(
+                                  productName,
+                                  productCategory,
+                                  size,
+                                  color,
+                                  weight,
+                                  capacity,
+                                  type,
+                                  brandName,
+                                  productCode,
+                                  productStock,
+                                  productUnit,
+                                  productSalePrice,
+                                  productPurchasePrice,
+                                  productDiscount,
+                                  productWholeSalePrice,
+                                  productDealerPrice,
+                                  productManufacturer,
+                                  productPicture,
+                                );
+                                _productInformationRef
+                                    .push()
+                                    .set(productModel.toJson());
+                                decreaseSubscriptionSale();
+                                EasyLoading.showSuccess('Added Successfully',
+                                    duration:
+                                        const Duration(milliseconds: 500));
+                                _productInformationRef.onChildAdded
+                                    .listen((event) {
+                                  ref.refresh(productProvider);
+                                });
+                                Future.delayed(
+                                    const Duration(milliseconds: 100), () {
+                                  const Home().launch(context, isNewTask: true);
+                                });
+                              } catch (e) {
+                                EasyLoading.dismiss();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(e.toString())));
+                              }
+                            }
+                          } else {
+                            EasyLoading.showError(
+                                'Product Code or Name are already added!');
                           }
-                        } else {
-                          showLicensePage(context: context);
-                        }
-                      } else {
-                        try {
-                          EasyLoading.show(
-                              status: 'Loading...', dismissOnTap: false);
-                          imagePath == 'No Data'
-                              ? null
-                              : await uploadFile(imagePath);
-                          // ignore: no_leading_underscores_for_local_identifiers
-                          final DatabaseReference _productInformationRef =
-                              FirebaseDatabase.instance
-                                  .ref()
-                                  .child(constUserId)
-                                  .child('Products');
-
-                          _productInformationRef.keepSynced(true);
-                          ProductModel productModel = ProductModel(
-                            productName,
-                            productCategory,
-                            size,
-                            color,
-                            weight,
-                            capacity,
-                            type,
-                            brandName,
-                            productCode,
-                            productStock,
-                            productUnit,
-                            productSalePrice,
-                            productPurchasePrice,
-                            productDiscount,
-                            productWholeSalePrice,
-                            productDealerPrice,
-                            productManufacturer,
-                            productPicture,
-                          );
-                          _productInformationRef
-                              .push()
-                              .set(productModel.toJson());
-                          decreaseSubscriptionSale();
-                          EasyLoading.showSuccess('Added Successfully',
-                              duration: const Duration(milliseconds: 500));
-                          _productInformationRef.onChildAdded.listen((event) {
-                            ref.refresh(productProvider);
-                          });
-                          Future.delayed(const Duration(milliseconds: 100), () {
-                            const Home().launch(context, isNewTask: true);
-                          });
-                        } catch (e) {
-                          EasyLoading.dismiss();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(e.toString())));
-                        }
-                      }
-                    } else {
-                      EasyLoading.showError(
-                          'Product Code or Name are already added!');
-                    }
+                        },
+                        error: (Object error, StackTrace stackTrace) {},
+                        loading: () {});
                   },
                   buttonTextColor: Colors.white,
                 ),
