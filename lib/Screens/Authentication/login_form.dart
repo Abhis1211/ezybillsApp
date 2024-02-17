@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_pos/repository/login_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
-import 'package:mobile_pos/Screens/Authentication/phone.dart';
+
 import 'package:mobile_pos/GlobalComponents/button_global.dart';
 import 'package:mobile_pos/Screens/Authentication/register_form.dart';
 
@@ -22,7 +22,8 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   bool showPassword = true;
-  late String email, password;
+  bool firsttime = true;
+  // late String email, password;
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
 
   bool validateAndSave() {
@@ -40,6 +41,12 @@ class _LoginFormState extends State<LoginForm> {
       child: Scaffold(
         body: Consumer(builder: (context, ref, child) {
           final loginProvider = ref.watch(logInProvider);
+          if (firsttime == true) {
+            print("asdsadsa");
+            loginProvider.setdata();
+            firsttime = false;
+          }
+
           return Center(
             child: SingleChildScrollView(
               child: Column(
@@ -60,6 +67,7 @@ class _LoginFormState extends State<LoginForm> {
                         children: [
                           const SizedBox(height: 20),
                           TextFormField(
+                            controller: loginProvider.emailtext,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
@@ -82,6 +90,7 @@ class _LoginFormState extends State<LoginForm> {
                           const SizedBox(height: 20),
                           TextFormField(
                             keyboardType: TextInputType.text,
+                            controller: loginProvider.passwordtext,
                             obscureText: showPassword,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
@@ -132,6 +141,7 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ],
                   ).visible(widget.isEmailLogin),
+
                   ButtonGlobalWithoutIcon(
                       buttontext: lang.S.of(context).logIn,
                       buttonDecoration:
@@ -143,6 +153,34 @@ class _LoginFormState extends State<LoginForm> {
                         }
                       },
                       buttonTextColor: Colors.white),
+                  Align(
+                    alignment: Alignment.center,
+                    child: CheckboxListTile(
+                      activeColor: kMainColor,
+                      title: Text("Remember me"),
+                      value: loginProvider.checked,
+                      onChanged: (newValue) {
+                        if (validateAndSave()) {
+                          setState(() {
+                            loginProvider.checked = !loginProvider.checked;
+                          });
+
+                          if (loginProvider.checked) {
+                            print("----remeber-----");
+                            loginProvider.remeberpassword(loginProvider.checked,
+                                loginProvider.email, loginProvider.password);
+                            // ref.refresh(logInProvider);
+                          } else {
+                            print("----reset-----");
+                            loginProvider.resetember();
+                            // ref.refresh(logInProvider);
+                          }
+                        }
+                      },
+                      controlAffinity: ListTileControlAffinity
+                          .leading, //  <-- leading Checkbox
+                    ),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -165,8 +203,9 @@ class _LoginFormState extends State<LoginForm> {
                           ),
                         ),
                       ),
-                    ],                               
+                    ],
                   ).visible(widget.isEmailLogin),
+
                   TextButton(
                     onPressed: () {
                       const LoginForm(isEmailLogin: false).launch(context);
