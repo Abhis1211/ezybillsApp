@@ -1142,6 +1142,8 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                             .child('Personal Information');
                                     personalInformationModel.invoiceCounter =
                                         invoice + 1;
+                                    personalInformationModel.note =
+                                        "asdasdasdsadas";
                                     personalInformationRef.keepSynced(true);
 
                                     personalInformationRef
