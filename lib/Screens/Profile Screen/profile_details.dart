@@ -9,18 +9,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mobile_pos/GlobalComponents/button_global.dart';
-
 import 'package:mobile_pos/Screens/Profile%20Screen/edit_profile.dart';
 
 class ProfileDetails extends StatefulWidget {
- const ProfileDetails({Key? key}) : super(key: key);
+  const ProfileDetails({Key? key}) : super(key: key);
   @override
   State<ProfileDetails> createState() => _ProfileDetailsState();
 }
 
 @override
 class _ProfileDetailsState extends State<ProfileDetails> {
-
   @override
   void initState() {
     print("dsaddasdsa");
@@ -210,6 +208,24 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                       ),
                       decoration: InputDecoration(
                           labelText: lang.S.of(context).address,
+                          border: const OutlineInputBorder().copyWith(
+                              borderSide:
+                                  const BorderSide(color: kGreyTextColor)),
+                          hoverColor: kGreyTextColor,
+                          fillColor: kGreyTextColor),
+                      textFieldType: TextFieldType.NAME,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: AppTextField(
+                      readOnly: true,
+                      cursorColor: kGreyTextColor,
+                      controller: TextEditingController(
+                        text: details.note,
+                      ),
+                      decoration: InputDecoration(
+                          labelText: "Invoice Note",
                           border: const OutlineInputBorder().copyWith(
                               borderSide:
                                   const BorderSide(color: kGreyTextColor)),

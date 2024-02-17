@@ -29,6 +29,7 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   String dropdownLangValue = 'English';
   String initialCountry = '';
+  String invoicenote = '';
   String dropdownValue = '';
   String companyName = 'nodata',
       phoneNumber = 'nodata',
@@ -502,6 +503,22 @@ class _EditProfileState extends State<EditProfile> {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: AppTextField(
+                            initialValue: details.note,
+                            onChanged: (value) {
+                              setState(() {
+                                invoicenote = value;
+                              });
+                            }, // Optional
+                            textFieldType: TextFieldType.NAME,
+                            decoration: InputDecoration(
+                              labelText: "Invoice Note",
+                              border: const OutlineInputBorder(),
+                            ),
+                          ),
+                        ),
                         // Padding(
                         //   padding: const EdgeInsets.all(10.0),
                         //   child: SizedBox(
@@ -588,6 +605,9 @@ class _EditProfileState extends State<EditProfile> {
                               ? widget.profile.altphoneNumber
                               : altNumber,
                           invoiceCounter: invoiceNumber,
+                          note: invoicenote == ""
+                              ? widget.profile.note
+                              : invoicenote,
                           language: dropdownLangValue,
                           pictureUrl: profilePicture,
                           remainingShopBalance: remainingShopBalance,
