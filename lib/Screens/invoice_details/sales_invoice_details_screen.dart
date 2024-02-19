@@ -1,20 +1,24 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
-import 'package:nb_utils/nb_utils.dart';
-
-import '../../Provider/printer_provider.dart';
 import '../../currency.dart';
+import 'package:intl/intl.dart';
 import '../../invoice_constant.dart';
-// ignore: library_prefixes
-import '../../constant.dart' as mainConstant;
-import '../../model/personal_information_model.dart';
-import 'package:mobile_pos/generated/l10n.dart' as lang;
-import '../../model/print_transaction_model.dart';
+import 'package:flutter/material.dart';
+import 'package:nb_utils/nb_utils.dart';
 import '../../model/transition_model.dart';
+import '../../constant.dart' as mainConstant;
+import '../../Provider/printer_provider.dart';
+import '../../model/print_transaction_model.dart';
+import '../../model/personal_information_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_pos/generated/l10n.dart' as lang;
+
+// ignore: library_prefixes
 
 class SalesInvoiceDetails extends StatefulWidget {
-  const SalesInvoiceDetails({Key? key, required this.transitionModel, required this.personalInformationModel}) : super(key: key);
+  const SalesInvoiceDetails(
+      {Key? key,
+      required this.transitionModel,
+      required this.personalInformationModel})
+      : super(key: key);
 
   final SaleTransactionModel transitionModel;
   final PersonalInformationModel personalInformationModel;
@@ -44,28 +48,35 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                       width: 50.0,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(widget.personalInformationModel.pictureUrl ?? ''),
+                          image: NetworkImage(
+                              widget.personalInformationModel.pictureUrl ?? ''),
                           // image: AssetImage('images/logoPos.png'),
                         ),
                       ),
                     ),
                     title: Text(
                       widget.transitionModel.sellerName.isEmptyOrNull
-                          ? widget.personalInformationModel.companyName.toString()
+                          ? widget.personalInformationModel.companyName
+                              .toString()
                           : '${widget.personalInformationModel.companyName} [${widget.transitionModel.sellerName}]',
-                      style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold, fontSize: 18.0),
+                      style: kTextStyle.copyWith(
+                          color: kTitleColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0),
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.personalInformationModel.countryName.toString(),
+                          widget.personalInformationModel.countryName
+                              .toString(),
                           style: kTextStyle.copyWith(
                             color: kGreyTextColor,
                           ),
                         ),
                         Text(
-                          widget.personalInformationModel.phoneNumber.toString(),
+                          widget.personalInformationModel.phoneNumber
+                              .toString(),
                           style: kTextStyle.copyWith(
                             color: kGreyTextColor,
                           ),
@@ -83,12 +94,14 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                     children: [
                       Text(
                         lang.S.of(context).billTO,
-                        style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                        style: kTextStyle.copyWith(
+                            color: kTitleColor, fontWeight: FontWeight.bold),
                       ),
                       const Spacer(),
                       Text(
                         '${lang.S.of(context).invoice}# ${widget.transitionModel.invoiceNumber}',
-                        style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                        style: kTextStyle.copyWith(
+                            color: kTitleColor, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -101,7 +114,8 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                       ),
                       const Spacer(),
                       Text(
-                        DateFormat.yMMMd().format(DateTime.parse(widget.transitionModel.purchaseDate)),
+                        DateFormat.yMMMd().format(DateTime.parse(
+                            widget.transitionModel.purchaseDate)),
                         style: kTextStyle.copyWith(color: kGreyTextColor),
                       ),
                     ],
@@ -132,25 +146,29 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                         Text(
                           lang.S.of(context).product,
                           maxLines: 2,
-                          style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
-                        ),
-                        const Spacer(),
-                        Text(
-                          lang.S.of(context).unitPirce,
-                          maxLines: 2,
-                          style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                          style: kTextStyle.copyWith(
+                              color: kTitleColor, fontWeight: FontWeight.bold),
                         ),
                         const Spacer(),
                         Text(
                           lang.S.of(context).quantity,
                           maxLines: 1,
-                          style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                          style: kTextStyle.copyWith(
+                              color: kTitleColor, fontWeight: FontWeight.bold),
+                        ),
+                        const Spacer(),
+                        Text(
+                          lang.S.of(context).unitPirce,
+                          maxLines: 2,
+                          style: kTextStyle.copyWith(
+                              color: kTitleColor, fontWeight: FontWeight.bold),
                         ),
                         const Spacer(),
                         Text(
                           lang.S.of(context).totalPrice,
                           maxLines: 2,
-                          style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                          style: kTextStyle.copyWith(
+                              color: kTitleColor, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -168,27 +186,37 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                             child: Row(
                               children: [
                                 Text(
-                                  widget.transitionModel.productList![i].productName.toString(),
+                                  widget.transitionModel.productList![i]
+                                      .productName
+                                      .toString(),
                                   maxLines: 2,
-                                  style: kTextStyle.copyWith(color: kGreyTextColor),
+                                  style: kTextStyle.copyWith(
+                                      color: kGreyTextColor),
                                 ),
-                                SizedBox(width: MediaQuery.of(context).size.width / 12),
+                                SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width / 12),
                                 Text(
-                                  '$currency ${widget.transitionModel.productList![i].subTotal}',
-                                  maxLines: 2,
-                                  style: kTextStyle.copyWith(color: kGreyTextColor),
+                                  widget
+                                      .transitionModel.productList![i].quantity
+                                      .toString(),
+                                  maxLines: 1,
+                                  style: kTextStyle.copyWith(
+                                      color: kGreyTextColor),
                                 ),
                                 const Spacer(),
                                 Text(
-                                  widget.transitionModel.productList![i].quantity.toString(),
-                                  maxLines: 1,
-                                  style: kTextStyle.copyWith(color: kGreyTextColor),
+                                  '$currency ${widget.transitionModel.productList![i].subTotal}',
+                                  maxLines: 2,
+                                  style: kTextStyle.copyWith(
+                                      color: kGreyTextColor),
                                 ),
                                 const Spacer(),
                                 Text(
                                   '$currency ${double.parse(widget.transitionModel.productList![i].subTotal) * widget.transitionModel.productList![i].quantity}',
                                   maxLines: 2,
-                                  style: kTextStyle.copyWith(color: kTitleColor),
+                                  style:
+                                      kTextStyle.copyWith(color: kTitleColor),
                                 ),
                               ],
                             ),
@@ -213,7 +241,8 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                         child: Text(
                           '$currency ${widget.transitionModel.totalAmount!.toDouble() + widget.transitionModel.discountAmount!.toDouble()}',
                           maxLines: 2,
-                          style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                          style: kTextStyle.copyWith(
+                              color: kTitleColor, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.end,
                         ),
                       ),
@@ -224,7 +253,7 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        lang.S.of(context).totalVat,
+                        "Total GST",
                         maxLines: 1,
                         style: kTextStyle.copyWith(color: kGreyTextColor),
                       ),
@@ -234,7 +263,8 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                         child: Text(
                           '$currency 0.00',
                           maxLines: 2,
-                          style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                          style: kTextStyle.copyWith(
+                              color: kTitleColor, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.end,
                         ),
                       ),
@@ -255,7 +285,8 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                         child: Text(
                           '$currency ${widget.transitionModel.discountAmount}',
                           maxLines: 2,
-                          style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                          style: kTextStyle.copyWith(
+                              color: kTitleColor, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.end,
                         ),
                       ),
@@ -276,7 +307,8 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                         child: Text(
                           '$currency 0.00',
                           maxLines: 2,
-                          style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                          style: kTextStyle.copyWith(
+                              color: kTitleColor, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.end,
                         ),
                       ),
@@ -289,7 +321,8 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                       Text(
                         lang.S.of(context).totalPayable,
                         maxLines: 1,
-                        style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                        style: kTextStyle.copyWith(
+                            color: kTitleColor, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(width: 20.0),
                       SizedBox(
@@ -297,7 +330,8 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                         child: Text(
                           '$currency ${widget.transitionModel.totalAmount}',
                           maxLines: 2,
-                          style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                          style: kTextStyle.copyWith(
+                              color: kTitleColor, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.end,
                         ),
                       ),
@@ -318,7 +352,8 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                         child: Text(
                           '$currency ${widget.transitionModel.totalAmount! - widget.transitionModel.dueAmount!.toDouble()}',
                           maxLines: 2,
-                          style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                          style: kTextStyle.copyWith(
+                              color: kTitleColor, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.end,
                         ),
                       ),
@@ -339,7 +374,8 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                         child: Text(
                           '$currency ${widget.transitionModel.dueAmount}',
                           maxLines: 2,
-                          style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                          style: kTextStyle.copyWith(
+                              color: kTitleColor, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.end,
                         ),
                       ),
@@ -354,7 +390,8 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                     child: Text(
                       lang.S.of(context).thakYouForYourPurchase,
                       maxLines: 1,
-                      style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                      style: kTextStyle.copyWith(
+                          color: kTitleColor, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -367,7 +404,9 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
             child: GestureDetector(
               onTap: () async {
                 await printerData.getBluetooth();
-                PrintTransactionModel model = PrintTransactionModel(transitionModel: widget.transitionModel, personalInformationModel: widget.personalInformationModel);
+                PrintTransactionModel model = PrintTransactionModel(
+                    transitionModel: widget.transitionModel,
+                    personalInformationModel: widget.personalInformationModel);
                 mainConstant.connected
                     ? printerData.printTicket(
                         printTransactionModel: model,
@@ -386,27 +425,43 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                                   children: [
                                     ListView.builder(
                                       shrinkWrap: true,
-                                      itemCount: printerData.availableBluetoothDevices.isNotEmpty ? printerData.availableBluetoothDevices.length : 0,
+                                      itemCount: printerData
+                                              .availableBluetoothDevices
+                                              .isNotEmpty
+                                          ? printerData
+                                              .availableBluetoothDevices.length
+                                          : 0,
                                       itemBuilder: (context, index) {
                                         return ListTile(
                                           onTap: () async {
-                                            String select = printerData.availableBluetoothDevices[index];
+                                            String select = printerData
+                                                    .availableBluetoothDevices[
+                                                index];
                                             List list = select.split("#");
                                             // String name = list[0];
                                             String mac = list[1];
-                                            bool isConnect = await printerData.setConnect(mac);
+                                            bool isConnect = await printerData
+                                                .setConnect(mac);
                                             // ignore: use_build_context_synchronously
-                                            isConnect ? finish(context) : toast('Try Again');
+                                            isConnect
+                                                ? finish(context)
+                                                : toast('Try Again');
                                           },
-                                          title: Text('${printerData.availableBluetoothDevices[index]}'),
-                                          subtitle: Text(lang.S.of(context).clickToConnect),
+                                          title: Text(
+                                              '${printerData.availableBluetoothDevices[index]}'),
+                                          subtitle: Text(lang.S
+                                              .of(context)
+                                              .clickToConnect),
                                         );
                                       },
                                     ),
                                     const SizedBox(height: 10),
                                     Text(lang.S.of(context).connectPrinter),
                                     const SizedBox(height: 10),
-                                    Container(height: 1, width: double.infinity, color: Colors.grey),
+                                    Container(
+                                        height: 1,
+                                        width: double.infinity,
+                                        color: Colors.grey),
                                     const SizedBox(height: 15),
                                     GestureDetector(
                                       onTap: () {
@@ -415,7 +470,8 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                                       child: Center(
                                         child: Text(
                                           lang.S.of(context).cancel,
-                                          style: TextStyle(color: mainConstant.kMainColor),
+                                          style: TextStyle(
+                                              color: mainConstant.kMainColor),
                                         ),
                                       ),
                                     ),
@@ -448,7 +504,8 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
               ),
             ),
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
         ),
       );
     });

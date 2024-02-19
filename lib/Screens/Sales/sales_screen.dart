@@ -71,6 +71,7 @@ class _SaleProductsState extends State<SaleProducts> {
       final providerData = ref.watch(cartNotifier);
       final productList = ref.watch(productProvider);
       final categoryList = ref.watch(categoryProvider);
+      // final categoryList = ref.watch(categoryProvider);
 
       return Scaffold(
         appBar: AppBar(
@@ -517,8 +518,11 @@ class _SaleProductsState extends State<SaleProducts> {
                                 uuid: currentproductcategory == ""
                                     ? products[i].productCode.toString()
                                     : filterlist[i].productCode.toString(),
+                                productgst: currentproductcategory == ""
+                                    ? products[i].productGst
+                                    : filterlist[i].productGst,
                               );
-                              print("caritem"+ cartItem.toString());
+                              print("caritem" + cartItem.toString());
                               providerData.addToCartRiverPod(cartItem);
                               providerData.addProductsInSales(
                                   currentproductcategory == ""

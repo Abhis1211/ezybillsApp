@@ -10,7 +10,7 @@ class CartNotifier extends ChangeNotifier {
   List<AddToCartModel> cartItemList = [];
   double discount = 0;
   String discountType = 'USD';
-
+  var totalgst = 0.0;
   final List<ProductModel> productList = [];
 
   void addProductsInSales(ProductModel products, [cntx]) {
@@ -48,6 +48,14 @@ class CartNotifier extends ChangeNotifier {
     return totalAmountOfCart;
   }
 
+  totalamount() {
+    return (totalgst / 100) * getTotalAmount().toDouble();
+  }
+
+  double calculateSubtotal({required double discountAmount}) {
+    return getTotalAmount() + totalamount() - discountAmount;
+  }
+
   quantityIncrease(int index) {
     if (cartItemList[index].stock! > cartItemList[index].quantity) {
       cartItemList[index].quantity++;
@@ -78,6 +86,8 @@ class CartNotifier extends ChangeNotifier {
     if (isNotInList) {
       cartItemList.add(cartItem);
     }
+    totalgst = totalgst + double.parse(cartItem.productgst.toString());
+    print(totalgst);
     notifyListeners();
   }
 
@@ -85,7 +95,8 @@ class CartNotifier extends ChangeNotifier {
     cartItemList = cartItem;
   }
 
-  deleteToCart(int index) {
+  deleteToCart(int index,gst) {
+    totalgst = totalgst - double.parse(gst.toString());
     cartItemList.removeAt(index);
     notifyListeners();
   }

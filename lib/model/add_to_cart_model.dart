@@ -14,6 +14,7 @@ class AddToCartModel {
     this.productBrandName,
     this.stock,
     this.productPurchasePrice,
+    this.productgst,
   });
 
   dynamic uuid;
@@ -29,8 +30,10 @@ class AddToCartModel {
   // Item store on which index of cart so we can update or delete cart easily, initially it is -1
   int itemCartIndex;
   int? stock;
+  String? productgst;
 
-  factory AddToCartModel.fromJson(String str) => AddToCartModel.fromMap(json.decode(str));
+  factory AddToCartModel.fromJson(String str) =>
+      AddToCartModel.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
@@ -47,6 +50,7 @@ class AddToCartModel {
         itemCartIndex: json["item_cart_index"],
         stock: json["stock"],
         productPurchasePrice: json["productPurchasePrice"],
+        productgst: json["productgst"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -61,7 +65,9 @@ class AddToCartModel {
         "item_cart_index": itemCartIndex,
         "stock": stock,
         "productPurchasePrice": productPurchasePrice,
+        "productgst": productgst,
         // ignore: prefer_null_aware_operators
-        "product_details": productDetails == null ? null : productDetails.toJson(),
+        "product_details":
+            productDetails == null ? null : productDetails.toJson(),
       };
 }

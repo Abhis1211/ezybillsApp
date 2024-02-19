@@ -16,27 +16,30 @@ class ProductModel {
       productWholeSalePrice,
       productDealerPrice,
       productManufacturer,
-      productPicture;
+      productPicture,
+      productGst;
 
   ProductModel(
-      this.productName,
-      this.productCategory,
-      this.size,
-      this.color,
-      this.weight,
-      this.capacity,
-      this.type,
-      this.brandName,
-      this.productCode,
-      this.productStock,
-      this.productUnit,
-      this.productSalePrice,
-      this.productPurchasePrice,
-      this.productDiscount,
-      this.productWholeSalePrice,
-      this.productDealerPrice,
-      this.productManufacturer,
-      this.productPicture);
+    this.productName,
+    this.productCategory,
+    this.size,
+    this.color,
+    this.weight,
+    this.capacity,
+    this.type,
+    this.brandName,
+    this.productCode,
+    this.productStock,
+    this.productUnit,
+    this.productSalePrice,
+    this.productPurchasePrice,
+    this.productDiscount,
+    this.productWholeSalePrice,
+    this.productDealerPrice,
+    this.productManufacturer,
+    this.productPicture,
+    this.productGst,
+  );
 
   ProductModel.fromJson(Map<dynamic, dynamic> json)
       : productName = json['productName'] as String,
@@ -56,7 +59,8 @@ class ProductModel {
         productWholeSalePrice = json['productWholeSalePrice'].toString(),
         productDealerPrice = json['productDealerPrice'].toString(),
         productManufacturer = json['productManufacturer'].toString(),
-        productPicture = json['productPicture'].toString();
+        productPicture = json['productPicture'].toString(),
+        productGst = json['productGst'].toString();
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'productName': productName,
@@ -77,5 +81,6 @@ class ProductModel {
         'productDealerPrice': productDealerPrice,
         'productManufacturer': productManufacturer,
         'productPicture': productPicture,
+        'productGst': productGst
       };
 }

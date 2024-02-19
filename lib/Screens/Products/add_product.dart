@@ -5,6 +5,8 @@ import '../../currency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nb_utils/nb_utils.dart';
+import '../../Provider/add_to_cart.dart';
+import '../../Provider/profile_provider.dart';
 import '../../Provider/product_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -76,11 +78,15 @@ class _AddProductState extends State<AddProduct> {
   List<String> productNameList = [];
   String promoCodeHint = 'Enter Product Code';
   TextEditingController productCodeController = TextEditingController();
-
+  var isload = true;
   int loop = 0;
   File imageFile = File('No File');
   String imagePath = 'No Data';
-
+    TextEditingController vatPercentageEditingController =
+        TextEditingController();
+    TextEditingController vatAmountEditingController = TextEditingController();
+    double percentage = 0;
+    double vatAmount = 0;
   Future<void> uploadFile(String filePath) async {
     File file = File(filePath);
     try {
@@ -156,6 +162,15 @@ class _AddProductState extends State<AddProduct> {
       ),
       body: Consumer(builder: (context, ref, __) {
         final providerData = ref.watch(productProvider);
+        final providerDatacart = ref.watch(cartNotifier);
+        final personalData = ref.watch(profileDetailsProvider);
+        if (isload == true) {
+          Future.delayed(Duration(milliseconds: 500), () {
+            ref.refresh(profileDetailsProvider);
+          });
+          isload = false;
+        }
+
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
@@ -579,6 +594,188 @@ class _AddProductState extends State<AddProduct> {
                 //     ),
                 //   ],
                 // ),
+                personalData.when(data: (data) {
+                  if (data.gstenable == true)
+                    return Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'GST',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: context.width() / 4,
+                                height: 40.0,
+                                child: Center(
+                                  child: AppTextField(
+                                    textStyle: TextStyle(fontSize: 14),
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp(r'^\d*\.?\d{0,2}'))
+                                    ],
+                                    controller: vatPercentageEditingController,
+                                    onChanged: (value) {
+                                      if (value == '') {
+                                        setState(() {
+                                          percentage = 0.0;
+                                          vatAmountEditingController.text =
+                                              0.toString();
+                                          vatAmount = 0;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          vatAmount = (value.toDouble() / 100) *
+                                              double.parse(productPurchasePrice
+                                                  .toString());
+                                          // providerDatacart
+                                          //     .getTotalAmount()
+                                          //     .toDouble();
+                                          vatAmountEditingController.text =
+                                              vatAmount.toString();
+                                        });
+                                      }
+                                    },
+                                    textAlign: TextAlign.right,
+                                    decoration: InputDecoration(
+                                      contentPadding:
+                                          const EdgeInsets.only(right: 6.0),
+                                      hintText: '0',
+                                      border: const OutlineInputBorder(
+                                          gapPadding: 0.0,
+                                          borderSide: BorderSide(
+                                              color: Color(0xFFff5f00))),
+                                      enabledBorder: const OutlineInputBorder(
+                                          gapPadding: 0.0,
+                                          borderSide: BorderSide(
+                                              color: Color(0xFFff5f00))),
+                                      disabledBorder: const OutlineInputBorder(
+                                          gapPadding: 0.0,
+                                          borderSide: BorderSide(
+                                              color: Color(0xFFff5f00))),
+                                      focusedBorder: const OutlineInputBorder(
+                                          gapPadding: 0.0,
+                                          borderSide: BorderSide(
+                                              color: Color(0xFFff5f00))),
+                                      prefixIconConstraints:
+                                          const BoxConstraints(
+                                              maxWidth: 30.0, minWidth: 30.0),
+                                      prefixIcon: Container(
+                                        padding: const EdgeInsets.only(
+                                            top: 8.0, left: 8.0),
+                                        height: 40,
+                                        decoration: const BoxDecoration(
+                                            color: Color(0xFFff5f00),
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(4.0),
+                                                bottomLeft:
+                                                    Radius.circular(4.0))),
+                                        child: const Text(
+                                          '%',
+                                          style: TextStyle(
+                                              fontSize: 18.0,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                    textFieldType: TextFieldType.PHONE,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 4.0,
+                              ),
+                              SizedBox(
+                                width: context.width() / 4,
+                                height: 40.0,
+                                child: Center(
+                                  child: AppTextField(
+                                    textStyle: const TextStyle(fontSize: 14),
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp(r'^\d*\.?\d{0,2}'))
+                                    ],
+                                    controller: vatAmountEditingController,
+                                    onChanged: (value) {
+                                      if (value == '') {
+                                        setState(() {
+                                          vatAmount = 0;
+                                          vatPercentageEditingController
+                                              .clear();
+                                        });
+                                      } else {
+                                        setState(() {
+                                          vatAmount = double.parse(value);
+                                          vatPercentageEditingController.text =
+                                              ((vatAmount * 100) /
+                                                      double.parse(
+                                                          productPurchasePrice
+                                                              .toString()))
+                                                  .toString();
+                                        });
+                                      }
+                                    },
+                                    textAlign: TextAlign.right,
+                                    decoration: InputDecoration(
+                                      contentPadding:
+                                          const EdgeInsets.only(right: 6.0),
+                                      hintText: '0',
+                                      border: const OutlineInputBorder(
+                                          gapPadding: 0.0,
+                                          borderSide:
+                                              BorderSide(color: kMainColor)),
+                                      enabledBorder: const OutlineInputBorder(
+                                          gapPadding: 0.0,
+                                          borderSide:
+                                              BorderSide(color: kMainColor)),
+                                      disabledBorder: const OutlineInputBorder(
+                                          gapPadding: 0.0,
+                                          borderSide:
+                                              BorderSide(color: kMainColor)),
+                                      focusedBorder: const OutlineInputBorder(
+                                          gapPadding: 0.0,
+                                          borderSide:
+                                              BorderSide(color: kMainColor)),
+                                      prefixIconConstraints:
+                                          const BoxConstraints(
+                                              maxWidth: 30.0, minWidth: 30.0),
+                                      prefixIcon: Container(
+                                        alignment: Alignment.center,
+                                        height: 40,
+                                        decoration: const BoxDecoration(
+                                            color: kMainColor,
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(4.0),
+                                                bottomLeft:
+                                                    Radius.circular(4.0))),
+                                        child: Text(
+                                          currency,
+                                          style: const TextStyle(
+                                              fontSize: 14.0,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                    textFieldType: TextFieldType.PHONE,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  else
+                    return Container();
+                }, error: (Object error, StackTrace stackTrace) {
+                  return Container();
+                }, loading: () {
+                  return Container();
+                }),
 
                 Row(
                   children: [
@@ -792,7 +989,6 @@ class _AddProductState extends State<AddProduct> {
                     const SizedBox(height: 10),
                   ],
                 ),
-
                 ButtonGlobalWithoutIcon(
                   buttontext: lang.S.of(context).saveNPublish,
                   buttonDecoration:
@@ -852,6 +1048,16 @@ class _AddProductState extends State<AddProduct> {
                         const SnackBar(
                           content: Text(
                               'MRP price must be grater then purchase price'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      return;
+                    }
+                    print(vatPercentageEditingController.text.toString());
+                    if (vatPercentageEditingController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please enter product Gst'),
                           duration: Duration(seconds: 1),
                         ),
                       );
@@ -918,6 +1124,7 @@ class _AddProductState extends State<AddProduct> {
                                     productDealerPrice,
                                     productManufacturer,
                                     productPicture,
+                                    vatPercentageEditingController.text,
                                   );
 
                                   print("product code" +
@@ -980,6 +1187,7 @@ class _AddProductState extends State<AddProduct> {
                                   productDealerPrice,
                                   productManufacturer,
                                   productPicture,
+                                  vatPercentageEditingController.text,
                                 );
                                 _productInformationRef
                                     .push()

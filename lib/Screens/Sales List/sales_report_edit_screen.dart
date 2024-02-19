@@ -1,31 +1,30 @@
-// ignore_for_file: unused_result
-
 import 'dart:convert';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../constant.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_pos/Provider/add_to_cart.dart';
-import 'package:mobile_pos/Provider/profile_provider.dart';
-import 'package:mobile_pos/Screens/Sales%20List/sales_Edit_invoice_add_products.dart';
-import 'package:mobile_pos/model/transition_model.dart';
+import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-
-import '../../Provider/customer_provider.dart';
+import '../../model/add_to_cart_model.dart';
 import '../../Provider/product_provider.dart';
+import '../../Provider/customer_provider.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../Customers/Model/customer_model.dart';
 import '../../Provider/seles_report_provider.dart';
 import '../../Provider/transactions_provider.dart';
-import '../../constant.dart';
-import '../../model/add_to_cart_model.dart';
-import '../Customers/Model/customer_model.dart';
+import 'package:mobile_pos/Provider/add_to_cart.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_pos/model/transition_model.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:firebase_database/firebase_database.dart';
+import 'package:mobile_pos/Provider/profile_provider.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:mobile_pos/Screens/Sales%20List/sales_Edit_invoice_add_products.dart';
+// ignore_for_file: unused_result
 
 // ignore: must_be_immutable
 class SalesReportEditScreen extends StatefulWidget {
-  SalesReportEditScreen({Key? key, required this.transitionModel}) : super(key: key);
+  SalesReportEditScreen({Key? key, required this.transitionModel})
+      : super(key: key);
   SaleTransactionModel transitionModel;
 
   @override
@@ -118,13 +117,17 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
             if (element.productId == products.productCode) {
               if (widget.transitionModel.customerType.contains('Retailer')) {
                 sentProductPrice = products.productSalePrice;
-              } else if (widget.transitionModel.customerType.contains('Dealer')) {
+              } else if (widget.transitionModel.customerType
+                  .contains('Dealer')) {
                 sentProductPrice = products.productDealerPrice;
-              } else if (widget.transitionModel.customerType.contains('Wholesaler')) {
+              } else if (widget.transitionModel.customerType
+                  .contains('Wholesaler')) {
                 sentProductPrice = products.productWholeSalePrice;
-              } else if (widget.transitionModel.customerType.contains('Supplier')) {
+              } else if (widget.transitionModel.customerType
+                  .contains('Supplier')) {
                 sentProductPrice = products.productPurchasePrice;
-              } else if (widget.transitionModel.customerType.contains('Guest')) {
+              } else if (widget.transitionModel.customerType
+                  .contains('Guest')) {
                 sentProductPrice = products.productSalePrice;
                 isGuestCustomer = true;
               }
@@ -188,7 +191,8 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                         child: AppTextField(
                           textFieldType: TextFieldType.NAME,
                           readOnly: true,
-                          initialValue: DateFormat.yMMMd().format(DateTime.parse(
+                          initialValue:
+                              DateFormat.yMMMd().format(DateTime.parse(
                             widget.transitionModel.purchaseDate,
                           )),
                           decoration: InputDecoration(
@@ -220,8 +224,11 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                   ///_______Added_ItemS__________________________________________________
                   Container(
                     decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-                      border: Border.all(width: 1, color: const Color(0xffEAEFFA)),
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10)),
+                      border:
+                          Border.all(width: 1, color: const Color(0xffEAEFFA)),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -230,14 +237,17 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                             width: double.infinity,
                             decoration: const BoxDecoration(
                               color: Color(0xffEAEFFA),
-                              borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10)),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(10),
                               child: SizedBox(
                                 width: context.width() / 1.35,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       lang.S.of(context).itemAdded,
@@ -258,28 +268,39 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                             itemBuilder: (context, index) {
                               int i = 0;
                               for (var element in pastProducts) {
-                                if (element.productId != providerData.cartItemList[index].productId) {
+                                if (element.productId !=
+                                    providerData
+                                        .cartItemList[index].productId) {
                                   i++;
                                 }
                                 if (i == pastProducts.length) {
                                   bool isInTheList = false;
                                   for (var element in decreaseStockList) {
-                                    if (element.productId == providerData.cartItemList[index].productId) {
-                                      element.quantity = providerData.cartItemList[index].quantity;
+                                    if (element.productId ==
+                                        providerData
+                                            .cartItemList[index].productId) {
+                                      element.quantity = providerData
+                                          .cartItemList[index].quantity;
                                       isInTheList = true;
                                       break;
                                     }
                                   }
 
-                                  isInTheList ? null : decreaseStockList.add(providerData.cartItemList[index]);
+                                  isInTheList
+                                      ? null
+                                      : decreaseStockList.add(
+                                          providerData.cartItemList[index]);
                                 }
                               }
 
                               return Padding(
-                                padding: const EdgeInsets.only(left: 10, right: 10),
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
                                 child: ListTile(
                                   contentPadding: const EdgeInsets.all(0),
-                                  title: Text(providerData.cartItemList[index].productName.toString()),
+                                  title: Text(providerData
+                                      .cartItemList[index].productName
+                                      .toString()),
                                   subtitle: Text(
                                       '${providerData.cartItemList[index].quantity} X ${providerData.cartItemList[index].subTotal} = ${double.parse(providerData.cartItemList[index].subTotal) * providerData.cartItemList[index].quantity}'),
                                   trailing: Row(
@@ -288,23 +309,29 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                                       SizedBox(
                                         width: 80,
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             GestureDetector(
                                               onTap: () {
-                                                providerData.quantityDecrease(index);
+                                                providerData
+                                                    .quantityDecrease(index);
                                               },
                                               child: Container(
                                                 height: 20,
                                                 width: 20,
                                                 decoration: const BoxDecoration(
                                                   color: kMainColor,
-                                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10)),
                                                 ),
                                                 child: const Center(
                                                   child: Text(
                                                     '-',
-                                                    style: TextStyle(fontSize: 14, color: Colors.white),
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.white),
                                                   ),
                                                 ),
                                               ),
@@ -320,19 +347,24 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                                             const SizedBox(width: 5),
                                             GestureDetector(
                                               onTap: () {
-                                                providerData.quantityIncrease(index);
+                                                providerData
+                                                    .quantityIncrease(index);
                                               },
                                               child: Container(
                                                 height: 20,
                                                 width: 20,
                                                 decoration: const BoxDecoration(
                                                   color: kMainColor,
-                                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10)),
                                                 ),
                                                 child: const Center(
                                                     child: Text(
                                                   '+',
-                                                  style: TextStyle(fontSize: 14, color: Colors.white),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white),
                                                 )),
                                               ),
                                             ),
@@ -344,15 +376,25 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                                         onTap: () {
                                           int i = 0;
                                           for (var element in pastProducts) {
-                                            if (element.productId != providerData.cartItemList[index].productId) {
+                                            if (element.productId !=
+                                                providerData.cartItemList[index]
+                                                    .productId) {
                                               i++;
                                             }
                                             if (i == pastProducts.length) {
-                                              decreaseStockList.removeWhere((element) => element.productId == providerData.cartItemList[index].productId);
+                                              decreaseStockList.removeWhere(
+                                                  (element) =>
+                                                      element.productId ==
+                                                      providerData
+                                                          .cartItemList[index]
+                                                          .productId);
                                             }
                                           }
 
-                                          providerData.deleteToCart(index);
+                                          providerData.deleteToCart(
+                                              index,
+                                              providerData.cartItemList[index]
+                                                  .productgst);
                                         },
                                         child: Container(
                                           padding: const EdgeInsets.all(4),
@@ -380,14 +422,23 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                       EditSaleInvoiceSaleProducts(
                         catName: null,
                         customerModel: CustomerModel(
-                            widget.transitionModel.customerName, widget.transitionModel.customerPhone, widget.transitionModel.customerType, '', '', 'customerAddress', ''),
+                            widget.transitionModel.customerName,
+                            widget.transitionModel.customerPhone,
+                            widget.transitionModel.customerType,
+                            '',
+                            '',
+                            'customerAddress',
+                            ''),
                         transitionModel: widget.transitionModel,
                       ).launch(context);
                     },
                     child: Container(
                       height: 50,
                       width: double.infinity,
-                      decoration: BoxDecoration(color: kMainColor.withOpacity(0.1), borderRadius: const BorderRadius.all(Radius.circular(10))),
+                      decoration: BoxDecoration(
+                          color: kMainColor.withOpacity(0.1),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
                       child: Center(
                           child: Text(
                         lang.S.of(context).addItems,
@@ -399,12 +450,20 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
 
                   ///_____Total______________________________
                   Container(
-                    decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(10)), border: Border.all(color: Colors.grey.shade300, width: 1)),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        border:
+                            Border.all(color: Colors.grey.shade300, width: 1)),
                     child: Column(
                       children: [
                         Container(
                           padding: const EdgeInsets.all(10),
-                          decoration: const BoxDecoration(color: Color(0xffEAEFFA), borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+                          decoration: const BoxDecoration(
+                              color: Color(0xffEAEFFA),
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(10),
+                                  topLeft: Radius.circular(10))),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -438,7 +497,8 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                                         discountAmount = 0;
                                       });
                                     } else {
-                                      if (value.toInt() <= providerData.getTotalAmount()) {
+                                      if (value.toInt() <=
+                                          providerData.getTotalAmount()) {
                                         setState(() {
                                           discountAmount = double.parse(value);
                                         });
@@ -447,7 +507,8 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                                         setState(() {
                                           discountAmount = 0;
                                         });
-                                        EasyLoading.showError('Enter a valid Discount');
+                                        EasyLoading.showError(
+                                            'Enter a valid Discount');
                                       }
                                     }
                                   },
@@ -471,7 +532,9 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                                 style: const TextStyle(fontSize: 16),
                               ),
                               Text(
-                                calculateSubtotal(total: providerData.getTotalAmount()).toString(),
+                                calculateSubtotal(
+                                        total: providerData.getTotalAmount())
+                                    .toString(),
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ],
@@ -487,9 +550,15 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                                 style: const TextStyle(fontSize: 16),
                               ),
                               Text(
-                                (double.parse(widget.transitionModel.totalAmount.toString()) -
-                                        double.parse(widget.transitionModel.dueAmount.toString()) +
-                                        double.parse(widget.transitionModel.returnAmount.toString()))
+                                (double.parse(widget
+                                            .transitionModel.totalAmount
+                                            .toString()) -
+                                        double.parse(widget
+                                            .transitionModel.dueAmount
+                                            .toString()) +
+                                        double.parse(widget
+                                            .transitionModel.returnAmount
+                                            .toString()))
                                     .toString(),
                                 style: const TextStyle(fontSize: 16),
                               ),
@@ -522,7 +591,8 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                                     }
                                   },
                                   textAlign: TextAlign.right,
-                                  decoration: const InputDecoration(hintText: '0'),
+                                  decoration:
+                                      const InputDecoration(hintText: '0'),
                                 ),
                               ),
                             ],
@@ -538,7 +608,9 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                                 style: const TextStyle(fontSize: 16),
                               ),
                               Text(
-                                calculateReturnAmount(total: subTotal).abs().toString(),
+                                calculateReturnAmount(total: subTotal)
+                                    .abs()
+                                    .toString(),
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ],
@@ -577,7 +649,8 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                         children: [
                           Text(
                             lang.S.of(context).paymentTypes,
-                            style: const TextStyle(fontSize: 16, color: Colors.black54),
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.black54),
                           ),
                           const SizedBox(
                             width: 5,
@@ -632,8 +705,11 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                       Container(
                         height: 60,
                         width: 100,
-                        decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(10)), color: Colors.grey.shade200),
-                        child:  Center(
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                            color: Colors.grey.shade200),
+                        child: Center(
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -644,7 +720,8 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                               SizedBox(width: 5),
                               Text(
                                 'Image',
-                                style: TextStyle(color: Colors.grey, fontSize: 16),
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 16),
                               )
                             ],
                           ),
@@ -663,7 +740,8 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                           height: 60,
                           decoration: BoxDecoration(
                             color: Colors.grey.shade300,
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
                           ),
                           child: Center(
                             child: Text(
@@ -679,58 +757,103 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                           onTap: () async {
                             if (providerData.cartItemList.isNotEmpty) {
                               if (isGuestCustomer && dueAmount > 0) {
-                                EasyLoading.showError('Due is not for Guest Customer');
+                                EasyLoading.showError(
+                                    'Due is not for Guest Customer');
                               } else {
                                 try {
-                                  EasyLoading.show(status: 'Loading...', dismissOnTap: false);
+                                  EasyLoading.show(
+                                      status: 'Loading...',
+                                      dismissOnTap: false);
 
-                                  dueAmount <= 0 ? transitionModel.isPaid = true : transitionModel.isPaid = false;
-                                  dueAmount <= 0 ? transitionModel.dueAmount = 0 : transitionModel.dueAmount = dueAmount;
-                                  returnAmount < 0 ? transitionModel.returnAmount = returnAmount.abs() : transitionModel.returnAmount = 0;
-                                  transitionModel.discountAmount = discountAmount;
+                                  dueAmount <= 0
+                                      ? transitionModel.isPaid = true
+                                      : transitionModel.isPaid = false;
+                                  dueAmount <= 0
+                                      ? transitionModel.dueAmount = 0
+                                      : transitionModel.dueAmount = dueAmount;
+                                  returnAmount < 0
+                                      ? transitionModel.returnAmount =
+                                          returnAmount.abs()
+                                      : transitionModel.returnAmount = 0;
+                                  transitionModel.discountAmount =
+                                      discountAmount;
                                   transitionModel.totalAmount = subTotal;
-                                  transitionModel.productList = providerData.cartItemList;
+                                  transitionModel.productList =
+                                      providerData.cartItemList;
                                   transitionModel.paymentType = dropdownValue;
-                                  transitionModel.invoiceNumber = invoice.toString();
+                                  transitionModel.invoiceNumber =
+                                      invoice.toString();
 
                                   ///________________updateInvoice___________________________________________________________
                                   String? key;
-                                  await FirebaseDatabase.instance.ref(constUserId).child('Sales Transition').orderByKey().get().then((value) {
+                                  await FirebaseDatabase.instance
+                                      .ref(constUserId)
+                                      .child('Sales Transition')
+                                      .orderByKey()
+                                      .get()
+                                      .then((value) {
                                     for (var element in value.children) {
-                                      final t = SaleTransactionModel.fromJson(jsonDecode(jsonEncode(element.value)));
-                                      if (transitionModel.invoiceNumber == t.invoiceNumber) {
+                                      final t = SaleTransactionModel.fromJson(
+                                          jsonDecode(
+                                              jsonEncode(element.value)));
+                                      if (transitionModel.invoiceNumber ==
+                                          t.invoiceNumber) {
                                         key = element.key;
                                       }
                                     }
                                   });
-                                  await FirebaseDatabase.instance.ref(constUserId).child('Sales Transition').child(key!).update(transitionModel.toJson());
+                                  await FirebaseDatabase.instance
+                                      .ref(constUserId)
+                                      .child('Sales Transition')
+                                      .child(key!)
+                                      .update(transitionModel.toJson());
 
                                   ///__________StockMange_________________________________________________
 
-                                  presentProducts = transitionModel.productList!;
+                                  presentProducts =
+                                      transitionModel.productList!;
 
                                   for (var pastElement in pastProducts) {
                                     int i = 0;
                                     for (var futureElement in presentProducts) {
-                                      if (pastElement.productId == futureElement.productId) {
-                                        if (pastElement.quantity < futureElement.quantity && pastElement.quantity != futureElement.quantity) {
-                                          decreaseStockList.contains(pastElement.productId)
+                                      if (pastElement.productId ==
+                                          futureElement.productId) {
+                                        if (pastElement.quantity <
+                                                futureElement.quantity &&
+                                            pastElement.quantity !=
+                                                futureElement.quantity) {
+                                          decreaseStockList.contains(
+                                                  pastElement.productId)
                                               ? null
                                               : decreaseStockList.add(
                                                   AddToCartModel(
-                                                    productName: pastElement.productName,
-                                                    productId: pastElement.productId,
-                                                    quantity: futureElement.quantity.toInt() - pastElement.quantity.toInt(),
+                                                    productName:
+                                                        pastElement.productName,
+                                                    productId:
+                                                        pastElement.productId,
+                                                    quantity: futureElement
+                                                            .quantity
+                                                            .toInt() -
+                                                        pastElement.quantity
+                                                            .toInt(),
                                                   ),
                                                 );
-                                        } else if (pastElement.quantity > futureElement.quantity && pastElement.quantity != futureElement.quantity) {
-                                          increaseStockList.contains(pastElement.productId)
+                                        } else if (pastElement.quantity >
+                                                futureElement.quantity &&
+                                            pastElement.quantity !=
+                                                futureElement.quantity) {
+                                          increaseStockList.contains(
+                                                  pastElement.productId)
                                               ? null
                                               : increaseStockList.add(
                                                   AddToCartModel(
-                                                    productName: pastElement.productName,
-                                                    productId: pastElement.productId,
-                                                    quantity: pastElement.quantity - futureElement.quantity,
+                                                    productName:
+                                                        pastElement.productName,
+                                                    productId:
+                                                        pastElement.productId,
+                                                    quantity: pastElement
+                                                            .quantity -
+                                                        futureElement.quantity,
                                                   ),
                                                 );
                                         }
@@ -740,7 +863,8 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                                         if (i == presentProducts.length) {
                                           increaseStockList.add(
                                             AddToCartModel(
-                                              productName: pastElement.productName,
+                                              productName:
+                                                  pastElement.productName,
                                               productId: pastElement.productId,
                                               quantity: pastElement.quantity,
                                             ),
@@ -753,22 +877,35 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                                   ///_____________StockUpdate_______________________________________________________
 
                                   for (var element in decreaseStockList) {
-                                    decreaseStock(element.productId, element.quantity);
+                                    decreaseStock(
+                                        element.productId, element.quantity);
                                   }
 
                                   for (var element in increaseStockList) {
-                                    increaseStock(element.productId, element.quantity);
+                                    increaseStock(
+                                        element.productId, element.quantity);
                                   }
                                   // double due = transitionModel.dueAmount! - widget.transitionModel.dueAmount!;
                                   // print(due.toInt());
 
                                   ///_________DueUpdate______________________________________________________
                                   if (pastDue < transitionModel.dueAmount!) {
-                                    double due = pastDue - transitionModel.dueAmount!;
-                                    getSpecificCustomersDueUpdate(phoneNumber: widget.transitionModel.customerPhone, isDuePaid: false, due: due.toInt());
-                                  } else if (pastDue > transitionModel.dueAmount!) {
-                                    double due = transitionModel.dueAmount! - pastDue;
-                                    getSpecificCustomersDueUpdate(phoneNumber: widget.transitionModel.customerPhone, isDuePaid: true, due: due.toInt());
+                                    double due =
+                                        pastDue - transitionModel.dueAmount!;
+                                    getSpecificCustomersDueUpdate(
+                                        phoneNumber: widget
+                                            .transitionModel.customerPhone,
+                                        isDuePaid: false,
+                                        due: due.toInt());
+                                  } else if (pastDue >
+                                      transitionModel.dueAmount!) {
+                                    double due =
+                                        transitionModel.dueAmount! - pastDue;
+                                    getSpecificCustomersDueUpdate(
+                                        phoneNumber: widget
+                                            .transitionModel.customerPhone,
+                                        isDuePaid: true,
+                                        due: due.toInt());
                                   }
                                   // getSpecificCustomersDueUpdate(phoneNumber: widget.transitionModel.customerPhone, isDuePaid: true, due: 20);
 
@@ -785,7 +922,8 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                                   Navigator.pop(context);
                                 } catch (e) {
                                   EasyLoading.dismiss();
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text(e.toString())));
                                 }
                               }
                             } else {
@@ -796,12 +934,14 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                             height: 60,
                             decoration: const BoxDecoration(
                               color: kMainColor,
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
                             ),
                             child: Center(
                               child: Text(
                                 lang.S.of(context).save,
-                                style: const TextStyle(fontSize: 18, color: Colors.white),
+                                style: const TextStyle(
+                                    fontSize: 18, color: Colors.white),
                               ),
                             ),
                           ),
@@ -827,7 +967,8 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
   void decreaseStock(String productCode, int quantity) async {
     final ref = FirebaseDatabase.instance.ref('$constUserId/Products/');
 
-    var data = await ref.orderByChild('productCode').equalTo(productCode).once();
+    var data =
+        await ref.orderByChild('productCode').equalTo(productCode).once();
     String productPath = data.snapshot.value.toString().substring(1, 21);
 
     var data1 = await ref.child('$productPath/productStock').once();
@@ -840,7 +981,8 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
   void increaseStock(String productCode, int quantity) async {
     final ref = FirebaseDatabase.instance.ref('$constUserId/Products/');
 
-    var data = await ref.orderByChild('productCode').equalTo(productCode).once();
+    var data =
+        await ref.orderByChild('productCode').equalTo(productCode).once();
     String productPath = data.snapshot.value.toString().substring(1, 21);
 
     var data1 = await ref.child('$productPath/productStock').once();
@@ -851,18 +993,29 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
   }
 
   void decreaseSubscriptionSale() async {
-    final ref = FirebaseDatabase.instance.ref('$constUserId/Subscription/saleNumber');
+    final ref =
+        FirebaseDatabase.instance.ref('$constUserId/Subscription/saleNumber');
     var data = await ref.once();
     int beforeSale = int.parse(data.snapshot.value.toString());
     int afterSale = beforeSale - 1;
-    FirebaseDatabase.instance.ref('$constUserId/Subscription').update({'saleNumber': afterSale});
+    FirebaseDatabase.instance
+        .ref('$constUserId/Subscription')
+        .update({'saleNumber': afterSale});
   }
 
-  void getSpecificCustomersDueUpdate({required String phoneNumber, required bool isDuePaid, required int due}) async {
+  void getSpecificCustomersDueUpdate(
+      {required String phoneNumber,
+      required bool isDuePaid,
+      required int due}) async {
     final ref = FirebaseDatabase.instance.ref('$constUserId/Customers/');
     String? key;
 
-    await FirebaseDatabase.instance.ref(constUserId).child('Customers').orderByKey().get().then((value) {
+    await FirebaseDatabase.instance
+        .ref(constUserId)
+        .child('Customers')
+        .orderByKey()
+        .get()
+        .then((value) {
       for (var element in value.children) {
         var data = jsonDecode(jsonEncode(element.value));
         if (data['phoneNumber'] == phoneNumber) {

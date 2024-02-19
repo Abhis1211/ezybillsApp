@@ -1,18 +1,18 @@
-import 'dart:typed_data';
 import 'dart:io';
+import 'dart:typed_data';
+import '../constant.dart';
+import 'package:intl/intl.dart';
 import 'package:image/image.dart';
-import 'package:bluetooth_thermal_printer/bluetooth_thermal_printer.dart';
-import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
-import 'package:mobile_pos/Provider/profile_provider.dart';
 import 'package:nb_utils/nb_utils.dart';
-import '../constant.dart';
 import '../model/add_to_cart_model.dart';
-import '../model/personal_information_model.dart';
 import '../model/print_transaction_model.dart';
+import 'package:esc_pos_utils/esc_pos_utils.dart';
+import '../model/personal_information_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_pos/Provider/profile_provider.dart';
+import 'package:bluetooth_thermal_printer/bluetooth_thermal_printer.dart';
 
 final printerProviderNotifier = ChangeNotifierProvider((ref) => Printer());
 
@@ -98,7 +98,7 @@ class Printer extends ChangeNotifier {
         printTransactionModel.personalInformationModel.countryName ?? '',
         styles: const PosStyles(align: PosAlign.center));
     bytes += generator.text(
-        'Tel: ${printTransactionModel.personalInformationModel.phoneNumber ?? ''}',
+        'Mo: ${printTransactionModel.personalInformationModel.phoneNumber ?? ''}',
         styles: const PosStyles(align: PosAlign.center),
         linesAfter: 1);
     bytes += generator.text(
@@ -115,15 +115,15 @@ class Printer extends ChangeNotifier {
     bytes += generator.row([
       PosColumn(
           text: 'Item',
-          width: 5,
+          width: 4,
           styles: const PosStyles(align: PosAlign.left, bold: true)),
-      PosColumn(
-          text: 'Price',
-          width: 2,
-          styles: const PosStyles(align: PosAlign.center, bold: true)),
       PosColumn(
           text: 'Qty',
           width: 2,
+          styles: const PosStyles(align: PosAlign.center, bold: true)),
+      PosColumn(
+          text: 'Price',
+          width: 3,
           styles: const PosStyles(align: PosAlign.center, bold: true)),
       PosColumn(
           text: 'Total',
@@ -135,20 +135,20 @@ class Printer extends ChangeNotifier {
       return bytes += generator.row([
         PosColumn(
             text: productList?[index].productName ?? 'Not Defined',
-            width: 5,
+            width: 4,
             styles: const PosStyles(
               align: PosAlign.left,
-            )),
-        PosColumn(
-            text: productList?[index].subTotal ?? 'Not Defined',
-            width: 2,
-            styles: const PosStyles(
-              align: PosAlign.center,
             )),
         PosColumn(
             text: productList?[index].quantity.toString() ?? 'Not Defined',
             width: 2,
             styles: const PosStyles(align: PosAlign.center)),
+        PosColumn(
+            text: productList?[index].subTotal ?? 'Not Defined',
+            width: 3,
+            styles: const PosStyles(
+              align: PosAlign.center,
+            )),
         PosColumn(
             text:
                 "${double.parse(productList?[index].subTotal) * productList![index].quantity.toInt()}",
@@ -329,7 +329,7 @@ class Printer extends ChangeNotifier {
     bytes += generator.hr(ch: '=', linesAfter: 1);
 
     // ticket.feed(2);
-    bytes += generator.text('Thank you!',
+    bytes += generator.text('Thank you visit Again!',
         styles: const PosStyles(align: PosAlign.center, bold: true));
 
     bytes += generator.text(
@@ -339,7 +339,7 @@ class Printer extends ChangeNotifier {
         linesAfter: 1);
 
     bytes += generator.text(
-        'Note: Goods once sold will not be taken back or exchanged.',
+        printTransactionModel.personalInformationModel.note.toString(),
         styles: const PosStyles(align: PosAlign.center, bold: false),
         linesAfter: 1);
     // bytes += generator.qrcode(

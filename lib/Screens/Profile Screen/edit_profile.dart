@@ -507,6 +507,7 @@ class _EditProfileState extends State<EditProfile> {
                           padding: const EdgeInsets.all(10.0),
                           child: AppTextField(
                             initialValue: details.note,
+                            
                             onChanged: (value) {
                               setState(() {
                                 invoicenote = value;

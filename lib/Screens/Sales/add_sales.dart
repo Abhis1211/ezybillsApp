@@ -54,12 +54,15 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
   TextEditingController paidamount = TextEditingController();
   double percentage = 0;
   double vatAmount = 0;
+  double totalamount = 0;
 
   bool isClicked = false;
 
-  double calculateSubtotal({required double total}) {
-    subTotal = total + vatAmount - discountAmount;
-    return total + vatAmount - discountAmount;
+  double calculateSubtotal({required double total, vatamout}) {
+    print("vatamout" + vatAmount.toString());
+    print("totalamout" + total.toString());
+    subTotal = total + vatamout - discountAmount;
+    return total + vatamout - discountAmount;
   }
 
   double calculateReturnAmount({required double total}) {
@@ -84,7 +87,8 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
     purchaseDate: DateTime.now().toString(),
   );
   DateTime selectedDate = DateTime.now();
-
+  var totalgst = 0.0;
+  var islaod = true;
   late PersonalInformationModel personalInformationModel;
   @override
   void initState() {
@@ -99,11 +103,16 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
       final providerData = consumerRef.watch(cartNotifier);
       final printerData = consumerRef.watch(printerProviderNotifier);
       final personalData = consumerRef.watch(profileDetailsProvider);
-
       return personalData.when(data: (data) {
         invoice = data.invoiceCounter!.toInt();
+        if (islaod == true) {
+          providerData.totalgst = 0.0;
 
+          islaod = false;
+        }
+        consumerRef.refresh(profileDetailsProvider);
         personalInformationModel = data;
+
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -247,6 +256,39 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: providerData.cartItemList.length,
                             itemBuilder: (context, index) {
+                              Future.delayed(Duration(milliseconds: 1), () {
+                                vatPercentageEditingController.text =
+                                    providerData.totalgst.toString();
+                                vatAmount = providerData.totalamount();
+                                vatAmountEditingController.text =
+                                    vatAmount.toString();
+                                subTotal = providerData.calculateSubtotal(
+                                    discountAmount: discountAmount);
+                                print("subtotal" + subTotal.toString());
+                              });
+                              // consumerRef.refresh(cartNotifier);
+
+                              // if (providerData.cartItemList.length == 0) {
+                              //   totalgst = double.parse(providerData
+                              //       .cartItemList[index].productgst!
+                              //       .toString());
+                              //   print("total gst1" + totalgst.toString());
+                              // } else {
+                              //   totalgst = double.parse(providerData
+                              //           .cartItemList[index].productgst!) +
+                              //       double.parse(totalgst.toString());
+                              //   print("total gst" + totalgst.toString());
+                              // }
+
+                              // Future.delayed(Duration(milliseconds: 2), () {
+                              //   vatAmount = (vatPercentageEditingController.text
+                              //               .toDouble() /
+                              //           100) *
+                              //       providerData.getTotalAmount().toDouble();
+                              //   vatAmountEditingController.text =
+                              //       vatAmount.toString();
+                              // });
+
                               return Padding(
                                 padding:
                                     const EdgeInsets.only(left: 10, right: 10),
@@ -323,7 +365,10 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                       const SizedBox(width: 10),
                                       GestureDetector(
                                         onTap: () {
-                                          providerData.deleteToCart(index);
+                                          providerData.deleteToCart(
+                                              index,
+                                              providerData.cartItemList[index]
+                                                  .productgst);
                                         },
                                         child: Container(
                                           padding: const EdgeInsets.all(4),
@@ -663,9 +708,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                calculateSubtotal(
-                                        total: providerData.getTotalAmount())
-                                    .toStringAsFixed(2),
+                                subTotal.toStringAsFixed(2),
                                 style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -700,12 +743,9 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                   style: TextStyle(fontSize: 14),
                                   textAlign: TextAlign.right,
                                   decoration: InputDecoration(
-                                      hintStyle: const TextStyle(
+                                      hintStyle: TextStyle(
                                           fontSize: 14, color: Colors.black),
-                                      hintText: calculateSubtotal(
-                                              total:
-                                                  providerData.getTotalAmount())
-                                          .toStringAsFixed(2)),
+                                      hintText: subTotal.toStringAsFixed(2)),
                                 ),
                               ),
                             ],
@@ -1081,7 +1121,9 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                         double.parse(
                                             discountAmount.toStringAsFixed(2));
                                     transitionModel.totalAmount = double.parse(
-                                        subTotal.toStringAsFixed(2));
+                                        providerData
+                                            .getTotalAmount()
+                                            .toStringAsFixed(2));
                                     transitionModel.productList =
                                         providerData.cartItemList;
                                     transitionModel.paymentType = dropdownValue;
