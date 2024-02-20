@@ -54,6 +54,7 @@ class _AddProductState extends State<AddProduct> {
   String productCategory = 'Select Product Category';
   String brandName = 'Select Brand';
   String productUnit = 'Select Unit';
+  var gstenable = false;
   String productName = "",
       productStock = "",
       productSalePrice = "",
@@ -82,11 +83,11 @@ class _AddProductState extends State<AddProduct> {
   int loop = 0;
   File imageFile = File('No File');
   String imagePath = 'No Data';
-    TextEditingController vatPercentageEditingController =
-        TextEditingController();
-    TextEditingController vatAmountEditingController = TextEditingController();
-    double percentage = 0;
-    double vatAmount = 0;
+  TextEditingController vatPercentageEditingController =
+      TextEditingController();
+  TextEditingController vatAmountEditingController = TextEditingController();
+  double percentage = 0;
+  double vatAmount = 0;
   Future<void> uploadFile(String filePath) async {
     File file = File(filePath);
     try {
@@ -595,6 +596,7 @@ class _AddProductState extends State<AddProduct> {
                 //   ],
                 // ),
                 personalData.when(data: (data) {
+                  gstenable = data.gstenable!;
                   if (data.gstenable == true)
                     return Padding(
                       padding:
@@ -636,7 +638,7 @@ class _AddProductState extends State<AddProduct> {
                                           //     .getTotalAmount()
                                           //     .toDouble();
                                           vatAmountEditingController.text =
-                                              vatAmount.toString();
+                                              vatAmount.toStringAsFixed(2);
                                         });
                                       }
                                     },
@@ -1054,14 +1056,16 @@ class _AddProductState extends State<AddProduct> {
                       return;
                     }
                     print(vatPercentageEditingController.text.toString());
-                    if (vatPercentageEditingController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please enter product Gst'),
-                          duration: Duration(seconds: 1),
-                        ),
-                      );
-                      return;
+                    if (gstenable) {
+                      if (vatPercentageEditingController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please enter product Gst'),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                        return;
+                      }
                     }
 
                     //product Image validatin

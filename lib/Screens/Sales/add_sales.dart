@@ -261,7 +261,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                     providerData.totalgst.toString();
                                 vatAmount = providerData.totalamount();
                                 vatAmountEditingController.text =
-                                    vatAmount.toString();
+                                    vatAmount.toStringAsFixed(2);
                                 subTotal = providerData.calculateSubtotal(
                                     discountAmount: discountAmount);
                                 print("subtotal" + subTotal.toString());
@@ -1171,6 +1171,8 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
 
                                     for (var element
                                         in providerData.cartItemList) {
+                                      print("sdadsasaddsadas");
+                                      log("sdadsasaddsadas");
                                       decreaseStock(
                                           element.productId, element.quantity);
                                     }
@@ -1316,7 +1318,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                                                           milliseconds:
                                                                               500),
                                                                       () {
-                                                                    const SalesReportScreen()
+                                                                    const Home()
                                                                         .launch(
                                                                             context);
                                                                   });
@@ -1355,9 +1357,8 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                                                 transitionProvider);
                                                             consumerRef.refresh(
                                                                 profileDetailsProvider);
-                                                            const SalesReportScreen()
-                                                                .launch(
-                                                                    context);
+                                                            const Home().launch(
+                                                                context);
                                                           },
                                                           child: const Center(
                                                             child: Text(
@@ -1390,8 +1391,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                       Future.delayed(
                                           const Duration(milliseconds: 500),
                                           () {
-                                        const SalesReportScreen()
-                                            .launch(context);
+                                        const Home().launch(context);
                                       });
                                     }
                                   } catch (e) {
@@ -1451,7 +1451,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
               element.child('productStock').value.toString().toInt();
 
           int remainStock = previousStock - quantity;
-
+          log("stock" + previousStock.toString());
           previousStock != "" || previousStock != null
               ? ref.child(key!).update({'productStock': '$remainStock'})
               : ref.child(key!).update({'productStock': ''});

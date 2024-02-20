@@ -249,7 +249,8 @@ class Printer extends ChangeNotifier {
             align: PosAlign.left,
           )),
       PosColumn(
-          text: '${printTransactionModel.transitionModel!.vat}',
+          text:
+              '${printTransactionModel.transitionModel!.vat!.toStringAsFixed(2)}',
           width: 4,
           styles: const PosStyles(
             align: PosAlign.right,
@@ -263,7 +264,7 @@ class Printer extends ChangeNotifier {
           styles: const PosStyles(align: PosAlign.left, bold: true)),
       PosColumn(
           text:
-              '${printTransactionModel.transitionModel!.totalAmount!.toDouble() + printTransactionModel.transitionModel!.discountAmount!.toDouble() + printTransactionModel.transitionModel!.vat!.toDouble()}',
+              '${printTransactionModel.transitionModel!.totalAmount!.toDouble() - printTransactionModel.transitionModel!.discountAmount!.toDouble() + printTransactionModel.transitionModel!.vat!.toDouble()}',
           width: 4,
           styles: const PosStyles(align: PosAlign.right, bold: true)),
     ]);
@@ -294,7 +295,7 @@ class Printer extends ChangeNotifier {
           )),
       PosColumn(
           text:
-              '${printTransactionModel.transitionModel!.totalAmount!.toDouble() - printTransactionModel.transitionModel!.dueAmount!.toDouble() + printTransactionModel.transitionModel!.discountAmount!.toDouble() + printTransactionModel.transitionModel!.vat!.toDouble()}',
+              '${printTransactionModel.transitionModel!.totalAmount!.toDouble() - printTransactionModel.transitionModel!.dueAmount!.toDouble() - printTransactionModel.transitionModel!.discountAmount!.toDouble() + printTransactionModel.transitionModel!.vat!.toDouble()}',
           width: 4,
           styles: const PosStyles(
             align: PosAlign.right,
