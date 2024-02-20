@@ -1184,8 +1184,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                             .child('Personal Information');
                                     personalInformationModel.invoiceCounter =
                                         invoice + 1;
-                                    personalInformationModel.note =
-                                        "asdasdasdsadas";
+                                    personalInformationModel.note = "";
                                     personalInformationRef.keepSynced(true);
 
                                     personalInformationRef
@@ -1210,6 +1209,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                         PrintTransactionModel(
                                             transitionModel: transitionModel,
                                             personalInformationModel: data);
+
                                     if (isPrintEnable &&
                                         (Theme.of(context).platform ==
                                             TargetPlatform.android)) {
@@ -1233,8 +1233,9 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                         Future.delayed(
                                             const Duration(milliseconds: 500),
                                             () {
-                                          const SalesReportScreen()
-                                              .launch(context);
+                                          const Home().launch(context);
+                                          // const SalesReportScreen()
+                                          //     .launch(context);
                                         });
                                       } else {
                                         EasyLoading.showSuccess(
@@ -1448,8 +1449,12 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
           String? key = element.key;
           int previousStock =
               element.child('productStock').value.toString().toInt();
+
           int remainStock = previousStock - quantity;
-          ref.child(key!).update({'productStock': '$remainStock'});
+
+          previousStock != "" || previousStock != null
+              ? ref.child(key!).update({'productStock': '$remainStock'})
+              : ref.child(key!).update({'productStock': ''});
         }
       }
     });

@@ -21,8 +21,6 @@ import 'package:mobile_pos/Screens/SplashScreen/on_board.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 // ignore_for_file: use_build_context_synchronously
 
-
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -62,10 +60,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    super.initState();
     init();
     getPermission();
     getCurrency();
+    super.initState();
     // gettoken();
 
     currentUserData.getUserData();
@@ -233,6 +231,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await prefs.setString('currencyName', "INR");
     final String? skipVersion = prefs.getString('skipVersion');
     bool result = await InternetConnectionChecker().hasConnection;
+    
     print("current user" + currentUser.toString());
     if (result) {
       bool isValid = await PurchaseModel().isActiveBuyer();
