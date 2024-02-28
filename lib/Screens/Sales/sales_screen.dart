@@ -405,7 +405,7 @@ class _SaleProductsState extends State<SaleProducts> {
                             crossAxisCount: 3, // number of items in each row
                             mainAxisSpacing: 10.0, // spacing between rows
                             crossAxisSpacing: 8.0,
-                            childAspectRatio: 0.5 // spacing between columns
+                            childAspectRatio: 0.45 // spacing between columns
                             ),
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
@@ -675,7 +675,7 @@ class _ProductCardState extends State<ProductCard> {
           Center(
             child: Text(
               widget.productTitle,
-              maxLines: 2,
+              maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.inter(
                   color: bluetxtcolor,

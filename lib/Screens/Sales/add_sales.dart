@@ -89,7 +89,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
   DateTime selectedDate = DateTime.now();
   var totalgst = 0.0;
   var islaod = true;
-  late PersonalInformationModel personalInformationModel;
+
   @override
   void initState() {
     setState(() {});
@@ -103,16 +103,15 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
       final providerData = consumerRef.watch(cartNotifier);
       final printerData = consumerRef.watch(printerProviderNotifier);
       final personalData = consumerRef.watch(profileDetailsProvider);
+
       return personalData.when(data: (data) {
         invoice = data.invoiceCounter!.toInt();
         if (islaod == true) {
           providerData.totalgst = 0.0;
-
           islaod = false;
         }
-        consumerRef.refresh(profileDetailsProvider);
-        personalInformationModel = data;
-
+        // consumerRef.refresh(profileDetailsProvider);
+        // personalInformationModel = data;
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -449,7 +448,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                             ],
                           ),
                         ),
-                        if (personalInformationModel.gstenable == true)
+                        if (data.gstenable == true)
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 10),
@@ -1184,13 +1183,11 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                             .ref()
                                             .child(constUserId)
                                             .child('Personal Information');
-                                    personalInformationModel.invoiceCounter =
-                                        invoice + 1;
-                                    personalInformationModel.note = "";
+                                    data.invoiceCounter = invoice + 1;
+                                    data.note = data.note;
                                     personalInformationRef.keepSynced(true);
 
-                                    personalInformationRef
-                                        .set(personalInformationModel.toJson());
+                                    personalInformationRef.set(data.toJson());
                                     // await personalInformationRef.update({'invoiceCounter': invoice + 1});
 
                                     ///________Subscription_____________________________________________________
@@ -1449,7 +1446,6 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
           String? key = element.key;
           int previousStock =
               element.child('productStock').value.toString().toInt();
-
           int remainStock = previousStock - quantity;
           log("stock" + previousStock.toString());
           previousStock != "" || previousStock != null

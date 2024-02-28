@@ -136,9 +136,9 @@ class Printer extends ChangeNotifier {
         PosColumn(
             text: productList?[index].productName ?? 'Not Defined',
             width: 4,
-            styles: const PosStyles(
+            styles: PosStyles(
               align: PosAlign.left,
-            )),
+              )),
         PosColumn(
             text: productList?[index].quantity.toString() ?? 'Not Defined',
             width: 2,
