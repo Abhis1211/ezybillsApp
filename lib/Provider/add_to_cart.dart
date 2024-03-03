@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../model/add_to_cart_model.dart';
+import '../repository/profile_details_repo.dart';
+import '../model/personal_information_model.dart';
 import 'package:mobile_pos/model/product_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -74,7 +76,7 @@ class CartNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  addToCartRiverPod(AddToCartModel cartItem) {
+  addToCartRiverPod(AddToCartModel cartItem, [gst]) {
     bool isNotInList = true;
     for (var element in cartItemList) {
       if (element.productId == cartItem.productId) {
@@ -88,7 +90,13 @@ class CartNotifier extends ChangeNotifier {
     if (isNotInList) {
       cartItemList.add(cartItem);
     }
-    totalgst = totalgst + double.parse(cartItem.productgst.toString());
+    if (gst) {
+      print(cartItem.productgst.toString());
+      totalgst = totalgst +
+          (cartItem.productgst.toString() == ""
+              ? 0.0
+              : double.parse(cartItem.productgst.toString()));
+    }
     print(totalgst);
     notifyListeners();
   }
@@ -98,7 +106,9 @@ class CartNotifier extends ChangeNotifier {
   }
 
   deleteToCart(int index, gst) {
-    totalgst = totalgst - double.parse(gst.toString());
+    totalgst =
+        totalgst - (gst.toString() == "" ? 0.0 : double.parse(gst.toString()));
+
     cartItemList.removeAt(index);
     notifyListeners();
   }

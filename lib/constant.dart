@@ -29,6 +29,11 @@ List<String> paymentsTypeList = [
   'Debit/Credit Card',
   'Credit/Due'
 ];
+List<String> paymentsTypeList1 = [
+  'Cash',
+  'UPI Payment',
+  'Debit/Credit Card',
+];
 bool isExpiringInFiveDays = false;
 bool isExpiringInOneDays = false;
 const String appVersion = '5.3';

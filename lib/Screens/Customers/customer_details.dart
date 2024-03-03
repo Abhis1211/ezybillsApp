@@ -1,29 +1,26 @@
-// ignore_for_file: unused_result
-
 import 'dart:convert';
-
-import 'package:firebase_database/firebase_database.dart';
+import '../../currency.dart';
+import 'Model/customer_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_pos/Provider/customer_provider.dart';
-import 'package:mobile_pos/Provider/print_purchase_provider.dart';
-import 'package:mobile_pos/Provider/transactions_provider.dart';
-import 'package:mobile_pos/Screens/Customers/edit_customer.dart';
-import 'package:mobile_pos/constant.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-import '../../GlobalComponents/button_global.dart';
+import 'package:mobile_pos/constant.dart';
 import '../../Provider/printer_provider.dart';
 import '../../Provider/profile_provider.dart';
-import '../../currency.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../model/print_transaction_model.dart';
-import '../invoice_details/purchase_invoice_details.dart';
-import '../invoice_details/sales_invoice_details_screen.dart';
-import 'Model/customer_model.dart';
+import '../../GlobalComponents/button_global.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:firebase_database/firebase_database.dart';
+import '../invoice_details/purchase_invoice_details.dart';
+import 'package:mobile_pos/Provider/customer_provider.dart';
+import '../invoice_details/sales_invoice_details_screen.dart';
+import 'package:mobile_pos/Provider/transactions_provider.dart';
+import 'package:mobile_pos/Screens/Customers/edit_customer.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:mobile_pos/Provider/print_purchase_provider.dart';
+// ignore_for_file: unused_result
 
 // ignore: must_be_immutable
 class CustomerDetails extends StatefulWidget {
@@ -40,7 +37,12 @@ class _CustomerDetailsState extends State<CustomerDetails> {
 
   void getCustomerKey(String phoneNumber) async {
     final userId = constUserId;
-    await FirebaseDatabase.instance.ref(userId).child('Customers').orderByKey().get().then((value) {
+    await FirebaseDatabase.instance
+        .ref(userId)
+        .child('Customers')
+        .orderByKey()
+        .get()
+        .then((value) {
       for (var element in value.children) {
         var data = jsonDecode(jsonEncode(element.value));
         if (data['phoneNumber'].toString() == phoneNumber) {
@@ -76,26 +78,27 @@ class _CustomerDetailsState extends State<CustomerDetails> {
           actions: [
             IconButton(
               onPressed: () {
-                EditCustomer(customerModel: widget.customerModel).launch(context);
+                EditCustomer(customerModel: widget.customerModel)
+                    .launch(context);
               },
               icon: const Icon(
                 FeatherIcons.edit2,
                 color: Colors.grey,
               ),
             ),
-            IconButton(
-              onPressed: () async {
-                DatabaseReference ref = FirebaseDatabase.instance.ref("$constUserId/Customers/$customerKey");
-                await ref.remove();
-                cRef.refresh(customerProvider);
-                // ignore: use_build_context_synchronously
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                FeatherIcons.trash2,
-                color: Colors.grey,
-              ),
-            ),
+            // IconButton(
+            //   onPressed: () async {
+            //     DatabaseReference ref = FirebaseDatabase.instance.ref("$constUserId/Customers/$customerKey");
+            //     await ref.remove();
+            //     cRef.refresh(customerProvider);
+            //     // ignore: use_build_context_synchronously
+            //     Navigator.pop(context);
+            //   },
+            //   icon: const Icon(
+            //     FeatherIcons.trash2,
+            //     color: Colors.grey,
+            //   ),
+            // ),
           ],
           centerTitle: true,
           iconTheme: const IconThemeData(color: Colors.black),
@@ -131,122 +134,151 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                 ),
               ),
               const SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  GestureDetector(
-                    onTap: () async {
-                      final Uri url = Uri.parse('tel:${widget.customerModel.phoneNumber}');
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        final Uri url = Uri.parse(
+                            'tel:${widget.customerModel.phoneNumber}');
 
-                      if (await canLaunchUrl(url)) {
-                        await launchUrl(url);
-                      }
+                        if (await canLaunchUrl(url)) {
+                          await launchUrl(url);
+                        }
 
-                      setState(() {
-                        buttonsSelected = 'Call';
-                      });
-                    },
-                    child: Container(
-                      height: 120,
-                      width: 120,
-                      decoration:
-                          BoxDecoration(color: buttonsSelected == 'Call' ? kMainColor : kMainColor.withOpacity(0.10), borderRadius: const BorderRadius.all(Radius.circular(10))),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              FeatherIcons.phone,
-                              size: 25,
-                              color: buttonsSelected == 'Call' ? Colors.white : Colors.black,
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              'Call',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: buttonsSelected == 'Call' ? Colors.white : Colors.black,
+                        setState(() {
+                          buttonsSelected = 'Call';
+                        });
+                      },
+                      child: Container(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            color: buttonsSelected == 'Call'
+                                ? kMainColor
+                                : kMainColor.withOpacity(0.10),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10))),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                FeatherIcons.phone,
+                                size: 25,
+                                color: buttonsSelected == 'Call'
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
-                            )
-                          ],
+                              const SizedBox(height: 5),
+                              Text(
+                                'Call',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: buttonsSelected == 'Call'
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      final Uri url = Uri.parse('sms:${widget.customerModel.phoneNumber}');
+                    SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: () async {
+                        final Uri url = Uri.parse(
+                            'sms:${widget.customerModel.phoneNumber}');
 
-                      if (await canLaunchUrl(url)) {
-                        await launchUrl(url);
-                      }
-                      setState(() {
-                        buttonsSelected = 'Message';
-                      });
-                    },
-                    child: Container(
-                      height: 120,
-                      width: 120,
-                      decoration: BoxDecoration(
-                        color: buttonsSelected == 'Message' ? kMainColor : kMainColor.withOpacity(0.10),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10),
+                        if (await canLaunchUrl(url)) {
+                          await launchUrl(url);
+                        }
+                        setState(() {
+                          buttonsSelected = 'Message';
+                        });
+                      },
+                      child: Container(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          color: buttonsSelected == 'Message'
+                              ? kMainColor
+                              : kMainColor.withOpacity(0.10),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
                         ),
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              FeatherIcons.messageSquare,
-                              size: 25,
-                              color: buttonsSelected == 'Message' ? Colors.white : Colors.black,
-                            ),
-                            Text(
-                              'Message',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: buttonsSelected == 'Message' ? Colors.white : Colors.black,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                FeatherIcons.messageSquare,
+                                size: 25,
+                                color: buttonsSelected == 'Message'
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
-                            )
-                          ],
+                              Text(
+                                'Message',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: buttonsSelected == 'Message'
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      setState(() {
-                        buttonsSelected = 'Email';
-                      });
-                    },
-                    child: Container(
-                      height: 120,
-                      width: 120,
-                      decoration:
-                          BoxDecoration(color: buttonsSelected == 'Email' ? kMainColor : kMainColor.withOpacity(0.10), borderRadius: const BorderRadius.all(Radius.circular(10))),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              FeatherIcons.mail,
-                              size: 25,
-                              color: buttonsSelected == 'Email' ? Colors.white : Colors.black,
-                            ),
-                            Text(
-                              'Email',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: buttonsSelected == 'Email' ? Colors.white : Colors.black,
+                    SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          buttonsSelected = 'Email';
+                        });
+                      },
+                      child: Container(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            color: buttonsSelected == 'Email'
+                                ? kMainColor
+                                : kMainColor.withOpacity(0.10),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10))),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                FeatherIcons.mail,
+                                size: 25,
+                                color: buttonsSelected == 'Email'
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
-                            )
-                          ],
+                              Text(
+                                'Email',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: buttonsSelected == 'Email'
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
               Text(
@@ -261,11 +293,13 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                         itemCount: transaction.length,
                         itemBuilder: (context, index) {
                           final reTransaction = transaction.reversed.toList();
-                          return reTransaction[index].customerPhone == widget.customerModel.phoneNumber
+                          return reTransaction[index].customerPhone ==
+                                  widget.customerModel.phoneNumber
                               ? GestureDetector(
                                   onTap: () {
                                     SalesInvoiceDetails(
-                                      personalInformationModel: personalData.value!,
+                                      personalInformationModel:
+                                          personalData.value!,
                                       transitionModel: reTransaction[index],
                                     ).launch(context);
                                   },
@@ -275,76 +309,136 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                                         padding: const EdgeInsets.all(20),
                                         width: context.width(),
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text(
                                                   "${lang.S.of(context).totalProduct} : ${reTransaction[index].productList!.length.toString()}",
-                                                  style: const TextStyle(fontSize: 16),
+                                                  style: const TextStyle(
+                                                      fontSize: 16),
                                                 ),
-                                                Text('#${reTransaction[index].invoiceNumber}'),
+                                                Text(
+                                                    '#${reTransaction[index].invoiceNumber}'),
                                               ],
                                             ),
                                             const SizedBox(height: 10),
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Container(
-                                                  padding: const EdgeInsets.all(8),
+                                                  padding:
+                                                      const EdgeInsets.all(8),
                                                   decoration: BoxDecoration(
-                                                      color: reTransaction[index].dueAmount! <= 0
-                                                          ? const Color(0xff0dbf7d).withOpacity(0.1)
-                                                          : const Color(0xFFED1A3B).withOpacity(0.1),
-                                                      borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                                      color: reTransaction[
+                                                                      index]
+                                                                  .dueAmount! <=
+                                                              0
+                                                          ? const Color(
+                                                                  0xff0dbf7d)
+                                                              .withOpacity(0.1)
+                                                          : const Color(
+                                                                  0xFFED1A3B)
+                                                              .withOpacity(0.1),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .all(
+                                                              Radius.circular(
+                                                                  10))),
                                                   child: Text(
-                                                    reTransaction[index].dueAmount! <= 0 ? lang.S.of(context).paid : lang.S.of(context).unPaid,
-                                                    style: TextStyle(color: reTransaction[index].dueAmount! <= 0 ? const Color(0xff0dbf7d) : const Color(0xFFED1A3B)),
+                                                    reTransaction[index]
+                                                                .dueAmount! <=
+                                                            0
+                                                        ? lang.S
+                                                            .of(context)
+                                                            .paid
+                                                        : lang.S
+                                                            .of(context)
+                                                            .unPaid,
+                                                    style: TextStyle(
+                                                        color: reTransaction[
+                                                                        index]
+                                                                    .dueAmount! <=
+                                                                0
+                                                            ? const Color(
+                                                                0xff0dbf7d)
+                                                            : const Color(
+                                                                0xFFED1A3B)),
                                                   ),
                                                 ),
                                                 Text(
-                                                  reTransaction[index].purchaseDate.substring(0, 10),
-                                                  style: const TextStyle(color: Colors.grey),
+                                                  reTransaction[index]
+                                                      .purchaseDate
+                                                      .substring(0, 10),
+                                                  style: const TextStyle(
+                                                      color: Colors.grey),
                                                 ),
                                               ],
                                             ),
                                             const SizedBox(height: 10),
                                             Text(
                                               '${lang.S.of(context).total} : $currency ${reTransaction[index].totalAmount.toString()}',
-                                              style: const TextStyle(color: Colors.grey),
+                                              style: const TextStyle(
+                                                  color: Colors.grey),
                                             ),
                                             personalData.when(data: (data) {
                                               return Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Text(
                                                     '${lang.S.of(context).due}: $currency ${reTransaction[index].dueAmount.toString()}',
-                                                    style: const TextStyle(fontSize: 16),
+                                                    style: const TextStyle(
+                                                        fontSize: 16),
                                                   ),
                                                   Row(
                                                     children: [
                                                       IconButton(
                                                           onPressed: () async {
-                                                            await printerData.getBluetooth();
-                                                            PrintTransactionModel model =
-                                                                PrintTransactionModel(transitionModel: reTransaction[index], personalInformationModel: data);
+                                                            await printerData
+                                                                .getBluetooth();
+                                                            PrintTransactionModel
+                                                                model =
+                                                                PrintTransactionModel(
+                                                                    transitionModel:
+                                                                        reTransaction[
+                                                                            index],
+                                                                    personalInformationModel:
+                                                                        data);
                                                             connected
-                                                                ? printerData.printTicket(
-                                                                    printTransactionModel: model,
-                                                                    productList: model.transitionModel!.productList,
+                                                                ? printerData
+                                                                    .printTicket(
+                                                                    printTransactionModel:
+                                                                        model,
+                                                                    productList: model
+                                                                        .transitionModel!
+                                                                        .productList,
                                                                   )
                                                                 // ignore: use_build_context_synchronously
                                                                 : showDialog(
-                                                                    context: context,
-                                                                    builder: (_) {
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (_) {
                                                                       return Dialog(
-                                                                        child: SizedBox(
-                                                                          height: 200,
-                                                                          child: ListView.builder(
-                                                                            itemCount:
-                                                                                printerData.availableBluetoothDevices.isNotEmpty ? printerData.availableBluetoothDevices.length : 0,
-                                                                            itemBuilder: (context, index) {
+                                                                        child:
+                                                                            SizedBox(
+                                                                          height:
+                                                                              200,
+                                                                          child:
+                                                                              ListView.builder(
+                                                                            itemCount: printerData.availableBluetoothDevices.isNotEmpty
+                                                                                ? printerData.availableBluetoothDevices.length
+                                                                                : 0,
+                                                                            itemBuilder:
+                                                                                (context, index) {
                                                                               return ListTile(
                                                                                 onTap: () async {
                                                                                   String select = printerData.availableBluetoothDevices[index];
@@ -368,7 +462,8 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                                                                     });
                                                           },
                                                           icon: const Icon(
-                                                            FeatherIcons.printer,
+                                                            FeatherIcons
+                                                                .printer,
                                                             color: Colors.grey,
                                                           )),
                                                       IconButton(
@@ -380,7 +475,8 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                                                       IconButton(
                                                           onPressed: () {},
                                                           icon: const Icon(
-                                                            FeatherIcons.moreVertical,
+                                                            FeatherIcons
+                                                                .moreVertical,
                                                             color: Colors.grey,
                                                           )),
                                                     ],
@@ -418,12 +514,14 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: reTransaction.length,
                         itemBuilder: (context, index) {
-                          return reTransaction[index].customerPhone == widget.customerModel.phoneNumber
+                          return reTransaction[index].customerPhone ==
+                                  widget.customerModel.phoneNumber
                               ? GestureDetector(
                                   onTap: () {
                                     PurchaseInvoiceDetails(
                                       transitionModel: reTransaction[index],
-                                      personalInformationModel: personalData.value!,
+                                      personalInformationModel:
+                                          personalData.value!,
                                     ).launch(context);
                                   },
                                   child: Column(
@@ -432,78 +530,137 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                                         padding: const EdgeInsets.all(20),
                                         width: context.width(),
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text(
                                                   "${lang.S.of(context).totalProduct} : ${reTransaction[index].productList!.length.toString()}",
-                                                  style: const TextStyle(fontSize: 16),
+                                                  style: const TextStyle(
+                                                      fontSize: 16),
                                                 ),
-                                                Text('#${reTransaction[index].invoiceNumber}'),
+                                                Text(
+                                                    '#${reTransaction[index].invoiceNumber}'),
                                               ],
                                             ),
                                             const SizedBox(height: 10),
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Container(
-                                                  padding: const EdgeInsets.all(8),
+                                                  padding:
+                                                      const EdgeInsets.all(8),
                                                   decoration: BoxDecoration(
-                                                      color: reTransaction[index].dueAmount! <= 0
-                                                          ? const Color(0xff0dbf7d).withOpacity(0.1)
-                                                          : const Color(0xFFED1A3B).withOpacity(0.1),
-                                                      borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                                      color: reTransaction[
+                                                                      index]
+                                                                  .dueAmount! <=
+                                                              0
+                                                          ? const Color(
+                                                                  0xff0dbf7d)
+                                                              .withOpacity(0.1)
+                                                          : const Color(
+                                                                  0xFFED1A3B)
+                                                              .withOpacity(0.1),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .all(
+                                                              Radius.circular(
+                                                                  10))),
                                                   child: Text(
-                                                    reTransaction[index].dueAmount! <= 0 ? lang.S.of(context).paid : lang.S.of(context).unPaid,
-                                                    style: TextStyle(color: reTransaction[index].dueAmount! <= 0 ? const Color(0xff0dbf7d) : const Color(0xFFED1A3B)),
+                                                    reTransaction[index]
+                                                                .dueAmount! <=
+                                                            0
+                                                        ? lang.S
+                                                            .of(context)
+                                                            .paid
+                                                        : lang.S
+                                                            .of(context)
+                                                            .unPaid,
+                                                    style: TextStyle(
+                                                        color: reTransaction[
+                                                                        index]
+                                                                    .dueAmount! <=
+                                                                0
+                                                            ? const Color(
+                                                                0xff0dbf7d)
+                                                            : const Color(
+                                                                0xFFED1A3B)),
                                                   ),
                                                 ),
                                                 Text(
-                                                  reTransaction[index].purchaseDate.substring(0, 10),
-                                                  style: const TextStyle(color: Colors.grey),
+                                                  reTransaction[index]
+                                                      .purchaseDate
+                                                      .substring(0, 10),
+                                                  style: const TextStyle(
+                                                      color: Colors.grey),
                                                 ),
                                               ],
                                             ),
                                             const SizedBox(height: 10),
                                             Text(
                                               '${lang.S.of(context).total} : $currency ${reTransaction[index].totalAmount.toString()}',
-                                              style: const TextStyle(color: Colors.grey),
+                                              style: const TextStyle(
+                                                  color: Colors.grey),
                                             ),
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text(
                                                   '${lang.S.of(context).due}: $currency ${reTransaction[index].dueAmount.toString()}',
-                                                  style: const TextStyle(fontSize: 16),
+                                                  style: const TextStyle(
+                                                      fontSize: 16),
                                                 ),
                                                 personalData.when(data: (data) {
                                                   return Row(
                                                     children: [
                                                       IconButton(
                                                           onPressed: () async {
-                                                            await printerData.getBluetooth();
-                                                            PrintPurchaseTransactionModel model = PrintPurchaseTransactionModel(
-                                                              personalInformationModel: data,
-                                                              purchaseTransitionModel: reTransaction[index],
+                                                            await printerData
+                                                                .getBluetooth();
+                                                            PrintPurchaseTransactionModel
+                                                                model =
+                                                                PrintPurchaseTransactionModel(
+                                                              personalInformationModel:
+                                                                  data,
+                                                              purchaseTransitionModel:
+                                                                  reTransaction[
+                                                                      index],
                                                             );
                                                             connected
-                                                                ? printerDataPurchase.printTicket(
-                                                                    printTransactionModel: model,
-                                                                    productList: model.purchaseTransitionModel!.productList,
+                                                                ? printerDataPurchase
+                                                                    .printTicket(
+                                                                    printTransactionModel:
+                                                                        model,
+                                                                    productList: model
+                                                                        .purchaseTransitionModel!
+                                                                        .productList,
                                                                   )
                                                                 // ignore: use_build_context_synchronously
                                                                 : showDialog(
-                                                                    context: context,
-                                                                    builder: (_) {
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (_) {
                                                                       return Dialog(
-                                                                        child: SizedBox(
-                                                                          height: 200,
-                                                                          child: ListView.builder(
-                                                                            itemCount:
-                                                                                printerData.availableBluetoothDevices.isNotEmpty ? printerData.availableBluetoothDevices.length : 0,
-                                                                            itemBuilder: (context, index) {
+                                                                        child:
+                                                                            SizedBox(
+                                                                          height:
+                                                                              200,
+                                                                          child:
+                                                                              ListView.builder(
+                                                                            itemCount: printerData.availableBluetoothDevices.isNotEmpty
+                                                                                ? printerData.availableBluetoothDevices.length
+                                                                                : 0,
+                                                                            itemBuilder:
+                                                                                (context, index) {
                                                                               return ListTile(
                                                                                 onTap: () async {
                                                                                   String select = printerData.availableBluetoothDevices[index];
@@ -528,7 +685,8 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                                                                     });
                                                           },
                                                           icon: const Icon(
-                                                            FeatherIcons.printer,
+                                                            FeatherIcons
+                                                                .printer,
                                                             color: Colors.grey,
                                                           )),
                                                       IconButton(
@@ -540,7 +698,8 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                                                       IconButton(
                                                           onPressed: () {},
                                                           icon: const Icon(
-                                                            FeatherIcons.moreVertical,
+                                                            FeatherIcons
+                                                                .moreVertical,
                                                             color: Colors.grey,
                                                           )),
                                                     ],
@@ -548,7 +707,9 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                                                 }, error: (e, stack) {
                                                   return Text(e.toString());
                                                 }, loading: () {
-                                                  return Text(lang.S.of(context).loading);
+                                                  return Text(lang.S
+                                                      .of(context)
+                                                      .loading);
                                                 }),
                                               ],
                                             ),

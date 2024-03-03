@@ -71,6 +71,7 @@ class _SaleProductsState extends State<SaleProducts> {
       final providerData = ref.watch(cartNotifier);
       final productList = ref.watch(productProvider);
       final categoryList = ref.watch(categoryProvider);
+      final personalData = ref.watch(profileDetailsProvider);
       // final categoryList = ref.watch(categoryProvider);
 
       return Scaffold(
@@ -522,13 +523,20 @@ class _SaleProductsState extends State<SaleProducts> {
                                     ? products[i].productGst
                                     : filterlist[i].productGst,
                               );
+                              personalData.when(
+                                  data: (data) {
+                                    providerData.addToCartRiverPod(
+                                        cartItem, data.gstenable);
+                                    providerData.addProductsInSales(
+                                        currentproductcategory == ""
+                                            ? products[i]
+                                            : filterlist[i],
+                                        context);
+                                  },
+                                  error:
+                                      (Object error, StackTrace stackTrace) {},
+                                  loading: () {});
 
-                              providerData.addToCartRiverPod(cartItem);
-                              providerData.addProductsInSales(
-                                  currentproductcategory == ""
-                                      ? products[i]
-                                      : filterlist[i],
-                                  context);
                               // Navigator.pop(context);
                             },
                             child: ProductCard(

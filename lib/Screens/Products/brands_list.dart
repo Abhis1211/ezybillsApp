@@ -104,10 +104,9 @@ class _BrandsListState extends State<BrandsList> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, i) {
                         return data[i].brandName.contains(search)
-                            ? GestureDetector(
+                            ? InkWell(
                                 onTap: () {
-                                  AddBrands(brandmodel: data[i])
-                                      .launch(context);
+                                  Navigator.pop(context, data[i].brandName);
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.only(
@@ -175,40 +174,42 @@ class _BrandsListState extends State<BrandsList> {
                                       SizedBox(width: 10),
                                       GestureDetector(
                                           onTap: () async {
-                                            List brandList = [];
-                                            var brandkey = "";
-                                            final sref = FirebaseDatabase
-                                                .instance
-                                                .ref(constUserId)
-                                                .child('Brands');
+                                            showAlertDialog(context, () async {
+                                              List brandList = [];
+                                              var brandkey = "";
+                                              final sref = FirebaseDatabase
+                                                  .instance
+                                                  .ref(constUserId)
+                                                  .child('Brands');
 
-                                            await sref.get().then((value) {
-                                              for (var element
-                                                  in value.children) {
-                                                var sdata = jsonDecode(
-                                                    jsonEncode(element.value));
-                                                if (sdata['brandName']
-                                                        .toString() ==
-                                                    data[i]
-                                                        .brandName
-                                                        .toString()) {
-                                                  setState(() {
-                                                    brandkey =
-                                                        element.key.toString();
-                                                  });
+                                              await sref.get().then((value) {
+                                                for (var element
+                                                    in value.children) {
+                                                  var sdata = jsonDecode(
+                                                      jsonEncode(
+                                                          element.value));
+                                                  if (sdata['brandName']
+                                                          .toString() ==
+                                                      data[i]
+                                                          .brandName
+                                                          .toString()) {
+                                                    setState(() {
+                                                      brandkey = element.key
+                                                          .toString();
+                                                    });
+                                                  }
                                                 }
-                                              }
+                                              });
+                                              print(brandkey.toString());
+                                              DatabaseReference wref =
+                                                  FirebaseDatabase.instance.ref(
+                                                      "$constUserId/Brands/$brandkey");
+                                              wref.keepSynced(true);
+                                              wref.remove();
+                                              ref.refresh(brandsProvider);
                                             });
-                                            print(brandkey.toString());
-                                            DatabaseReference wref =
-                                                FirebaseDatabase.instance.ref(
-                                                    "$constUserId/Brands/$brandkey");
-                                            wref.keepSynced(true);
-                                            wref.remove();
-                                            ref.refresh(brandsProvider);
                                           },
                                           child: Icon(Icons.delete)),
-                                    
                                     ],
                                   ),
                                 ),
@@ -228,6 +229,40 @@ class _BrandsListState extends State<BrandsList> {
     );
   }
 
+  showAlertDialog(BuildContext context, Function? ontap) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("No"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Yes"),
+      onPressed: () {
+        ontap!();
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Delete brand"),
+      content: Text("Are you sure want to delete brand"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
   // updatebrand(ref, brandname, editbrandname) {
   //   List brandList = [];
   //   var brandkey = "";

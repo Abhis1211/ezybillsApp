@@ -198,7 +198,8 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                       ),
                       AppTextField(
                         textFieldType: TextFieldType.NAME,
-                        readOnly: true,
+                        readOnly:
+                            widget.customerModel.type == 'Guest' ? false : true,
                         initialValue: widget.customerModel.customerName,
                         decoration: InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -819,21 +820,37 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                           )
                         ],
                       ),
-                      DropdownButton(
-                        value: dropdownValue,
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        items: paymentsTypeList.map((String items) {
-                          return DropdownMenuItem(
-                            value: items,
-                            child: Text(items),
-                          );
-                        }).toList(),
-                        onChanged: (newValue) {
-                          setState(() {
-                            dropdownValue = newValue.toString();
-                          });
-                        },
-                      ),
+                      widget.customerModel.type == 'Guest'
+                          ? DropdownButton(
+                              value: dropdownValue,
+                              icon: const Icon(Icons.keyboard_arrow_down),
+                              items: paymentsTypeList1.map((String items) {
+                                return DropdownMenuItem(
+                                  value: items,
+                                  child: Text(items),
+                                );
+                              }).toList(),
+                              onChanged: (newValue) {
+                                setState(() {
+                                  dropdownValue = newValue.toString();
+                                });
+                              },
+                            )
+                          : DropdownButton(
+                              value: dropdownValue,
+                              icon: const Icon(Icons.keyboard_arrow_down),
+                              items: paymentsTypeList.map((String items) {
+                                return DropdownMenuItem(
+                                  value: items,
+                                  child: Text(items),
+                                );
+                              }).toList(),
+                              onChanged: (newValue) {
+                                setState(() {
+                                  dropdownValue = newValue.toString();
+                                });
+                              },
+                            ),
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -843,50 +860,51 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                     color: Colors.grey,
                   ),
                   const SizedBox(height: 30),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: AppTextField(
-                          textFieldType: TextFieldType.NAME,
-                          onChanged: (value) {
-                            setState(() {});
-                          },
-                          decoration: const InputDecoration(
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            labelText: 'Description',
-                            hintText: 'Add Note',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      Container(
-                        height: 60,
-                        width: 100,
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                            color: Colors.grey.shade200),
-                        child: Center(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                FeatherIcons.camera,
-                                color: Colors.grey,
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                'Image',
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 16),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ).visible(false),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: AppTextField(
+                  //         textFieldType: TextFieldType.NAME,
+                  //         onChanged: (value) {
+                  //           setState(() {});
+                  //         },
+                  //         decoration: const InputDecoration(
+                  //           floatingLabelBehavior: FloatingLabelBehavior.always,
+                  //           labelText: 'Description',
+                  //           hintText: 'Add Note',
+                  //           border: OutlineInputBorder(),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     const SizedBox(width: 20),
+                  //     Container(
+                  //       height: 60,
+                  //       width: 100,
+                  //       decoration: BoxDecoration(
+                  //           borderRadius:
+                  //               const BorderRadius.all(Radius.circular(10)),
+                  //           color: Colors.grey.shade200),
+                  //       child: Center(
+                  //         child: Row(
+                  //           mainAxisSize: MainAxisSize.min,
+                  //           children: [
+                  //             Icon(
+                  //               FeatherIcons.camera,
+                  //               color: Colors.grey,
+                  //             ),
+                  //             SizedBox(width: 5),
+                  //             Text(
+                  //               'Image',
+                  //               style:
+                  //                   TextStyle(color: Colors.grey, fontSize: 16),
+                  //             )
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ).visible(false),
+
                   Row(
                     children: [
                       Expanded(

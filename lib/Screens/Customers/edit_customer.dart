@@ -1,25 +1,22 @@
-// ignore: import_of_legacy_library_into_null_safe
-// ignore_for_file: unused_result
-
-import 'dart:convert';
 import 'dart:io';
-
-import 'package:firebase_core/firebase_core.dart' as firebase_core;
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:convert';
+import 'customer_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:mobile_pos/constant.dart';
+import '../../Provider/customer_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile_pos/GlobalComponents/button_global.dart';
-import 'package:mobile_pos/Screens/Customers/Model/customer_model.dart';
-import 'package:mobile_pos/constant.dart';
-import 'package:nb_utils/nb_utils.dart';
-
-import '../../Provider/customer_provider.dart';
-import 'customer_list.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mobile_pos/GlobalComponents/button_global.dart';
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:mobile_pos/Screens/Customers/Model/customer_model.dart';
+// ignore: import_of_legacy_library_into_null_safe
+// ignore_for_file: unused_result
 
 // ignore: must_be_immutable
 class EditCustomer extends StatefulWidget {
@@ -48,7 +45,12 @@ class _EditCustomerState extends State<EditCustomer> {
 
   void getCustomerKey(String phoneNumber) async {
     final userId = constUserId;
-    await FirebaseDatabase.instance.ref(userId).child('Customers').orderByKey().get().then((value) {
+    await FirebaseDatabase.instance
+        .ref(userId)
+        .child('Customers')
+        .orderByKey()
+        .get()
+        .then((value) {
       for (var element in value.children) {
         var data = jsonDecode(jsonEncode(element.value));
         if (data['phoneNumber'].toString() == phoneNumber) {
@@ -65,14 +67,17 @@ class _EditCustomerState extends State<EditCustomer> {
         status: 'Uploading... ',
         dismissOnTap: false,
       );
-      var snapshot = await FirebaseStorage.instance.ref('Customer Picture/${DateTime.now().millisecondsSinceEpoch}').putFile(file);
+      var snapshot = await FirebaseStorage.instance
+          .ref('Customer Picture/${DateTime.now().millisecondsSinceEpoch}')
+          .putFile(file);
       var url = await snapshot.ref.getDownloadURL();
       setState(() {
         updatedCustomerModel.profilePicture = url.toString();
       });
     } on firebase_core.FirebaseException catch (e) {
       EasyLoading.dismiss();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.code.toString())));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.code.toString())));
     }
   }
 
@@ -141,96 +146,97 @@ class _EditCustomerState extends State<EditCustomer> {
                       ),
                     ),
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: RadioListTile(
-                          contentPadding: EdgeInsets.zero,
-                          groupValue: groupValue,
-                          title: Text(
-                            lang.S.of(context).retailer,
-                            maxLines: 1,
-                            style: GoogleFonts.inter(
-                              fontSize: 12.0,
-                            ),
-                          ),
-                          value: 'Retailer',
-                          onChanged: (value) {
-                            setState(() {
-                              groupValue = value.toString();
-                              updatedCustomerModel.type = value.toString();
-                            });
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: RadioListTile(
-                          contentPadding: EdgeInsets.zero,
-                          groupValue: groupValue,
-                          title: Text(
-                            lang.S.of(context).dealer,
-                            maxLines: 1,
-                            style: GoogleFonts.inter(
-                              fontSize: 12.0,
-                            ),
-                          ),
-                          value: 'Dealer',
-                          onChanged: (value) {
-                            setState(() {
-                              groupValue = value.toString();
-                              updatedCustomerModel.type = value.toString();
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: RadioListTile(
-                          contentPadding: EdgeInsets.zero,
-                          activeColor: kMainColor,
-                          groupValue: groupValue,
-                          title: Text(
-                            lang.S.of(context).wholesaler,
-                            maxLines: 1,
-                            style: GoogleFonts.inter(
-                              fontSize: 12.0,
-                            ),
-                          ),
-                          value: 'Wholesaler',
-                          onChanged: (value) {
-                            setState(() {
-                              groupValue = value.toString();
-                              updatedCustomerModel.type = value.toString();
-                            });
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: RadioListTile(
-                          contentPadding: EdgeInsets.zero,
-                          activeColor: kMainColor,
-                          groupValue: groupValue,
-                          title: Text(
-                            lang.S.of(context).supplier,
-                            maxLines: 1,
-                            style: GoogleFonts.inter(
-                              fontSize: 12.0,
-                            ),
-                          ),
-                          value: 'Supplier',
-                          onChanged: (value) {
-                            setState(() {
-                              groupValue = value.toString();
-                              updatedCustomerModel.type = value.toString();
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: RadioListTile(
+                  //         contentPadding: EdgeInsets.zero,
+                  //         groupValue: groupValue,
+                  //         title: Text(
+                  //           lang.S.of(context).retailer,
+                  //           maxLines: 1,
+                  //           style: GoogleFonts.inter(
+                  //             fontSize: 12.0,
+                  //           ),
+                  //         ),
+                  //         value: 'Retailer',
+                  //         onChanged: (value) {
+                  //           setState(() {
+                  //             groupValue = value.toString();
+                  //             updatedCustomerModel.type = value.toString();
+                  //           });
+                  //         },
+                  //       ),
+                  //     ),
+                  //     Expanded(
+                  //       child: RadioListTile(
+                  //         contentPadding: EdgeInsets.zero,
+                  //         groupValue: groupValue,
+                  //         title: Text(
+                  //           lang.S.of(context).dealer,
+                  //           maxLines: 1,
+                  //           style: GoogleFonts.inter(
+                  //             fontSize: 12.0,
+                  //           ),
+                  //         ),
+                  //         value: 'Dealer',
+                  //         onChanged: (value) {
+                  //           setState(() {
+                  //             groupValue = value.toString();
+                  //             updatedCustomerModel.type = value.toString();
+                  //           });
+                  //         },
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: RadioListTile(
+                  //         contentPadding: EdgeInsets.zero,
+                  //         activeColor: kMainColor,
+                  //         groupValue: groupValue,
+                  //         title: Text(
+                  //           lang.S.of(context).wholesaler,
+                  //           maxLines: 1,
+                  //           style: GoogleFonts.inter(
+                  //             fontSize: 12.0,
+                  //           ),
+                  //         ),
+                  //         value: 'Wholesaler',
+                  //         onChanged: (value) {
+                  //           setState(() {
+                  //             groupValue = value.toString();
+                  //             updatedCustomerModel.type = value.toString();
+                  //           });
+                  //         },
+                  //       ),
+                  //     ),
+                  //     Expanded(
+                  //       child: RadioListTile(
+                  //         contentPadding: EdgeInsets.zero,
+                  //         activeColor: kMainColor,
+                  //         groupValue: groupValue,
+                  //         title: Text(
+                  //           lang.S.of(context).supplier,
+                  //           maxLines: 1,
+                  //           style: GoogleFonts.inter(
+                  //             fontSize: 12.0,
+                  //           ),
+                  //         ),
+                  //         value: 'Supplier',
+                  //         onChanged: (value) {
+                  //           setState(() {
+                  //             groupValue = value.toString();
+                  //             updatedCustomerModel.type = value.toString();
+                  //           });
+                  //         },
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+
                   Visibility(
                     visible: showProgress,
                     child: const CircularProgressIndicator(
@@ -259,7 +265,9 @@ class _EditCustomerState extends State<EditCustomer> {
                                 ),
                                 onPressed: () {
                                   setState(() {
-                                    expanded == false ? expanded = true : expanded = false;
+                                    expanded == false
+                                        ? expanded = true
+                                        : expanded = false;
                                   });
                                 },
                               ),
@@ -275,38 +283,57 @@ class _EditCustomerState extends State<EditCustomer> {
                                     builder: (BuildContext context) {
                                       return Dialog(
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(12.0),
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
                                         ),
                                         // ignore: sized_box_for_whitespace
                                         child: Container(
                                           height: 200.0,
-                                          width: MediaQuery.of(context).size.width - 80,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              80,
                                           child: Center(
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 GestureDetector(
                                                   onTap: () async {
-                                                    pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+                                                    pickedImage =
+                                                        await _picker.pickImage(
+                                                            source: ImageSource
+                                                                .gallery);
                                                     setState(() {
-                                                      imageFile = File(pickedImage!.path);
-                                                      imagePath = pickedImage!.path;
+                                                      imageFile = File(
+                                                          pickedImage!.path);
+                                                      imagePath =
+                                                          pickedImage!.path;
                                                     });
-                                                    Future.delayed(const Duration(milliseconds: 100), () {
+                                                    Future.delayed(
+                                                        const Duration(
+                                                            milliseconds: 100),
+                                                        () {
                                                       Navigator.pop(context);
                                                     });
                                                   },
                                                   child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       const Icon(
-                                                        Icons.photo_library_rounded,
+                                                        Icons
+                                                            .photo_library_rounded,
                                                         size: 60.0,
                                                         color: kMainColor,
                                                       ),
                                                       Text(
-                                                        lang.S.of(context).gallery,
-                                                        style: GoogleFonts.inter(
+                                                        lang.S
+                                                            .of(context)
+                                                            .gallery,
+                                                        style:
+                                                            GoogleFonts.inter(
                                                           fontSize: 20.0,
                                                           color: kMainColor,
                                                         ),
@@ -319,17 +346,27 @@ class _EditCustomerState extends State<EditCustomer> {
                                                 ),
                                                 GestureDetector(
                                                   onTap: () async {
-                                                    pickedImage = await _picker.pickImage(source: ImageSource.camera);
+                                                    pickedImage =
+                                                        await _picker.pickImage(
+                                                            source: ImageSource
+                                                                .camera);
                                                     setState(() {
-                                                      imageFile = File(pickedImage!.path);
-                                                      imagePath = pickedImage!.path;
+                                                      imageFile = File(
+                                                          pickedImage!.path);
+                                                      imagePath =
+                                                          pickedImage!.path;
                                                     });
-                                                    Future.delayed(const Duration(milliseconds: 100), () {
+                                                    Future.delayed(
+                                                        const Duration(
+                                                            milliseconds: 100),
+                                                        () {
                                                       Navigator.pop(context);
                                                     });
                                                   },
                                                   child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       const Icon(
                                                         Icons.camera,
@@ -337,8 +374,11 @@ class _EditCustomerState extends State<EditCustomer> {
                                                         color: kGreyTextColor,
                                                       ),
                                                       Text(
-                                                        lang.S.of(context).camera,
-                                                        style: GoogleFonts.inter(
+                                                        lang.S
+                                                            .of(context)
+                                                            .camera,
+                                                        style:
+                                                            GoogleFonts.inter(
                                                           fontSize: 20.0,
                                                           color: kGreyTextColor,
                                                         ),
@@ -359,11 +399,15 @@ class _EditCustomerState extends State<EditCustomer> {
                                     height: 120,
                                     width: 120,
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.black54, width: 1),
-                                      borderRadius: const BorderRadius.all(Radius.circular(120)),
+                                      border: Border.all(
+                                          color: Colors.black54, width: 1),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(120)),
                                       image: imagePath == 'No Data'
                                           ? DecorationImage(
-                                              image: NetworkImage(updatedCustomerModel.profilePicture),
+                                              image: NetworkImage(
+                                                  updatedCustomerModel
+                                                      .profilePicture),
                                               fit: BoxFit.cover,
                                             )
                                           : DecorationImage(
@@ -379,8 +423,10 @@ class _EditCustomerState extends State<EditCustomer> {
                                       height: 35,
                                       width: 35,
                                       decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.white, width: 2),
-                                        borderRadius: const BorderRadius.all(Radius.circular(120)),
+                                        border: Border.all(
+                                            color: Colors.white, width: 2),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(120)),
                                         color: kMainColor,
                                       ),
                                       child: const Icon(
@@ -406,7 +452,8 @@ class _EditCustomerState extends State<EditCustomer> {
                                 },
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(),
-                                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
                                   labelText: lang.S.of(context).email,
                                   hintText: 'example@example.com',
                                 ),
@@ -415,19 +462,23 @@ class _EditCustomerState extends State<EditCustomer> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: AppTextField(
-                                initialValue: widget.customerModel.customerAddress,
+                                initialValue:
+                                    widget.customerModel.customerAddress,
                                 textFieldType: TextFieldType.NAME,
                                 maxLines: 2,
                                 onChanged: (value) {
                                   setState(() {
-                                    updatedCustomerModel.customerAddress = value;
+                                    updatedCustomerModel.customerAddress =
+                                        value;
                                   });
                                 },
                                 decoration: InputDecoration(
                                     border: const OutlineInputBorder(),
-                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.always,
                                     labelText: lang.S.of(context).address,
-                                    hintText: 'Placentia, California(CA), 92870'),
+                                    hintText:
+                                        'Placentia, California(CA), 92870'),
                               ),
                             ),
                             Padding(
@@ -439,7 +490,8 @@ class _EditCustomerState extends State<EditCustomer> {
                                 maxLines: 2,
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(),
-                                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
                                   labelText: lang.S.of(context).previousDue,
                                 ),
                               ),
@@ -452,28 +504,38 @@ class _EditCustomerState extends State<EditCustomer> {
                   ),
                   ButtonGlobalWithoutIcon(
                       buttontext: lang.S.of(context).update,
-                      buttonDecoration: kButtonDecoration.copyWith(color: kMainColor),
+                      buttonDecoration:
+                          kButtonDecoration.copyWith(color: kMainColor),
                       onPressed: () async {
                         try {
-                          EasyLoading.show(status: 'Loading...', dismissOnTap: false);
-                          imagePath == 'No Data' ? null : await uploadFile(imagePath);
-                          DatabaseReference ref = FirebaseDatabase.instance.ref("$constUserId/Customers/$customerKey");
+                          EasyLoading.show(
+                              status: 'Loading...', dismissOnTap: false);
+                          imagePath == 'No Data'
+                              ? null
+                              : await uploadFile(imagePath);
+                          DatabaseReference ref = FirebaseDatabase.instance
+                              .ref("$constUserId/Customers/$customerKey");
                           await ref.update({
                             'customerName': updatedCustomerModel.customerName,
                             'type': updatedCustomerModel.type,
-                            'profilePicture': updatedCustomerModel.profilePicture,
+                            'profilePicture':
+                                updatedCustomerModel.profilePicture,
                             'emailAddress': updatedCustomerModel.emailAddress,
-                            'customerAddress': updatedCustomerModel.customerAddress,
+                            'customerAddress':
+                                updatedCustomerModel.customerAddress,
                           });
-                          EasyLoading.showSuccess('Added Successfully', duration: const Duration(milliseconds: 500));
+                          EasyLoading.showSuccess('Added Successfully',
+                              duration: const Duration(milliseconds: 500));
                           //ref.refresh(productProvider);
                           Future.delayed(const Duration(milliseconds: 100), () {
                             cRef.refresh(customerProvider);
-                            const CustomerList().launch(context, isNewTask: true);
+                            const CustomerList()
+                                .launch(context, isNewTask: true);
                           });
                         } catch (e) {
                           EasyLoading.dismiss();
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(e.toString())));
                         }
                       },
                       buttonTextColor: Colors.white),

@@ -1,14 +1,14 @@
+import '../../currency.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:mobile_pos/constant.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_pos/GlobalComponents/button_global.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_pos/generated/l10n.dart' as lang;
 import 'package:mobile_pos/Provider/customer_provider.dart';
+import 'package:mobile_pos/GlobalComponents/button_global.dart';
 import 'package:mobile_pos/Screens/Customers/add_customer.dart';
 import 'package:mobile_pos/Screens/Customers/customer_details.dart';
-import 'package:mobile_pos/constant.dart';
-import 'package:nb_utils/nb_utils.dart';
-import 'package:mobile_pos/generated/l10n.dart' as lang;
-import '../../currency.dart';
 
 class CustomerList extends StatefulWidget {
   const CustomerList({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class _CustomerListState extends State<CustomerList> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          lang.S.of(context).partyList,
+          "Customers List",
           style: GoogleFonts.inter(
             color: Colors.black,
           ),
@@ -46,12 +46,20 @@ class _CustomerListState extends State<CustomerList> {
                 ? ListView.builder(
                     itemCount: customer.length,
                     itemBuilder: (_, index) {
-                      customer[index].type == 'Retailer' ? color = const Color(0xFF56da87) : Colors.white;
-                      customer[index].type == 'Wholesaler' ? color = const Color(0xFF25a9e0) : Colors.white;
-                      customer[index].type == 'Dealer' ? color = const Color(0xFFff5f00) : Colors.white;
-                      customer[index].type == 'Supplier' ? color = const Color(0xFFA569BD) : Colors.white;
+                      customer[index].type == 'Retailer'
+                          ? color = const Color(0xFF56da87)
+                          : Colors.white;
+                      customer[index].type == 'Wholesaler'
+                          ? color = const Color(0xFF25a9e0)
+                          : Colors.white;
+                      customer[index].type == 'Dealer'
+                          ? color = const Color(0xFFff5f00)
+                          : Colors.white;
+                      customer[index].type == 'Supplier'
+                          ? color = const Color(0xFFA569BD)
+                          : Colors.white;
 
-                      return GestureDetector(
+                      return InkWell(
                         onTap: () {
                           CustomerDetails(
                             customerModel: customer[index],
@@ -90,13 +98,13 @@ class _CustomerListState extends State<CustomerList> {
                                       fontSize: 15.0,
                                     ),
                                   ),
-                                  Text(
-                                    customer[index].type,
-                                    style: GoogleFonts.inter(
-                                      color: color,
-                                      fontSize: 15.0,
-                                    ),
-                                  ),
+                                  // Text(
+                                  //   customer[index].type,
+                                  //   style: GoogleFonts.inter(
+                                  //     color: color,
+                                  //     fontSize: 15.0,
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                               const Spacer(),
@@ -119,7 +127,8 @@ class _CustomerListState extends State<CustomerList> {
                                     ),
                                   ),
                                 ],
-                              ).visible(customer[index].dueAmount != '' && customer[index].dueAmount != '0'),
+                              ).visible(customer[index].dueAmount != '' &&
+                                  customer[index].dueAmount != '0'),
                               const SizedBox(width: 20),
                               const Icon(
                                 Icons.arrow_forward_ios,
@@ -134,7 +143,10 @@ class _CustomerListState extends State<CustomerList> {
                     child: Text(
                       lang.S.of(context).addCustomer,
                       maxLines: 2,
-                      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20.0),
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0),
                     ),
                   );
           }, error: (e, stack) {

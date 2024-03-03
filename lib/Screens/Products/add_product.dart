@@ -49,6 +49,7 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
+  bool _switchValuestock = false;
   GetCategoryAndVariationModel data =
       GetCategoryAndVariationModel(variations: [], categoryName: '');
   String productCategory = 'Select Product Category';
@@ -451,10 +452,32 @@ class _AddProductState extends State<AddProduct> {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
+                ListTile(
+                    title: Text(
+                      "Add Stock",
+                      style: GoogleFonts.inter(
+                        color: Colors.black,
+                        fontSize: 18.0,
+                      ),
+                    ),
+
+                    // Icon(
+                    //   Icons.money,
+                    //   color: kMainColor,
+                    // ),
+                    trailing: Switch.adaptive(
+                      value: _switchValuestock,
+                      onChanged: (bool value) async {
+                        // final prefs = await SharedPreferences.getInstance();
+                        // await prefs.setBool('isPrintEnable', value);
+                        setState(() {
+                          _switchValuestock = !_switchValuestock;
+                          // updateswitchvalue == true;
+                        });
+                      },
+                    )),
+                _switchValuestock
+                    ? Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: AppTextField(
                           textFieldType: TextFieldType.NAME,
@@ -470,46 +493,42 @@ class _AddProductState extends State<AddProduct> {
                             border: const OutlineInputBorder(),
                           ),
                         ),
+                      )
+                    : Container(),
+
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    height: 60.0,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5.0),
+                      border: Border.all(color: kGreyTextColor),
+                    ),
+                    child: InkWell(
+                      onTap: () async {
+                        String data = await const UnitList().launch(context);
+                        setState(() {
+                          productUnit = data;
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          const SizedBox(
+                            width: 10.0,
+                          ),
+                          Text(productUnit == null
+                              ? "Select Unit"
+                              : productUnit.toString()),
+                          const Spacer(),
+                          const Icon(Icons.keyboard_arrow_down),
+                          const SizedBox(
+                            width: 10.0,
+                          ),
+                        ],
                       ),
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          height: 60.0,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.0),
-                            border: Border.all(color: kGreyTextColor),
-                          ),
-                          child: InkWell(
-                            onTap: () async {
-                              String data =
-                                  await const UnitList().launch(context);
-                              setState(() {
-                                productUnit = data;
-                              });
-                            },
-                            child: Row(
-                              children: [
-                                const SizedBox(
-                                  width: 10.0,
-                                ),
-                                Text(productUnit == null
-                                    ? "Select Unit"
-                                    : productUnit.toString()),
-                                const Spacer(),
-                                const Icon(Icons.keyboard_arrow_down),
-                                const SizedBox(
-                                  width: 10.0,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
                 Row(
                   children: [

@@ -110,111 +110,121 @@ class _CategoryListState extends State<CategoryList> {
                                   categoryName: data[i].categoryName,
                                   variations: variations);
                           return data[i].categoryName.contains(search)
-                              ? Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0,
-                                      right: 10.0,
-                                      bottom: 10,
-                                      top: 10),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Expanded(
-                                        flex: 3,
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              data[i].categoryName,
-                                              style: GoogleFonts.inter(
-                                                fontSize: 18.0,
-                                                color: Colors.black,
+                              ? InkWell(
+                                  onTap: () {
+                                    Navigator.pop(
+                                        context, data[i].categoryName);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10.0,
+                                        right: 10.0,
+                                        bottom: 10,
+                                        top: 10),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Expanded(
+                                          flex: 3,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                data[i].categoryName,
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 18.0,
+                                                  color: Colors.black,
+                                                ),
                                               ),
-                                            ),
-                                            // SizedBox(
-                                            //   height: 20,
-                                            //   width: context.width(),
-                                            //   child: ListView.builder(
-                                            //       shrinkWrap: true,
-                                            //       physics: const NeverScrollableScrollPhysics(),
-                                            //       scrollDirection: Axis.horizontal,
-                                            //       itemCount: data[i]..length,
-                                            //       itemBuilder: (context, index) {
-                                            //         return Text(
-                                            //           '${variations[index]}, ',
-                                            //           style: GoogleFonts.inter(
-                                            //             fontSize: 14.0,
-                                            //             color: Colors.grey,
-                                            //           ),
-                                            //         );
-                                            //       }),
-                                            // ),
-                                          ],
+                                              // SizedBox(
+                                              //   height: 20,
+                                              //   width: context.width(),
+                                              //   child: ListView.builder(
+                                              //       shrinkWrap: true,
+                                              //       physics: const NeverScrollableScrollPhysics(),
+                                              //       scrollDirection: Axis.horizontal,
+                                              //       itemCount: data[i]..length,
+                                              //       itemBuilder: (context, index) {
+                                              //         return Text(
+                                              //           '${variations[index]}, ',
+                                              //           style: GoogleFonts.inter(
+                                              //             fontSize: 14.0,
+                                              //             color: Colors.grey,
+                                              //           ),
+                                              //         );
+                                              //       }),
+                                              // ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      TextIcon(
-                                        text: 'Select',
-                                        // buttonDecoration: kButtonDecoration
-                                        //     .copyWith(color: kDarkWhite),
-                                        onTap: () {
-                                          Navigator.pop(
-                                              context, data[i].categoryName);
-                                        },
-                                      ),
-                                      SizedBox(width: 5),
-                                      GestureDetector(
+                                        TextIcon(
+                                          text: 'Select',
+                                          // buttonDecoration: kButtonDecoration
+                                          //     .copyWith(color: kDarkWhite),
                                           onTap: () {
-                                            AddCategory(
-                                              model: data[i],
-                                              type: 1,
-                                            ).launch(
-                                              context,
-                                            );
-                                            // AddBrands(
-                                            //         brandmodel: data[i],
-                                            //         type: 1)
-                                            //     .launch(context);
+                                            Navigator.pop(
+                                                context, data[i].categoryName);
                                           },
-                                          child: Icon(Icons.edit)),
-                                      SizedBox(width: 10),
-                                      GestureDetector(
-                                          onTap: () async {
-                                            List brandList = [];
-                                            var brandkey = "";
-                                            final sref = FirebaseDatabase
-                                                .instance
-                                                .ref(constUserId)
-                                                .child('Categories');
+                                        ),
+                                        SizedBox(width: 5),
+                                        GestureDetector(
+                                            onTap: () {
+                                              AddCategory(
+                                                model: data[i],
+                                                type: 1,
+                                              ).launch(
+                                                context,
+                                              );
+                                              // AddBrands(
+                                              //         brandmodel: data[i],
+                                              //         type: 1)
+                                              //     .launch(context);
+                                            },
+                                            child: Icon(Icons.edit)),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                            onTap: () async {
+                                              showAlertDialog(context,
+                                                  () async {
+                                                List brandList = [];
+                                                var brandkey = "";
+                                                final sref = FirebaseDatabase
+                                                    .instance
+                                                    .ref(constUserId)
+                                                    .child('Categories');
 
-                                            await sref.get().then((value) {
-                                              for (var element
-                                                  in value.children) {
-                                                var sdata = jsonDecode(
-                                                    jsonEncode(element.value));
-                                                if (sdata['categoryName']
-                                                        .toString() ==
-                                                    data[i]
-                                                        .categoryName
-                                                        .toString()) {
-                                                  setState(() {
-                                                    brandkey =
-                                                        element.key.toString();
-                                                  });
-                                                }
-                                              }
-                                            });
-                                            print(brandkey.toString());
-                                            DatabaseReference wref =
-                                                FirebaseDatabase.instance.ref(
-                                                    "$constUserId/Categories/$brandkey");
-                                            wref.keepSynced(true);
-                                            await wref.remove();
-                                            ref.refresh(categoryProvider);
-                                          },
-                                          child: Icon(Icons.delete)),
-                                    ],
+                                                await sref.get().then((value) {
+                                                  for (var element
+                                                      in value.children) {
+                                                    var sdata = jsonDecode(
+                                                        jsonEncode(
+                                                            element.value));
+                                                    if (sdata['categoryName']
+                                                            .toString() ==
+                                                        data[i]
+                                                            .categoryName
+                                                            .toString()) {
+                                                      setState(() {
+                                                        brandkey = element.key
+                                                            .toString();
+                                                      });
+                                                    }
+                                                  }
+                                                });
+                                                print(brandkey.toString());
+                                                DatabaseReference wref =
+                                                    FirebaseDatabase.instance.ref(
+                                                        "$constUserId/Categories/$brandkey");
+                                                wref.keepSynced(true);
+                                                await wref.remove();
+                                                ref.refresh(categoryProvider);
+                                              });
+                                            },
+                                            child: Icon(Icons.delete)),
+                                      ],
+                                    ),
                                   ),
                                 )
                               : Container();
@@ -230,6 +240,41 @@ class _CategoryListState extends State<CategoryList> {
           );
         }),
       ),
+    );
+  }
+
+  showAlertDialog(BuildContext context, Function? ontap) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("No"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Yes"),
+      onPressed: () {
+        ontap!();
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Delete Category"),
+      content: Text("Are you sure want to delete Category"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }
