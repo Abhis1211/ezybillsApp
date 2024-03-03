@@ -522,7 +522,7 @@ class _SaleProductsState extends State<SaleProducts> {
                                     ? products[i].productGst
                                     : filterlist[i].productGst,
                               );
-                              print("caritem" + cartItem.toString());
+
                               providerData.addToCartRiverPod(cartItem);
                               providerData.addProductsInSales(
                                   currentproductcategory == ""
@@ -680,7 +680,7 @@ class _ProductCardState extends State<ProductCard> {
               style: GoogleFonts.inter(
                   color: bluetxtcolor,
                   textStyle:
-                      TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600)),
+                      TextStyle(fontSize: 13.0, fontWeight: FontWeight.w600)),
             ),
           ),
           widget.productbrand != null

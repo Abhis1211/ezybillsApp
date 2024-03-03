@@ -15,7 +15,9 @@ class CartNotifier extends ChangeNotifier {
 
   void addProductsInSales(ProductModel products, [cntx]) {
     productList.add(products);
-    if (cntx != null) EasyLoading.showSuccess('Add product to cart');
+    if (cntx != null)
+      EasyLoading.showSuccess('Add product to cart',
+          duration: Duration(milliseconds: 100));
     // ScaffoldMessenger.of(cntx).showSnackBar(
     //   const SnackBar(
     //     content: Text('Add product to cart'),
@@ -95,7 +97,7 @@ class CartNotifier extends ChangeNotifier {
     cartItemList = cartItem;
   }
 
-  deleteToCart(int index,gst) {
+  deleteToCart(int index, gst) {
     totalgst = totalgst - double.parse(gst.toString());
     cartItemList.removeAt(index);
     notifyListeners();
