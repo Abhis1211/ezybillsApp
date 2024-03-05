@@ -30,6 +30,7 @@ class _EditProfileState extends State<EditProfile> {
   String dropdownLangValue = 'English';
   String initialCountry = '';
   String invoicenote = '';
+  String gstnumber = '';
   String dropdownValue = '';
   String companyName = 'nodata',
       phoneNumber = 'nodata',
@@ -507,7 +508,7 @@ class _EditProfileState extends State<EditProfile> {
                           padding: const EdgeInsets.all(10.0),
                           child: AppTextField(
                             initialValue: details.note,
-                            
+
                             onChanged: (value) {
                               setState(() {
                                 invoicenote = value;
@@ -520,6 +521,25 @@ class _EditProfileState extends State<EditProfile> {
                             ),
                           ),
                         ),
+
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: AppTextField(
+                            initialValue: details.gstnumber,
+
+                            onChanged: (value) {
+                              setState(() {
+                                gstnumber = value;
+                              });
+                            }, // Optional
+                            textFieldType: TextFieldType.NAME,
+                            decoration: InputDecoration(
+                              labelText: "GST Number",
+                              border: const OutlineInputBorder(),
+                            ),
+                          ),
+                        ),
+
                         // Padding(
                         //   padding: const EdgeInsets.all(10.0),
                         //   child: SizedBox(
@@ -545,6 +565,91 @@ class _EditProfileState extends State<EditProfile> {
                         //     ),
                         //   ),
                         // ),
+
+                        SizedBox(
+                          height: 40.0,
+                        ),
+                        ButtonGlobal(
+                          iconWidget: Icons.arrow_forward,
+                          buttontext: lang.S.of(context).continueButton,
+                          iconColor: Colors.white,
+                          buttonDecoration:
+                              kButtonDecoration.copyWith(color: kMainColor),
+                          onPressed: () async {
+                            if (profilePicture == 'nodata') {
+                              setState(() {
+                                profilePicture = userProfileDetails
+                                    .value!.pictureUrl
+                                    .toString();
+                              });
+                            }
+                            if (companyName == 'nodata') {
+                              setState(() {
+                                companyName = userProfileDetails
+                                    .value!.companyName
+                                    .toString();
+                              });
+                            }
+                            if (phoneNumber == 'nodata') {
+                              setState(() {
+                                phoneNumber = userProfileDetails
+                                    .value!.phoneNumber
+                                    .toString();
+                              });
+                            }
+                            try {
+                              EasyLoading.show(
+                                  status: 'Loading...', dismissOnTap: false);
+                              imagePath == 'No Data'
+                                  ? null
+                                  : await uploadFile(imagePath);
+                              // ignore: no_leading_underscores_for_local_identifiers
+                              final DatabaseReference _personalInformationRef =
+                                  FirebaseDatabase.instance
+                                      .ref()
+                                      .child(constUserId)
+                                      .child('Personal Information');
+                              _personalInformationRef.keepSynced(true);
+                              PersonalInformationModel personalInformation =
+                                  PersonalInformationModel(
+                                businessCategory: dropdownValue,
+                                companyName: companyName,
+                                phoneNumber: phoneNumber,
+                                countryName: initialCountry == ""
+                                    ? widget.profile.countryName
+                                    : initialCountry,
+                                email: widget.profile.email,
+                                altphoneNumber: altNumber == ""
+                                    ? widget.profile.altphoneNumber
+                                    : altNumber,
+                                invoiceCounter: invoiceNumber,
+                                gstenable:
+                                    details.gstenable == true ? true : false,
+                                gstnumber: gstnumber,
+                                note: invoicenote == ""
+                                    ? widget.profile.note
+                                    : invoicenote,
+                                language: dropdownLangValue,
+                                pictureUrl: profilePicture,
+                                remainingShopBalance: remainingShopBalance,
+                                shopOpeningBalance: openingBalance,
+                              );
+                              _personalInformationRef
+                                  .set(personalInformation.toJson());
+                              ref.refresh(profileDetailsProvider);
+                              EasyLoading.showSuccess('Updated Successfully',
+                                  duration: const Duration(milliseconds: 1000));
+                              // ignore: use_build_context_synchronously
+                              ref.refresh(profileDetailsProvider);
+                              Navigator.pushNamed(context, '/home');
+                            } catch (e) {
+                              EasyLoading.dismiss();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(e.toString())));
+                            }
+                            // Navigator.pushNamed(context, '/otp');
+                          },
+                        ),
                       ],
                     );
                   }, error: (e, stack) {
@@ -552,84 +657,6 @@ class _EditProfileState extends State<EditProfile> {
                   }, loading: () {
                     return const CircularProgressIndicator();
                   }),
-                  const SizedBox(
-                    height: 40.0,
-                  ),
-                  ButtonGlobal(
-                    iconWidget: Icons.arrow_forward,
-                    buttontext: lang.S.of(context).continueButton,
-                    iconColor: Colors.white,
-                    buttonDecoration:
-                        kButtonDecoration.copyWith(color: kMainColor),
-                    onPressed: () async {
-                      if (profilePicture == 'nodata') {
-                        setState(() {
-                          profilePicture =
-                              userProfileDetails.value!.pictureUrl.toString();
-                        });
-                      }
-                      if (companyName == 'nodata') {
-                        setState(() {
-                          companyName =
-                              userProfileDetails.value!.companyName.toString();
-                        });
-                      }
-                      if (phoneNumber == 'nodata') {
-                        setState(() {
-                          phoneNumber =
-                              userProfileDetails.value!.phoneNumber.toString();
-                        });
-                      }
-                      try {
-                        EasyLoading.show(
-                            status: 'Loading...', dismissOnTap: false);
-                        imagePath == 'No Data'
-                            ? null
-                            : await uploadFile(imagePath);
-                        // ignore: no_leading_underscores_for_local_identifiers
-                        final DatabaseReference _personalInformationRef =
-                            FirebaseDatabase.instance
-                                .ref()
-                                .child(constUserId)
-                                .child('Personal Information');
-                        _personalInformationRef.keepSynced(true);
-                        PersonalInformationModel personalInformation =
-                            PersonalInformationModel(
-                          businessCategory: dropdownValue,
-                          companyName: companyName,
-                          phoneNumber: phoneNumber,
-                          countryName: initialCountry == ""
-                              ? widget.profile.countryName
-                              : initialCountry,
-                          email: widget.profile.email,
-                          altphoneNumber: altNumber == ""
-                              ? widget.profile.altphoneNumber
-                              : altNumber,
-                          invoiceCounter: invoiceNumber,
-                          note: invoicenote == ""
-                              ? widget.profile.note
-                              : invoicenote,
-                          language: dropdownLangValue,
-                          pictureUrl: profilePicture,
-                          remainingShopBalance: remainingShopBalance,
-                          shopOpeningBalance: openingBalance,
-                        );
-                        _personalInformationRef
-                            .set(personalInformation.toJson());
-                        ref.refresh(profileDetailsProvider);
-                        EasyLoading.showSuccess('Updated Successfully',
-                            duration: const Duration(milliseconds: 1000));
-                        // ignore: use_build_context_synchronously
-                        ref.refresh(profileDetailsProvider);
-                        Navigator.pushNamed(context, '/home');
-                      } catch (e) {
-                        EasyLoading.dismiss();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(e.toString())));
-                      }
-                      // Navigator.pushNamed(context, '/otp');
-                    },
-                  ),
                 ],
               ),
             );

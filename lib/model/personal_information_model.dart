@@ -13,6 +13,7 @@ class PersonalInformationModel {
     required this.remainingShopBalance,
     this.email,
     this.note,
+    this.gstnumber,
   });
 
   PersonalInformationModel.fromJson(dynamic json) {
@@ -29,6 +30,7 @@ class PersonalInformationModel {
     remainingShopBalance = json['remainingShopBalance'];
     email = json['email'];
     note = json['note'];
+    gstnumber = json['gstnumber'];
   }
   dynamic phoneNumber;
   dynamic altphoneNumber;
@@ -38,6 +40,7 @@ class PersonalInformationModel {
   String? language;
   String? countryName;
   String? note;
+  String? gstnumber;
   dynamic email;
   int? invoiceCounter;
   bool? gstenable;
@@ -59,6 +62,7 @@ class PersonalInformationModel {
     map['remainingShopBalance'] = remainingShopBalance;
     map['email'] = email;
     map['note'] = note;
+    map['gstnumber'] = gstnumber;
     return map;
   }
 }

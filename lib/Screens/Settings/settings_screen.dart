@@ -621,6 +621,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       await userinfo.update({
                         "gstenable": value,
                       });
+                      await ref.refresh(profileDetailsProvider);
                     },
                   ),
                 ),
