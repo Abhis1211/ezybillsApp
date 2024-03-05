@@ -84,6 +84,7 @@ dependencies:
   flutter_tap_payment:
   flutter_sslcommerz:
   firebase_messaging: 
+  share_plus: ^7.2.2
   
 #  razorpay_flutter:
 

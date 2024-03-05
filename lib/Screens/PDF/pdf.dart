@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
+import 'package:share_plus/share_plus.dart';
 
 class PDFViewerPage extends StatefulWidget {
   final String path;
@@ -17,6 +18,22 @@ class PDFViewerPageState extends State<PDFViewerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () async {
+              print("data" + widget.path);
+
+              final result =
+                  await Share.shareXFiles([XFile(widget.path)], text: 'Pdf');
+
+              if (result.status == ShareResultStatus.success) {
+                print('Thank you for sharing the picture!');
+              }
+              print("data");
+            },
+            icon: Icon(Icons.share),
+          )
+        ],
         title: Text(
           lang.S.of(context).invoiceViewr,
           style: GoogleFonts.inter(
