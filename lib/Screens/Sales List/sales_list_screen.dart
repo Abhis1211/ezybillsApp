@@ -174,15 +174,32 @@ class _SalesListScreenState extends State<SalesListScreen> {
                   // final reTransaction = transaction.reversed.toList();
                   final reTransaction = transaction.reversed.toList();
                   totalSale = 0;
+
                   for (var element in reTransaction) {
-                    if ((fromDate.isBefore(
-                                DateTime.parse(element.purchaseDate)) ||
-                            DateTime.parse(element.purchaseDate)
-                                .isAtSameMomentAs(fromDate)) &&
-                        (toDate.isAfter(DateTime.parse(element.purchaseDate)) ||
-                            DateTime.parse(element.purchaseDate)
-                                .isAtSameMomentAs(toDate))) {
-                      totalSale = totalSale + element.totalAmount!;
+                    if (dropdownValue1 != "All") {
+                      if (element.paymentType == dropdownValue1) {
+                        if ((fromDate.isBefore(
+                                    DateTime.parse(element.purchaseDate)) ||
+                                DateTime.parse(element.purchaseDate)
+                                    .isAtSameMomentAs(fromDate)) &&
+                            (toDate.isAfter(
+                                    DateTime.parse(element.purchaseDate)) ||
+                                DateTime.parse(element.purchaseDate)
+                                    .isAtSameMomentAs(toDate))) {
+                          totalSale = totalSale + element.totalAmount!;
+                        }
+                      }
+                    } else {
+                      if ((fromDate.isBefore(
+                                  DateTime.parse(element.purchaseDate)) ||
+                              DateTime.parse(element.purchaseDate)
+                                  .isAtSameMomentAs(fromDate)) &&
+                          (toDate.isAfter(
+                                  DateTime.parse(element.purchaseDate)) ||
+                              DateTime.parse(element.purchaseDate)
+                                  .isAtSameMomentAs(toDate))) {
+                        totalSale = totalSale + element.totalAmount!;
+                      }
                     }
                   }
 
@@ -353,17 +370,23 @@ class _SalesListScreenState extends State<SalesListScreen> {
                               itemCount: reTransaction.length,
                               itemBuilder: (context, index) {
                                 return Visibility(
-                                  visible: (fromDate.isBefore(DateTime.parse(
-                                              reTransaction[index]
-                                                  .purchaseDate)) ||
-                                          DateTime.parse(reTransaction[index].purchaseDate)
-                                              .isAtSameMomentAs(fromDate)) &&
-                                      (toDate.isAfter(DateTime.parse(
-                                              reTransaction[index]
-                                                  .purchaseDate)) ||
-                                          DateTime.parse(reTransaction[index]
-                                                  .purchaseDate)
-                                              .isAtSameMomentAs(toDate)),
+                                  visible: dropdownValue1 != "All"
+                                      ? reTransaction[index].paymentType ==
+                                              dropdownValue1 &&
+                                          (fromDate.isBefore(DateTime.parse(reTransaction[index].purchaseDate)) ||
+                                              DateTime.parse(reTransaction[index].purchaseDate)
+                                                  .isAtSameMomentAs(
+                                                      fromDate)) &&
+                                          (toDate.isAfter(DateTime.parse(reTransaction[index].purchaseDate)) ||
+                                              DateTime.parse(reTransaction[index].purchaseDate)
+                                                  .isAtSameMomentAs(toDate))
+                                      : (fromDate.isBefore(DateTime.parse(reTransaction[index].purchaseDate)) ||
+                                              DateTime.parse(reTransaction[index].purchaseDate)
+                                                  .isAtSameMomentAs(
+                                                      fromDate)) &&
+                                          (toDate.isAfter(DateTime.parse(reTransaction[index].purchaseDate)) ||
+                                              DateTime.parse(reTransaction[index].purchaseDate)
+                                                  .isAtSameMomentAs(toDate)),
                                   child: GestureDetector(
                                     onTap: () {
                                       SalesInvoiceDetails(
@@ -395,7 +418,7 @@ class _SalesListScreenState extends State<SalesListScreen> {
                                                         fontSize: 16),
                                                   ),
                                                   Text(
-                                                      '#${reTransaction[index].invoiceNumber}'),
+                                                      '#${reTransaction[index].invoiceNumber}   ${reTransaction[index].paymentType.toString()}'),
                                                 ],
                                               ),
                                               const SizedBox(height: 10),
