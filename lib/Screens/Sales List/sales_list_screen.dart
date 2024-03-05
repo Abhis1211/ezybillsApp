@@ -45,6 +45,8 @@ class _SalesListScreenState extends State<SalesListScreen> {
     'Custom'
   ];
   String? dropdownValue = 'This Month';
+  String? dropdownValue1 = 'All';
+
   void changeDate({required DateTime from}) {
     setState(() {
       fromDate = from;
@@ -171,7 +173,7 @@ class _SalesListScreenState extends State<SalesListScreen> {
                 providerData.when(data: (transaction) {
                   // final reTransaction = transaction.reversed.toList();
                   final reTransaction = transaction.reversed.toList();
-
+                  totalSale = 0;
                   for (var element in reTransaction) {
                     if ((fromDate.isBefore(
                                 DateTime.parse(element.purchaseDate)) ||
@@ -187,6 +189,49 @@ class _SalesListScreenState extends State<SalesListScreen> {
                   return reTransaction.isNotEmpty
                       ? Column(
                           children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        lang.S.of(context).paymentTypes,
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black54),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      const Icon(
+                                        Icons.wallet,
+                                        color: Colors.green,
+                                      )
+                                    ],
+                                  ),
+                                  DropdownButton(
+                                    value: dropdownValue1,
+                                    icon: const Icon(Icons.keyboard_arrow_down),
+                                    items: paymentsTypeFilterList
+                                        .map((String items) {
+                                      return DropdownMenuItem(
+                                        value: items,
+                                        child: Text(items),
+                                      );
+                                    }).toList(),
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        dropdownValue1 = newValue.toString();
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(20.0),
                               child: Container(

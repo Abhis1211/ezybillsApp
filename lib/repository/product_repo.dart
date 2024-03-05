@@ -11,7 +11,8 @@ class ProductRepo {
     await ref.orderByKey().get().then((value) {
       for (var element in value.children) {
         productList
-            .add(ProductModel.fromJson(jsonDecode(jsonEncode(element.value)))); 
+            .add(ProductModel.fromJson(jsonDecode(jsonEncode(element.value))));
+        productList.sort((a, b) => a.productStock.compareTo(b.productStock));
       }
     });
 
