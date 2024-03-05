@@ -1467,7 +1467,10 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
           int remainStock = previousStock - quantity;
           log("stock" + previousStock.toString());
           previousStock != "" || previousStock != null
-              ? ref.child(key!).update({'productStock': '$remainStock'})
+              ? ref.child(key!).update({
+                  'productStock':
+                      '${element.child('productStock').value == "" ? '' : remainStock}'
+                })
               : ref.child(key!).update({'productStock': ''});
         }
       }
