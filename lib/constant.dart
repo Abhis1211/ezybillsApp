@@ -29,6 +29,14 @@ List<String> paymentsTypeList = [
   'Debit/Credit Card',
   'Credit/Due'
 ];
+
+List<String> paymentsTypeFilterList = [
+  'All',
+  'Cash',
+  'UPI Payment',
+  'Debit/Credit Card',
+  'Credit/Due'
+];
 List<String> paymentsTypeList1 = [
   'Cash',
   'UPI Payment',
