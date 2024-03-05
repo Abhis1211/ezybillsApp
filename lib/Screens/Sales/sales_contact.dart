@@ -34,7 +34,7 @@ class _SalesContactState extends State<SalesContact> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: Text(
-            lang.S.of(context).chooseCustomer,
+            lang.S.of(context).chooseCustomer + "dsdad",
             style: GoogleFonts.inter(
               color: Colors.black,
             ),
@@ -73,7 +73,7 @@ class _SalesContactState extends State<SalesContact> {
                           onTap: () {
                             CustomerModel guestModel = CustomerModel(
                               'Guest',
-                              'Guest',
+                              '',
                               'Guest',
                               'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
                               'Guest',
@@ -205,7 +205,7 @@ class _SalesContactState extends State<SalesContact> {
                                                 //   style: GoogleFonts.inter(
                                                 //     color: color,
                                                 //     fontSize: 15.0,
-                                                //   ),  
+                                                //   ),
                                                 // ),
                                               ],
                                             ),
@@ -325,8 +325,10 @@ class _SalesContactState extends State<SalesContact> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: kMainColor,
-            child: const Icon(Icons.add,),
+            backgroundColor: kMainColor,
+            child: const Icon(
+              Icons.add,
+            ),
             onPressed: () {
               const AddCustomer().launch(context);
             }),

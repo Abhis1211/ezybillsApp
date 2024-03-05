@@ -12,7 +12,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../Customers/Model/customer_model.dart';
 import '../../model/print_transaction_model.dart';
 import '../../Provider/seles_report_provider.dart';
-import '../../model/personal_information_model.dart';
 import 'package:mobile_pos/Provider/add_to_cart.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_pos/model/transition_model.dart';
@@ -24,7 +23,7 @@ import 'package:mobile_pos/Screens/Sales/sales_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mobile_pos/Provider/transactions_provider.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:mobile_pos/Screens/Report/Screens/sales_report_screen.dart';
+
 // ignore_for_file: unused_result, use_build_context_synchronously
 
 // ignore: must_be_immutable
@@ -47,6 +46,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
   double subTotal = 0;
 
   String? dropdownValue = 'Cash';
+  String? guestname = '';
   String? selectedPaymentType;
   TextEditingController vatPercentageEditingController =
       TextEditingController();
@@ -201,6 +201,9 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                         readOnly:
                             widget.customerModel.type == 'Guest' ? false : true,
                         initialValue: widget.customerModel.customerName,
+                        onChanged: (value) {
+                          guestname = value;
+                        },
                         decoration: InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           labelText: lang.S.of(context).customerName,
@@ -1151,6 +1154,10 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                         : null;
                                     transitionModel.invoiceNumber =
                                         invoice.toString();
+                                    transitionModel.customerName =
+                                        widget.customerModel.type == 'Guest'
+                                            ? guestname!
+                                            : widget.customerModel.customerName;
 
                                     ///__________total LossProfit & quantity________________________________________________________________
 

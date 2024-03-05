@@ -138,7 +138,7 @@ class Printer extends ChangeNotifier {
             width: 4,
             styles: PosStyles(
               align: PosAlign.left,
-              )),
+            )),
         PosColumn(
             text: productList?[index].quantity.toString() ?? 'Not Defined',
             width: 2,
@@ -241,21 +241,22 @@ class Printer extends ChangeNotifier {
             align: PosAlign.right,
           )),
     ]);
-    bytes += generator.row([
-      PosColumn(
-          text: 'Gst',
-          width: 8,
-          styles: const PosStyles(
-            align: PosAlign.left,
-          )),
-      PosColumn(
-          text:
-              '${printTransactionModel.transitionModel!.vat!.toStringAsFixed(2)}',
-          width: 4,
-          styles: const PosStyles(
-            align: PosAlign.right,
-          )),
-    ]);
+    if (printTransactionModel.personalInformationModel.gstenable == true)
+      bytes += generator.row([
+        PosColumn(
+            text: 'GST',
+            width: 8,
+            styles: const PosStyles(
+              align: PosAlign.left,
+            )),
+        PosColumn(
+            text:
+                '${printTransactionModel.transitionModel!.vat!.toStringAsFixed(2)}',
+            width: 4,
+            styles: const PosStyles(
+              align: PosAlign.right,
+            )),
+      ]);
     bytes += generator.hr();
     bytes += generator.row([
       PosColumn(
@@ -315,20 +316,21 @@ class Printer extends ChangeNotifier {
             align: PosAlign.right,
           )),
     ]);
-    bytes += generator.row([
-      PosColumn(
-          text: 'Due Amount:',
-          width: 8,
-          styles: const PosStyles(
-            align: PosAlign.left,
-          )),
-      PosColumn(
-          text: printTransactionModel.transitionModel!.dueAmount.toString(),
-          width: 4,
-          styles: const PosStyles(
-            align: PosAlign.right,
-          )),
-    ]);
+    if (printTransactionModel.transitionModel!.dueAmount! > 0)
+      bytes += generator.row([
+        PosColumn(
+            text: 'Due Amount:',
+            width: 8,
+            styles: const PosStyles(
+              align: PosAlign.left,
+            )),
+        PosColumn(
+            text: printTransactionModel.transitionModel!.dueAmount.toString(),
+            width: 4,
+            styles: const PosStyles(
+              align: PosAlign.right,
+            )),
+      ]);
     bytes += generator.hr(ch: '=', linesAfter: 1);
 
     // ticket.feed(2);

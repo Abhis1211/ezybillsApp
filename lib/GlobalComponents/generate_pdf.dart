@@ -974,14 +974,16 @@ class GeneratePdf {
                             fontWeight: pw.FontWeight.bold,
                           ),
                         ),
-                         pw.SizedBox(height: 5.0),
-                        pw.Text(
-                          "VAT/GST: ${transactions.vat ?? 0.00}",
-                          style: pw.TextStyle(
-                            color: PdfColors.black,
-                            fontWeight: pw.FontWeight.bold,
+                        pw.SizedBox(height: 5.0),
+
+                        if (personalInformation.gstenable == true)
+                          pw.Text(
+                            "GST: ${transactions.vat ?? 0.00}",
+                            style: pw.TextStyle(
+                              color: PdfColors.black,
+                              fontWeight: pw.FontWeight.bold,
+                            ),
                           ),
-                        ),
 
                         pw.SizedBox(height: 5.0),
                         pw.Container(
@@ -1016,13 +1018,14 @@ class GeneratePdf {
                               ]),
                         ),
                         pw.SizedBox(height: 5.0),
-                        pw.Text(
-                          "Due: ${transactions.dueAmount}",
-                          style: pw.TextStyle(
-                            color: PdfColors.black,
-                            fontWeight: pw.FontWeight.bold,
+                        if (transactions.dueAmount! > 0)  
+                          pw.Text(
+                            "Due: ${transactions.dueAmount}",
+                            style: pw.TextStyle(
+                              color: PdfColors.black,
+                              fontWeight: pw.FontWeight.bold,
+                            ),
                           ),
-                        ),
                         pw.SizedBox(height: 10.0),
                       ],
                     ),
