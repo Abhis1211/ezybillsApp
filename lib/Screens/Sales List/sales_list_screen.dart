@@ -427,49 +427,65 @@ class _SalesListScreenState extends State<SalesListScreen> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Container(
-                                                    padding:
-                                                        const EdgeInsets.all(8),
-                                                    decoration: BoxDecoration(
-                                                        color: reTransaction[
-                                                                        index]
-                                                                    .dueAmount! <=
-                                                                0
-                                                            ? const Color(
-                                                                    0xff0dbf7d)
-                                                                .withOpacity(
-                                                                    0.1)
-                                                            : const Color(
-                                                                    0xFFED1A3B)
-                                                                .withOpacity(
-                                                                    0.1),
-                                                        borderRadius:
-                                                            const BorderRadius
-                                                                    .all(
-                                                                Radius.circular(
-                                                                    10))),
-                                                    child: Text(
-                                                      reTransaction[index]
-                                                                  .dueAmount! <=
-                                                              0
-                                                          ? lang.S
-                                                              .of(context)
-                                                              .paid
-                                                          : lang.S
-                                                              .of(context)
-                                                              .unPaid,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: reTransaction[
-                                                                          index]
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8),
+                                                        decoration: BoxDecoration(
+                                                            color: reTransaction[
+                                                                            index]
+                                                                        .dueAmount! <=
+                                                                    0
+                                                                ? const Color(
+                                                                        0xff0dbf7d)
+                                                                    .withOpacity(
+                                                                        0.1)
+                                                                : const Color(
+                                                                        0xFFED1A3B)
+                                                                    .withOpacity(
+                                                                        0.1),
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                        .all(
+                                                                    Radius.circular(
+                                                                        10))),
+                                                        child: Text(
+                                                          reTransaction[index]
                                                                       .dueAmount! <=
                                                                   0
-                                                              ? const Color(
-                                                                  0xff0dbf7d)
-                                                              : const Color(
-                                                                  0xFFED1A3B)),
-                                                    ),
+                                                              ? lang.S
+                                                                  .of(context)
+                                                                  .paid
+                                                              : lang.S
+                                                                  .of(context)
+                                                                  .unPaid,
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: reTransaction[
+                                                                              index]
+                                                                          .dueAmount! <=
+                                                                      0
+                                                                  ? const Color(
+                                                                      0xff0dbf7d)
+                                                                  : const Color(
+                                                                      0xFFED1A3B)),
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 10),
+                                                      Text(
+                                                        '${lang.S.of(context).due}: $currency ${reTransaction[index].dueAmount.toString()}',
+                                                        style: const TextStyle(
+                                                            fontSize: 16),
+                                                      ).visible(
+                                                          reTransaction[index]
+                                                                  .dueAmount!
+                                                                  .toInt() !=
+                                                              0),
+                                                    ],
                                                   ),
                                                   Text(
                                                     DateFormat.yMMMd().format(
@@ -492,15 +508,6 @@ class _SalesListScreenState extends State<SalesListScreen> {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      Text(
-                                                        '${lang.S.of(context).due}: $currency ${reTransaction[index].dueAmount.toString()}',
-                                                        style: const TextStyle(
-                                                            fontSize: 16),
-                                                      ).visible(
-                                                          reTransaction[index]
-                                                                  .dueAmount!
-                                                                  .toInt() !=
-                                                              0),
                                                       personalData.when(
                                                           data: (data) {
                                                         return Row(
