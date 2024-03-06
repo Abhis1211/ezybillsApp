@@ -71,11 +71,17 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
   }
 
   double calculateDueAmount({required double total}) {
+    print("total====> " + total.toString());
     if (total < 0) {
       dueAmount = 0;
+    } else if (paidamount.text.isEmpty) {
+      dueAmount = 0;
+    } else if (paidAmount == 0) {
+      dueAmount = subTotal;
     } else {
       dueAmount = subTotal - paidAmount;
     }
+    print("total====> " + dueAmount.toString());
     return returnAmount <= 0 ? 0 : subTotal - paidAmount;
   }
 
@@ -736,6 +742,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                     if (value == '') {
                                       setState(() {
                                         paidAmount = 0;
+                                        dueAmount = 0;
                                       });
                                     } else {
                                       setState(() {
@@ -784,8 +791,8 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                 style: const TextStyle(fontSize: 14),
                               ),
                               Text(
-                                paidAmount == 0
-                                    ? "0.00"
+                                paidamount.text.isEmpty
+                                    ? "0.0"
                                     : calculateDueAmount(total: subTotal)
                                         .toStringAsFixed(2),
                                 style: const TextStyle(fontSize: 14),

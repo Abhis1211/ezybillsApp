@@ -34,7 +34,7 @@ class _SalesContactState extends State<SalesContact> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: Text(
-            lang.S.of(context).chooseCustomer + "dsdad",
+            lang.S.of(context).chooseCustomer,
             style: GoogleFonts.inter(
               color: Colors.black,
             ),

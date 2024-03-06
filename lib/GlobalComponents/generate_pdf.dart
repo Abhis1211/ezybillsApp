@@ -480,7 +480,7 @@ class GeneratePdf {
       EasyLoading.show(status: 'Generating PDF');
       final dir = await getApplicationDocumentsDirectory();
       final file = File(
-          '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
+          '${dir.path}/${'${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
 
       final byteData = await doc.save();
       try {
@@ -492,11 +492,11 @@ class GeneratePdf {
           MaterialPageRoute(
             builder: (context) => PDFViewerPage(
                 path:
-                    '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
+                    '${dir.path}/${'${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
           ),
         );
 
-        // OpenFile.open("${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf");
+        // OpenFile.open("${dir.path}/${'${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf");
       } on FileSystemException catch (err) {
         EasyLoading.showError(err.message);
         // handle error
@@ -512,7 +512,7 @@ class GeneratePdf {
         const downloadsFolderPath = '/storage/emulated/0/Download/';
         Directory dir = Directory(downloadsFolderPath);
         final file = File(
-            '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
+            '${dir.path}/${'${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
 
         final byteData = await doc.save();
         try {
@@ -524,10 +524,10 @@ class GeneratePdf {
             MaterialPageRoute(
               builder: (context) => PDFViewerPage(
                   path:
-                      '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
+                      '${dir.path}/${'${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
             ),
           );
-          // OpenFile.open("/storage/emulated/0/download/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf");
+          // OpenFile.open("/storage/emulated/0/download/${'${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf");
         } on FileSystemException catch (err) {
           EasyLoading.showError(err.message);
           // handle error
@@ -1018,7 +1018,7 @@ class GeneratePdf {
                               ]),
                         ),
                         pw.SizedBox(height: 5.0),
-                        if (transactions.dueAmount! > 0)  
+                        if (transactions.dueAmount! > 0)
                           pw.Text(
                             "Due: ${transactions.dueAmount}",
                             style: pw.TextStyle(
@@ -1042,7 +1042,7 @@ class GeneratePdf {
       EasyLoading.show(status: 'Generating PDF');
       final dir = await getApplicationDocumentsDirectory();
       final file = File(
-          '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
+          '${dir.path}/${'${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
 
       final byteData = await doc.save();
       try {
@@ -1054,7 +1054,7 @@ class GeneratePdf {
           MaterialPageRoute(
             builder: (context) => PDFViewerPage(
                 path:
-                    '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
+                    '${dir.path}/${'${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
           ),
         );
         // OpenFile.open("${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf");
@@ -1074,7 +1074,7 @@ class GeneratePdf {
         const downloadsFolderPath = '/storage/emulated/0/Download/';
         Directory dir = Directory(downloadsFolderPath);
         final file = File(
-            '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
+            '${dir.path}/${'${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
 
         final byteData = await doc.save();
         try {
@@ -1086,7 +1086,7 @@ class GeneratePdf {
             MaterialPageRoute(
               builder: (context) => PDFViewerPage(
                   path:
-                      '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
+                      '${dir.path}/${'${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
             ),
           );
           // OpenFile.open("/storage/emulated/0/download/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf");
@@ -1540,7 +1540,7 @@ class GeneratePdf {
       EasyLoading.show(status: 'Generating PDF');
       final dir = await getApplicationDocumentsDirectory();
       final file = File(
-          '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
+          '${dir.path}/${'${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
 
       final byteData = await doc.save();
       try {
@@ -1552,7 +1552,7 @@ class GeneratePdf {
           MaterialPageRoute(
             builder: (context) => PDFViewerPage(
                 path:
-                    '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
+                    '${dir.path}/${'${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
           ),
         );
         // OpenFile.open("${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf");
@@ -1571,7 +1571,7 @@ class GeneratePdf {
         const downloadsFolderPath = '/storage/emulated/0/Download/';
         Directory dir = Directory(downloadsFolderPath);
         final file = File(
-            '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
+            '${dir.path}/${'${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf');
 
         final byteData = await doc.save();
         try {
@@ -1583,7 +1583,7 @@ class GeneratePdf {
             MaterialPageRoute(
               builder: (context) => PDFViewerPage(
                   path:
-                      '${dir.path}/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
+                      '${dir.path}/${'${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf'),
             ),
           );
           // OpenFile.open("/storage/emulated/0/download/${'SalesPRO-${personalInformation.companyName}-${transactions.invoiceNumber}'}.pdf");
