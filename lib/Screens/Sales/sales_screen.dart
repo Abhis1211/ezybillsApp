@@ -32,6 +32,7 @@ class SaleProducts extends StatefulWidget {
 }
 
 class _SaleProductsState extends State<SaleProducts> {
+  final searchController = TextEditingController();
   String dropdownValue = '';
   String productCode = '0000';
 
@@ -184,26 +185,31 @@ class _SaleProductsState extends State<SaleProducts> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: AppTextField(
+                        controller: searchController,
                         textFieldType: TextFieldType.NAME,
                         onChanged: (value) {
-                          setState(() {
-                            productCode = value;
-                          });
+                          if (value.isNotEmpty)
+                            setState(() {
+                              productCode = value;
+                            });
+                          else
+                            setState(() {
+                              productCode = "0000";
+                              searchController.clear();
+                            });
                         },
                         decoration: InputDecoration(
                             prefixIcon: Icon(Icons.search),
                             // border:InputBorder.none,
                             floatingLabelBehavior: FloatingLabelBehavior.always,
                             // labelText: lang.S.of(context).productCode,
-                            hintText:
-                                productCode == '0000' || productCode == '-1'
-                                    ? 'Search Product Name'
-                                    : productCode,
+                            hintText: 'Search Product Name',
                             border: InputBorder.none,
                             suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    productCode = "";
+                                    productCode = "0000";
+                                    searchController.clear();
                                   });
                                 },
                                 icon: Icon(Icons.clear))),
@@ -261,8 +267,325 @@ class _SaleProductsState extends State<SaleProducts> {
               height: 20,
             ),
 
-            productCode.isNotEmpty
-                ? Expanded(
+            // searchController.text.isNotEmpty
+            //     ? Expanded(
+            //         child: productList.when(data: (products) {
+            //           var filterlist = products
+            //               .where((element) =>
+            //                   element.productCategory == currentproductcategory)
+            //               .toList();
+            //           return GridView.builder(
+            //             padding: EdgeInsets.zero,
+            //             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //                 crossAxisCount: 3, // number of items in each row
+            //                 mainAxisSpacing: 8.0, // spacing between rows
+            //                 crossAxisSpacing: 8.0,
+            //                 childAspectRatio: 0.65 // spacing between columns
+            //                 ),
+            //             shrinkWrap: true,
+            //             physics: const BouncingScrollPhysics(),
+            //             itemCount: currentproductcategory == ""
+            //                 ? products.length
+            //                 : filterlist.length,
+            //             itemBuilder: (_, i) {
+            //               if (widget.customerModel!.type.contains('Retailer')) {
+            //                 productPrice = currentproductcategory == ""
+            //                     ? products[i].productSalePrice
+            //                     : filterlist[i].productSalePrice;
+            //               } else if (widget.customerModel!.type
+            //                   .contains('Dealer')) {
+            //                 productPrice = currentproductcategory == ""
+            //                     ? products[i].productDealerPrice
+            //                     : filterlist[i].productDealerPrice;
+            //               } else if (widget.customerModel!.type
+            //                   .contains('Wholesaler')) {
+            //                 productPrice = currentproductcategory == ""
+            //                     ? products[i].productWholeSalePrice
+            //                     : filterlist[i].productWholeSalePrice;
+            //               } else if (widget.customerModel!.type
+            //                   .contains('Supplier')) {
+            //                 productPrice = currentproductcategory == ""
+            //                     ? products[i].productPurchasePrice
+            //                     : filterlist[i].productPurchasePrice;
+            //               } else if (widget.customerModel!.type
+            //                   .contains('Guest')) {
+            //                 productPrice = currentproductcategory == ""
+            //                     ? products[i].productSalePrice
+            //                     : filterlist[i].productSalePrice;
+            //               }
+            //               return GestureDetector(
+            //                 onTap: () async {
+            //                   if ((currentproductcategory == ""
+            //                               ? products[i].productStock.toString()
+            //                               : filterlist[i]
+            //                                   .productStock
+            //                                   .toString())
+            //                           .toString() !=
+            //                       "") {
+            //                     if (int.parse(currentproductcategory == ""
+            //                             ? products[i].productStock.toString()
+            //                             : filterlist[i]
+            //                                 .productStock
+            //                                 .toString()) <=
+            //                         0) {
+            //                       EasyLoading.showError('Out of stock');
+            //                       return;
+            //                     }
+            //                   }
+
+            //                   if (widget.customerModel!.type
+            //                       .contains('Retailer')) {
+            //                     sentProductPrice = currentproductcategory == ""
+            //                         ? products[i].productSalePrice
+            //                         : filterlist[i].productSalePrice;
+            //                   } else if (widget.customerModel!.type
+            //                       .contains('Dealer')) {
+            //                     sentProductPrice = currentproductcategory == ""
+            //                         ? products[i].productDealerPrice
+            //                         : filterlist[i].productDealerPrice;
+            //                   } else if (widget.customerModel!.type
+            //                       .contains('Wholesaler')) {
+            //                     sentProductPrice = currentproductcategory == ""
+            //                         ? products[i].productWholeSalePrice
+            //                         : filterlist[i].productWholeSalePrice;
+            //                   } else if (widget.customerModel!.type
+            //                       .contains('Supplier')) {
+            //                     sentProductPrice = currentproductcategory == ""
+            //                         ? products[i].productPurchasePrice
+            //                         : filterlist[i].productPurchasePrice;
+            //                   } else if (widget.customerModel!.type
+            //                       .contains('Guest')) {
+            //                     sentProductPrice = currentproductcategory == ""
+            //                         ? products[i].productSalePrice
+            //                         : filterlist[i].productSalePrice;
+            //                   }
+
+            //                   AddToCartModel cartItem = AddToCartModel(
+            //                     productName: currentproductcategory == ""
+            //                         ? products[i].productName
+            //                         : filterlist[i].productName,
+            //                     subTotal: sentProductPrice,
+            //                     productId: currentproductcategory == ""
+            //                         ? products[i].productCode
+            //                         : filterlist[i].productCode,
+            //                     productBrandName: currentproductcategory == ""
+            //                         ? products[i].brandName
+            //                         : filterlist[i].brandName,
+            //                     productPurchasePrice:
+            //                         currentproductcategory == ""
+            //                             ? products[i].productPurchasePrice
+            //                             : filterlist[i].productPurchasePrice,
+            //                     stock: (currentproductcategory == ""
+            //                                     ? products[i]
+            //                                         .productStock
+            //                                         .toString()
+            //                                     : filterlist[i]
+            //                                         .productStock
+            //                                         .toString())
+            //                                 .toString() ==
+            //                             ""
+            //                         ? 0
+            //                         : int.parse(currentproductcategory == ""
+            //                             ? products[i].productStock.toString()
+            //                             : filterlist[i]
+            //                                 .productStock
+            //                                 .toString()),
+            //                     uuid: currentproductcategory == ""
+            //                         ? products[i].productCode.toString()
+            //                         : filterlist[i].productCode.toString(),
+            //                     productgst: currentproductcategory == ""
+            //                         ? products[i].productGst
+            //                         : filterlist[i].productGst,
+            //                   );
+            //                   personalData.when(
+            //                       data: (data) {
+            //                         providerData.addToCartRiverPod(
+            //                             cartItem, data.gstenable);
+            //                         providerData.addProductsInSales(
+            //                             currentproductcategory == ""
+            //                                 ? products[i]
+            //                                 : filterlist[i],
+            //                             context);
+            //                       },
+            //                       error:
+            //                           (Object error, StackTrace stackTrace) {},
+            //                       loading: () {});
+
+            //                   // Navigator.pop(context);
+            //                 },
+            //                 child: ProductCard(
+            //                   productTitle: currentproductcategory == ""
+            //                       ? products[i].productName
+            //                       : filterlist[i].productName,
+            //                   productDescription: currentproductcategory == ""
+            //                       ? products[i].productCategory
+            //                       : filterlist[i].productCategory,
+            //                   productPrice: productPrice,
+            //                   productImage: currentproductcategory == ""
+            //                       ? products[i].productPicture
+            //                       : filterlist[i].productPicture,
+            //                 ).visible(((currentproductcategory == ""
+            //                                 ? products[i].productCode
+            //                                 : filterlist[i].productCode) ==
+            //                             productCode ||
+            //                         filterlist[i]
+            //                             .productName
+            //                             .contains(searchController.text) ||
+            //                         productCode == '0000' ||
+            //                         productCode == '-1') &&
+            //                     productPrice != '0'),
+            //               );
+            //             },
+            //           ).paddingSymmetric(horizontal: 10);
+            //         }, error: (e, stack) {
+            //           return Text(e.toString());
+            //         }, loading: () {
+            //           return const Center(child: CircularProgressIndicator());
+            //         }),
+            //       )
+            //     :
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 110,
+                    height: MediaQuery.of(context).size.height * 1.0,
+                    decoration: BoxDecoration(
+                        color: categorybackground,
+                        borderRadius:
+                            BorderRadius.only(topRight: Radius.circular(20))),
+                    padding: EdgeInsets.only(right: 2, left: 2, top: 5),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: categoryList.when(data: (category) {
+                            if (currentselectioncategory == 0) {
+                              currentproductcategory = category.length > 0
+                                  ? category[0].categoryName
+                                  : "";
+                            }
+
+                            return ListView.builder(
+                                // shrinkWrap: true,
+                                physics: const BouncingScrollPhysics(),
+                                itemCount: category.length,
+                                itemBuilder: (_, i) {
+                                  return GestureDetector(
+                                    onTap: (() {
+                                      setState(() {
+                                        currentproductcategory =
+                                            category[i].categoryName;
+                                        currentselectioncategory = i;
+                                      });
+                                    }),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: currentselectioncategory == i
+                                            ? bgseletedcolor
+                                            : Colors.transparent,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+
+                                      // padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                                      child: Column(
+                                        children: [
+                                          SizedBox(height: 5),
+                                          Container(
+                                            height: 80,
+                                            width: 80,
+                                            padding: EdgeInsets.all(5.0),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              border: Border.all(
+                                                  color: Colors.white),
+                                            ),
+                                            child: CachedNetworkImage(
+                                              fit: BoxFit.cover,
+                                              imageUrl:
+                                                  category[i].categoryimage,
+                                              progressIndicatorBuilder: (context,
+                                                      url, downloadProgress) =>
+                                                  Center(
+                                                      child: CircularProgressIndicator(
+                                                          value:
+                                                              downloadProgress
+                                                                  .progress)),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error),
+                                            ),
+                                          ),
+                                          // Container(
+                                          //   decoration: BoxDecoration(
+                                          //     borderRadius:
+                                          //         BorderRadius.circular(15),
+                                          //     image: DecorationImage(
+                                          //         image: NetworkImage(
+                                          //             category[i]
+                                          //                 .categoryimage),
+                                          //         fit: BoxFit.cover),
+                                          //   ),
+                                          // ),
+                                          Center(
+                                            child: Text(
+                                              category[i]
+                                                  .categoryName
+                                                  .toString(),
+                                              style: GoogleFonts.inter(
+                                                  textStyle: TextStyle(
+                                                fontSize: 13.0,
+                                                fontWeight: FontWeight.w600,
+                                                color:
+                                                    currentselectioncategory ==
+                                                            i
+                                                        ? Colors.white
+                                                        : fontcolor,
+                                              )),
+                                            ),
+                                          ).paddingSymmetric(
+                                              vertical: 5, horizontal: 2)
+                                        ],
+                                      ),
+                                    ).paddingSymmetric(horizontal: 2),
+                                  ).paddingOnly(bottom: 15);
+                                });
+                          }, error: (e, stack) {
+                            return Text(e.toString());
+                          }, loading: () {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }),
+                        ),
+                        // GestureDetector(
+                        //   onTap: (() {
+                        //     setState(() {
+                        //       currentproductcategory = "";
+                        //       currentselectioncategory = -1;
+                        //     });
+                        //   }),
+                        //   child: Container(
+                        //     // padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                        //     child: Card(
+                        //       color: Colors.red,
+                        //       // height: 50,
+                        //       // alignment: Alignment.center,
+                        //       child: Center(
+                        //           child: Text(
+                        //         "Reset",
+                        //         style: GoogleFonts.jost(
+                        //           fontSize: 16.0,
+                        //           color: Colors.black,
+                        //         ),
+                        //       ).paddingSymmetric(horizontal: 2, vertical: 10)),
+                        //     ).paddingOnly(bottom: 10),
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
                     child: productList.when(data: (products) {
                       var filterlist = products
                           .where((element) =>
@@ -422,6 +745,10 @@ class _SaleProductsState extends State<SaleProducts> {
                                             ? products[i].productCode
                                             : filterlist[i].productCode) ==
                                         productCode ||
+                                    (currentproductcategory == ""
+                                            ? products[i].productName
+                                            : filterlist[i].productName)
+                                        .contains(productCode) ||
                                     productCode == '0000' ||
                                     productCode == '-1') &&
                                 productPrice != '0'),
@@ -433,356 +760,10 @@ class _SaleProductsState extends State<SaleProducts> {
                     }, loading: () {
                       return const Center(child: CircularProgressIndicator());
                     }),
-                  )
-                : Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 110,
-                          height: MediaQuery.of(context).size.height * 1.0,
-                          decoration: BoxDecoration(
-                              color: categorybackground,
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(20))),
-                          padding: EdgeInsets.only(right: 2, left: 2, top: 5),
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: categoryList.when(data: (category) {
-                                  if (currentselectioncategory == 0) {
-                                    currentproductcategory = category.length > 0
-                                        ? category[0].categoryName
-                                        : "";
-                                  }
-
-                                  return ListView.builder(
-                                      // shrinkWrap: true,
-                                      physics: const BouncingScrollPhysics(),
-                                      itemCount: category.length,
-                                      itemBuilder: (_, i) {
-                                        return GestureDetector(
-                                          onTap: (() {
-                                            setState(() {
-                                              currentproductcategory =
-                                                  category[i].categoryName;
-                                              currentselectioncategory = i;
-                                            });
-                                          }),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  currentselectioncategory == i
-                                                      ? bgseletedcolor
-                                                      : Colors.transparent,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-
-                                            // padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                                            child: Column(
-                                              children: [
-                                                SizedBox(height: 5),
-                                                Container(
-                                                  height: 80,
-                                                  width: 80,
-                                                  padding: EdgeInsets.all(5.0),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                    border: Border.all(
-                                                        color: Colors.white),
-                                                  ),
-                                                  child: CachedNetworkImage(
-                                                    fit: BoxFit.cover,
-                                                    imageUrl: category[i]
-                                                        .categoryimage,
-                                                    progressIndicatorBuilder: (context,
-                                                            url,
-                                                            downloadProgress) =>
-                                                        Center(
-                                                            child: CircularProgressIndicator(
-                                                                value: downloadProgress
-                                                                    .progress)),
-                                                    errorWidget:
-                                                        (context, url, error) =>
-                                                            Icon(Icons.error),
-                                                  ),
-                                                ),
-                                                // Container(
-                                                //   decoration: BoxDecoration(
-                                                //     borderRadius:
-                                                //         BorderRadius.circular(15),
-                                                //     image: DecorationImage(
-                                                //         image: NetworkImage(
-                                                //             category[i]
-                                                //                 .categoryimage),
-                                                //         fit: BoxFit.cover),
-                                                //   ),
-                                                // ),
-                                                Center(
-                                                  child: Text(
-                                                    category[i]
-                                                        .categoryName
-                                                        .toString(),
-                                                    style: GoogleFonts.inter(
-                                                        textStyle: TextStyle(
-                                                      fontSize: 13.0,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          currentselectioncategory ==
-                                                                  i
-                                                              ? Colors.white
-                                                              : fontcolor,
-                                                    )),
-                                                  ),
-                                                ).paddingSymmetric(
-                                                    vertical: 5, horizontal: 2)
-                                              ],
-                                            ),
-                                          ).paddingSymmetric(horizontal: 2),
-                                        ).paddingOnly(bottom: 15);
-                                      });
-                                }, error: (e, stack) {
-                                  return Text(e.toString());
-                                }, loading: () {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
-                                }),
-                              ),
-                              // GestureDetector(
-                              //   onTap: (() {
-                              //     setState(() {
-                              //       currentproductcategory = "";
-                              //       currentselectioncategory = -1;
-                              //     });
-                              //   }),
-                              //   child: Container(
-                              //     // padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                              //     child: Card(
-                              //       color: Colors.red,
-                              //       // height: 50,
-                              //       // alignment: Alignment.center,
-                              //       child: Center(
-                              //           child: Text(
-                              //         "Reset",
-                              //         style: GoogleFonts.jost(
-                              //           fontSize: 16.0,
-                              //           color: Colors.black,
-                              //         ),
-                              //       ).paddingSymmetric(horizontal: 2, vertical: 10)),
-                              //     ).paddingOnly(bottom: 10),
-                              //   ),
-                              // ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: productList.when(data: (products) {
-                            var filterlist = products
-                                .where((element) =>
-                                    element.productCategory ==
-                                    currentproductcategory)
-                                .toList();
-                            return GridView.builder(
-                              padding: EdgeInsets.zero,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount:
-                                          3, // number of items in each row
-                                      mainAxisSpacing:
-                                          10.0, // spacing between rows
-                                      crossAxisSpacing: 8.0,
-                                      childAspectRatio:
-                                          0.45 // spacing between columns
-                                      ),
-                              shrinkWrap: true,
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: currentproductcategory == ""
-                                  ? products.length
-                                  : filterlist.length,
-                              itemBuilder: (_, i) {
-                                if (widget.customerModel!.type
-                                    .contains('Retailer')) {
-                                  productPrice = currentproductcategory == ""
-                                      ? products[i].productSalePrice
-                                      : filterlist[i].productSalePrice;
-                                } else if (widget.customerModel!.type
-                                    .contains('Dealer')) {
-                                  productPrice = currentproductcategory == ""
-                                      ? products[i].productDealerPrice
-                                      : filterlist[i].productDealerPrice;
-                                } else if (widget.customerModel!.type
-                                    .contains('Wholesaler')) {
-                                  productPrice = currentproductcategory == ""
-                                      ? products[i].productWholeSalePrice
-                                      : filterlist[i].productWholeSalePrice;
-                                } else if (widget.customerModel!.type
-                                    .contains('Supplier')) {
-                                  productPrice = currentproductcategory == ""
-                                      ? products[i].productPurchasePrice
-                                      : filterlist[i].productPurchasePrice;
-                                } else if (widget.customerModel!.type
-                                    .contains('Guest')) {
-                                  productPrice = currentproductcategory == ""
-                                      ? products[i].productSalePrice
-                                      : filterlist[i].productSalePrice;
-                                }
-                                return GestureDetector(
-                                  onTap: () async {
-                                    if ((currentproductcategory == ""
-                                                ? products[i]
-                                                    .productStock
-                                                    .toString()
-                                                : filterlist[i]
-                                                    .productStock
-                                                    .toString())
-                                            .toString() !=
-                                        "") {
-                                      if (int.parse(currentproductcategory == ""
-                                              ? products[i]
-                                                  .productStock
-                                                  .toString()
-                                              : filterlist[i]
-                                                  .productStock
-                                                  .toString()) <=
-                                          0) {
-                                        EasyLoading.showError('Out of stock');
-                                        return;
-                                      }
-                                    }
-
-                                    if (widget.customerModel!.type
-                                        .contains('Retailer')) {
-                                      sentProductPrice =
-                                          currentproductcategory == ""
-                                              ? products[i].productSalePrice
-                                              : filterlist[i].productSalePrice;
-                                    } else if (widget.customerModel!.type
-                                        .contains('Dealer')) {
-                                      sentProductPrice =
-                                          currentproductcategory == ""
-                                              ? products[i].productDealerPrice
-                                              : filterlist[i]
-                                                  .productDealerPrice;
-                                    } else if (widget.customerModel!.type
-                                        .contains('Wholesaler')) {
-                                      sentProductPrice =
-                                          currentproductcategory == ""
-                                              ? products[i]
-                                                  .productWholeSalePrice
-                                              : filterlist[i]
-                                                  .productWholeSalePrice;
-                                    } else if (widget.customerModel!.type
-                                        .contains('Supplier')) {
-                                      sentProductPrice =
-                                          currentproductcategory == ""
-                                              ? products[i].productPurchasePrice
-                                              : filterlist[i]
-                                                  .productPurchasePrice;
-                                    } else if (widget.customerModel!.type
-                                        .contains('Guest')) {
-                                      sentProductPrice =
-                                          currentproductcategory == ""
-                                              ? products[i].productSalePrice
-                                              : filterlist[i].productSalePrice;
-                                    }
-
-                                    AddToCartModel cartItem = AddToCartModel(
-                                      productName: currentproductcategory == ""
-                                          ? products[i].productName
-                                          : filterlist[i].productName,
-                                      subTotal: sentProductPrice,
-                                      productId: currentproductcategory == ""
-                                          ? products[i].productCode
-                                          : filterlist[i].productCode,
-                                      productBrandName:
-                                          currentproductcategory == ""
-                                              ? products[i].brandName
-                                              : filterlist[i].brandName,
-                                      productPurchasePrice:
-                                          currentproductcategory == ""
-                                              ? products[i].productPurchasePrice
-                                              : filterlist[i]
-                                                  .productPurchasePrice,
-                                      stock: (currentproductcategory == ""
-                                                      ? products[i]
-                                                          .productStock
-                                                          .toString()
-                                                      : filterlist[i]
-                                                          .productStock
-                                                          .toString())
-                                                  .toString() ==
-                                              ""
-                                          ? 0
-                                          : int.parse(
-                                              currentproductcategory == ""
-                                                  ? products[i]
-                                                      .productStock
-                                                      .toString()
-                                                  : filterlist[i]
-                                                      .productStock
-                                                      .toString()),
-                                      uuid: currentproductcategory == ""
-                                          ? products[i].productCode.toString()
-                                          : filterlist[i]
-                                              .productCode
-                                              .toString(),
-                                      productgst: currentproductcategory == ""
-                                          ? products[i].productGst
-                                          : filterlist[i].productGst,
-                                    );
-                                    personalData.when(
-                                        data: (data) {
-                                          providerData.addToCartRiverPod(
-                                              cartItem, data.gstenable);
-                                          providerData.addProductsInSales(
-                                              currentproductcategory == ""
-                                                  ? products[i]
-                                                  : filterlist[i],
-                                              context);
-                                        },
-                                        error: (Object error,
-                                            StackTrace stackTrace) {},
-                                        loading: () {});
-
-                                    // Navigator.pop(context);
-                                  },
-                                  child: ProductCard(
-                                    productTitle: currentproductcategory == ""
-                                        ? products[i].productName
-                                        : filterlist[i].productName,
-                                    productDescription:
-                                        currentproductcategory == ""
-                                            ? products[i].productCategory
-                                            : filterlist[i].productCategory,
-                                    productPrice: productPrice,
-                                    productImage: currentproductcategory == ""
-                                        ? products[i].productPicture
-                                        : filterlist[i].productPicture,
-                                  ).visible(((currentproductcategory == ""
-                                                  ? products[i].productCode
-                                                  : filterlist[i]
-                                                      .productCode) ==
-                                              productCode ||
-                                          productCode == '0000' ||
-                                          productCode == '-1') &&
-                                      productPrice != '0'),
-                                );
-                              },
-                            ).paddingSymmetric(horizontal: 10);
-                          }, error: (e, stack) {
-                            return Text(e.toString());
-                          }, loading: () {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          }),
-                        ),
-                      ],
-                    ),
                   ),
+                ],
+              ),
+            ),
           ],
         ),
         floatingActionButtonLocation:
