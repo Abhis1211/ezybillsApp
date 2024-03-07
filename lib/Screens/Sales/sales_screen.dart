@@ -32,6 +32,7 @@ class SaleProducts extends StatefulWidget {
 }
 
 class _SaleProductsState extends State<SaleProducts> {
+  final searchController = TextEditingController();
   String dropdownValue = '';
   String productCode = '0000';
 
@@ -184,26 +185,31 @@ class _SaleProductsState extends State<SaleProducts> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: AppTextField(
+                        controller: searchController,
                         textFieldType: TextFieldType.NAME,
                         onChanged: (value) {
-                          setState(() {
-                            productCode = value;
-                          });
+                          if (value.isNotEmpty)
+                            setState(() {
+                              productCode = value;
+                            });
+                          else
+                            setState(() {
+                              productCode = "0000";
+                              searchController.clear();
+                            });
                         },
                         decoration: InputDecoration(
                             prefixIcon: Icon(Icons.search),
                             // border:InputBorder.none,
                             floatingLabelBehavior: FloatingLabelBehavior.always,
                             // labelText: lang.S.of(context).productCode,
-                            hintText:
-                                productCode == '0000' || productCode == '-1'
-                                    ? 'Search Product Name'
-                                    : productCode,
+                            hintText: 'Search Product Name',
                             border: InputBorder.none,
                             suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    productCode = "";
+                                    productCode = "0000";
+                                    searchController.clear();
                                   });
                                 },
                                 icon: Icon(Icons.clear))),
@@ -261,173 +267,203 @@ class _SaleProductsState extends State<SaleProducts> {
               height: 20,
             ),
 
-            productCode.isNotEmpty
+            searchController.text.isNotEmpty
                 ? Expanded(
                     child: productList.when(data: (products) {
                       var filterlist = products
                           .where((element) =>
                               element.productCategory == currentproductcategory)
                           .toList();
-                      return GridView.builder(
-                        padding: EdgeInsets.zero,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3, // number of items in each row
-                            mainAxisSpacing: 10.0, // spacing between rows
-                            crossAxisSpacing: 8.0,
-                            childAspectRatio: 0.45 // spacing between columns
-                            ),
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: currentproductcategory == ""
-                            ? products.length
-                            : filterlist.length,
-                        itemBuilder: (_, i) {
-                          if (widget.customerModel!.type.contains('Retailer')) {
-                            productPrice = currentproductcategory == ""
-                                ? products[i].productSalePrice
-                                : filterlist[i].productSalePrice;
-                          } else if (widget.customerModel!.type
-                              .contains('Dealer')) {
-                            productPrice = currentproductcategory == ""
-                                ? products[i].productDealerPrice
-                                : filterlist[i].productDealerPrice;
-                          } else if (widget.customerModel!.type
-                              .contains('Wholesaler')) {
-                            productPrice = currentproductcategory == ""
-                                ? products[i].productWholeSalePrice
-                                : filterlist[i].productWholeSalePrice;
-                          } else if (widget.customerModel!.type
-                              .contains('Supplier')) {
-                            productPrice = currentproductcategory == ""
-                                ? products[i].productPurchasePrice
-                                : filterlist[i].productPurchasePrice;
-                          } else if (widget.customerModel!.type
-                              .contains('Guest')) {
-                            productPrice = currentproductcategory == ""
-                                ? products[i].productSalePrice
-                                : filterlist[i].productSalePrice;
-                          }
-                          return GestureDetector(
-                            onTap: () async {
-                              if ((currentproductcategory == ""
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          // physics: const NeverScrollableScrollPhysics(),
+                          itemCount: currentproductcategory == ""
+                              ? products.length
+                              : filterlist.length,
+                          itemBuilder: (_, i) {
+                            if (widget.customerModel!.type
+                                .contains('Retailer')) {
+                              productPrice = currentproductcategory == ""
+                                  ? products[i].productSalePrice
+                                  : filterlist[i].productSalePrice;
+                            } else if (widget.customerModel!.type
+                                .contains('Dealer')) {
+                              productPrice = currentproductcategory == ""
+                                  ? products[i].productDealerPrice
+                                  : filterlist[i].productDealerPrice;
+                            } else if (widget.customerModel!.type
+                                .contains('Wholesaler')) {
+                              productPrice = currentproductcategory == ""
+                                  ? products[i].productWholeSalePrice
+                                  : filterlist[i].productWholeSalePrice;
+                            } else if (widget.customerModel!.type
+                                .contains('Supplier')) {
+                              productPrice = currentproductcategory == ""
+                                  ? products[i].productPurchasePrice
+                                  : filterlist[i].productPurchasePrice;
+                            } else if (widget.customerModel!.type
+                                .contains('Guest')) {
+                              productPrice = currentproductcategory == ""
+                                  ? products[i].productSalePrice
+                                  : filterlist[i].productSalePrice;
+                            }
+                            return ListTile(
+                              onTap: () {
+                                if ((currentproductcategory == ""
+                                            ? products[i]
+                                                .productStock
+                                                .toString()
+                                            : filterlist[i]
+                                                .productStock
+                                                .toString())
+                                        .toString() !=
+                                    "") {
+                                  if (int.parse(currentproductcategory == ""
                                           ? products[i].productStock.toString()
                                           : filterlist[i]
                                               .productStock
-                                              .toString())
-                                      .toString() !=
-                                  "") {
-                                if (int.parse(currentproductcategory == ""
-                                        ? products[i].productStock.toString()
-                                        : filterlist[i]
-                                            .productStock
-                                            .toString()) <=
-                                    0) {
-                                  EasyLoading.showError('Out of stock');
-                                  return;
+                                              .toString()) <=
+                                      0) {
+                                    EasyLoading.showError('Out of stock');
+                                    return;
+                                  }
                                 }
-                              }
-
-                              if (widget.customerModel!.type
-                                  .contains('Retailer')) {
-                                sentProductPrice = currentproductcategory == ""
-                                    ? products[i].productSalePrice
-                                    : filterlist[i].productSalePrice;
-                              } else if (widget.customerModel!.type
-                                  .contains('Dealer')) {
-                                sentProductPrice = currentproductcategory == ""
-                                    ? products[i].productDealerPrice
-                                    : filterlist[i].productDealerPrice;
-                              } else if (widget.customerModel!.type
-                                  .contains('Wholesaler')) {
-                                sentProductPrice = currentproductcategory == ""
-                                    ? products[i].productWholeSalePrice
-                                    : filterlist[i].productWholeSalePrice;
-                              } else if (widget.customerModel!.type
-                                  .contains('Supplier')) {
-                                sentProductPrice = currentproductcategory == ""
-                                    ? products[i].productPurchasePrice
-                                    : filterlist[i].productPurchasePrice;
-                              } else if (widget.customerModel!.type
-                                  .contains('Guest')) {
-                                sentProductPrice = currentproductcategory == ""
-                                    ? products[i].productSalePrice
-                                    : filterlist[i].productSalePrice;
-                              }
-
-                              AddToCartModel cartItem = AddToCartModel(
-                                productName: currentproductcategory == ""
+                                if (widget.customerModel!.type
+                                    .contains('Retailer')) {
+                                  sentProductPrice =
+                                      currentproductcategory == ""
+                                          ? products[i].productSalePrice
+                                          : filterlist[i].productSalePrice;
+                                } else if (widget.customerModel!.type
+                                    .contains('Dealer')) {
+                                  sentProductPrice =
+                                      currentproductcategory == ""
+                                          ? products[i].productDealerPrice
+                                          : filterlist[i].productDealerPrice;
+                                } else if (widget.customerModel!.type
+                                    .contains('Wholesaler')) {
+                                  sentProductPrice =
+                                      currentproductcategory == ""
+                                          ? products[i].productWholeSalePrice
+                                          : filterlist[i].productWholeSalePrice;
+                                } else if (widget.customerModel!.type
+                                    .contains('Supplier')) {
+                                  sentProductPrice =
+                                      currentproductcategory == ""
+                                          ? products[i].productPurchasePrice
+                                          : filterlist[i].productPurchasePrice;
+                                } else if (widget.customerModel!.type
+                                    .contains('Guest')) {
+                                  sentProductPrice =
+                                      currentproductcategory == ""
+                                          ? products[i].productSalePrice
+                                          : filterlist[i].productSalePrice;
+                                }
+                                AddToCartModel cartItem = AddToCartModel(
+                                  productName: currentproductcategory == ""
+                                      ? products[i].productName
+                                      : filterlist[i].productName,
+                                  subTotal: sentProductPrice,
+                                  productId: currentproductcategory == ""
+                                      ? products[i].productCode
+                                      : filterlist[i].productCode,
+                                  productBrandName: currentproductcategory == ""
+                                      ? products[i].brandName
+                                      : filterlist[i].brandName,
+                                  productPurchasePrice:
+                                      currentproductcategory == ""
+                                          ? products[i].productPurchasePrice
+                                          : filterlist[i].productPurchasePrice,
+                                  stock: (currentproductcategory == ""
+                                                  ? products[i]
+                                                      .productStock
+                                                      .toString()
+                                                  : filterlist[i]
+                                                      .productStock
+                                                      .toString())
+                                              .toString() ==
+                                          ""
+                                      ? 0
+                                      : int.parse(currentproductcategory == ""
+                                          ? products[i].productStock.toString()
+                                          : filterlist[i]
+                                              .productStock
+                                              .toString()),
+                                  uuid: currentproductcategory == ""
+                                      ? products[i].productCode.toString()
+                                      : filterlist[i].productCode.toString(),
+                                  productgst: currentproductcategory == ""
+                                      ? products[i].productGst
+                                      : filterlist[i].productGst,
+                                );
+                                personalData.when(
+                                    data: (data) {
+                                      providerData.addToCartRiverPod(
+                                          cartItem, data.gstenable);
+                                      providerData.addProductsInSales(
+                                          currentproductcategory == ""
+                                              ? products[i]
+                                              : filterlist[i],
+                                          context);
+                                    },
+                                    error: (Object error,
+                                        StackTrace stackTrace) {},
+                                    loading: () {});
+                                // Navigator.pop(context);
+                              },
+                              leading: Container(
+                                height: 50,
+                                width: 50,
+                                // decoration: BoxDecoration(
+                                //     borderRadius: const BorderRadius.all(
+                                //         Radius.circular(90)),
+                                //     image: DecorationImage(
+                                //       image: NetworkImage(
+                                //         products[i].productPicture,
+                                //       ),
+                                //       fit: BoxFit.cover,
+                                //     )),
+                                child: CachedNetworkImage(
+                                  imageUrl: products[i].productPicture,
+                                  placeholder: (context, url) => const SizedBox(
+                                    height: 50,
+                                    width: 50,
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(50.0),
+                                          child: Image.network(
+                                            currentproductcategory == ""
+                                                ? products[i].productPicture
+                                                : filterlist[i].productPicture,
+                                          )),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              title: Text(
+                                currentproductcategory == ""
                                     ? products[i].productName
                                     : filterlist[i].productName,
-                                subTotal: sentProductPrice,
-                                productId: currentproductcategory == ""
-                                    ? products[i].productCode
-                                    : filterlist[i].productCode,
-                                productBrandName: currentproductcategory == ""
-                                    ? products[i].brandName
-                                    : filterlist[i].brandName,
-                                productPurchasePrice:
-                                    currentproductcategory == ""
-                                        ? products[i].productPurchasePrice
-                                        : filterlist[i].productPurchasePrice,
-                                stock: (currentproductcategory == ""
-                                                ? products[i]
-                                                    .productStock
-                                                    .toString()
-                                                : filterlist[i]
-                                                    .productStock
-                                                    .toString())
-                                            .toString() ==
-                                        ""
-                                    ? 0
-                                    : int.parse(currentproductcategory == ""
-                                        ? products[i].productStock.toString()
-                                        : filterlist[i]
-                                            .productStock
-                                            .toString()),
-                                uuid: currentproductcategory == ""
-                                    ? products[i].productCode.toString()
-                                    : filterlist[i].productCode.toString(),
-                                productgst: currentproductcategory == ""
-                                    ? products[i].productGst
-                                    : filterlist[i].productGst,
-                              );
-                              personalData.when(
-                                  data: (data) {
-                                    providerData.addToCartRiverPod(
-                                        cartItem, data.gstenable);
-                                    providerData.addProductsInSales(
-                                        currentproductcategory == ""
-                                            ? products[i]
-                                            : filterlist[i],
-                                        context);
-                                  },
-                                  error:
-                                      (Object error, StackTrace stackTrace) {},
-                                  loading: () {});
-
-                              // Navigator.pop(context);
-                            },
-                            child: ProductCard(
-                              productTitle: currentproductcategory == ""
-                                  ? products[i].productName
-                                  : filterlist[i].productName,
-                              productDescription: currentproductcategory == ""
-                                  ? products[i].productCategory
-                                  : filterlist[i].productCategory,
-                              productPrice: productPrice,
-                              productImage: currentproductcategory == ""
-                                  ? products[i].productPicture
-                                  : filterlist[i].productPicture,
+                              ),
+                              subtitle: Text(
+                                currentproductcategory == ""
+                                    ? products[i].productCategory
+                                    : filterlist[i].productCategory,
+                              ),
+                              trailing: Text(
+                                "$currency ${productPrice}",
+                                style: const TextStyle(fontSize: 18),
+                              ),
                             ).visible(((currentproductcategory == ""
-                                            ? products[i].productCode
-                                            : filterlist[i].productCode) ==
-                                        productCode ||
+                                            ? products[i].productName
+                                            : filterlist[i].productName)
+                                        .contains(searchController.text) ||
                                     productCode == '0000' ||
                                     productCode == '-1') &&
-                                productPrice != '0'),
-                          );
-                        },
-                      ).paddingSymmetric(horizontal: 10);
+                                productPrice != '0');
+                          });
                     }, error: (e, stack) {
                       return Text(e.toString());
                     }, loading: () {
@@ -767,6 +803,10 @@ class _SaleProductsState extends State<SaleProducts> {
                                                   : filterlist[i]
                                                       .productCode) ==
                                               productCode ||
+                                          (currentproductcategory == ""
+                                                  ? products[i].productName
+                                                  : filterlist[i].productName)
+                                              .contains(productCode) ||
                                           productCode == '0000' ||
                                           productCode == '-1') &&
                                       productPrice != '0'),
