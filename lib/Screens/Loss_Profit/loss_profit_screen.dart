@@ -41,7 +41,7 @@ class _LossProfitScreenState extends State<LossProfitScreen> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: Text(
-            lang.S.of(context).lp,
+            "Profit/Loss",
             style: GoogleFonts.inter(
               color: Colors.black,
             ),

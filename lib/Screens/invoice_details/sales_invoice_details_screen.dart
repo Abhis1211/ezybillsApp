@@ -185,13 +185,17 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                             width: context.width(),
                             child: Row(
                               children: [
-                                Text(
-                                  widget.transitionModel.productList![i]
-                                      .productName
-                                      .toString(),
-                                  maxLines: 2,
-                                  style: kTextStyle.copyWith(
-                                      color: kGreyTextColor),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.2,
+                                  child: Text(
+                                    widget.transitionModel.productList![i]
+                                        .productName
+                                        .toString(),
+                                    maxLines: 2,
+                                    style: kTextStyle.copyWith(
+                                        color: kGreyTextColor),
+                                  ),
                                 ),
                                 SizedBox(
                                     width:
@@ -253,28 +257,6 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        "Total GST",
-                        maxLines: 1,
-                        style: kTextStyle.copyWith(color: kGreyTextColor),
-                      ),
-                      const SizedBox(width: 20.0),
-                      SizedBox(
-                        width: 120,
-                        child: Text(
-                          '$currency 0.00',
-                          maxLines: 2,
-                          style: kTextStyle.copyWith(
-                              color: kTitleColor, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.end,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 5.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
                         lang.S.of(context).discount,
                         maxLines: 1,
                         style: kTextStyle.copyWith(color: kGreyTextColor),
@@ -297,7 +279,7 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        lang.S.of(context).deliveryCharge,
+                        "Total GST",
                         maxLines: 1,
                         style: kTextStyle.copyWith(color: kGreyTextColor),
                       ),
@@ -305,7 +287,7 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                       SizedBox(
                         width: 120,
                         child: Text(
-                          '$currency 0.00',
+                          '$currency ${widget.transitionModel.vat!.toStringAsFixed(2).toString() ?? 0.00}',
                           maxLines: 2,
                           style: kTextStyle.copyWith(
                               color: kTitleColor, fontWeight: FontWeight.bold),
@@ -314,6 +296,28 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 5.0),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.end,
+                  //   children: [
+                  //     Text(
+                  //       lang.S.of(context).deliveryCharge,
+                  //       maxLines: 1,
+                  //       style: kTextStyle.copyWith(color: kGreyTextColor),
+                  //     ),
+                  //     const SizedBox(width: 20.0),
+                  //     SizedBox(
+                  //       width: 120,
+                  //       child: Text(
+                  //         '$currency 0.00',
+                  //         maxLines: 2,
+                  //         style: kTextStyle.copyWith(
+                  //             color: kTitleColor, fontWeight: FontWeight.bold),
+                  //         textAlign: TextAlign.end,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   const SizedBox(height: 20.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

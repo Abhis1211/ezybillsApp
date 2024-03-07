@@ -704,35 +704,35 @@ class GeneratePdf {
                         ]),
                       ]),
                       pw.Column(children: [
-                        pw.Row(children: [
-                          pw.SizedBox(
-                            width: 100.0,
-                            child: pw.Text(
-                              'Sells By',
-                              style: pw.Theme.of(context)
-                                  .defaultTextStyle
-                                  .copyWith(color: PdfColors.black),
-                            ),
-                          ),
-                          pw.SizedBox(
-                            width: 10.0,
-                            child: pw.Text(
-                              ':',
-                              style: pw.Theme.of(context)
-                                  .defaultTextStyle
-                                  .copyWith(color: PdfColors.black),
-                            ),
-                          ),
-                          pw.SizedBox(
-                            width: 100.0,
-                            child: pw.Text(
-                              'Admin',
-                              style: pw.Theme.of(context)
-                                  .defaultTextStyle
-                                  .copyWith(color: PdfColors.black),
-                            ),
-                          ),
-                        ]),
+                        // pw.Row(children: [
+                        //   pw.SizedBox(
+                        //     width: 100.0,
+                        //     child: pw.Text(
+                        //       'Sells By',
+                        //       style: pw.Theme.of(context)
+                        //           .defaultTextStyle
+                        //           .copyWith(color: PdfColors.black),
+                        //     ),
+                        //   ),
+                        //   pw.SizedBox(
+                        //     width: 10.0,
+                        //     child: pw.Text(
+                        //       ':',
+                        //       style: pw.Theme.of(context)
+                        //           .defaultTextStyle
+                        //           .copyWith(color: PdfColors.black),
+                        //     ),
+                        //   ),
+                        //   pw.SizedBox(
+                        //     width: 100.0,
+                        //     child: pw.Text(
+                        //       'Admin',
+                        //       style: pw.Theme.of(context)
+                        //           .defaultTextStyle
+                        //           .copyWith(color: PdfColors.black),
+                        //     ),
+                        //   ),
+                        // ]),
                         pw.Row(children: [
                           pw.SizedBox(
                             width: 100.0,

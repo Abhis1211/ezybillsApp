@@ -45,7 +45,7 @@ List<GridItems> getFreeIcons({required BuildContext context}) {
       route: 'Purchase List',
     ),
     GridItems(
-      title: lang.S.of(context).lossOrProfit,
+      title: "Profit/Loss",
       icon: 'images/profitloseicon.png',
       route: 'Loss/Profit',
     ),

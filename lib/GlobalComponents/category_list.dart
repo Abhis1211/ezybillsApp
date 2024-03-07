@@ -168,7 +168,7 @@ class _CategoryListState extends State<CategoryList> {
                                                 context, data[i].categoryName);
                                           },
                                         ),
-                                        SizedBox(width: 5),
+                                        SizedBox(width: 20),
                                         GestureDetector(
                                             onTap: () {
                                               AddCategory(
@@ -184,45 +184,45 @@ class _CategoryListState extends State<CategoryList> {
                                             },
                                             child: Icon(Icons.edit)),
                                         SizedBox(width: 10),
-                                        GestureDetector(
-                                            onTap: () async {
-                                              showAlertDialog(context,
-                                                  () async {
-                                                List brandList = [];
-                                                var brandkey = "";
-                                                final sref = FirebaseDatabase
-                                                    .instance
-                                                    .ref(constUserId)
-                                                    .child('Categories');
+                                        // GestureDetector(
+                                        //     onTap: () async {
+                                        //       showAlertDialog(context,
+                                        //           () async {
+                                        //         List brandList = [];
+                                        //         var brandkey = "";
+                                        //         final sref = FirebaseDatabase
+                                        //             .instance
+                                        //             .ref(constUserId)
+                                        //             .child('Categories');
 
-                                                await sref.get().then((value) {
-                                                  for (var element
-                                                      in value.children) {
-                                                    var sdata = jsonDecode(
-                                                        jsonEncode(
-                                                            element.value));
-                                                    if (sdata['categoryName']
-                                                            .toString() ==
-                                                        data[i]
-                                                            .categoryName
-                                                            .toString()) {
-                                                      setState(() {
-                                                        brandkey = element.key
-                                                            .toString();
-                                                      });
-                                                    }
-                                                  }
-                                                });
-                                                print(brandkey.toString());
-                                                DatabaseReference wref =
-                                                    FirebaseDatabase.instance.ref(
-                                                        "$constUserId/Categories/$brandkey");
-                                                wref.keepSynced(true);
-                                                await wref.remove();
-                                                ref.refresh(categoryProvider);
-                                              });
-                                            },
-                                            child: Icon(Icons.delete)),
+                                        //         await sref.get().then((value) {
+                                        //           for (var element
+                                        //               in value.children) {
+                                        //             var sdata = jsonDecode(
+                                        //                 jsonEncode(
+                                        //                     element.value));
+                                        //             if (sdata['categoryName']
+                                        //                     .toString() ==
+                                        //                 data[i]
+                                        //                     .categoryName
+                                        //                     .toString()) {
+                                        //               setState(() {
+                                        //                 brandkey = element.key
+                                        //                     .toString();
+                                        //               });
+                                        //             }
+                                        //           }
+                                        //         });
+                                        //         print(brandkey.toString());
+                                        //         DatabaseReference wref =
+                                        //             FirebaseDatabase.instance.ref(
+                                        //                 "$constUserId/Categories/$brandkey");
+                                        //         wref.keepSynced(true);
+                                        //         await wref.remove();
+                                        //         ref.refresh(categoryProvider);
+                                        //       });
+                                        //     },
+                                        //     child: Icon(Icons.delete)),
                                       ],
                                     ),
                                   ),

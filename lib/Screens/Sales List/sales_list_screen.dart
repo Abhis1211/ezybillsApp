@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../Provider/profile_provider.dart';
-import 'package:path_provider/path_provider.dart';
 import '../../GlobalComponents/generate_pdf.dart';
 import 'package:mobile_pos/Provider/add_to_cart.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,7 +36,7 @@ class _SalesListScreenState extends State<SalesListScreen> {
   DateTime toDate = DateTime.now();
   double totalSale = 0;
   List<String> timeLimit = [
-    'ToDay',
+    'Today',
     'This Week',
     'This Month',
     'This Year',
@@ -320,7 +319,7 @@ class _SalesListScreenState extends State<SalesListScreen> {
                                                   newValue.toString();
 
                                               switch (newValue) {
-                                                case 'ToDay':
+                                                case 'Today':
                                                   changeDate(
                                                       from: DateTime(
                                                           DateTime.now().year,
