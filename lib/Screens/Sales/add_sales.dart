@@ -84,7 +84,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
       dueAmount = netTotal - paidAmount;
     }
     print("total====> " + dueAmount.toString());
-    return returnAmount <= 0 ? 0 : netTotal - paidAmount;
+    return netTotal - paidAmount;
   }
 
   late SaleTransactionModel transitionModel = SaleTransactionModel(
@@ -910,7 +910,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                               Text(
                                 paidamount.text.isEmpty
                                     ? "0.0"
-                                    : calculateDueAmount(total: subTotal)
+                                    : calculateDueAmount(total: netTotal)
                                         .toStringAsFixed(2),
                                 style: const TextStyle(fontSize: 14),
                               ),
