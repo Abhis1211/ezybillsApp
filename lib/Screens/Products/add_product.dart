@@ -138,6 +138,7 @@ class _AddProductState extends State<AddProduct> {
 
   @override
   void initState() {
+    vatPercentageEditingController.text = dropdownvalue;
     widget.catName == null
         ? productCategory = 'Select Product Category'
         : productCategory = widget.catName;
