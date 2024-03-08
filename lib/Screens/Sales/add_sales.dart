@@ -43,6 +43,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
   double returnAmount = 0;
   double dueAmount = 0;
   double subTotal = 0;
+  double netTotal = 0;
 
   String? dropdownValue = 'Cash';
   String? guestname = '';
@@ -60,13 +61,15 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
   double calculateSubtotal({required double total, vatamout}) {
     print("vatamout" + vatAmount.toString());
     print("totalamout" + total.toString());
-    subTotal = total + vatamout - discountAmount;
+    subTotal = total - discountAmount;
+    netTotal = total + vatamout - discountAmount;
     return total + vatamout - discountAmount;
   }
 
   double calculateReturnAmount({required double total}) {
     returnAmount = total - paidAmount;
-    return paidAmount <= 0 || paidAmount <= subTotal ? 0 : total - paidAmount;
+    // return paidAmount <= 0 || paidAmount <= subTotal ? 0 : total - paidAmount;
+    return paidAmount <= 0 || paidAmount <= netTotal ? 0 : total - paidAmount;
   }
 
   double calculateDueAmount({required double total}) {
@@ -76,12 +79,12 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
     } else if (paidamount.text.isEmpty) {
       dueAmount = 0;
     } else if (paidAmount == 0) {
-      dueAmount = subTotal;
+      dueAmount = netTotal;
     } else {
-      dueAmount = subTotal - paidAmount;
+      dueAmount = netTotal - paidAmount;
     }
     print("total====> " + dueAmount.toString());
-    return returnAmount <= 0 ? 0 : subTotal - paidAmount;
+    return returnAmount <= 0 ? 0 : netTotal - paidAmount;
   }
 
   late SaleTransactionModel transitionModel = SaleTransactionModel(
@@ -274,7 +277,11 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                     vatAmount.toStringAsFixed(2);
                                 subTotal = providerData.calculateSubtotal(
                                     discountAmount: discountAmount);
+                                netTotal = providerData.calculateSubtotal1(
+                                    discountAmount: discountAmount);
                                 print("subtotal" + subTotal.toString());
+                                print("subtotal" + netTotal.toString());
+                                setState(() {});
                               });
                               // consumerRef.refresh(cartNotifier);
 
@@ -320,6 +327,33 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                             onTap: () {
                                               providerData
                                                   .quantityDecrease(index);
+                                              Future.delayed(
+                                                  Duration(milliseconds: 1),
+                                                  () {
+                                                vatPercentageEditingController
+                                                        .text =
+                                                    providerData.totalgst
+                                                        .toString();
+                                                vatAmount =
+                                                    providerData.totalamount();
+                                                vatAmountEditingController
+                                                        .text =
+                                                    vatAmount
+                                                        .toStringAsFixed(2);
+                                                subTotal = providerData
+                                                    .calculateSubtotal(
+                                                        discountAmount:
+                                                            discountAmount);
+                                                netTotal = providerData
+                                                    .calculateSubtotal1(
+                                                        discountAmount:
+                                                            discountAmount);
+                                                print("subtotal" +
+                                                    subTotal.toString());
+                                                print("subtotal" +
+                                                    netTotal.toString());
+                                                setState(() {});
+                                              });
                                             },
                                             child: Container(
                                               height: 20,
@@ -352,6 +386,33 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                             onTap: () {
                                               providerData
                                                   .quantityIncrease(index);
+                                              Future.delayed(
+                                                  Duration(milliseconds: 1),
+                                                  () {
+                                                vatPercentageEditingController
+                                                        .text =
+                                                    providerData.totalgst
+                                                        .toString();
+                                                vatAmount =
+                                                    providerData.totalamount();
+                                                vatAmountEditingController
+                                                        .text =
+                                                    vatAmount
+                                                        .toStringAsFixed(2);
+                                                subTotal = providerData
+                                                    .calculateSubtotal(
+                                                        discountAmount:
+                                                            discountAmount);
+                                                netTotal = providerData
+                                                    .calculateSubtotal1(
+                                                        discountAmount:
+                                                            discountAmount);
+                                                print("subtotal" +
+                                                    subTotal.toString());
+                                                print("subtotal" +
+                                                    netTotal.toString());
+                                                setState(() {});
+                                              });
                                             },
                                             child: Container(
                                               height: 20,
@@ -379,6 +440,30 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                               index,
                                               providerData.cartItemList[index]
                                                   .productgst);
+                                          Future.delayed(
+                                              Duration(milliseconds: 1), () {
+                                            vatPercentageEditingController
+                                                    .text =
+                                                providerData.totalgst
+                                                    .toString();
+                                            vatAmount =
+                                                providerData.totalamount();
+                                            vatAmountEditingController.text =
+                                                vatAmount.toStringAsFixed(2);
+                                            subTotal =
+                                                providerData.calculateSubtotal(
+                                                    discountAmount:
+                                                        discountAmount);
+                                            netTotal =
+                                                providerData.calculateSubtotal1(
+                                                    discountAmount:
+                                                        discountAmount);
+                                            print("subtotal" +
+                                                subTotal.toString());
+                                            print("subtotal" +
+                                                netTotal.toString());
+                                            setState(() {});
+                                          });
                                         },
                                         child: Container(
                                           padding: const EdgeInsets.all(4),
@@ -452,6 +537,79 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                               Text(
                                 providerData
                                     .getTotalAmount()
+                                    .toStringAsFixed(2),
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                lang.S.of(context).discount,
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                              SizedBox(
+                                width: context.width() / 4,
+                                child: TextField(
+                                  controller: paidText,
+                                  onChanged: (value) {
+                                    if (value == '') {
+                                      setState(() {
+                                        discountAmount = 0.0;
+                                      });
+                                      providerData.notifyListeners();
+                                    } else {
+                                      if (value.toInt() <=
+                                          providerData.getTotalAmount()) {
+                                        setState(() {
+                                          discountAmount = double.parse(value);
+                                        });
+                                      } else {
+                                        paidText.clear();
+                                        setState(() {
+                                          discountAmount = 0;
+                                        });
+                                        EasyLoading.showError(
+                                            'Enter a valid Discount');
+                                      }
+                                    }
+                                  },
+                                  style: const TextStyle(fontSize: 14),
+                                  textAlign: TextAlign.right,
+                                  decoration: const InputDecoration(
+                                    hintText: '0',
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Color(0xffEAEFFA),
+                            border: Border.symmetric(
+                                horizontal: BorderSide(color: Colors.black)),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                lang.S.of(context).total,
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                providerData
+                                    .calculateSubtotal(
+                                        discountAmount: discountAmount)
                                     .toStringAsFixed(2),
                                 style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
@@ -656,51 +814,6 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                               ],
                             ),
                           ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                lang.S.of(context).discount,
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                              SizedBox(
-                                width: context.width() / 4,
-                                child: TextField(
-                                  controller: paidText,
-                                  onChanged: (value) {
-                                    if (value == '') {
-                                      setState(() {
-                                        discountAmount = 0;
-                                      });
-                                    } else {
-                                      if (value.toInt() <=
-                                          providerData.getTotalAmount()) {
-                                        setState(() {
-                                          discountAmount = double.parse(value);
-                                        });
-                                      } else {
-                                        paidText.clear();
-                                        setState(() {
-                                          discountAmount = 0;
-                                        });
-                                        EasyLoading.showError(
-                                            'Enter a valid Discount');
-                                      }
-                                    }
-                                  },
-                                  style: const TextStyle(fontSize: 14),
-                                  textAlign: TextAlign.right,
-                                  decoration: const InputDecoration(
-                                    hintText: '0',
-                                  ),
-                                  keyboardType: TextInputType.number,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                         SizedBox(height: 5),
                         Container(
                           padding: EdgeInsets.all(10),
@@ -713,12 +826,15 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                lang.S.of(context).total,
+                                lang.S.of(context).netAmount,
                                 style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                subTotal.toStringAsFixed(2),
+                                providerData
+                                    .calculateSubtotal1(
+                                        discountAmount: discountAmount)
+                                    .toStringAsFixed(2),
                                 style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -756,7 +872,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                   decoration: InputDecoration(
                                       hintStyle: TextStyle(
                                           fontSize: 14, color: Colors.black),
-                                      hintText: subTotal.toStringAsFixed(2)),
+                                      hintText: netTotal.toStringAsFixed(2)),
                                 ),
                               ),
                             ],
