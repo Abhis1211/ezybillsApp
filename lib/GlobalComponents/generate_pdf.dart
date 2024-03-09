@@ -673,35 +673,36 @@ class GeneratePdf {
                             ),
                           ),
                         ]),
-                        pw.Row(children: [
-                          pw.SizedBox(
-                            width: 100.0,
-                            child: pw.Text(
-                              'Phone',
-                              style: pw.Theme.of(context)
-                                  .defaultTextStyle
-                                  .copyWith(color: PdfColors.black),
+                        if (transactions.customerPhone != "")
+                          pw.Row(children: [
+                            pw.SizedBox(
+                              width: 100.0,
+                              child: pw.Text(
+                                'Phone',
+                                style: pw.Theme.of(context)
+                                    .defaultTextStyle
+                                    .copyWith(color: PdfColors.black),
+                              ),
                             ),
-                          ),
-                          pw.SizedBox(
-                            width: 10.0,
-                            child: pw.Text(
-                              ':',
-                              style: pw.Theme.of(context)
-                                  .defaultTextStyle
-                                  .copyWith(color: PdfColors.black),
+                            pw.SizedBox(
+                              width: 10.0,
+                              child: pw.Text(
+                                ':',
+                                style: pw.Theme.of(context)
+                                    .defaultTextStyle
+                                    .copyWith(color: PdfColors.black),
+                              ),
                             ),
-                          ),
-                          pw.SizedBox(
-                            width: 100.0,
-                            child: pw.Text(
-                              transactions.customerPhone,
-                              style: pw.Theme.of(context)
-                                  .defaultTextStyle
-                                  .copyWith(color: PdfColors.black),
+                            pw.SizedBox(
+                              width: 100.0,
+                              child: pw.Text(
+                                transactions.customerPhone,
+                                style: pw.Theme.of(context)
+                                    .defaultTextStyle
+                                    .copyWith(color: PdfColors.black),
+                              ),
                             ),
-                          ),
-                        ]),
+                          ]),
                       ]),
                       pw.Column(children: [
                         // pw.Row(children: [
@@ -978,7 +979,7 @@ class GeneratePdf {
 
                         if (personalInformation.gstenable == true)
                           pw.Text(
-                            "GST: ${transactions.vat ?? 0.00}",
+                            "GST: ${transactions.vat!.toStringAsFixed(2) ?? 0.00}",
                             style: pw.TextStyle(
                               color: PdfColors.black,
                               fontWeight: pw.FontWeight.bold,
@@ -990,7 +991,7 @@ class GeneratePdf {
                           color: PdfColors.blueAccent,
                           padding: const pw.EdgeInsets.all(5.0),
                           child: pw.Text(
-                              "Total Amount: ${transactions.totalAmount}",
+                              "Total Amount: ${transactions.totalAmount!.toStringAsFixed(2)}",
                               style: pw.TextStyle(
                                   color: PdfColors.white,
                                   fontWeight: pw.FontWeight.bold)),

@@ -23,6 +23,7 @@ import 'package:mobile_pos/Screens/Sales/sales_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mobile_pos/Provider/transactions_provider.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+
 // ignore_for_file: unused_result, use_build_context_synchronously
 // ignore: must_be_immutable
 class AddSalesScreen extends StatefulWidget {
@@ -96,7 +97,9 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
 
   @override
   void initState() {
-    setState(() {});
+    setState(() {
+      guestname = widget.customerModel.customerName;
+    });
 
     super.initState();
   }
