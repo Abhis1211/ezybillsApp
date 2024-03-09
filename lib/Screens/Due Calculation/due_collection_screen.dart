@@ -23,7 +23,8 @@ import '../Customers/Model/customer_model.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
 
 class DueCollectionScreen extends StatefulWidget {
-  const DueCollectionScreen({Key? key, required this.customerModel}) : super(key: key);
+  const DueCollectionScreen({Key? key, required this.customerModel})
+      : super(key: key);
 
   @override
   State<DueCollectionScreen> createState() => _DueCollectionScreenState();
@@ -58,9 +59,20 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
     return dueAmount - total;
   }
 
+  double calculateDueAmount1({required double total, dueamount1}) {
+    if (total < 0) {
+      remainDueAmount = 0;
+    } else {
+      remainDueAmount = dueamount1 - total;
+    }
+    // return dueAmount - total;
+    return dueamount1 - total;
+  }
+
   TextEditingController controller = TextEditingController();
   TextEditingController paidText = TextEditingController();
-  TextEditingController dateController = TextEditingController(text: DateTime.now().toString());
+  TextEditingController dateController =
+      TextEditingController(text: DateTime.now().toString());
   late DueTransactionModel dueTransactionModel = DueTransactionModel(
     customerName: widget.customerModel.customerName,
     customerPhone: widget.customerModel.phoneNumber,
@@ -80,7 +92,9 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
   Widget build(BuildContext context) {
     count++;
     return Consumer(builder: (context, consumerRef, __) {
-      final customerProviderRef = widget.customerModel.type == 'Supplier' ? consumerRef.watch(purchaseTransitionProvider) : consumerRef.watch(transitionProvider);
+      final customerProviderRef = widget.customerModel.type == 'Supplier'
+          ? consumerRef.watch(purchaseTransitionProvider)
+          : consumerRef.watch(transitionProvider);
       final printerData = consumerRef.watch(printerDueProviderNotifier);
       final personalData = consumerRef.watch(profileDetailsProvider);
       return personalData.when(data: (data) {
@@ -108,7 +122,10 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                     children: [
                       customerProviderRef.when(data: (customer) {
                         for (var element in customer) {
-                          if (element.customerPhone == widget.customerModel.phoneNumber && element.dueAmount != 0 && count < 2) {
+                          if (element.customerPhone ==
+                                  widget.customerModel.phoneNumber &&
+                              element.dueAmount != 0 &&
+                              count < 2) {
                             items.add(element.invoiceNumber);
                           }
                           if (selectedInvoice == element.invoiceNumber) {
@@ -172,7 +189,8 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                                 if (picked != null) {
                                   setState(() {
                                     dateController.text = picked.toString();
-                                    dueTransactionModel.purchaseDate = picked.toString();
+                                    dueTransactionModel.purchaseDate =
+                                        picked.toString();
                                   });
                                 }
                               },
@@ -194,7 +212,9 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                             lang.S.of(context).dueAmount,
                           ),
                           Text(
-                            widget.customerModel.dueAmount == '' ? '$currency 0' : '$currency${widget.customerModel.dueAmount}',
+                            widget.customerModel.dueAmount == ''
+                                ? '$currency 0'
+                                : '$currency${widget.customerModel.dueAmount}',
                             style: const TextStyle(color: Color(0xFFFF8C34)),
                           ),
                         ],
@@ -218,12 +238,20 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
 
                   ///_____Total______________________________
                   Container(
-                    decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(10)), border: Border.all(color: Colors.grey.shade300, width: 1)),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        border:
+                            Border.all(color: Colors.grey.shade300, width: 1)),
                     child: Column(
                       children: [
                         Container(
                           padding: const EdgeInsets.all(10),
-                          decoration: const BoxDecoration(color: Color(0xffEAEFFA), borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+                          decoration: const BoxDecoration(
+                              color: Color(0xffEAEFFA),
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(10),
+                                  topLeft: Radius.circular(10))),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -257,7 +285,10 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                                         paidAmount = 0;
                                       });
                                     } else {
-                                      if (value.toDouble() <= dueAmount) {
+                                      print("asdsda" + dueAmount.toString());
+                                      if (value.toDouble() <=
+                                          widget.customerModel.dueAmount
+                                              .toDouble()) {
                                         setState(() {
                                           paidAmount = double.parse(value);
                                         });
@@ -266,7 +297,8 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                                         setState(() {
                                           paidAmount = 0;
                                         });
-                                        EasyLoading.showError('You can\'t pay more then due');
+                                        EasyLoading.showError(
+                                            'You can\'t pay more then due');
                                       }
                                     }
                                   },
@@ -290,7 +322,12 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                                 style: const TextStyle(fontSize: 16),
                               ),
                               Text(
-                                calculateDueAmount(total: paidAmount).toString(),
+                                calculateDueAmount1(
+                                        total: paidAmount,
+                                        dueamount1: widget
+                                            .customerModel.dueAmount
+                                            .toDouble())
+                                    .toString(),
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ],
@@ -313,7 +350,8 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                         children: [
                           Text(
                             lang.S.of(context).paymentTypes,
-                            style: const TextStyle(fontSize: 16, color: Colors.black54),
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.black54),
                           ),
                           const SizedBox(
                             width: 5,
@@ -370,7 +408,10 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                       Container(
                           height: 60,
                           width: 100,
-                          decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(10)), color: Colors.grey.shade200),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              color: Colors.grey.shade200),
                           child: Center(
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -382,7 +423,8 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                                 SizedBox(width: 5),
                                 Text(
                                   lang.S.of(context).image,
-                                  style: const TextStyle(color: Colors.grey, fontSize: 16),
+                                  style: const TextStyle(
+                                      color: Colors.grey, fontSize: 16),
                                 )
                               ],
                             ),
@@ -400,7 +442,8 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                           height: 60,
                           decoration: BoxDecoration(
                             color: Colors.grey.shade300,
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
                           ),
                           child: Center(
                             child: Text(
@@ -416,20 +459,39 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                           onTap: () async {
                             if (paidAmount >= 0) {
                               try {
-                                EasyLoading.show(status: 'Loading...', dismissOnTap: false);
+                                EasyLoading.show(
+                                    status: 'Loading...', dismissOnTap: false);
 
-                                DatabaseReference ref = FirebaseDatabase.instance.ref("$constUserId/Due Transaction");
-                                final DatabaseReference personalInformationRef = FirebaseDatabase.instance.ref().child(constUserId).child('Personal Information');
+                                DatabaseReference ref = FirebaseDatabase
+                                    .instance
+                                    .ref("$constUserId/Due Transaction");
+                                final DatabaseReference personalInformationRef =
+                                    FirebaseDatabase.instance
+                                        .ref()
+                                        .child(constUserId)
+                                        .child('Personal Information');
                                 ref.keepSynced(true);
                                 personalInformationRef.keepSynced(true);
 
-                                dueTransactionModel.totalDue = dueAmount;
-                                remainDueAmount <= 0 ? dueTransactionModel.isPaid = true : dueTransactionModel.isPaid = false;
-                                remainDueAmount <= 0 ? dueTransactionModel.dueAmountAfterPay = 0 : dueTransactionModel.dueAmountAfterPay = remainDueAmount;
+                                dueTransactionModel.totalDue =
+                                    widget.customerModel.dueAmount.toDouble();
+                                // dueTransactionModel.totalDue = dueAmount;
+                                remainDueAmount <= 0
+                                    ? dueTransactionModel.isPaid = true
+                                    : dueTransactionModel.isPaid = false;
+                                remainDueAmount <= 0
+                                    ? dueTransactionModel.dueAmountAfterPay = 0
+                                    : dueTransactionModel.dueAmountAfterPay =
+                                        remainDueAmount;
                                 dueTransactionModel.payDueAmount = paidAmount;
-                                dueTransactionModel.paymentType = dropdownPaymentValue;
-                                dueTransactionModel.invoiceNumber = invoice.toString();
-                                isSubUser ? dueTransactionModel.sellerName = subUserTitle : null;
+                                dueTransactionModel.paymentType =
+                                    dropdownPaymentValue;
+                                dueTransactionModel.invoiceNumber =
+                                    invoice.toString();
+                                isSubUser
+                                    ? dueTransactionModel.sellerName =
+                                        subUserTitle
+                                    : null;
                                 ref.push().set(dueTransactionModel.toJson());
 
                                 ///_____UpdateInvoice__________________________________________________
@@ -439,7 +501,8 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                                   remainDueAmount: remainDueAmount.toInt(),
                                 );
 
-                                personalInformationRef.update({'invoiceCounter': invoice + 1});
+                                personalInformationRef
+                                    .update({'invoiceCounter': invoice + 1});
 
                                 ///_________DueUpdate______________________________________________________
                                 getSpecificCustomers(
@@ -448,28 +511,41 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                                 );
 
                                 ///________Subscription_____________________________________________________
-                                Subscription.decreaseSubscriptionLimits(itemType: 'dueNumber', context: context);
+                                Subscription.decreaseSubscriptionLimits(
+                                    itemType: 'dueNumber', context: context);
 
                                 ///________Print_______________________________________________________
-                                if (isPrintEnable && (Theme.of(context).platform == TargetPlatform.android)) {
+                                if (isPrintEnable &&
+                                    (Theme.of(context).platform ==
+                                        TargetPlatform.android)) {
                                   await printerData.getBluetooth();
-                                  PrintDueTransactionModel model = PrintDueTransactionModel(dueTransactionModel: dueTransactionModel, personalInformationModel: data);
+                                  PrintDueTransactionModel model =
+                                      PrintDueTransactionModel(
+                                          dueTransactionModel:
+                                              dueTransactionModel,
+                                          personalInformationModel: data);
                                   if (connected) {
-                                    await printerData.printTicket(printDueTransactionModel: model);
+                                    await printerData.printTicket(
+                                        printDueTransactionModel: model);
                                     consumerRef.refresh(customerProvider);
                                     consumerRef.refresh(dueTransactionProvider);
-                                    consumerRef.refresh(purchaseTransitionProvider);
+                                    consumerRef
+                                        .refresh(purchaseTransitionProvider);
                                     consumerRef.refresh(transitionProvider);
                                     consumerRef.refresh(profileDetailsProvider);
 
                                     EasyLoading.dismiss();
-                                    Future.delayed(const Duration(milliseconds: 500), () {
+                                    Future.delayed(
+                                        const Duration(milliseconds: 500), () {
                                       const DueReportScreen().launch(context);
                                     });
                                   } else {
                                     // ignore: use_build_context_synchronously
-                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                      content: Text(lang.S.of(context).pleaseConnectThePrinterFirst),
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text(lang.S
+                                          .of(context)
+                                          .pleaseConnectThePrinterFirst),
                                     ));
                                     // ignore: use_build_context_synchronously
                                     showDialog(
@@ -480,39 +556,76 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                                             child: Dialog(
                                               child: SizedBox(
                                                 child: Column(
-                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
                                                   children: [
                                                     ListView.builder(
                                                       shrinkWrap: true,
-                                                      itemCount: printerData.availableBluetoothDevices.isNotEmpty ? printerData.availableBluetoothDevices.length : 0,
-                                                      itemBuilder: (context, index) {
+                                                      itemCount: printerData
+                                                              .availableBluetoothDevices
+                                                              .isNotEmpty
+                                                          ? printerData
+                                                              .availableBluetoothDevices
+                                                              .length
+                                                          : 0,
+                                                      itemBuilder:
+                                                          (context, index) {
                                                         return ListTile(
                                                           onTap: () async {
-                                                            String select = printerData.availableBluetoothDevices[index];
-                                                            List list = select.split("#");
+                                                            String select =
+                                                                printerData
+                                                                        .availableBluetoothDevices[
+                                                                    index];
+                                                            List list = select
+                                                                .split("#");
                                                             // String name = list[0];
-                                                            String mac = list[1];
-                                                            bool isConnect = await printerData.setConnect(mac);
+                                                            String mac =
+                                                                list[1];
+                                                            bool isConnect =
+                                                                await printerData
+                                                                    .setConnect(
+                                                                        mac);
                                                             if (isConnect) {
-                                                              await printerData.printTicket(printDueTransactionModel: model);
-                                                              consumerRef.refresh(customerProvider);
-                                                              consumerRef.refresh(dueTransactionProvider);
-                                                              consumerRef.refresh(purchaseTransitionProvider);
-                                                              consumerRef.refresh(transitionProvider);
-                                                              consumerRef.refresh(profileDetailsProvider);
-                                                              EasyLoading.showSuccess('Added Successfully');
-                                                              Future.delayed(const Duration(milliseconds: 500), () {
-                                                                const DueReportScreen().launch(context);
+                                                              await printerData
+                                                                  .printTicket(
+                                                                      printDueTransactionModel:
+                                                                          model);
+                                                              consumerRef.refresh(
+                                                                  customerProvider);
+                                                              consumerRef.refresh(
+                                                                  dueTransactionProvider);
+                                                              consumerRef.refresh(
+                                                                  purchaseTransitionProvider);
+                                                              consumerRef.refresh(
+                                                                  transitionProvider);
+                                                              consumerRef.refresh(
+                                                                  profileDetailsProvider);
+                                                              EasyLoading
+                                                                  .showSuccess(
+                                                                      'Added Successfully');
+                                                              Future.delayed(
+                                                                  const Duration(
+                                                                      milliseconds:
+                                                                          500),
+                                                                  () {
+                                                                const DueReportScreen()
+                                                                    .launch(
+                                                                        context);
                                                               });
                                                             }
                                                           },
-                                                          title: Text('${printerData.availableBluetoothDevices[index]}'),
-                                                          subtitle: Text(lang.S.of(context).clickToConnect),
+                                                          title: Text(
+                                                              '${printerData.availableBluetoothDevices[index]}'),
+                                                          subtitle: Text(lang.S
+                                                              .of(context)
+                                                              .clickToConnect),
                                                         );
                                                       },
                                                     ),
                                                     const SizedBox(height: 10),
-                                                    Text(lang.S.of(context).connectPrinter),
+                                                    Text(lang.S
+                                                        .of(context)
+                                                        .connectPrinter),
                                                     const SizedBox(height: 10),
                                                     Container(
                                                       height: 1,
@@ -522,17 +635,27 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                                                     const SizedBox(height: 15),
                                                     GestureDetector(
                                                       onTap: () {
-                                                        consumerRef.refresh(customerProvider);
-                                                        consumerRef.refresh(dueTransactionProvider);
-                                                        consumerRef.refresh(purchaseTransitionProvider);
-                                                        consumerRef.refresh(transitionProvider);
-                                                        consumerRef.refresh(profileDetailsProvider);
-                                                        const DueReportScreen().launch(context);
+                                                        consumerRef.refresh(
+                                                            customerProvider);
+                                                        consumerRef.refresh(
+                                                            dueTransactionProvider);
+                                                        consumerRef.refresh(
+                                                            purchaseTransitionProvider);
+                                                        consumerRef.refresh(
+                                                            transitionProvider);
+                                                        consumerRef.refresh(
+                                                            profileDetailsProvider);
+                                                        const DueReportScreen()
+                                                            .launch(context);
                                                       },
                                                       child: Center(
                                                         child: Text(
-                                                          lang.S.of(context).cancel,
-                                                          style: TextStyle(color: kMainColor),
+                                                          lang.S
+                                                              .of(context)
+                                                              .cancel,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  kMainColor),
                                                         ),
                                                       ),
                                                     ),
@@ -543,23 +666,27 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                                             ),
                                           );
                                         });
-                                    EasyLoading.showSuccess('Added Successfully');
+                                    EasyLoading.showSuccess(
+                                        'Added Successfully');
                                   }
                                 } else {
                                   consumerRef.refresh(customerProvider);
                                   consumerRef.refresh(dueTransactionProvider);
-                                  consumerRef.refresh(purchaseTransitionProvider);
+                                  consumerRef
+                                      .refresh(purchaseTransitionProvider);
                                   consumerRef.refresh(transitionProvider);
                                   consumerRef.refresh(profileDetailsProvider);
 
                                   EasyLoading.showSuccess('Added Successfully');
-                                  Future.delayed(const Duration(milliseconds: 500), () {
+                                  Future.delayed(
+                                      const Duration(milliseconds: 500), () {
                                     const DueReportScreen().launch(context);
                                   });
                                 }
                               } catch (e) {
                                 EasyLoading.dismiss();
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(e.toString())));
                               }
                             } else {
                               EasyLoading.showError('Add product first');
@@ -569,12 +696,14 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                             height: 60,
                             decoration: const BoxDecoration(
                               color: kMainColor,
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
                             ),
                             child: Center(
                               child: Text(
                                 lang.S.of(context).save,
-                                style: const TextStyle(fontSize: 18, color: Colors.white),
+                                style: const TextStyle(
+                                    fontSize: 18, color: Colors.white),
                               ),
                             ),
                           ),
@@ -597,8 +726,13 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
     });
   }
 
-  void updateInvoice({required String type, required String invoice, required int remainDueAmount}) {
-    final ref = type == 'Supplier' ? FirebaseDatabase.instance.ref('$constUserId/Purchase Transition/') : FirebaseDatabase.instance.ref('$constUserId/Sales Transition/');
+  void updateInvoice(
+      {required String type,
+      required String invoice,
+      required int remainDueAmount}) {
+    final ref = type == 'Supplier'
+        ? FirebaseDatabase.instance.ref('$constUserId/Purchase Transition/')
+        : FirebaseDatabase.instance.ref('$constUserId/Sales Transition/');
     String? key;
     ref.keepSynced(true);
 
@@ -627,11 +761,17 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
           });
   }
 
-  void getSpecificCustomers({required String phoneNumber, required int due}) async {
+  void getSpecificCustomers(
+      {required String phoneNumber, required int due}) async {
     final ref = FirebaseDatabase.instance.ref('$constUserId/Customers/');
     String? key;
 
-    await FirebaseDatabase.instance.ref(constUserId).child('Customers').orderByKey().get().then((value) {
+    await FirebaseDatabase.instance
+        .ref(constUserId)
+        .child('Customers')
+        .orderByKey()
+        .get()
+        .then((value) {
       for (var element in value.children) {
         var data = jsonDecode(jsonEncode(element.value));
         if (data['phoneNumber'] == phoneNumber) {
@@ -647,10 +787,15 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
   }
 
   void decreaseSubscriptionSale() async {
-    final ref = FirebaseDatabase.instance.ref('$constUserId/Subscription/dueNumber');
+    final ref =
+        FirebaseDatabase.instance.ref('$constUserId/Subscription/dueNumber');
     var data = await ref.once();
     int beforeSale = int.parse(data.snapshot.value.toString());
     int afterSale = beforeSale - 1;
-    beforeSale != -202 ? FirebaseDatabase.instance.ref('$constUserId/Subscription').update({'dueNumber': afterSale}) : null;
+    beforeSale != -202
+        ? FirebaseDatabase.instance
+            .ref('$constUserId/Subscription')
+            .update({'dueNumber': afterSale})
+        : null;
   }
 }

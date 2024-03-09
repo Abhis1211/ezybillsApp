@@ -31,7 +31,7 @@ class _DueReportScreenState extends State<DueReportScreen> {
   DateTime toDate = DateTime.now();
   double totalReceiveDue = 0;
   double totalPaidDue = 0;
-  List<String> timeLimit = ['ToDay', 'This Week', 'This Month', 'This Year', 'All Time', 'Custom'];
+  List<String> timeLimit = ['Today', 'This Week', 'This Month', 'This Year', 'All Time', 'Custom'];
   String? dropdownValue = 'This Month';
 
   void changeDate({required DateTime from}) {
@@ -178,7 +178,7 @@ class _DueReportScreenState extends State<DueReportScreen> {
                                         dropdownValue = newValue.toString();
 
                                         switch (newValue) {
-                                          case 'ToDay':
+                                          case 'Today':
                                             changeDate(from: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day));
                                             break;
                                           case 'This Week':

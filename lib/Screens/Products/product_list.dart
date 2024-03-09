@@ -21,7 +21,7 @@ class _ProductListState extends State<ProductList> {
   TextEditingController serach = TextEditingController();
   String productPicture =
       'https://firebasestorage.googleapis.com/v0/b/maanpos.appspot.com/o/Customer%20Picture%2FNo_Image_Available.jpeg?alt=media&token=3de0d45e-0e4a-4a7b-b115-9d6722d5031f';
-  
+
   var Filterdata = [];
   @override
   Widget build(BuildContext context) {
@@ -93,32 +93,35 @@ class _ProductListState extends State<ProductList> {
                                   UpdateProduct(productModel: products[i])
                                       .launch(context);
                                 },
-                                leading: Container(
-                                  height: 50,
-                                  width: 50,
-                                  // decoration: BoxDecoration(
-                                  //     borderRadius: const BorderRadius.all(
-                                  //         Radius.circular(90)),
-                                  //     image: DecorationImage(
-                                  //       image: NetworkImage(
-                                  //         products[i].productPicture,
-                                  //       ),
-                                  //       fit: BoxFit.cover,
-                                  //     )),
-                                  child: CachedNetworkImage(
-                                    imageUrl: products[i].productPicture,
-                                    placeholder: (context, url) =>
-                                        const SizedBox(
-                                      height: 50,
-                                      width: 50,
+                                leading: ClipRRect(
+                                  borderRadius: BorderRadius.circular(50.0),
+                                  child: Container(
+                                    height: 50,
+                                    width: 50,
+                                    // decoration: BoxDecoration(
+                                    //     borderRadius: const BorderRadius.all(
+                                    //         Radius.circular(90)),
+                                    //     image: DecorationImage(
+                                    //       image: NetworkImage(
+                                    //         products[i].productPicture,
+                                    //       ),
+                                    //       fit: BoxFit.cover,
+                                    //     )),
+                                    child: CachedNetworkImage(
+                                      imageUrl: products[i].productPicture,
+                                      placeholder: (context, url) =>
+                                          const SizedBox(
+                                        height: 50,
+                                        width: 50,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(50.0),
+                                              child: Image.network(
+                                                  productPicture)),
+                                      fit: BoxFit.cover,
                                     ),
-                                    errorWidget: (context, url, error) =>
-                                        ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(50.0),
-                                            child:
-                                                Image.network(productPicture)),
-                                    fit: BoxFit.cover,
                                   ),
                                 ),
                                 title: Text(Filterdata.length > 0

@@ -71,6 +71,10 @@ class _AddProductState extends State<AddProduct> {
   String weight = 'Not Provided';
   String capacity = 'Not Provided';
   String type = 'Not Provided';
+  var dropdownvalue = '0';
+
+  // List of items in our dropdown menu
+  var items = ['0', '3', '5', '12', '18', '28'];
   List<String> catItems = [];
   bool showProgress = false;
   double progress = 0.0;
@@ -85,7 +89,7 @@ class _AddProductState extends State<AddProduct> {
   File imageFile = File('No File');
   String imagePath = 'No Data';
   TextEditingController vatPercentageEditingController =
-      TextEditingController();
+      TextEditingController(text: "0");
   TextEditingController vatAmountEditingController = TextEditingController();
   double percentage = 0;
   double vatAmount = 0;
@@ -616,180 +620,228 @@ class _AddProductState extends State<AddProduct> {
                 // ),
                 personalData.when(data: (data) {
                   gstenable = data.gstenable!;
+
                   if (data.gstenable == true)
                     return Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'GST',
                             style: TextStyle(fontSize: 14),
                           ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: context.width() / 4,
-                                height: 40.0,
-                                child: Center(
-                                  child: AppTextField(
-                                    textStyle: TextStyle(fontSize: 14),
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.allow(
-                                          RegExp(r'^\d*\.?\d{0,2}'))
-                                    ],
-                                    controller: vatPercentageEditingController,
-                                    onChanged: (value) {
-                                      if (value == '') {
-                                        setState(() {
-                                          percentage = 0.0;
-                                          vatAmountEditingController.text =
-                                              0.toString();
-                                          vatAmount = 0;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          vatAmount = (value.toDouble() / 100) *
-                                              double.parse(productPurchasePrice
-                                                  .toString());
-                                          // providerDatacart
-                                          //     .getTotalAmount()
-                                          //     .toDouble();
-                                          vatAmountEditingController.text =
-                                              vatAmount.toStringAsFixed(2);
-                                        });
-                                      }
-                                    },
-                                    textAlign: TextAlign.right,
-                                    decoration: InputDecoration(
-                                      contentPadding:
-                                          const EdgeInsets.only(right: 6.0),
-                                      hintText: '0',
-                                      border: const OutlineInputBorder(
-                                          gapPadding: 0.0,
-                                          borderSide: BorderSide(
-                                              color: Color(0xFFff5f00))),
-                                      enabledBorder: const OutlineInputBorder(
-                                          gapPadding: 0.0,
-                                          borderSide: BorderSide(
-                                              color: Color(0xFFff5f00))),
-                                      disabledBorder: const OutlineInputBorder(
-                                          gapPadding: 0.0,
-                                          borderSide: BorderSide(
-                                              color: Color(0xFFff5f00))),
-                                      focusedBorder: const OutlineInputBorder(
-                                          gapPadding: 0.0,
-                                          borderSide: BorderSide(
-                                              color: Color(0xFFff5f00))),
-                                      prefixIconConstraints:
-                                          const BoxConstraints(
-                                              maxWidth: 30.0, minWidth: 30.0),
-                                      prefixIcon: Container(
-                                        padding: const EdgeInsets.only(
-                                            top: 8.0, left: 8.0),
-                                        height: 40,
-                                        decoration: const BoxDecoration(
-                                            color: Color(0xFFff5f00),
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(4.0),
-                                                bottomLeft:
-                                                    Radius.circular(4.0))),
-                                        child: const Text(
-                                          '%',
-                                          style: TextStyle(
-                                              fontSize: 18.0,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                    textFieldType: TextFieldType.PHONE,
-                                  ),
-                                ),
+                          SizedBox(height: 10),
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              width: MediaQuery.of(context).size.width,
+                              child: DropdownButton<String>(
+                                // Initial Value
+                                underline: SizedBox(),
+                                value: dropdownvalue,
+                                // Down Arrow Icon
+                                icon: Icon(Icons.keyboard_arrow_down),
+                                // Array list of items
+                                items: items.map((String items) {
+                                  return DropdownMenuItem<String>(
+                                    alignment: Alignment.centerLeft,
+                                    value: items,
+                                    child: Text(items + " %"),
+                                  );
+                                }).toList(),
+                                isExpanded: true,
+                                // After selecting the desired option,it will
+                                // change button value to selected value
+                                onChanged: (val) {
+                                  setState(() {
+                                    dropdownvalue = val!;
+                                    vatPercentageEditingController.text = val;
+                                  });
+                                },
                               ),
-                              const SizedBox(
-                                width: 4.0,
-                              ),
-                              SizedBox(
-                                width: context.width() / 4,
-                                height: 40.0,
-                                child: Center(
-                                  child: AppTextField(
-                                    textStyle: const TextStyle(fontSize: 14),
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.allow(
-                                          RegExp(r'^\d*\.?\d{0,2}'))
-                                    ],
-                                    controller: vatAmountEditingController,
-                                    onChanged: (value) {
-                                      if (value == '') {
-                                        setState(() {
-                                          vatAmount = 0;
-                                          vatPercentageEditingController
-                                              .clear();
-                                        });
-                                      } else {
-                                        setState(() {
-                                          vatAmount = double.parse(value);
-                                          vatPercentageEditingController.text =
-                                              ((vatAmount * 100) /
-                                                      double.parse(
-                                                          productPurchasePrice
-                                                              .toString()))
-                                                  .toString();
-                                        });
-                                      }
-                                    },
-                                    textAlign: TextAlign.right,
-                                    decoration: InputDecoration(
-                                      contentPadding:
-                                          const EdgeInsets.only(right: 6.0),
-                                      hintText: '0',
-                                      border: const OutlineInputBorder(
-                                          gapPadding: 0.0,
-                                          borderSide:
-                                              BorderSide(color: kMainColor)),
-                                      enabledBorder: const OutlineInputBorder(
-                                          gapPadding: 0.0,
-                                          borderSide:
-                                              BorderSide(color: kMainColor)),
-                                      disabledBorder: const OutlineInputBorder(
-                                          gapPadding: 0.0,
-                                          borderSide:
-                                              BorderSide(color: kMainColor)),
-                                      focusedBorder: const OutlineInputBorder(
-                                          gapPadding: 0.0,
-                                          borderSide:
-                                              BorderSide(color: kMainColor)),
-                                      prefixIconConstraints:
-                                          const BoxConstraints(
-                                              maxWidth: 30.0, minWidth: 30.0),
-                                      prefixIcon: Container(
-                                        alignment: Alignment.center,
-                                        height: 40,
-                                        decoration: const BoxDecoration(
-                                            color: kMainColor,
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(4.0),
-                                                bottomLeft:
-                                                    Radius.circular(4.0))),
-                                        child: Text(
-                                          currency,
-                                          style: const TextStyle(
-                                              fontSize: 14.0,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                    textFieldType: TextFieldType.PHONE,
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ],
                       ),
                     );
+                  // Padding(
+                  //   padding:
+                  //       EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       const Text(
+                  //         'GST',
+                  //         style: TextStyle(fontSize: 14),
+                  //       ),
+                  //       Row(
+                  //         children: [
+                  //           SizedBox(
+                  //             width: context.width() / 4,
+                  //             height: 40.0,
+                  //             child: Center(
+                  //               child: AppTextField(
+                  //                 textStyle: TextStyle(fontSize: 14),
+                  //                 inputFormatters: [
+                  //                   FilteringTextInputFormatter.allow(
+                  //                       RegExp(r'^\d*\.?\d{0,2}'))
+                  //                 ],
+                  //                 controller: vatPercentageEditingController,
+                  //                 onChanged: (value) {
+                  //                   if (value == '') {
+                  //                     setState(() {
+                  //                       percentage = 0.0;
+                  //                       vatAmountEditingController.text =
+                  //                           0.toString();
+                  //                       vatAmount = 0;
+                  //                     });
+                  //                   } else {
+                  //                     setState(() {
+                  //                       vatAmount = (value.toDouble() / 100) *
+                  //                           double.parse(productPurchasePrice
+                  //                               .toString());
+                  //                       // providerDatacart
+                  //                       //     .getTotalAmount()
+                  //                       //     .toDouble();
+                  //                       vatAmountEditingController.text =
+                  //                           vatAmount.toStringAsFixed(2);
+                  //                     });
+                  //                   }
+                  //                 },
+                  //                 textAlign: TextAlign.right,
+                  //                 decoration: InputDecoration(
+                  //                   contentPadding:
+                  //                       const EdgeInsets.only(right: 6.0),
+                  //                   hintText: '0',
+                  //                   border: const OutlineInputBorder(
+                  //                       gapPadding: 0.0,
+                  //                       borderSide: BorderSide(
+                  //                           color: Color(0xFFff5f00))),
+                  //                   enabledBorder: const OutlineInputBorder(
+                  //                       gapPadding: 0.0,
+                  //                       borderSide: BorderSide(
+                  //                           color: Color(0xFFff5f00))),
+                  //                   disabledBorder: const OutlineInputBorder(
+                  //                       gapPadding: 0.0,
+                  //                       borderSide: BorderSide(
+                  //                           color: Color(0xFFff5f00))),
+                  //                   focusedBorder: const OutlineInputBorder(
+                  //                       gapPadding: 0.0,
+                  //                       borderSide: BorderSide(
+                  //                           color: Color(0xFFff5f00))),
+                  //                   prefixIconConstraints:
+                  //                       const BoxConstraints(
+                  //                           maxWidth: 30.0, minWidth: 30.0),
+                  //                   prefixIcon: Container(
+                  //                     padding: const EdgeInsets.only(
+                  //                         top: 8.0, left: 8.0),
+                  //                     height: 40,
+                  //                     decoration: const BoxDecoration(
+                  //                         color: Color(0xFFff5f00),
+                  //                         borderRadius: BorderRadius.only(
+                  //                             topLeft: Radius.circular(4.0),
+                  //                             bottomLeft:
+                  //                                 Radius.circular(4.0))),
+                  //                     child: const Text(
+                  //                       '%',
+                  //                       style: TextStyle(
+                  //                           fontSize: 18.0,
+                  //                           color: Colors.white),
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 textFieldType: TextFieldType.PHONE,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           const SizedBox(
+                  //             width: 4.0,
+                  //           ),
+                  //           SizedBox(
+                  //             width: context.width() / 4,
+                  //             height: 40.0,
+                  //             child: Center(
+                  //               child: AppTextField(
+                  //                 textStyle: const TextStyle(fontSize: 14),
+                  //                 inputFormatters: [
+                  //                   FilteringTextInputFormatter.allow(
+                  //                       RegExp(r'^\d*\.?\d{0,2}'))
+                  //                 ],
+                  //                 controller: vatAmountEditingController,
+                  //                 onChanged: (value) {
+                  //                   if (value == '') {
+                  //                     setState(() {
+                  //                       vatAmount = 0;
+                  //                       vatPercentageEditingController
+                  //                           .clear();
+                  //                     });
+                  //                   } else {
+                  //                     setState(() {
+                  //                       vatAmount = double.parse(value);
+                  //                       vatPercentageEditingController.text =
+                  //                           ((vatAmount * 100) /
+                  //                                   double.parse(
+                  //                                       productPurchasePrice
+                  //                                           .toString()))
+                  //                               .toString();
+                  //                     });
+                  //                   }
+                  //                 },
+                  //                 textAlign: TextAlign.right,
+                  //                 decoration: InputDecoration(
+                  //                   contentPadding:
+                  //                       const EdgeInsets.only(right: 6.0),
+                  //                   hintText: '0',
+                  //                   border: const OutlineInputBorder(
+                  //                       gapPadding: 0.0,
+                  //                       borderSide:
+                  //                           BorderSide(color: kMainColor)),
+                  //                   enabledBorder: const OutlineInputBorder(
+                  //                       gapPadding: 0.0,
+                  //                       borderSide:
+                  //                           BorderSide(color: kMainColor)),
+                  //                   disabledBorder: const OutlineInputBorder(
+                  //                       gapPadding: 0.0,
+                  //                       borderSide:
+                  //                           BorderSide(color: kMainColor)),
+                  //                   focusedBorder: const OutlineInputBorder(
+                  //                       gapPadding: 0.0,
+                  //                       borderSide:
+                  //                           BorderSide(color: kMainColor)),
+                  //                   prefixIconConstraints:
+                  //                       const BoxConstraints(
+                  //                           maxWidth: 30.0, minWidth: 30.0),
+                  //                   prefixIcon: Container(
+                  //                     alignment: Alignment.center,
+                  //                     height: 40,
+                  //                     decoration: const BoxDecoration(
+                  //                         color: kMainColor,
+                  //                         borderRadius: BorderRadius.only(
+                  //                             topLeft: Radius.circular(4.0),
+                  //                             bottomLeft:
+                  //                                 Radius.circular(4.0))),
+                  //                     child: Text(
+                  //                       currency,
+                  //                       style: const TextStyle(
+                  //                           fontSize: 14.0,
+                  //                           color: Colors.white),
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 textFieldType: TextFieldType.PHONE,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ],
+                  //   ),
+                  // );
                   else
                     return Container();
                 }, error: (Object error, StackTrace stackTrace) {
