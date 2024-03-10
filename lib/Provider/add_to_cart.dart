@@ -52,8 +52,9 @@ class CartNotifier extends ChangeNotifier {
     return totalAmountOfCart;
   }
 
-  totalamount() {
-    return (totalgst / 100) * getTotalAmount().toDouble();
+  totalamount({required double discountAmount}) {
+    return (totalgst / 100) *
+        calculateSubtotal(discountAmount: discountAmount).toDouble();
   }
 
   double calculateSubtotal({required double discountAmount}) {
@@ -61,7 +62,8 @@ class CartNotifier extends ChangeNotifier {
   }
 
   double calculateSubtotal1({required double discountAmount}) {
-    return calculateSubtotal(discountAmount: discountAmount) + totalamount();
+    return calculateSubtotal(discountAmount: discountAmount) +
+        totalamount(discountAmount: discountAmount);
   }
 
   quantityIncrease(int index) {
