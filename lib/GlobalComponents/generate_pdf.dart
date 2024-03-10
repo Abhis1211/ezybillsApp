@@ -991,7 +991,7 @@ class GeneratePdf {
                           color: PdfColors.blueAccent,
                           padding: const pw.EdgeInsets.all(5.0),
                           child: pw.Text(
-                              "Total Amount: ${transactions.totalAmount!.toStringAsFixed(2)}",
+                              "Total Amount: ${((transactions.totalAmount!) + (transactions.vat!)).toStringAsFixed(2)}",
                               style: pw.TextStyle(
                                   color: PdfColors.white,
                                   fontWeight: pw.FontWeight.bold)),
@@ -1010,7 +1010,7 @@ class GeneratePdf {
                                   ),
                                 ),
                                 pw.Text(
-                                  "Paid Amount: ${transactions.totalAmount!.toDouble() - transactions.dueAmount!.toDouble()}",
+                                  "Paid Amount: ${((transactions.totalAmount!) + (transactions.vat!) - transactions.dueAmount!.toDouble()).toStringAsFixed(2)}",
                                   style: pw.TextStyle(
                                     color: PdfColors.black,
                                     fontWeight: pw.FontWeight.bold,

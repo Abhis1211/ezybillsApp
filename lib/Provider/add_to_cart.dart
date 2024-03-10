@@ -57,11 +57,18 @@ class CartNotifier extends ChangeNotifier {
   }
 
   double calculateSubtotal({required double discountAmount}) {
-    return getTotalAmount() + totalamount() - discountAmount;
+    return getTotalAmount() - discountAmount;
+  }
+
+  double calculateSubtotal1({required double discountAmount}) {
+    return calculateSubtotal(discountAmount: discountAmount) + totalamount();
   }
 
   quantityIncrease(int index) {
     if (cartItemList[index].stock! > cartItemList[index].quantity) {
+      cartItemList[index].quantity++;
+      notifyListeners();
+    } else if (cartItemList[index].stock == 0) {
       cartItemList[index].quantity++;
       notifyListeners();
     } else {
