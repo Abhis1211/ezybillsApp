@@ -272,7 +272,8 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                               Future.delayed(Duration(milliseconds: 1), () {
                                 vatPercentageEditingController.text =
                                     providerData.totalgst.toString();
-                                vatAmount = providerData.totalamount();
+                                vatAmount = providerData.totalamount(
+                                    discountAmount: discountAmount);
                                 vatAmountEditingController.text =
                                     vatAmount.toStringAsFixed(2);
                                 subTotal = providerData.calculateSubtotal(
@@ -335,7 +336,9 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                                     providerData.totalgst
                                                         .toString();
                                                 vatAmount =
-                                                    providerData.totalamount();
+                                                    providerData.totalamount(
+                                                        discountAmount:
+                                                            discountAmount);
                                                 vatAmountEditingController
                                                         .text =
                                                     vatAmount
@@ -394,7 +397,9 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                                     providerData.totalgst
                                                         .toString();
                                                 vatAmount =
-                                                    providerData.totalamount();
+                                                    providerData.totalamount(
+                                                        discountAmount:
+                                                            discountAmount);
                                                 vatAmountEditingController
                                                         .text =
                                                     vatAmount
@@ -447,7 +452,9 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                                 providerData.totalgst
                                                     .toString();
                                             vatAmount =
-                                                providerData.totalamount();
+                                                providerData.totalamount(
+                                                    discountAmount:
+                                                        discountAmount);
                                             vatAmountEditingController.text =
                                                 vatAmount.toStringAsFixed(2);
                                             subTotal =
@@ -578,6 +585,28 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                             'Enter a valid Discount');
                                       }
                                     }
+                                    Future.delayed(Duration(milliseconds: 1),
+                                        () {
+                                      vatPercentageEditingController.text =
+                                          providerData.totalgst.toString();
+                                      vatAmount = providerData.totalamount(
+                                          discountAmount: discountAmount);
+                                      vatAmountEditingController.text =
+                                          vatAmount.toStringAsFixed(2);
+                                      print("discountAmount1" +
+                                          vatAmount.toString());
+                                      subTotal = providerData.calculateSubtotal(
+                                          discountAmount: discountAmount);
+                                      netTotal =
+                                          providerData.calculateSubtotal1(
+                                              discountAmount: discountAmount);
+                                      print("subtotal" + subTotal.toString());
+                                      print("netTotal" + netTotal.toString());
+                                      print("discountAmount" +
+                                          discountAmount.toString());
+                                      setState(() {});
+                                      providerData.notifyListeners();
+                                    });
                                   },
                                   style: const TextStyle(fontSize: 14),
                                   textAlign: TextAlign.right,
