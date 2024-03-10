@@ -1297,7 +1297,8 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                             discountAmount.toStringAsFixed(2));
                                     transitionModel.totalAmount = double.parse(
                                         providerData
-                                            .getTotalAmount()
+                                            .calculateSubtotal1(
+                                                discountAmount: discountAmount)
                                             .toStringAsFixed(2));
                                     transitionModel.productList =
                                         providerData.cartItemList;
