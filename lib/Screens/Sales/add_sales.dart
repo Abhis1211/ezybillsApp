@@ -659,100 +659,100 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                 ),
                                 Row(
                                   children: [
-                                    SizedBox(
-                                      width: context.width() / 4,
-                                      height: 40.0,
-                                      child: Center(
-                                        child: AppTextField(
-                                          textStyle: TextStyle(fontSize: 14),
-                                          inputFormatters: [
-                                            FilteringTextInputFormatter.allow(
-                                                RegExp(r'^\d*\.?\d{0,2}'))
-                                          ],
-                                          controller:
-                                              vatPercentageEditingController,
-                                          onChanged: (value) {
-                                            if (value == '') {
-                                              setState(() {
-                                                percentage = 0.0;
-                                                vatAmountEditingController
-                                                    .text = 0.toString();
-                                                vatAmount = 0;
-                                              });
-                                            } else {
-                                              setState(() {
-                                                vatAmount =
-                                                    (value.toDouble() / 100) *
-                                                        providerData
-                                                            .getTotalAmount()
-                                                            .toDouble();
-                                                vatAmountEditingController
-                                                        .text =
-                                                    vatAmount.toString();
-                                              });
-                                            }
-                                          },
-                                          textAlign: TextAlign.right,
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                const EdgeInsets.only(
-                                                    right: 6.0),
-                                            hintText: '0',
-                                            border: const OutlineInputBorder(
-                                                gapPadding: 0.0,
-                                                borderSide: BorderSide(
-                                                    color: Color(0xFFff5f00))),
-                                            enabledBorder:
-                                                const OutlineInputBorder(
-                                                    gapPadding: 0.0,
-                                                    borderSide: BorderSide(
-                                                        color:
-                                                            Color(0xFFff5f00))),
-                                            disabledBorder:
-                                                const OutlineInputBorder(
-                                                    gapPadding: 0.0,
-                                                    borderSide: BorderSide(
-                                                        color:
-                                                            Color(0xFFff5f00))),
-                                            focusedBorder:
-                                                const OutlineInputBorder(
-                                                    gapPadding: 0.0,
-                                                    borderSide: BorderSide(
-                                                        color:
-                                                            Color(0xFFff5f00))),
-                                            prefixIconConstraints:
-                                                const BoxConstraints(
-                                                    maxWidth: 30.0,
-                                                    minWidth: 30.0),
-                                            prefixIcon: Container(
-                                              padding: const EdgeInsets.only(
-                                                  top: 8.0, left: 8.0),
-                                              height: 40,
-                                              decoration: const BoxDecoration(
-                                                  color: Color(0xFFff5f00),
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  4.0),
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  4.0))),
-                                              child: const Text(
-                                                '%',
-                                                style: TextStyle(
-                                                    fontSize: 18.0,
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                          ),
-                                          textFieldType: TextFieldType.PHONE,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 4.0,
-                                    ),
+                                    // SizedBox(
+                                    //   width: context.width() / 4,
+                                    //   height: 40.0,
+                                    //   child: Center(
+                                    //     child: AppTextField(
+                                    //       textStyle: TextStyle(fontSize: 14),
+                                    //       inputFormatters: [
+                                    //         FilteringTextInputFormatter.allow(
+                                    //             RegExp(r'^\d*\.?\d{0,2}'))
+                                    //       ],
+                                    //       controller:
+                                    //           vatPercentageEditingController,
+                                    //       onChanged: (value) {
+                                    //         if (value == '') {
+                                    //           setState(() {
+                                    //             percentage = 0.0;
+                                    //             vatAmountEditingController
+                                    //                 .text = 0.toString();
+                                    //             vatAmount = 0;
+                                    //           });
+                                    //         } else {
+                                    //           setState(() {
+                                    //             vatAmount =
+                                    //                 (value.toDouble() / 100) *
+                                    //                     providerData
+                                    //                         .getTotalAmount()
+                                    //                         .toDouble();
+                                    //             vatAmountEditingController
+                                    //                     .text =
+                                    //                 vatAmount.toString();
+                                    //           });
+                                    //         }
+                                    //       },
+                                    //       textAlign: TextAlign.right,
+                                    //       decoration: InputDecoration(
+                                    //         contentPadding:
+                                    //             const EdgeInsets.only(
+                                    //                 right: 6.0),
+                                    //         hintText: '0',
+                                    //         border: const OutlineInputBorder(
+                                    //             gapPadding: 0.0,
+                                    //             borderSide: BorderSide(
+                                    //                 color: Color(0xFFff5f00))),
+                                    //         enabledBorder:
+                                    //             const OutlineInputBorder(
+                                    //                 gapPadding: 0.0,
+                                    //                 borderSide: BorderSide(
+                                    //                     color:
+                                    //                         Color(0xFFff5f00))),
+                                    //         disabledBorder:
+                                    //             const OutlineInputBorder(
+                                    //                 gapPadding: 0.0,
+                                    //                 borderSide: BorderSide(
+                                    //                     color:
+                                    //                         Color(0xFFff5f00))),
+                                    //         focusedBorder:
+                                    //             const OutlineInputBorder(
+                                    //                 gapPadding: 0.0,
+                                    //                 borderSide: BorderSide(
+                                    //                     color:
+                                    //                         Color(0xFFff5f00))),
+                                    //         prefixIconConstraints:
+                                    //             const BoxConstraints(
+                                    //                 maxWidth: 30.0,
+                                    //                 minWidth: 30.0),
+                                    //         prefixIcon: Container(
+                                    //           padding: const EdgeInsets.only(
+                                    //               top: 8.0, left: 8.0),
+                                    //           height: 40,
+                                    //           decoration: const BoxDecoration(
+                                    //               color: Color(0xFFff5f00),
+                                    //               borderRadius:
+                                    //                   BorderRadius.only(
+                                    //                       topLeft:
+                                    //                           Radius.circular(
+                                    //                               4.0),
+                                    //                       bottomLeft:
+                                    //                           Radius.circular(
+                                    //                               4.0))),
+                                    //           child: const Text(
+                                    //             '%',
+                                    //             style: TextStyle(
+                                    //                 fontSize: 18.0,
+                                    //                 color: Colors.white),
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //       textFieldType: TextFieldType.PHONE,
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                    // const SizedBox(
+                                    //   width: 4.0,
+                                    // ),
                                     SizedBox(
                                       width: context.width() / 4,
                                       height: 40.0,
@@ -860,10 +860,12 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                providerData
-                                    .calculateSubtotal1(
-                                        discountAmount: discountAmount)
-                                    .toStringAsFixed(2),
+                                double.parse(providerData
+                                        .calculateSubtotal1(
+                                            discountAmount: discountAmount)
+                                        .toStringAsFixed(2))
+                                    .round()
+                                    .toString(),
                                 style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),

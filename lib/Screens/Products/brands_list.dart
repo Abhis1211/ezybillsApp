@@ -205,7 +205,7 @@ class _BrandsListState extends State<BrandsList> {
                                                   FirebaseDatabase.instance.ref(
                                                       "$constUserId/Brands/$brandkey");
                                               wref.keepSynced(true);
-                                              wref.remove();
+                                              await wref.remove();
                                               ref.refresh(brandsProvider);
                                             });
                                           },

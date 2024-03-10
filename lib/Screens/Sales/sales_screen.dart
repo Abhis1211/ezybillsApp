@@ -934,7 +934,8 @@ class _ProductCardState extends State<ProductCard> {
           //   ),
           // ),
           SizedBox(height: 5),
-          Center(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
               widget.productTitle,
               maxLines: 3,
@@ -942,7 +943,7 @@ class _ProductCardState extends State<ProductCard> {
               style: GoogleFonts.inter(
                   color: bluetxtcolor,
                   textStyle:
-                      TextStyle(fontSize: 13.0, fontWeight: FontWeight.w600)),
+                      TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600)),
             ),
           ),
           widget.productbrand != null
@@ -958,13 +959,14 @@ class _ProductCardState extends State<ProductCard> {
                   ),
                 )
               : Container(),
-          Center(
+          Padding(
+             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
               '$currency${widget.productPrice}',
               style: GoogleFonts.inter(
                   color: pricecolor,
                   textStyle:
-                      TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600)),
+                      TextStyle(fontSize: 10.0, fontWeight: FontWeight.w600)),
               textAlign: TextAlign.center,
             ),
           ),
