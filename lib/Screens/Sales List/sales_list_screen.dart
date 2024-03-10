@@ -652,7 +652,7 @@ class _SalesListScreenState extends State<SalesListScreen> {
                                                       const SizedBox(
                                                           height: 10),
                                                       Text(
-                                                        '${lang.S.of(context).paid} : $currency ${reTransaction[index].totalAmount!.toDouble() - reTransaction[index].dueAmount!.toDouble()}',
+                                                        '${lang.S.of(context).paid} : $currency ${(reTransaction[index].totalAmount!.toDouble() - reTransaction[index].dueAmount!.toDouble()).toStringAsFixed(2)}',
                                                         style: const TextStyle(
                                                             fontWeight:
                                                                 FontWeight.w500,

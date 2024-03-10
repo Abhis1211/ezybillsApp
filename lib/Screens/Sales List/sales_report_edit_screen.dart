@@ -138,7 +138,7 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                 quantity: element.quantity,
                 productId: products.productCode,
                 productBrandName: products.brandName,
-                stock: int.parse(products.productStock),
+                stock: int.parse(products.productStock == null || products.productStock == "" ?"0":(products.productStock)),
               );
               list.add(cartItem);
 
