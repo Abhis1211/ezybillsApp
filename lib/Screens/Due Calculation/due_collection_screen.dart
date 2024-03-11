@@ -365,7 +365,7 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                       DropdownButton(
                         value: dropdownPaymentValue,
                         icon: const Icon(Icons.keyboard_arrow_down),
-                        items: paymentsTypeListcollection.map((String items) {
+                        items: paymentsTypeList1.map((String items) {
                           return DropdownMenuItem(
                             value: items,
                             child: Text(items),
