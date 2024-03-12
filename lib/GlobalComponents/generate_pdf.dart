@@ -400,7 +400,7 @@ class GeneratePdf {
                             children: [
                               pw.SizedBox(height: 10.0),
                               pw.Text(
-                                "Subtotal: ${transactions.totalAmount! + transactions.discountAmount!}",
+                                "Subtotal: ${transactions.totalAmount!}",
                                 style: pw.TextStyle(
                                   color: PdfColors.black,
                                   fontWeight: pw.FontWeight.bold,
@@ -952,7 +952,7 @@ class GeneratePdf {
                       children: [
                         pw.SizedBox(height: 10.0),
                         pw.Text(
-                          "Subtotal: ${transactions.totalAmount! + transactions.discountAmount!}",
+                          "Subtotal: ${transactions.totalAmount! + transactions.discountAmount! - transactions.vat!}",
                           style: pw.TextStyle(
                             color: PdfColors.black,
                             fontWeight: pw.FontWeight.bold,
@@ -991,7 +991,7 @@ class GeneratePdf {
                           color: PdfColors.blueAccent,
                           padding: const pw.EdgeInsets.all(5.0),
                           child: pw.Text(
-                              "Total Amount: ${((transactions.totalAmount!) + (transactions.vat!)).toStringAsFixed(2)}",
+                              "Total Amount: ${(transactions.totalAmount!)}",
                               style: pw.TextStyle(
                                   color: PdfColors.white,
                                   fontWeight: pw.FontWeight.bold)),
@@ -1010,7 +1010,7 @@ class GeneratePdf {
                                   ),
                                 ),
                                 pw.Text(
-                                  "Paid Amount: ${((transactions.totalAmount!) + (transactions.vat!) - transactions.dueAmount!.toDouble()).toStringAsFixed(2)}",
+                                  "Paid Amount: ${((transactions.totalAmount!) - transactions.dueAmount!.toDouble()).toStringAsFixed(2)}",
                                   style: pw.TextStyle(
                                     color: PdfColors.black,
                                     fontWeight: pw.FontWeight.bold,

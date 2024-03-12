@@ -543,7 +543,7 @@ class S {
   /// `Thak you for your purchase`
   String get thakYouForYourPurchase {
     return Intl.message(
-      'Thak you for your purchase',
+      'Thank you for your purchase',
       name: 'thakYouForYourPurchase',
       desc: '',
       args: [],
