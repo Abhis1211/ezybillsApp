@@ -68,6 +68,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
 
   double calculateReturnAmount({required double total}) {
     returnAmount = total - paidAmount;
+    dueAmount = 0;
     // return paidAmount <= 0 || paidAmount <= subTotal ? 0 : total - paidAmount;
     return paidAmount <= 0 || paidAmount <= netTotal ? 0 : total - paidAmount;
   }
@@ -84,7 +85,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
       dueAmount = netTotal - paidAmount;
     }
     print("total====> " + dueAmount.toString());
-    return netTotal - paidAmount;
+    return returnAmount <= 0 ? 0 : netTotal - paidAmount;
   }
 
   late SaleTransactionModel transitionModel = SaleTransactionModel(
