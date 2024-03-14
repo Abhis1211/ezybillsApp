@@ -26,7 +26,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
       setState(() {
         isloading = true;
       });
-      await profileRepo.getDetails();
+      // await profileRepo.getDetails();
       setState(() {
         isloading = false;
       });
