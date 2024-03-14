@@ -34,7 +34,7 @@ class _SalesContactState extends State<SalesContact> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: Text(
-            lang.S.of(context).chooseCustomer,
+            lang.S.of(context).chooseCustomer ,
             style: GoogleFonts.inter(
               color: Colors.black,
             ),
@@ -330,7 +330,7 @@ class _SalesContactState extends State<SalesContact> {
               Icons.add,
             ),
             onPressed: () {
-              const AddCustomer().launch(context);
+              const AddCustomer(type: 0,).launch(context);
             }),
       );
     });

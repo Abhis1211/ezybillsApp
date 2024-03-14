@@ -232,6 +232,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                           child: AppTextField(
                             readOnly: true,
                             cursorColor: kGreyTextColor,
+                             maxLines: 100,
+                            keyboardType: TextInputType.multiline,
                             controller: TextEditingController(
                               text: details.note,
                             ),

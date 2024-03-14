@@ -508,7 +508,10 @@ class _EditProfileState extends State<EditProfile> {
                           padding: const EdgeInsets.all(10.0),
                           child: AppTextField(
                             initialValue: details.note,
-
+                            maxLines: 100,
+                            keyboardType: TextInputType.multiline,
+                            // maxLength: 50,
+                            textInputAction: TextInputAction.newline,
                             onChanged: (value) {
                               setState(() {
                                 invoicenote = value;

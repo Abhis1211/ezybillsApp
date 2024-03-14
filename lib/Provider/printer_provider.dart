@@ -219,9 +219,7 @@ class Printer extends ChangeNotifier {
           )),
       PosColumn(
           text:
-              '${printTransactionModel.transitionModel!.totalAmount!.toDouble()
-              //  + printTransactionModel.transitionModel!.discountAmount!.toDouble()
-              }',
+              '${printTransactionModel.transitionModel!.totalAmount!.toDouble() + printTransactionModel.transitionModel!.discountAmount!.toDouble() - printTransactionModel.transitionModel!.vat!}',
           width: 4,
           styles: const PosStyles(
             align: PosAlign.right,
@@ -267,7 +265,8 @@ class Printer extends ChangeNotifier {
           styles: const PosStyles(align: PosAlign.left, bold: true)),
       PosColumn(
           text:
-              '${printTransactionModel.transitionModel!.totalAmount!.toDouble() - printTransactionModel.transitionModel!.discountAmount!.toDouble() + printTransactionModel.transitionModel!.vat!.toDouble()}',
+              // '${printTransactionModel.transitionModel!.totalAmount!.toDouble() - printTransactionModel.transitionModel!.discountAmount!.toDouble() + printTransactionModel.transitionModel!.vat!.toDouble()}',
+              '${printTransactionModel.transitionModel!.totalAmount!.toDouble()}',
           width: 4,
           styles: const PosStyles(align: PosAlign.right, bold: true)),
     ]);
@@ -298,7 +297,8 @@ class Printer extends ChangeNotifier {
           )),
       PosColumn(
           text:
-              '${printTransactionModel.transitionModel!.totalAmount!.toDouble() - printTransactionModel.transitionModel!.dueAmount!.toDouble() - printTransactionModel.transitionModel!.discountAmount!.toDouble() + printTransactionModel.transitionModel!.vat!.toDouble()}',
+              // '${printTransactionModel.transitionModel!.totalAmount!.toDouble() - printTransactionModel.transitionModel!.dueAmount!.toDouble() - printTransactionModel.transitionModel!.discountAmount!.toDouble() + printTransactionModel.transitionModel!.vat!.toDouble()}',
+              '${printTransactionModel.transitionModel!.totalAmount!.toDouble() - printTransactionModel.transitionModel!.dueAmount!.toDouble()}',
           width: 4,
           styles: const PosStyles(
             align: PosAlign.right,
@@ -347,7 +347,7 @@ class Printer extends ChangeNotifier {
 
     bytes += generator.text(
         printTransactionModel.personalInformationModel.note.toString(),
-        styles: const PosStyles(align: PosAlign.center, bold: false),
+        styles: const PosStyles(align: PosAlign.left, bold: false),
         linesAfter: 1);
     // bytes += generator.qrcode(
     //   'https://ezyBills.com',

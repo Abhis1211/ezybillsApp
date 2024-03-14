@@ -17,7 +17,8 @@ import 'package:mobile_pos/Screens/Customers/Model/customer_model.dart';
 // ignore_for_file: unused_result
 
 class AddCustomer extends StatefulWidget {
-  const AddCustomer({Key? key}) : super(key: key);
+  final type;
+  const AddCustomer({Key? key, required this.type}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -219,7 +220,6 @@ class _AddCustomerState extends State<AddCustomer> {
                 //     ),
                 //   ],
                 // ),
-
                 Visibility(
                   visible: showProgress,
                   child: const CircularProgressIndicator(
@@ -532,7 +532,9 @@ class _AddCustomerState extends State<AddCustomer> {
                             CustomerModel customerModel = CustomerModel(
                               customerName,
                               phoneNumber,
-                              radioItem,
+                              widget.type == 1
+                                  ? "Supplier"
+                                  : "Retailer", //radioItem,
                               profilePicture,
                               emailAddress,
                               customerAddress,

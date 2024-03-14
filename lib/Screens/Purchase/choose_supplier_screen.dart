@@ -75,6 +75,7 @@ class _PurchaseContactsState extends State<PurchaseContacts> {
                             customer[index].type == 'Supplier'
                                 ? color = const Color(0xFFA569BD)
                                 : Colors.white;
+
                             return customer[index]
                                         .customerName
                                         .contains(searchCustomer) &&
@@ -189,10 +190,12 @@ class _PurchaseContactsState extends State<PurchaseContacts> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: kMainColor,
+            backgroundColor: kMainColor,
             child: const Icon(Icons.add),
             onPressed: () {
-              const AddCustomer().launch(context);
+              const AddCustomer(
+                type: 1,
+              ).launch(context);
             }),
       );
     });
