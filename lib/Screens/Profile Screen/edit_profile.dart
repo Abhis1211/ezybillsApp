@@ -137,7 +137,7 @@ class _EditProfileState extends State<EditProfile> {
     dropdownValue = widget.profile.businessCategory ?? '';
     dropdownLangValue = widget.profile.language ?? '';
     profilePicture = widget.profile.pictureUrl ?? '';
-    profileRepo.getDetails();
+    // profileRepo.getDetails();
     super.initState();
   }
 
@@ -429,6 +429,7 @@ class _EditProfileState extends State<EditProfile> {
                   userProfileDetails.when(data: (details) {
                     invoiceNumber = details.invoiceCounter!;
                     openingBalance = details.shopOpeningBalance;
+                    // invoicenote = details.note!;
                     remainingShopBalance = details.remainingShopBalance;
                     return Column(
                       children: [
@@ -508,7 +509,10 @@ class _EditProfileState extends State<EditProfile> {
                           padding: const EdgeInsets.all(10.0),
                           child: AppTextField(
                             initialValue: details.note,
-
+                            maxLines: 100,
+                            keyboardType: TextInputType.multiline,
+                            // maxLength: 50,
+                            textInputAction: TextInputAction.newline,
                             onChanged: (value) {
                               setState(() {
                                 invoicenote = value;
@@ -625,7 +629,9 @@ class _EditProfileState extends State<EditProfile> {
                                 invoiceCounter: invoiceNumber,
                                 gstenable:
                                     details.gstenable == true ? true : false,
-                                gstnumber: gstnumber,
+                                gstnumber: gstnumber == ""
+                                    ? widget.profile.gstnumber
+                                    : gstnumber,
                                 note: invoicenote == ""
                                     ? widget.profile.note
                                     : invoicenote,
@@ -636,11 +642,11 @@ class _EditProfileState extends State<EditProfile> {
                               );
                               _personalInformationRef
                                   .set(personalInformation.toJson());
-                              ref.refresh(profileDetailsProvider);
+
                               EasyLoading.showSuccess('Updated Successfully',
                                   duration: const Duration(milliseconds: 1000));
                               // ignore: use_build_context_synchronously
-                              ref.refresh(profileDetailsProvider);
+                              await ref.refresh(profileDetailsProvider);
                               Navigator.pushNamed(context, '/home');
                             } catch (e) {
                               EasyLoading.dismiss();

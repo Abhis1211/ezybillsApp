@@ -247,7 +247,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Row(
                         children: [
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
+                              await ref.refresh(profileDetailsProvider);
                               isSubUser
                                   ? null
                                   : const ProfileDetails().launch(context);

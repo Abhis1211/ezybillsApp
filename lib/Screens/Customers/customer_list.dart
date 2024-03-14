@@ -59,85 +59,91 @@ class _CustomerListState extends State<CustomerList> {
                           ? color = const Color(0xFFA569BD)
                           : Colors.white;
 
-                      return InkWell(
-                        onTap: () {
-                          CustomerDetails(
-                            customerModel: customer[index],
-                          ).launch(context);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                height: 50.0,
-                                width: 50.0,
-                                child: CircleAvatar(
-                                  foregroundColor: Colors.blue,
-                                  backgroundColor: Colors.white,
-                                  radius: 70.0,
-                                  child: ClipOval(
-                                    child: Image.network(
-                                      customer[index].profilePicture,
-                                      fit: BoxFit.cover,
-                                      width: 120.0,
-                                      height: 120.0,
+                      return customer[index].type.contains('Retailer')
+                          ? InkWell(
+                              onTap: () {
+                                CustomerDetails(
+                                  customerModel: customer[index],
+                                ).launch(context);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      height: 50.0,
+                                      width: 50.0,
+                                      child: CircleAvatar(
+                                        foregroundColor: Colors.blue,
+                                        backgroundColor: Colors.white,
+                                        radius: 70.0,
+                                        child: ClipOval(
+                                          child: Image.network(
+                                            customer[index].profilePicture,
+                                            fit: BoxFit.cover,
+                                            width: 120.0,
+                                            height: 120.0,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    const SizedBox(width: 10.0),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          customer[index].customerName,
+                                          style: GoogleFonts.inter(
+                                            color: Colors.black,
+                                            fontSize: 15.0,
+                                          ),
+                                        ),
+                                        // Text(
+                                        //   customer[index].type,
+                                        //   style: GoogleFonts.inter(
+                                        //     color: color,
+                                        //     fontSize: 15.0,
+                                        //   ),
+                                        // ),
+                                      ],
+                                    ),
+                                    const Spacer(),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          '$currency ${customer[index].dueAmount}',
+                                          style: GoogleFonts.inter(
+                                            color: Colors.black,
+                                            fontSize: 15.0,
+                                          ),
+                                        ),
+                                        Text(
+                                          lang.S.of(context).due,
+                                          style: GoogleFonts.inter(
+                                            color: const Color(0xFFff5f00),
+                                            fontSize: 15.0,
+                                          ),
+                                        ),
+                                      ],
+                                    ).visible(customer[index].dueAmount != '' &&
+                                        customer[index].dueAmount != '0'),
+                                    const SizedBox(width: 20),
+                                    const Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: kGreyTextColor,
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(width: 10.0),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    customer[index].customerName,
-                                    style: GoogleFonts.inter(
-                                      color: Colors.black,
-                                      fontSize: 15.0,
-                                    ),
-                                  ),
-                                  // Text(
-                                  //   customer[index].type,
-                                  //   style: GoogleFonts.inter(
-                                  //     color: color,
-                                  //     fontSize: 15.0,
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                              const Spacer(),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    '$currency ${customer[index].dueAmount}',
-                                    style: GoogleFonts.inter(
-                                      color: Colors.black,
-                                      fontSize: 15.0,
-                                    ),
-                                  ),
-                                  Text(
-                                    lang.S.of(context).due,
-                                    style: GoogleFonts.inter(
-                                      color: const Color(0xFFff5f00),
-                                      fontSize: 15.0,
-                                    ),
-                                  ),
-                                ],
-                              ).visible(customer[index].dueAmount != '' &&
-                                  customer[index].dueAmount != '0'),
-                              const SizedBox(width: 20),
-                              const Icon(
-                                Icons.arrow_forward_ios,
-                                color: kGreyTextColor,
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
+                            )
+                          : Container();
                     })
                 : Center(
                     child: Text(
@@ -162,7 +168,9 @@ class _CustomerListState extends State<CustomerList> {
         iconColor: Colors.white,
         buttonDecoration: kButtonDecoration.copyWith(color: kMainColor),
         onPressed: () {
-          const AddCustomer().launch(context);
+          const AddCustomer(
+            type: 0,
+          ).launch(context);
         },
       ),
     );
