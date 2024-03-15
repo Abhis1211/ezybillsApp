@@ -316,8 +316,27 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                   title: Text(providerData
                                       .cartItemList[index].productName
                                       .toString()),
-                                  subtitle: Text(
-                                      '${providerData.cartItemList[index].quantity} X ${providerData.cartItemList[index].subTotal} = ${(double.parse(providerData.cartItemList[index].subTotal) * providerData.cartItemList[index].quantity).toStringAsFixed(2)}'),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          '${providerData.cartItemList[index].quantity} X ${providerData.cartItemList[index].subTotal} = ${(double.parse(providerData.cartItemList[index].subTotal) * providerData.cartItemList[index].quantity).toStringAsFixed(2)}'),
+                                      Text(providerData
+                                                  .cartItemList[index].color !=
+                                              null
+                                          ? 'Color: ${providerData.cartItemList[index].color}'
+                                          : providerData.cartItemList[index]
+                                                      .size !=
+                                                  null
+                                              ? 'Size: ${providerData.cartItemList[index].size}'
+                                              : providerData.cartItemList[index]
+                                                          .weight !=
+                                                      null
+                                                  ? 'Weight: ${providerData.cartItemList[index].weight}'
+                                                  : ''),
+                                    ],
+                                  ),
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [

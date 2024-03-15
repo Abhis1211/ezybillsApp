@@ -3,6 +3,9 @@ import 'dart:convert';
 class AddToCartModel {
   AddToCartModel({
     this.uuid,
+    this.size,
+    this.color,
+    this.weight,
     this.productId,
     this.productName,
     this.unitPrice,
@@ -17,6 +20,7 @@ class AddToCartModel {
     this.productgst,
   });
 
+  dynamic size, color, weight;
   dynamic uuid;
   dynamic productId;
   String? productName;
@@ -40,6 +44,9 @@ class AddToCartModel {
   factory AddToCartModel.fromMap(Map<String, dynamic> json) => AddToCartModel(
         uuid: json["uuid"],
         productId: json["product_id"],
+        size: json['size'].toString(),
+        color: json['color'].toString(),
+        weight: json['weight'].toString(),
         productName: json["product_name"],
         productBrandName: json["product_brand_name"],
         unitPrice: json["unit_price"],
@@ -56,6 +63,9 @@ class AddToCartModel {
   Map<String, dynamic> toMap() => {
         "uuid": uuid,
         "product_id": productId,
+        'size': size,
+        'color': color,
+        'weight': weight,
         "product_name": productName,
         "product_brand_name": productBrandName,
         "unit_price": unitPrice,
