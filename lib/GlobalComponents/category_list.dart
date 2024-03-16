@@ -6,7 +6,6 @@ import 'package:mobile_pos/constant.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../Provider/category,brans,units_provide.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:mobile_pos/GlobalComponents/add_category.dart';
 import 'package:mobile_pos/GlobalComponents/Model/category_model.dart';
 
@@ -109,11 +108,11 @@ class _CategoryListState extends State<CategoryList> {
                               GetCategoryAndVariationModel(
                                   categoryName: data[i].categoryName,
                                   variations: variations);
+
                           return data[i].categoryName.contains(search)
                               ? InkWell(
                                   onTap: () {
-                                    Navigator.pop(
-                                        context, data[i].categoryName);
+                                    Navigator.pop(context, get);
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(
@@ -164,8 +163,7 @@ class _CategoryListState extends State<CategoryList> {
                                           // buttonDecoration: kButtonDecoration
                                           //     .copyWith(color: kDarkWhite),
                                           onTap: () {
-                                            Navigator.pop(
-                                                context, data[i].categoryName);
+                                            Navigator.pop(context, get);
                                           },
                                         ),
                                         SizedBox(width: 20),

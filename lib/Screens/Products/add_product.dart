@@ -239,9 +239,10 @@ class _AddProductState extends State<AddProduct> {
                     ),
                     child: InkWell(
                       onTap: () async {
-                        String data = await CategoryList().launch(context);
+                         data = await CategoryList().launch(context);
+                      
                         setState(() {
-                          productCategory = data;
+                          productCategory = data.categoryName;
                         });
                       },
                       child: Row(
