@@ -11,6 +11,7 @@ class SaleTransactionModel {
   double? discountAmount;
   double? lossProfit;
   int? totalQuantity;
+  int? paidamountamount;
 
   bool? isPaid;
   String? paymentType;
@@ -34,6 +35,7 @@ class SaleTransactionModel {
     this.lossProfit,
     this.totalQuantity,
     this.sellerName,
+    this.paidamountamount,
   });
 
   SaleTransactionModel.fromJson(Map<dynamic, dynamic> json) {
@@ -52,6 +54,7 @@ class SaleTransactionModel {
     isPaid = json['isPaid'];
     sellerName = json['sellerName'];
     paymentType = json['paymentType'].toString();
+    paidamountamount = json['paidamountamount'];
     if (json['productList'] != null) {
       productList = <AddToCartModel>[];
       json['productList'].forEach((v) {
@@ -76,6 +79,7 @@ class SaleTransactionModel {
         'sellerName': sellerName,
         'isPaid': isPaid,
         'paymentType': paymentType,
+        'paidamountamount': paidamountamount,
         'productList': productList?.map((e) => e.toJson()).toList(),
       };
 }

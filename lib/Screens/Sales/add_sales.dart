@@ -578,8 +578,9 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                 ),
                                 Text(
                                   providerData
-                                      .getTotalAmount().round().toString()
-                                    ,
+                                      .getTotalAmount()
+                                      .round()
+                                      .toString(),
                                   style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
@@ -678,8 +679,9 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                 Text(
                                   providerData
                                       .calculateSubtotal(
-                                          discountAmount: discountAmount).round().toString()
-                                      ,
+                                          discountAmount: discountAmount)
+                                      .round()
+                                      .toString(),
                                   style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
@@ -941,7 +943,9 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                         });
                                       } else {
                                         setState(() {
-                                          paidAmount = double.parse(value).round().toDouble();
+                                          paidAmount = double.parse(value)
+                                              .round()
+                                              .toDouble();
                                         });
                                       }
                                     },
@@ -970,7 +974,8 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                 Text(
                                   calculateReturnAmount(total: subTotal)
                                       .abs()
-                                     .round().toString(),
+                                      .round()
+                                      .toString(),
                                   style: const TextStyle(fontSize: 14),
                                 ),
                               ],
@@ -990,8 +995,9 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                 Text(
                                   paidamount.text.isEmpty
                                       ? "0.0"
-                                      : calculateDueAmount(total: netTotal).round().toString()
-                                         ,
+                                      : calculateDueAmount(total: netTotal)
+                                          .round()
+                                          .toString(),
                                   style: const TextStyle(fontSize: 14),
                                 ),
                               ],
@@ -1395,6 +1401,8 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
 
                                       transitionModel.totalQuantity =
                                           totalQuantity;
+                                      transitionModel.paidamountamount =
+                                          int.parse(paidAmount.toString());
                                       transitionModel.lossProfit = double.parse(
                                           lossProfit.toStringAsFixed(2));
                                       ref.keepSynced(true);
