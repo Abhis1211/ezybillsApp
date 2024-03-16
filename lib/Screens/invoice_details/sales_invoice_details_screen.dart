@@ -389,7 +389,7 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        lang.S.of(context).due,
+                        lang.S.of(context).returnAmount,
                         maxLines: 1,
                         style: kTextStyle.copyWith(color: kGreyTextColor),
                       ),
