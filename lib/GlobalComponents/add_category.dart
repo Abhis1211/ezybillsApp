@@ -67,7 +67,15 @@ class _AddCategoryState extends State<AddCategory> {
   @override
   void initState() {
     if (widget.model != null) {
-      categoryName = widget.model!.categoryName;
+      setState(() {
+        categoryName = widget.model!.categoryName;
+        productPicture = widget.model!.categoryimage;
+        sizeCheckbox = widget.model!.size;
+        colorCheckbox = widget.model!.color;
+        typeCheckbox = widget.model!.type;
+        capacityCheckbox = widget.model!.capacity;
+        weightCheckbox = widget.model!.weight;
+      });
     }
 
     super.initState();
@@ -397,6 +405,7 @@ class _AddCategoryState extends State<AddCategory> {
                       return;
                     }
                     bool isAlreadyAdded = false;
+
                     allCategory.value?.forEach((element) {
                       if (element.categoryName
                           .toLowerCase()
@@ -410,6 +419,7 @@ class _AddCategoryState extends State<AddCategory> {
                     setState(() {
                       showProgress = true;
                     });
+
                     imagePath == 'No Data' ? null : await uploadFile(imagePath);
                     // ignore: no_leading_underscores_for_local_identifiers
                     final DatabaseReference _categoryInformationRef =
@@ -429,13 +439,15 @@ class _AddCategoryState extends State<AddCategory> {
                       weight: weightCheckbox,
                     );
 
-                    isAlreadyAdded
-                        ? EasyLoading.showError('Already Added')
-                        : widget.type == 1
-                            ? await updatecate()
-                            : _categoryInformationRef
-                                .push()
-                                .set(categoryModel.toJson());
+                    if (widget.type == 0) {
+                      isAlreadyAdded
+                          ? EasyLoading.showError('Already Added')
+                          : _categoryInformationRef
+                              .push()
+                              .set(categoryModel.toJson());
+                    } else {
+                      await updatecate();
+                    }
                     setState(() {
                       showProgress = false;
                       isAlreadyAdded
@@ -447,7 +459,12 @@ class _AddCategoryState extends State<AddCategory> {
                     ref.refresh(categoryProvider);
 
                     // ignore: use_build_context_synchronously
-                    isAlreadyAdded ? null : Navigator.pop(context);
+
+                    widget.type == 0
+                        ? isAlreadyAdded
+                            ? null
+                            : Navigator.pop(context)
+                        : Navigator.pop(context);
                   },
                   buttonTextColor: Colors.white,
                 ),
