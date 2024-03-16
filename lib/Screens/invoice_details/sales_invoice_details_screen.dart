@@ -385,6 +385,28 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 5.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        lang.S.of(context).retur,
+                        maxLines: 1,
+                        style: kTextStyle.copyWith(color: kGreyTextColor),
+                      ),
+                      const SizedBox(width: 20.0),
+                      SizedBox(
+                        width: 120,
+                        child: Text(
+                          '$currency (${widget.transitionModel.returnAmount!})',
+                          maxLines: 2,
+                          style: kTextStyle.copyWith(
+                              color: kTitleColor, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
+                    ],
+                  ),
                   Divider(
                     thickness: 1.0,
                     color: kGreyTextColor.withOpacity(0.1),

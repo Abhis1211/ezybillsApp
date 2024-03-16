@@ -69,10 +69,15 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
   }
 
   double calculateReturnAmount({required double total}) {
+    print("paidAmount" + paidAmount.toString());
+    print("totalamout" + total.toString());
     returnAmount = total - paidAmount;
+    print("returnAmount " + returnAmount.toString());
     dueAmount = 0;
     // return paidAmount <= 0 || paidAmount <= subTotal ? 0 : total - paidAmount;
-    return paidAmount <= 0 || paidAmount <= netTotal ? 0 : total - paidAmount;
+    return paidAmount <= 0 || paidAmount <= netTotal
+        ? 0
+        : netTotal - paidAmount;
   }
 
   double calculateDueAmount({required double total}) {
