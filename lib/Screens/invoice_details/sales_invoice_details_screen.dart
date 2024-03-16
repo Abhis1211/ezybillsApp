@@ -390,7 +390,7 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        lang.S.of(context).retur,
+                        lang.S.of(context).returnAmount,
                         maxLines: 1,
                         style: kTextStyle.copyWith(color: kGreyTextColor),
                       ),
@@ -398,7 +398,7 @@ class _SalesInvoiceDetailsState extends State<SalesInvoiceDetails> {
                       SizedBox(
                         width: 120,
                         child: Text(
-                          '$currency (${widget.transitionModel.returnAmount!})',
+                          '$currency ${widget.transitionModel.returnAmount}',
                           maxLines: 2,
                           style: kTextStyle.copyWith(
                               color: kTitleColor, fontWeight: FontWeight.bold),

@@ -231,7 +231,7 @@ class _CategoryListState extends State<CategoryList> {
                 }, error: (_, __) {
                   return Container();
                 }, loading: () {
-                  return const CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator());
                 }),
               ),
             ],
