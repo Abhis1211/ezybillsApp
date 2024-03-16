@@ -396,6 +396,15 @@ class _SaleProductsState extends State<SaleProducts> {
                                   productgst: currentproductcategory == ""
                                       ? products[i].productGst
                                       : filterlist[i].productGst,
+                                  color: currentproductcategory == ""
+                                      ? products[i].color
+                                      : filterlist[i].color,
+                                  size: currentproductcategory == ""
+                                      ? products[i].size
+                                      : filterlist[i].size,
+                                  weight: currentproductcategory == ""
+                                      ? products[i].weight
+                                      : filterlist[i].weight,
                                 );
                                 personalData.when(
                                     data: (data) {
@@ -769,6 +778,15 @@ class _SaleProductsState extends State<SaleProducts> {
                                       productgst: currentproductcategory == ""
                                           ? products[i].productGst
                                           : filterlist[i].productGst,
+                                      color: currentproductcategory == ""
+                                          ? products[i].color
+                                          : filterlist[i].color,
+                                      size: currentproductcategory == ""
+                                          ? products[i].size
+                                          : filterlist[i].size,
+                                      weight: currentproductcategory == ""
+                                          ? products[i].weight
+                                          : filterlist[i].weight,
                                     );
                                     personalData.when(
                                         data: (data) {
@@ -960,7 +978,7 @@ class _ProductCardState extends State<ProductCard> {
                 )
               : Container(),
           Padding(
-             padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
               '$currency${widget.productPrice}',
               style: GoogleFonts.inter(

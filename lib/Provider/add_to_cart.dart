@@ -114,6 +114,20 @@ class CartNotifier extends ChangeNotifier {
     cartItemList = cartItem;
   }
 
+  String isSize(size) {
+    return size != null && size != "Not Provided" ? ' Size: ${size}' : '';
+  }
+
+  String isColor(color) {
+    return color != null && color != "Not Provided" ? ' Color: ${color}' : '';
+  }
+
+  String isWeight(weight) {
+    return weight != null && weight != "Not Provided"
+        ? ' Weight: ${weight}'
+        : '';
+  }
+
   deleteToCart(int index, gst) {
     totalgst =
         totalgst - (gst.toString() == "" ? 0.0 : double.parse(gst.toString()));

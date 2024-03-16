@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:convert';
 import '../Home/home.dart';
 import '../../constant.dart';
@@ -322,19 +324,12 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                     children: [
                                       Text(
                                           '${providerData.cartItemList[index].quantity} X ${providerData.cartItemList[index].subTotal} = ${(double.parse(providerData.cartItemList[index].subTotal) * providerData.cartItemList[index].quantity).toStringAsFixed(2)}'),
-                                      Text(providerData
-                                                  .cartItemList[index].color !=
-                                              null
-                                          ? 'Color: ${providerData.cartItemList[index].color}'
-                                          : providerData.cartItemList[index]
-                                                      .size !=
-                                                  null
-                                              ? 'Size: ${providerData.cartItemList[index].size}'
-                                              : providerData.cartItemList[index]
-                                                          .weight !=
-                                                      null
-                                                  ? 'Weight: ${providerData.cartItemList[index].weight}'
-                                                  : ''),
+                                      Text(providerData.isColor(providerData
+                                              .cartItemList[index].color) +
+                                          providerData.isSize(providerData
+                                              .cartItemList[index].size) +
+                                          providerData.isWeight(providerData
+                                              .cartItemList[index].weight))
                                     ],
                                   ),
                                   trailing: Row(

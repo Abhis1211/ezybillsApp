@@ -136,9 +136,15 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                 productName: products.productName,
                 subTotal: sentProductPrice,
                 quantity: element.quantity,
+                size: products.size,
+                color: products.color,
+                weight: products.weight,
                 productId: products.productCode,
                 productBrandName: products.brandName,
-                stock: int.parse(products.productStock == null || products.productStock == "" ?"0":(products.productStock)),
+                stock: int.parse(
+                    products.productStock == null || products.productStock == ""
+                        ? "0"
+                        : (products.productStock)),
               );
               list.add(cartItem);
 
@@ -831,6 +837,9 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                                                         pastElement.productName,
                                                     productId:
                                                         pastElement.productId,
+                                                    size: pastElement.size,
+                                                    color: pastElement.color,
+                                                    weight: pastElement.weight,
                                                     quantity: futureElement
                                                             .quantity
                                                             .toInt() -
@@ -849,6 +858,9 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                                                   AddToCartModel(
                                                     productName:
                                                         pastElement.productName,
+                                                    size: pastElement.size,
+                                                    color: pastElement.color,
+                                                    weight: pastElement.weight,
                                                     productId:
                                                         pastElement.productId,
                                                     quantity: pastElement
@@ -865,6 +877,9 @@ class _SalesReportEditScreenState extends State<SalesReportEditScreen> {
                                             AddToCartModel(
                                               productName:
                                                   pastElement.productName,
+                                              size: pastElement.size,
+                                              color: pastElement.color,
+                                              weight: pastElement.weight,
                                               productId: pastElement.productId,
                                               quantity: pastElement.quantity,
                                             ),

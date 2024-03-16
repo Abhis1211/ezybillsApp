@@ -20,7 +20,12 @@ import 'package:mobile_pos/generated/l10n.dart' as lang;
 
 // ignore: must_be_immutable
 class EditSaleInvoiceSaleProducts extends StatefulWidget {
-  EditSaleInvoiceSaleProducts({Key? key, @required this.catName, this.customerModel, required this.transitionModel}) : super(key: key);
+  EditSaleInvoiceSaleProducts(
+      {Key? key,
+      @required this.catName,
+      this.customerModel,
+      required this.transitionModel})
+      : super(key: key);
 
   // ignore: prefer_typing_uninitialized_variables
   var catName;
@@ -29,10 +34,12 @@ class EditSaleInvoiceSaleProducts extends StatefulWidget {
 
   @override
   // ignore: library_private_types_in_public_api
-  _EditSaleInvoiceSaleProductsState createState() => _EditSaleInvoiceSaleProductsState();
+  _EditSaleInvoiceSaleProductsState createState() =>
+      _EditSaleInvoiceSaleProductsState();
 }
 
-class _EditSaleInvoiceSaleProductsState extends State<EditSaleInvoiceSaleProducts> {
+class _EditSaleInvoiceSaleProductsState
+    extends State<EditSaleInvoiceSaleProducts> {
   String dropdownValue = '';
   String productCode = '0000';
 
@@ -42,14 +49,17 @@ class _EditSaleInvoiceSaleProductsState extends State<EditSaleInvoiceSaleProduct
 
   @override
   void initState() {
-    widget.catName == null ? dropdownValue = 'Fashion' : dropdownValue = widget.catName;
+    widget.catName == null
+        ? dropdownValue = 'Fashion'
+        : dropdownValue = widget.catName;
     super.initState();
   }
 
   Future<void> scanBarcodeNormal() async {
     String barcodeScanRes;
     try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode('#ff6666', 'Cancel', true, ScanMode.BARCODE);
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
@@ -102,7 +112,10 @@ class _EditSaleInvoiceSaleProductsState extends State<EditSaleInvoiceSaleProduct
                           decoration: InputDecoration(
                             floatingLabelBehavior: FloatingLabelBehavior.always,
                             labelText: 'Product Code',
-                            hintText: productCode == '0000' || productCode == '-1' ? 'Scan product QR code' : productCode,
+                            hintText:
+                                productCode == '0000' || productCode == '-1'
+                                    ? 'Scan product QR code'
+                                    : productCode,
                             border: const OutlineInputBorder(),
                           ),
                         ),
@@ -139,13 +152,17 @@ class _EditSaleInvoiceSaleProductsState extends State<EditSaleInvoiceSaleProduct
                       itemBuilder: (_, i) {
                         if (widget.customerModel!.type.contains('Retailer')) {
                           productPrice = products[i].productSalePrice;
-                        } else if (widget.customerModel!.type.contains('Dealer')) {
+                        } else if (widget.customerModel!.type
+                            .contains('Dealer')) {
                           productPrice = products[i].productDealerPrice;
-                        } else if (widget.customerModel!.type.contains('Wholesaler')) {
+                        } else if (widget.customerModel!.type
+                            .contains('Wholesaler')) {
                           productPrice = products[i].productWholeSalePrice;
-                        } else if (widget.customerModel!.type.contains('Supplier')) {
+                        } else if (widget.customerModel!.type
+                            .contains('Supplier')) {
                           productPrice = products[i].productPurchasePrice;
-                        } else if (widget.customerModel!.type.contains('Guest')) {
+                        } else if (widget.customerModel!.type
+                            .contains('Guest')) {
                           productPrice = products[i].productSalePrice;
                         }
                         return GestureDetector(
@@ -153,15 +170,23 @@ class _EditSaleInvoiceSaleProductsState extends State<EditSaleInvoiceSaleProduct
                             if (products[i].productStock.toInt() <= 0) {
                               EasyLoading.showError('Out of stock');
                             } else {
-                              if (widget.customerModel!.type.contains('Retailer')) {
+                              if (widget.customerModel!.type
+                                  .contains('Retailer')) {
                                 sentProductPrice = products[i].productSalePrice;
-                              } else if (widget.customerModel!.type.contains('Dealer')) {
-                                sentProductPrice = products[i].productDealerPrice;
-                              } else if (widget.customerModel!.type.contains('Wholesaler')) {
-                                sentProductPrice = products[i].productWholeSalePrice;
-                              } else if (widget.customerModel!.type.contains('Supplier')) {
-                                sentProductPrice = products[i].productPurchasePrice;
-                              } else if (widget.customerModel!.type.contains('Guest')) {
+                              } else if (widget.customerModel!.type
+                                  .contains('Dealer')) {
+                                sentProductPrice =
+                                    products[i].productDealerPrice;
+                              } else if (widget.customerModel!.type
+                                  .contains('Wholesaler')) {
+                                sentProductPrice =
+                                    products[i].productWholeSalePrice;
+                              } else if (widget.customerModel!.type
+                                  .contains('Supplier')) {
+                                sentProductPrice =
+                                    products[i].productPurchasePrice;
+                              } else if (widget.customerModel!.type
+                                  .contains('Guest')) {
                                 sentProductPrice = products[i].productSalePrice;
                               }
 
@@ -169,6 +194,9 @@ class _EditSaleInvoiceSaleProductsState extends State<EditSaleInvoiceSaleProduct
                                 productName: products[i].productName,
                                 subTotal: sentProductPrice,
                                 productId: products[i].productCode,
+                                size: products[i].size,
+                                color: products[i].color,
+                                weight: products[i].weight,
                                 productBrandName: products[i].brandName,
                                 stock: int.parse(products[i].productStock),
                               );
@@ -183,7 +211,10 @@ class _EditSaleInvoiceSaleProductsState extends State<EditSaleInvoiceSaleProduct
                             productDescription: products[i].brandName,
                             productPrice: productPrice,
                             productImage: products[i].productPicture,
-                          ).visible((products[i].productCode == productCode || productCode == '0000' || productCode == '-1') && productPrice != '0'),
+                          ).visible((products[i].productCode == productCode ||
+                                  productCode == '0000' ||
+                                  productCode == '-1') &&
+                              productPrice != '0'),
                         );
                       });
                 }, error: (e, stack) {
@@ -202,7 +233,13 @@ class _EditSaleInvoiceSaleProductsState extends State<EditSaleInvoiceSaleProduct
 
 // ignore: must_be_immutable
 class ProductCard extends StatefulWidget {
-  ProductCard({Key? key, required this.productTitle, required this.productDescription, required this.productPrice, required this.productImage}) : super(key: key);
+  ProductCard(
+      {Key? key,
+      required this.productTitle,
+      required this.productDescription,
+      required this.productPrice,
+      required this.productImage})
+      : super(key: key);
 
   // final Product product;
   String productImage, productTitle, productDescription, productPrice;
@@ -233,7 +270,9 @@ class _ProductCardState extends State<ProductCard> {
                 height: 50,
                 width: 50,
                 decoration: BoxDecoration(
-                  image: DecorationImage(image: NetworkImage(widget.productImage), fit: BoxFit.cover),
+                  image: DecorationImage(
+                      image: NetworkImage(widget.productImage),
+                      fit: BoxFit.cover),
                   borderRadius: BorderRadius.circular(90.0),
                 ),
               ),
