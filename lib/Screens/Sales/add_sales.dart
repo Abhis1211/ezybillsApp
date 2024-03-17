@@ -1402,7 +1402,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                       transitionModel.totalQuantity =
                                           totalQuantity;
                                       transitionModel.paidamountamount =
-                                          int.parse(paidAmount.toString());
+                                          paidAmount.round();
                                       transitionModel.lossProfit = double.parse(
                                           lossProfit.toStringAsFixed(2));
                                       ref.keepSynced(true);

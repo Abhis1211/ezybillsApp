@@ -1010,7 +1010,7 @@ class GeneratePdf {
                                   ),
                                 ),
                                 pw.Text(
-                                  "Paid Amount: ${((transactions.totalAmount!) - transactions.dueAmount!.toDouble()).toStringAsFixed(2)}",
+                                  'Paid Amount: ${(transactions.returnAmount! > 1) ? (transactions.totalAmount! - transactions.vat!.toDouble() + transactions.returnAmount!) : transactions.totalAmount! - transactions.dueAmount!.toDouble()}',
                                   style: pw.TextStyle(
                                     color: PdfColors.black,
                                     fontWeight: pw.FontWeight.bold,
@@ -1028,6 +1028,14 @@ class GeneratePdf {
                             ),
                           ),
                         pw.SizedBox(height: 10.0),
+                        if (transactions.returnAmount! > 0)
+                          pw.Text(
+                            "Return Amount: ${transactions.returnAmount}",
+                            style: pw.TextStyle(
+                              color: PdfColors.black,
+                              fontWeight: pw.FontWeight.bold,
+                            ),
+                          ),
                       ],
                     ),
                   ],
