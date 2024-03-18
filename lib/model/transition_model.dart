@@ -3,7 +3,11 @@ import 'package:mobile_pos/model/product_model.dart';
 import 'add_to_cart_model.dart';
 
 class SaleTransactionModel {
-  late String customerName, customerPhone, customerType, invoiceNumber, purchaseDate;
+  late String customerName,
+      customerPhone,
+      customerType,
+      invoiceNumber,
+      purchaseDate;
   double? totalAmount;
   double? dueAmount;
   double? returnAmount;
@@ -85,10 +89,15 @@ class SaleTransactionModel {
 }
 
 class PurchaseTransitionModel {
-  late String customerName, customerPhone, customerType, invoiceNumber, purchaseDate;
+  late String customerName,
+      customerPhone,
+      customerType,
+      invoiceNumber,
+      purchaseDate;
   double? totalAmount;
   double? dueAmount;
   double? returnAmount;
+  double? paidAmount;
   double? discountAmount;
 
   bool? isPaid;
@@ -105,6 +114,7 @@ class PurchaseTransitionModel {
     this.dueAmount,
     this.totalAmount,
     this.returnAmount,
+    this.paidAmount,
     this.discountAmount,
     this.isPaid,
     this.paymentType,
@@ -123,6 +133,7 @@ class PurchaseTransitionModel {
     discountAmount = double.parse(json['discountAmount'].toString());
     dueAmount = double.parse(json['dueAmount'].toString());
     returnAmount = double.parse(json['returnAmount'].toString());
+    paidAmount = double.parse(json['paidAmount'].toString());
     isPaid = json['isPaid'];
     paymentType = json['paymentType'].toString();
     if (json['productList'] != null) {
@@ -144,6 +155,7 @@ class PurchaseTransitionModel {
         'dueAmount': dueAmount,
         'sellerName': sellerName,
         'returnAmount': returnAmount,
+        'paidAmount': paidAmount,
         'isPaid': isPaid,
         'paymentType': paymentType,
         'productList': productList?.map((e) => e.toJson()).toList(),
