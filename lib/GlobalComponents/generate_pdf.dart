@@ -1030,7 +1030,8 @@ class GeneratePdf {
                         pw.SizedBox(height: 10.0),
                         if (transactions.returnAmount! > 0)
                           pw.Text(
-                            "Return Amount: ${transactions.returnAmount}",
+                           "Return Amount:   ${(transactions.paidamountamount! - transactions.totalAmount!) < 0 ? 0 : (transactions.paidamountamount! - transactions.totalAmount!).toStringAsFixed(2)}",
+                            // "Return Amount: ${transactions.returnAmount}",
                             style: pw.TextStyle(
                               color: PdfColors.black,
                               fontWeight: pw.FontWeight.bold,

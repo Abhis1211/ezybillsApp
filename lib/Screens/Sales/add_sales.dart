@@ -115,6 +115,20 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
     super.initState();
   }
 
+  void dispose() {
+    paidAmount = 0;
+    discountAmount = 0;
+    returnAmount = 0;
+    dueAmount = 0;
+    subTotal = 0;
+    netTotal = 0;
+    percentage = 0;
+    vatAmount = 0;
+    totalamount = 0;
+    dropdownValue = 'Cash';
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -1322,6 +1336,12 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                   EasyLoading.showError(
                                       'Due is not available for guest');
                                 } else {
+                                  if (dueAmount > 0 &&
+                                      dropdownValue != "Credit/Due") {
+                                    EasyLoading.showError(
+                                        'Please select credit due payment method');
+                                    return;
+                                  }
                                   if (!isClicked) {
                                     try {
                                       setState(() {

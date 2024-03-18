@@ -86,6 +86,12 @@ class Printer extends ChangeNotifier {
           width: PosTextSize.size2,
         ),
         linesAfter: 1);
+    bytes += generator.text(
+        'GSTIN : ${printTransactionModel.personalInformationModel.gstnumber ?? ''}',
+        styles: const PosStyles(
+          align: PosAlign.center,
+        ),
+        linesAfter: 1);
 
     // printTransactionModel.transitionModel!.sellerName.isEmptyOrNull
     //     ? bytes += generator.text('Seller : Admin',
@@ -297,8 +303,10 @@ class Printer extends ChangeNotifier {
           )),
       PosColumn(
           text:
-              // '${printTransactionModel.transitionModel!.totalAmount!.toDouble() - printTransactionModel.transitionModel!.dueAmount!.toDouble() - printTransactionModel.transitionModel!.discountAmount!.toDouble() + printTransactionModel.transitionModel!.vat!.toDouble()}',
-              '${printTransactionModel.transitionModel!.totalAmount!.toDouble() - printTransactionModel.transitionModel!.dueAmount!.toDouble()}',
+              ' ${(printTransactionModel.transitionModel!.returnAmount! > 1) ? (printTransactionModel.transitionModel!.totalAmount! - printTransactionModel.transitionModel!.vat!.toDouble() + printTransactionModel.transitionModel!.returnAmount!) : printTransactionModel.transitionModel!.totalAmount! - printTransactionModel.transitionModel!.dueAmount!.toDouble()}',
+
+          // '${printTransactionModel.transitionModel!.totalAmount!.toDouble() - printTransactionModel.transitionModel!.dueAmount!.toDouble() - printTransactionModel.transitionModel!.discountAmount!.toDouble() + printTransactionModel.transitionModel!.vat!.toDouble()}',
+          // '${printTransactionModel.transitionModel!.totalAmount!.toDouble() - printTransactionModel.transitionModel!.dueAmount!.toDouble()}',
           width: 4,
           styles: const PosStyles(
             align: PosAlign.right,
@@ -312,7 +320,10 @@ class Printer extends ChangeNotifier {
             align: PosAlign.left,
           )),
       PosColumn(
-          text: printTransactionModel.transitionModel!.returnAmount.toString(),
+          text:
+              '${(printTransactionModel.transitionModel!.paidamountamount! - printTransactionModel.transitionModel!.totalAmount!) < 0 ? 0 : (printTransactionModel.transitionModel!.paidamountamount! - printTransactionModel.transitionModel!.totalAmount!).toStringAsFixed(2)}',
+
+          // text: printTransactionModel.transitionModel!.returnAmount.toString(),
           width: 4,
           styles: const PosStyles(
             align: PosAlign.right,
@@ -344,7 +355,8 @@ class Printer extends ChangeNotifier {
             printTransactionModel.transitionModel!.purchaseDate)),
         styles: const PosStyles(align: PosAlign.center),
         linesAfter: 1);
-
+    bytes += generator.text('Note:',
+        styles: const PosStyles(align: PosAlign.center, bold: true));
     bytes += generator.text(
         printTransactionModel.personalInformationModel.note.toString(),
         styles: const PosStyles(align: PosAlign.left, bold: false),
