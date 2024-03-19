@@ -416,19 +416,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       );
                                     } else {
-                                      YoutubePlayerController videoController =
-                                          YoutubePlayerController(
-                                        flags: const YoutubePlayerFlags(
-                                          autoPlay: false,
-                                          mute: false,
-                                        ),
-                                        initialVideoId: images[index].imageUrl,
-                                      );
-                                      return YoutubePlayer(
-                                        controller: videoController,
-                                        showVideoProgressIndicator: true,
-                                        onReady: () {},
-                                      );
+                                      // YoutubePlayerController videoController =
+                                      //     YoutubePlayerController(
+                                      //   flags: const YoutubePlayerFlags(
+                                      //     autoPlay: false,
+                                      //     mute: false,
+                                      //   ),
+                                      //   initialVideoId: images[index].imageUrl,
+                                      // );
+                                      // return YoutubePlayer(
+                                      //   controller: videoController,
+                                      //   showVideoProgressIndicator: true,
+                                      //   onReady: () {},
+                                      // );
                                     }
                                   },
                                 ),
