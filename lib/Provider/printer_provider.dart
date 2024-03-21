@@ -87,11 +87,11 @@ class Printer extends ChangeNotifier {
         ),
         linesAfter: 1);
     bytes += generator.text(
-        'GSTIN : ${printTransactionModel.personalInformationModel.gstnumber ?? ''}',
-        styles: const PosStyles(
-          align: PosAlign.center,
-        ),
-       );
+      'GSTIN : ${printTransactionModel.personalInformationModel.gstnumber ?? ''}',
+      styles: const PosStyles(
+        align: PosAlign.center,
+      ),
+    );
 
     // printTransactionModel.transitionModel!.sellerName.isEmptyOrNull
     //     ? bytes += generator.text('Seller : Admin',
@@ -116,9 +116,9 @@ class Printer extends ChangeNotifier {
           'mobile: ${printTransactionModel.transitionModel?.customerPhone ?? 'Not Provided'}',
           styles: const PosStyles(align: PosAlign.left));
     bytes += generator.text(
-        'Invoice Number: ${printTransactionModel.transitionModel?.invoiceNumber ?? 'Not Provided'}',
-        styles: const PosStyles(align: PosAlign.left),
-        linesAfter: 1);
+      'Invoice Number: ${printTransactionModel.transitionModel?.invoiceNumber ?? 'Not Provided'}',
+      styles: const PosStyles(align: PosAlign.left),
+    );
 
     bytes += generator.row([
       PosColumn(
@@ -376,10 +376,9 @@ class Printer extends ChangeNotifier {
     //     linesAfter: 1);
 
     bytes += generator.text(
-      'Developed By: ezyBills(Define Softwares Pvt. Ltd.)',
-      styles: const PosStyles(align: PosAlign.center),
-      linesAfter: 2
-    );
+        'Developed By: ezyBills(Define Softwares Pvt. Ltd.)',
+        styles: const PosStyles(align: PosAlign.center),
+        linesAfter: 2);
     // bytes += generator.cut(mode: PosCutMode.partial);
     return bytes;
   }
