@@ -91,7 +91,7 @@ class Printer extends ChangeNotifier {
         styles: const PosStyles(
           align: PosAlign.center,
         ),
-        linesAfter: 1);
+       );
 
     // printTransactionModel.transitionModel!.sellerName.isEmptyOrNull
     //     ? bytes += generator.text('Seller : Admin',
@@ -344,7 +344,7 @@ class Printer extends ChangeNotifier {
               align: PosAlign.right,
             )),
       ]);
-    bytes += generator.hr(ch: '=', linesAfter: 1);
+    bytes += generator.hr(ch: '=');
 
     // ticket.feed(2);
     bytes += generator.text('Thank you visit Again!',
@@ -376,10 +376,11 @@ class Printer extends ChangeNotifier {
     //     linesAfter: 1);
 
     bytes += generator.text(
-        'Developed By: ezyBills(Define Softwares Pvt. Ltd.)',
-        styles: const PosStyles(align: PosAlign.center),
-        linesAfter: 1);
-    bytes += generator.cut();
+      'Developed By: ezyBills(Define Softwares Pvt. Ltd.)',
+      styles: const PosStyles(align: PosAlign.center),
+      linesAfter: 2
+    );
+    // bytes += generator.cut(mode: PosCutMode.partial);
     return bytes;
   }
 }
