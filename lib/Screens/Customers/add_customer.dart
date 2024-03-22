@@ -43,8 +43,10 @@ class _AddCustomerState extends State<AddCustomer> {
   bool showProgress = false;
   double progress = 0.0;
   bool isPhoneAlready = false;
+  bool isnameAlready = false;
   XFile? pickedImage;
   TextEditingController phoneText = TextEditingController();
+  TextEditingController cusname = TextEditingController();
   File imageFile = File('No File');
   String imagePath = 'No Data';
 
@@ -116,6 +118,7 @@ class _AddCustomerState extends State<AddCustomer> {
                   padding: const EdgeInsets.all(10.0),
                   child: AppTextField(
                     textFieldType: TextFieldType.NAME,
+                    controller: cusname,
                     onChanged: (value) {
                       setState(() {
                         customerName = value;
@@ -430,7 +433,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.always,
                                 labelText: lang.S.of(context).email,
-                                hintText: 'example@ezybills.com',
+                                hintText: 'example@BestBills.com',
                                 hintStyle: TextStyle(
                                     color: Colors.grey.withOpacity(0.5)),
                               ),
@@ -489,6 +492,10 @@ class _AddCustomerState extends State<AddCustomer> {
                     buttonDecoration:
                         kButtonDecoration.copyWith(color: kMainColor),
                     onPressed: () async {
+                      setState(() {
+                        isnameAlready = false;
+                        isPhoneAlready = false;
+                      });
                       if (phoneNumber.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text("Please enter phone number")));
@@ -505,6 +512,12 @@ class _AddCustomerState extends State<AddCustomer> {
                         return;
                       }
                       for (var element in customerData.value!) {
+                        if (element.customerName.toString() ==
+                            customerName.toString()) {
+                          EasyLoading.showError('Customer name already exist');
+                          isnameAlready = true;
+                          cusname.clear();
+                        }
                         if (element.phoneNumber == phoneNumber) {
                           EasyLoading.showError('Phone number already exist');
                           isPhoneAlready = true;
@@ -513,7 +526,7 @@ class _AddCustomerState extends State<AddCustomer> {
                       }
                       Future.delayed(const Duration(milliseconds: 500),
                           () async {
-                        if (isPhoneAlready) {
+                        if (isPhoneAlready || isnameAlready) {
                         } else {
                           try {
                             EasyLoading.show(
