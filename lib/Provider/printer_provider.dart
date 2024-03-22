@@ -86,12 +86,13 @@ class Printer extends ChangeNotifier {
           width: PosTextSize.size2,
         ),
         linesAfter: 1);
-    bytes += generator.text(
-      'GSTIN : ${printTransactionModel.personalInformationModel.gstnumber ?? ''}',
-      styles: const PosStyles(
-        align: PosAlign.center,
-      ),
-    );
+    if (printTransactionModel.personalInformationModel.gstenable == true)
+      bytes += generator.text(
+        'GSTIN : ${printTransactionModel.personalInformationModel.gstnumber ?? ''}',
+        styles: const PosStyles(
+          align: PosAlign.center,
+        ),
+      );
 
     // printTransactionModel.transitionModel!.sellerName.isEmptyOrNull
     //     ? bytes += generator.text('Seller : Admin',
