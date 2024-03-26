@@ -423,7 +423,7 @@ class _SalesReportScreenState extends State<SalesReportScreen> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        '${lang.S.of(context).due}: $currency ${reTransaction[index].dueAmount.toString()}',
+                                                        '${lang.S.of(context).due}: $currency ${reTransaction[index].dueAmount!.toDouble().round().toString()}',
                                                         style: const TextStyle(
                                                             fontSize: 16),
                                                       ).visible(

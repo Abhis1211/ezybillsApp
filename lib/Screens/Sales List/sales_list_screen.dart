@@ -476,7 +476,7 @@ class _SalesListScreenState extends State<SalesListScreen> {
                                                       ),
                                                       SizedBox(width: 10),
                                                       Text(
-                                                        '${lang.S.of(context).due}: $currency ${reTransaction[index].dueAmount.toString()}',
+                                                        '${lang.S.of(context).due}: $currency ${reTransaction[index].dueAmount!.toDouble().round().toString()}',
                                                         style: const TextStyle(
                                                             fontSize: 16),
                                                       ).visible(
@@ -540,12 +540,13 @@ class _SalesListScreenState extends State<SalesListScreen> {
                                                                             return WillPopScope(
                                                                               onWillPop: () async => false,
                                                                               child: Dialog(
-                                                                                child: SizedBox(
-                                                                                  child: Column(
-                                                                                    mainAxisSize: MainAxisSize.min,
-                                                                                    children: [
-                                                                                      ListView.builder(
-                                                                                        shrinkWrap: true,
+                                                                                child: Column(
+                                                                                  mainAxisSize: MainAxisSize.min,
+                                                                                  children: [
+                                                                                    Container(
+                                                                                      height: MediaQuery.of(context).size.width*0.2,
+                                                                                      child: ListView.builder(
+                                                                                        // shrinkWrap: true,
                                                                                         itemCount: printerData.availableBluetoothDevices.isNotEmpty ? printerData.availableBluetoothDevices.length : 0,
                                                                                         itemBuilder: (context, index) {
                                                                                           return ListTile(
@@ -566,25 +567,25 @@ class _SalesListScreenState extends State<SalesListScreen> {
                                                                                           );
                                                                                         },
                                                                                       ),
-                                                                                      const SizedBox(height: 10),
-                                                                                      const Text('Connect Your printer'),
-                                                                                      const SizedBox(height: 10),
-                                                                                      Container(height: 1, width: double.infinity, color: Colors.grey),
-                                                                                      const SizedBox(height: 15),
-                                                                                      GestureDetector(
-                                                                                        onTap: () {
-                                                                                          Navigator.pop(context);
-                                                                                        },
-                                                                                        child: const Center(
-                                                                                          child: Text(
-                                                                                            'Cancel',
-                                                                                            style: TextStyle(color: kMainColor),
-                                                                                          ),
+                                                                                    ),
+                                                                                    const SizedBox(height: 10),
+                                                                                    const Text('Connect Your printer'),
+                                                                                    const SizedBox(height: 10),
+                                                                                    Container(height: 1, width: double.infinity, color: Colors.grey),
+                                                                                    const SizedBox(height: 15),
+                                                                                    GestureDetector(
+                                                                                      onTap: () {
+                                                                                        Navigator.pop(context);
+                                                                                      },
+                                                                                      child: const Center(
+                                                                                        child: Text(
+                                                                                          'Cancel',
+                                                                                          style: TextStyle(color: kMainColor),
                                                                                         ),
                                                                                       ),
-                                                                                      const SizedBox(height: 15),
-                                                                                    ],
-                                                                                  ),
+                                                                                    ),
+                                                                                    const SizedBox(height: 15),
+                                                                                  ],
                                                                                 ),
                                                                               ),
                                                                             );
