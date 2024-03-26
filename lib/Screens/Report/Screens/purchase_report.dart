@@ -409,7 +409,7 @@ class _PurchaseReportState extends State<PurchaseReportScreen> {
                                               ),
                                               const SizedBox(height: 10),
                                               Text(
-                                                '${lang.S.of(context).paid} : $currency ${(reTransaction[index].totalAmount!.toDouble() - reTransaction[index].dueAmount!.toDouble()).toString()}',
+                                                '${lang.S.of(context).paid} : $currency ${(reTransaction[index].totalAmount!.toDouble() - reTransaction[index].dueAmount!.toDouble()).toDouble().round().toString()}',
                                                 style: const TextStyle(
                                                     color: Colors.grey),
                                               ),
