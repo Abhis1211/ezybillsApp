@@ -132,13 +132,13 @@ class _PurchaseReportState extends State<PurchaseListScreen> {
                                     ),
                                     const SizedBox(height: 10),
                                     Text(
-                                      '${lang.S.of(context).total} : $currency ${reTransaction[index].totalAmount.toString()}',
+                                      '${lang.S.of(context).total} : $currency ${reTransaction[index].totalAmount.toDouble().round().toString().toString()}',
                                       style:
                                           const TextStyle(color: Colors.grey),
                                     ),
                                     const SizedBox(height: 10),
                                     Text(
-                                      '${lang.S.of(context).paid} : $currency ${reTransaction[index].totalAmount!.toDouble() - reTransaction[index].dueAmount!.toDouble()}',
+                                      '${lang.S.of(context).paid} : $currency ${(reTransaction[index].totalAmount!.toDouble() - reTransaction[index].dueAmount!.toDouble()).toDouble().round().toString()}',
                                       style:
                                           const TextStyle(color: Colors.grey),
                                     ),
@@ -147,7 +147,7 @@ class _PurchaseReportState extends State<PurchaseListScreen> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          '${lang.S.of(context).due}: $currency ${reTransaction[index].dueAmount.toString()}',
+                                          '${lang.S.of(context).due}: $currency ${reTransaction[index].dueAmount.toDouble().round().toString()}',
                                           style: const TextStyle(fontSize: 16),
                                         ).visible(reTransaction[index]
                                                 .dueAmount!
@@ -333,8 +333,6 @@ class _PurchaseReportState extends State<PurchaseListScreen> {
               return const Center(child: CircularProgressIndicator());
             }),
           );
-       
-       
         }),
       ),
     );

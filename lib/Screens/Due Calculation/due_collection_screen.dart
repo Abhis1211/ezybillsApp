@@ -215,7 +215,7 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                           Text(
                             widget.customerModel.dueAmount == ''
                                 ? '$currency 0'
-                                : '$currency${widget.customerModel.dueAmount}',
+                                : '$currency${widget.customerModel.dueAmount.toDouble().round().toString()}',
                             style: const TextStyle(color: Color(0xFFFF8C34)),
                           ),
                         ],
@@ -261,7 +261,7 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                                 style: const TextStyle(fontSize: 16),
                               ),
                               Text(
-                                dueAmount.toString(),
+                                dueAmount.toDouble().round().toString(),
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ],
@@ -328,6 +328,8 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                                         dueamount1: widget
                                             .customerModel.dueAmount
                                             .toDouble())
+                                    .toDouble()
+                                    .round()
                                     .toString(),
                                 style: const TextStyle(fontSize: 16),
                               ),

@@ -161,7 +161,7 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
                           Text(
                             widget.customerModel.dueAmount == ''
                                 ? '$currency 0'
-                                : '$currency${widget.customerModel.dueAmount}',
+                                : '$currency${widget.customerModel.dueAmount.toDouble().round().toString()}',
                             style: const TextStyle(color: Color(0xFFFF8C34)),
                           ),
                         ],
@@ -237,7 +237,7 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
                                       .cartItemPurchaseList[index].productName
                                       .toString()),
                                   subtitle: Text(
-                                      '${providerData.cartItemPurchaseList[index].productStock} X ${providerData.cartItemPurchaseList[index].productPurchasePrice} = ${(double.parse(providerData.cartItemPurchaseList[index].productStock) * providerData.cartItemPurchaseList[index].productPurchasePrice.toInt()).toStringAsFixed(2)}'),
+                                      '${providerData.cartItemPurchaseList[index].productStock} X ${providerData.cartItemPurchaseList[index].productPurchasePrice} = ${(double.parse(providerData.cartItemPurchaseList[index].productStock) * providerData.cartItemPurchaseList[index].productPurchasePrice.toInt()).toDouble().round().toString()}'),
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -383,7 +383,9 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
                               Text(
                                 providerData
                                     .getTotalAmount()
-                                    .toStringAsFixed(2),
+                                    .toDouble()
+                                    .round()
+                                    .toString(),
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ],
@@ -445,7 +447,9 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
                               Text(
                                 calculateSubtotal(
                                         total: providerData.getTotalAmount())
-                                    .toStringAsFixed(2),
+                                    .toDouble()
+                                    .round()
+                                    .toString(),
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ],
@@ -495,7 +499,9 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
                               Text(
                                 calculateReturnAmount(total: subTotal)
                                     .abs()
-                                    .toStringAsFixed(2),
+                                    .toDouble()
+                                    .round()
+                                    .toString(),
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ],
@@ -512,7 +518,9 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
                               ),
                               Text(
                                 calculateDueAmount(total: subTotal)
-                                    .toStringAsFixed(2),
+                                    .toDouble()
+                                    .round()
+                                    .toString(),
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ],

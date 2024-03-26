@@ -270,7 +270,7 @@ class _SalesListScreenState extends State<SalesListScreen> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          totalSale.toStringAsFixed(2),
+                                          totalSale.toDouble().round().toString(),
                                           style: const TextStyle(
                                             color: Colors.green,
                                             fontSize: 20,
@@ -642,7 +642,7 @@ class _SalesListScreenState extends State<SalesListScreen> {
                                                   Column(
                                                     children: [
                                                       Text(
-                                                        ' ${lang.S.of(context).total} : $currency ${reTransaction[index].totalAmount.toString()}',
+                                                        ' ${lang.S.of(context).total} : $currency ${reTransaction[index].totalAmount!.toDouble().round().toString()}',
                                                         style: const TextStyle(
                                                             fontWeight:
                                                                 FontWeight.w500,
@@ -652,7 +652,7 @@ class _SalesListScreenState extends State<SalesListScreen> {
                                                       const SizedBox(
                                                           height: 10),
                                                       Text(
-                                                        '${lang.S.of(context).paid} : $currency ${(reTransaction[index].totalAmount!.toDouble() - reTransaction[index].dueAmount!.toDouble()).toStringAsFixed(2)}',
+                                                        ' ${lang.S.of(context).paid} : $currency ${(reTransaction[index].totalAmount!.toDouble() - reTransaction[index].dueAmount!.toDouble()).toDouble().round().toString()}',
                                                         style: const TextStyle(
                                                             fontWeight:
                                                                 FontWeight.w500,

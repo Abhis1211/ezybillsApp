@@ -160,7 +160,7 @@ class Printer extends ChangeNotifier {
             )),
         PosColumn(
             text:
-                "${double.parse(productList?[index].subTotal) * productList![index].quantity.toInt()}",
+                "${(double.parse(productList?[index].subTotal) * productList![index].quantity.toInt()).toDouble().round().toString()}",
             width: 3,
             styles: const PosStyles(align: PosAlign.right)),
       ]);
@@ -226,7 +226,7 @@ class Printer extends ChangeNotifier {
           )),
       PosColumn(
           text:
-              '${printTransactionModel.transitionModel!.totalAmount!.toDouble() + printTransactionModel.transitionModel!.discountAmount!.toDouble() - printTransactionModel.transitionModel!.vat!}',
+              '${(printTransactionModel.transitionModel!.totalAmount!.toDouble() + printTransactionModel.transitionModel!.discountAmount!.toDouble() - printTransactionModel.transitionModel!.vat!).toString()}',
           width: 4,
           styles: const PosStyles(
             align: PosAlign.right,
@@ -240,8 +240,8 @@ class Printer extends ChangeNotifier {
             align: PosAlign.left,
           )),
       PosColumn(
-          text: printTransactionModel.transitionModel?.discountAmount
-                  .toString() ??
+          text: printTransactionModel.transitionModel?.discountAmount!
+                  .toDouble().round().toString() ??
               '',
           width: 4,
           styles: const PosStyles(
@@ -258,7 +258,7 @@ class Printer extends ChangeNotifier {
             )),
         PosColumn(
             text:
-                '${printTransactionModel.transitionModel!.vat!.toStringAsFixed(2)}',
+                '${printTransactionModel.transitionModel!.vat!.toDouble().round().toString()}',
             width: 4,
             styles: const PosStyles(
               align: PosAlign.right,
@@ -273,7 +273,7 @@ class Printer extends ChangeNotifier {
       PosColumn(
           text:
               // '${printTransactionModel.transitionModel!.totalAmount!.toDouble() - printTransactionModel.transitionModel!.discountAmount!.toDouble() + printTransactionModel.transitionModel!.vat!.toDouble()}',
-              '${printTransactionModel.transitionModel!.totalAmount!.toDouble()}',
+              '${printTransactionModel.transitionModel!.totalAmount!..toDouble().round().toString()}',
           width: 4,
           styles: const PosStyles(align: PosAlign.right, bold: true)),
     ]);
@@ -304,7 +304,7 @@ class Printer extends ChangeNotifier {
           )),
       PosColumn(
           text:
-              ' ${(printTransactionModel.transitionModel!.returnAmount! > 1) ? (printTransactionModel.transitionModel!.totalAmount! - printTransactionModel.transitionModel!.vat!.toDouble() + printTransactionModel.transitionModel!.returnAmount!) : printTransactionModel.transitionModel!.totalAmount! - printTransactionModel.transitionModel!.dueAmount!.toDouble()}',
+              ' ${(printTransactionModel.transitionModel!.returnAmount! > 1) ? (printTransactionModel.transitionModel!.totalAmount! - printTransactionModel.transitionModel!.vat!.toDouble() + printTransactionModel.transitionModel!.returnAmount!).toDouble().round().toString() : (printTransactionModel.transitionModel!.totalAmount! - printTransactionModel.transitionModel!.dueAmount!.toDouble()).toDouble().round().toString()}',
 
           // '${printTransactionModel.transitionModel!.totalAmount!.toDouble() - printTransactionModel.transitionModel!.dueAmount!.toDouble() - printTransactionModel.transitionModel!.discountAmount!.toDouble() + printTransactionModel.transitionModel!.vat!.toDouble()}',
           // '${printTransactionModel.transitionModel!.totalAmount!.toDouble() - printTransactionModel.transitionModel!.dueAmount!.toDouble()}',
@@ -322,7 +322,7 @@ class Printer extends ChangeNotifier {
           )),
       PosColumn(
           text:
-              '${(printTransactionModel.transitionModel!.paidamountamount! - printTransactionModel.transitionModel!.totalAmount!) < 0 ? 0 : (printTransactionModel.transitionModel!.paidamountamount! - printTransactionModel.transitionModel!.totalAmount!).toStringAsFixed(2)}',
+              '${(printTransactionModel.transitionModel!.paidamountamount! - printTransactionModel.transitionModel!.totalAmount!) < 0 ? 0 : (printTransactionModel.transitionModel!.paidamountamount! - printTransactionModel.transitionModel!.totalAmount!).toDouble().round().toString()}',
 
           // text: printTransactionModel.transitionModel!.returnAmount.toString(),
           width: 4,
@@ -339,7 +339,7 @@ class Printer extends ChangeNotifier {
               align: PosAlign.left,
             )),
         PosColumn(
-            text: printTransactionModel.transitionModel!.dueAmount.toString(),
+            text: printTransactionModel.transitionModel!.dueAmount!.toDouble().round().toString(),
             width: 4,
             styles: const PosStyles(
               align: PosAlign.right,
