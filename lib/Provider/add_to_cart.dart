@@ -53,8 +53,10 @@ class CartNotifier extends ChangeNotifier {
   }
 
   totalamount({required double discountAmount}) {
-    return (totalgst / 100) *
+    return totalgst +
         calculateSubtotal(discountAmount: discountAmount).toDouble();
+    // return (totalgst / 100) *
+    //     calculateSubtotal(discountAmount: discountAmount).toDouble();
   }
 
   double calculateSubtotal({required double discountAmount}) {
@@ -62,8 +64,9 @@ class CartNotifier extends ChangeNotifier {
   }
 
   double calculateSubtotal1({required double discountAmount}) {
-    return calculateSubtotal(discountAmount: discountAmount) +
-        totalamount(discountAmount: discountAmount);
+    return calculateSubtotal(discountAmount: discountAmount) + totalgst;
+    // return calculateSubtotal(discountAmount: discountAmount) +
+    //     totalamount(discountAmount: discountAmount);
   }
 
   quantityIncrease(int index) {
@@ -101,12 +104,13 @@ class CartNotifier extends ChangeNotifier {
     }
     if (gst) {
       print(cartItem.productgst.toString());
+
       totalgst = totalgst +
           (cartItem.productgst.toString() == ""
               ? 0.0
               : double.parse(cartItem.productgst.toString()));
     }
-    print(totalgst);
+    print("totalgst" + totalgst.toString());
     notifyListeners();
   }
 

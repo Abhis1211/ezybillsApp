@@ -311,8 +311,11 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                       providerData.totalgst.toString();
                                   vatAmount = providerData.totalamount(
                                       discountAmount: discountAmount);
+
+                                  // vatAmountEditingController.text =
+                                  //     vatAmount.toStringAsFixed(2);
                                   vatAmountEditingController.text =
-                                      vatAmount.toStringAsFixed(2);
+                                      providerData.totalgst.toDouble().round().toString();
                                   subTotal = providerData.calculateSubtotal(
                                       discountAmount: discountAmount);
                                   netTotal = providerData.calculateSubtotal1(

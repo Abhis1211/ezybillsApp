@@ -239,8 +239,8 @@ class _AddProductState extends State<AddProduct> {
                     ),
                     child: InkWell(
                       onTap: () async {
-                         data = await CategoryList().launch(context);
-                      
+                        data = await CategoryList().launch(context);
+
                         setState(() {
                           productCategory = data.categoryName;
                         });
@@ -662,6 +662,13 @@ class _AddProductState extends State<AddProduct> {
                                 onChanged: (val) {
                                   setState(() {
                                     dropdownvalue = val!;
+                                    vatAmount = (val.toDouble() / 100) *
+                                        double.parse(
+                                            productPurchasePrice.toString());
+                                    // providerDatacart
+                                    //     .getTotalAmount()
+                                    //     .toDouble();
+                                    print("vat amount" + vatAmount.toString());
                                     vatPercentageEditingController.text = val;
                                   });
                                 },
@@ -1181,28 +1188,28 @@ class _AddProductState extends State<AddProduct> {
                                   _productInformationRef.keepSynced(true);
 
                                   ProductModel productModel = ProductModel(
-                                    productName,
-                                    productCategory,
-                                    size,
-                                    color,
-                                    weight,
-                                    capacity,
-                                    type,
-                                    brandName,
-                                    productCode.isEmpty
-                                        ? (products.length + 1).toString()
-                                        : productCode,
-                                    productStock,
-                                    productUnit,
-                                    productSalePrice,
-                                    productPurchasePrice,
-                                    productDiscount,
-                                    productWholeSalePrice,
-                                    productDealerPrice,
-                                    productManufacturer,
-                                    productPicture,
-                                    vatPercentageEditingController.text,
-                                  );
+                                      productName,
+                                      productCategory,
+                                      size,
+                                      color,
+                                      weight,
+                                      capacity,
+                                      type,
+                                      brandName,
+                                      productCode.isEmpty
+                                          ? (products.length + 1).toString()
+                                          : productCode,
+                                      productStock,
+                                      productUnit,
+                                      productSalePrice,
+                                      productPurchasePrice,
+                                      productDiscount,
+                                      productWholeSalePrice,
+                                      productDealerPrice,
+                                      productManufacturer,
+                                      productPicture,
+                                      // vatPercentageEditingController.text,
+                                      vatAmount.toString());
 
                                   print("product code" +
                                       productModel.productCode.toString());
