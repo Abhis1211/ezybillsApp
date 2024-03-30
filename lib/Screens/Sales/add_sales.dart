@@ -106,7 +106,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
     purchaseDate: DateTime.now().toString(),
   );
   DateTime selectedDate = DateTime.now();
-  var totalgst = 0.0;
+
   var islaod = true;
 
   @override
@@ -323,13 +323,17 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                       .toDouble()
                                       .round()
                                       .toString();
+
+                                  providerData.calculatetotalgst(index);
+                                  print("finla GSt" +
+                                      providerData.finaltotalgst.toString());
                                   subTotal = providerData.calculateSubtotal(
                                       discountAmount: discountAmount);
                                   netTotal = providerData.calculateSubtotal1(
                                       discountAmount: discountAmount);
-                                  print("subtotal" + subTotal.toString());
-                                  print("subtotal" + netTotal.toString());
-                                  setState(() {});
+                                  // print("subtotal" + subTotal.toString());
+                                  // print("subtotal" + netTotal.toString());
+                                  // setState(() {});
                                 });
                                 // consumerRef.refresh(cartNotifier);
 
@@ -344,8 +348,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                 //       double.parse(totalgst.toString());
                                 //   print("total gst" + totalgst.toString());
                                 // }
-
-                                // Future.delayed(Duration(milliseconds: 2), () {
+                                //// Future.delayed(Duration(milliseconds: 2), () {
                                 //   vatAmount = (vatPercentageEditingController.text
                                 //               .toDouble() /
                                 //           100) *
@@ -505,7 +508,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                             providerData.deleteToCart(
                                                 index,
                                                 providerData.cartItemList[index]
-                                                    .productgst);
+                                                    .productGstamount);
                                             Future.delayed(
                                                 Duration(milliseconds: 1), () {
                                               vatPercentageEditingController

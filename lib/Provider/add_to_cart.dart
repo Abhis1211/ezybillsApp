@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import '../model/add_to_cart_model.dart';
 import '../repository/profile_details_repo.dart';
@@ -55,8 +57,18 @@ class CartNotifier extends ChangeNotifier {
   totalamount({required double discountAmount}) {
     return totalgst +
         calculateSubtotal(discountAmount: discountAmount).toDouble();
+
     // return (totalgst / 100) *
     //     calculateSubtotal(discountAmount: discountAmount).toDouble();
+  }
+
+  var finaltotalgst = 0.0;
+  calculatetotalgst(index) {
+    finaltotalgst = finaltotalgst +
+        (double.parse(cartItemList[index].subTotal) *
+                cartItemList[index].quantity) *
+            double.parse(cartItemList[index].productgst.toString()) /
+            100;
   }
 
   double calculateSubtotal({required double discountAmount}) {
@@ -72,8 +84,12 @@ class CartNotifier extends ChangeNotifier {
   quantityIncrease(int index) {
     if (cartItemList[index].stock! > cartItemList[index].quantity) {
       cartItemList[index].quantity++;
+      totalgst = totalgst +
+          double.parse(cartItemList[index].productGstamount.toString());
       notifyListeners();
     } else if (cartItemList[index].stock == 0) {
+      totalgst = totalgst +
+          double.parse(cartItemList[index].productGstamount.toString());
       cartItemList[index].quantity++;
       notifyListeners();
     } else {
@@ -84,6 +100,8 @@ class CartNotifier extends ChangeNotifier {
   quantityDecrease(int index) {
     if (cartItemList[index].quantity > 1) {
       cartItemList[index].quantity--;
+      totalgst = totalgst -
+          double.parse(cartItemList[index].productGstamount.toString());
     }
     notifyListeners();
   }
@@ -104,7 +122,6 @@ class CartNotifier extends ChangeNotifier {
     }
     if (gst) {
       print(cartItem.productgst.toString());
-
       totalgst = totalgst +
           (cartItem.productGstamount.toString() == ""
               ? 0.0
@@ -133,8 +150,15 @@ class CartNotifier extends ChangeNotifier {
   }
 
   deleteToCart(int index, gst) {
-    totalgst =
-        totalgst - (gst.toString() == "" ? 0.0 : double.parse(gst.toString()));
+    var particulartotalgst =
+        int.parse(cartItemList[index].quantity.toString()) *
+            double.parse(cartItemList[index].productPurchasePrice) *
+            double.parse(cartItemList[index].productgst.toString()) /
+            100;
+    print("lsdjks0" + particulartotalgst.toString());
+    // totalgst =
+    //     totalgst - (gst.toString() == "" ? 0.0 : double.parse(gst.toString()));
+    totalgst = totalgst - particulartotalgst;
 
     cartItemList.removeAt(index);
     notifyListeners();
