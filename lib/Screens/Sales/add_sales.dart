@@ -309,13 +309,20 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                 Future.delayed(Duration(milliseconds: 1), () {
                                   vatPercentageEditingController.text =
                                       providerData.totalgst.toString();
-                                  vatAmount = providerData.totalamount(
-                                      discountAmount: discountAmount);
+
+                                  // vatAmount = providerData.totalamount(
+                                  //     discountAmount: discountAmount);
+                                  vatAmount = double.parse(
+                                      vatPercentageEditingController.text
+                                          .toString());
 
                                   // vatAmountEditingController.text =
                                   //     vatAmount.toStringAsFixed(2);
-                                  vatAmountEditingController.text =
-                                      providerData.totalgst.toDouble().round().toString();
+                                  vatAmountEditingController.text = providerData
+                                      .totalgst
+                                      .toDouble()
+                                      .round()
+                                      .toString();
                                   subTotal = providerData.calculateSubtotal(
                                       discountAmount: discountAmount);
                                   netTotal = providerData.calculateSubtotal1(

@@ -1,24 +1,24 @@
 import 'dart:convert';
 
 class AddToCartModel {
-  AddToCartModel({
-    this.uuid,
-    this.size,
-    this.color,
-    this.weight,
-    this.productId,
-    this.productName,
-    this.unitPrice,
-    this.subTotal,
-    this.quantity = 1,
-    this.productDetails,
-    this.itemCartIndex = -1,
-    this.uniqueCheck,
-    this.productBrandName,
-    this.stock,
-    this.productPurchasePrice,
-    this.productgst,
-  });
+  AddToCartModel(
+      {this.uuid,
+      this.size,
+      this.color,
+      this.weight,
+      this.productId,
+      this.productName,
+      this.unitPrice,
+      this.subTotal,
+      this.quantity = 1,
+      this.productDetails,
+      this.itemCartIndex = -1,
+      this.uniqueCheck,
+      this.productBrandName,
+      this.stock,
+      this.productPurchasePrice,
+      this.productgst,
+      this.productGstamount});
 
   dynamic size, color, weight;
   dynamic uuid;
@@ -35,6 +35,7 @@ class AddToCartModel {
   int itemCartIndex;
   int? stock;
   String? productgst;
+  String? productGstamount;
 
   factory AddToCartModel.fromJson(String str) =>
       AddToCartModel.fromMap(json.decode(str));
@@ -58,6 +59,7 @@ class AddToCartModel {
         stock: json["stock"],
         productPurchasePrice: json["productPurchasePrice"],
         productgst: json["productgst"],
+        productGstamount: json["productGstamount"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -76,6 +78,7 @@ class AddToCartModel {
         "stock": stock,
         "productPurchasePrice": productPurchasePrice,
         "productgst": productgst,
+        "productGstamount": productGstamount,
         // ignore: prefer_null_aware_operators
         "product_details":
             productDetails == null ? null : productDetails.toJson(),

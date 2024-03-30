@@ -106,9 +106,9 @@ class CartNotifier extends ChangeNotifier {
       print(cartItem.productgst.toString());
 
       totalgst = totalgst +
-          (cartItem.productgst.toString() == ""
+          (cartItem.productGstamount.toString() == ""
               ? 0.0
-              : double.parse(cartItem.productgst.toString()));
+              : double.parse(cartItem.productGstamount.toString()));
     }
     print("totalgst" + totalgst.toString());
     notifyListeners();
