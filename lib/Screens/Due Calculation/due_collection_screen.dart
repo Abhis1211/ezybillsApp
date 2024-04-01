@@ -95,6 +95,7 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
       final customerProviderRef = widget.customerModel.type == 'Supplier'
           ? consumerRef.watch(purchaseTransitionProvider)
           : consumerRef.watch(transitionProvider);
+
       final printerData = consumerRef.watch(printerDueProviderNotifier);
       final personalData = consumerRef.watch(profileDetailsProvider);
       return personalData.when(data: (data) {
@@ -495,15 +496,23 @@ class _DueCollectionScreenState extends State<DueCollectionScreen> {
                                     ? dueTransactionModel.sellerName =
                                         subUserTitle
                                     : null;
+                                print("retrn due" + remainDueAmount.toString());
+
                                 ref.push().set(dueTransactionModel.toJson());
 
                                 ///_____UpdateInvoice__________________________________________________
+                                var remainacountparticulrinvoive =
+                                    dueAmount.toDouble().round() - paidAmount;
+                                print("invoice remain" +
+                                    remainacountparticulrinvoive.toString());
+
                                 updateInvoice(
                                   type: widget.customerModel.type,
                                   invoice: selectedInvoice.toString(),
-                                  remainDueAmount: remainDueAmount.toInt(),
+                                  remainDueAmount:
+                                      remainacountparticulrinvoive.toInt(),
                                 );
-
+                                // return;
                                 personalInformationRef
                                     .update({'invoiceCounterdue': invoice + 1});
 

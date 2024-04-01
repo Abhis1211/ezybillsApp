@@ -164,6 +164,7 @@ class CartNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+
   clearCart() {
     cartItemList.clear();
     clearDiscount();
