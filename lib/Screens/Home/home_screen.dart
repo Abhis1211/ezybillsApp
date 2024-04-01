@@ -1,4 +1,5 @@
 import 'dart:convert';
+import '../../Provider/customer_provider.dart';
 import '../../subscription.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -351,9 +352,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisCount: 3,
                   children: List.generate(
                     freeIcons.length,
-                    (index) => HomeGridCards(
-                      gridItems: freeIcons[index],
-                      color: color[index],
+                    (index) => GestureDetector(
+                      onTap: () async {
+                        await ref.refresh(customerProvider);
+                      },
+                      child: HomeGridCards(
+                        gridItems: freeIcons[index],
+                        color: color[index],
+                      ),
                     ),
                   ),
                 ),

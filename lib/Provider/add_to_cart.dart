@@ -17,11 +17,27 @@ class CartNotifier extends ChangeNotifier {
   var totalgst = 0.0;
   final List<ProductModel> productList = [];
 
-  void addProductsInSales(ProductModel products, [cntx]) {
-    productList.add(products);
-    if (cntx != null)
-      EasyLoading.showSuccess('Add product to cart',
-          duration: Duration(milliseconds: 100));
+  void addProductsInSales(ProductModel products, AddToCartModel cartItem,
+      [cntx]) {
+    bool isNotInList = true;
+    for (var element in cartItemList) {
+      if (element.productId == cartItem.productId) {
+        EasyLoading.showSuccess(
+            'Product already in cart please add another product',
+            duration: Duration(milliseconds: 500));
+
+        isNotInList = false;
+        return;
+      } else {
+        isNotInList = true;
+      }
+    }
+    if (isNotInList) {
+      productList.add(products);
+      if (cntx != null)
+        EasyLoading.showSuccess('Add product to cart',
+            duration: Duration(milliseconds: 100));
+    }
     // ScaffoldMessenger.of(cntx).showSnackBar(
     //   const SnackBar(
     //     content: Text('Add product to cart'),
@@ -110,7 +126,7 @@ class CartNotifier extends ChangeNotifier {
     bool isNotInList = true;
     for (var element in cartItemList) {
       if (element.productId == cartItem.productId) {
-        element.quantity++;
+        // element.quantity++; // previous code
         isNotInList = false;
         return;
       } else {
@@ -150,20 +166,24 @@ class CartNotifier extends ChangeNotifier {
   }
 
   deleteToCart(int index, gst) {
+    print("total gst" + totalgst.toString());
+    print("product gst" + cartItemList[index].productgst.toString());
+    print("product price" + cartItemList[index].productPurchasePrice.toString());
+    print("product quntity" + cartItemList[index].quantity.toString());
+
     var particulartotalgst =
-        int.parse(cartItemList[index].quantity.toString()) *
-            double.parse(cartItemList[index].productPurchasePrice) *
+        (int.parse(cartItemList[index].quantity.toString()) *
+                double.parse(cartItemList[index].productPurchasePrice.toString())) *
             double.parse(cartItemList[index].productgst.toString()) /
             100;
-    print("lsdjks0" + particulartotalgst.toString());
+    print("particullartotalgst" + particulartotalgst.toString());
     // totalgst =
     //     totalgst - (gst.toString() == "" ? 0.0 : double.parse(gst.toString()));
     totalgst = totalgst - particulartotalgst;
-
+    print("total gst" + totalgst.toString());
     cartItemList.removeAt(index);
     notifyListeners();
   }
-
 
   clearCart() {
     cartItemList.clear();

@@ -373,8 +373,8 @@ class _SaleProductsState extends State<SaleProducts> {
                                       : filterlist[i].brandName,
                                   productPurchasePrice:
                                       currentproductcategory == ""
-                                          ? products[i].productPurchasePrice
-                                          : filterlist[i].productPurchasePrice,
+                                          ? products[i].productSalePrice
+                                          : filterlist[i].productSalePrice,
                                   stock: (currentproductcategory == ""
                                                   ? products[i]
                                                       .productStock
@@ -411,13 +411,14 @@ class _SaleProductsState extends State<SaleProducts> {
                                 );
                                 personalData.when(
                                     data: (data) {
-                                      providerData.addToCartRiverPod(
-                                          cartItem, data.gstenable);
                                       providerData.addProductsInSales(
                                           currentproductcategory == ""
                                               ? products[i]
                                               : filterlist[i],
+                                          cartItem,
                                           context);
+                                      providerData.addToCartRiverPod(
+                                          cartItem, data.gstenable);
                                     },
                                     error: (Object error,
                                         StackTrace stackTrace) {},
@@ -750,9 +751,8 @@ class _SaleProductsState extends State<SaleProducts> {
                                             ? products[i].brandName
                                             : filterlist[i].brandName,
                                         productPurchasePrice: currentproductcategory == ""
-                                            ? products[i].productPurchasePrice
-                                            : filterlist[i]
-                                                .productPurchasePrice,
+                                            ? products[i].productSalePrice
+                                            : filterlist[i].productSalePrice,
                                         stock: (currentproductcategory == "" ? products[i].productStock.toString() : filterlist[i].productStock.toString()).toString() == ""
                                             ? 0
                                             : int.parse(currentproductcategory == ""
@@ -776,13 +776,14 @@ class _SaleProductsState extends State<SaleProducts> {
                                         productGstamount: currentproductcategory == "" ? products[i].productGstamount : filterlist[i].productGstamount);
                                     personalData.when(
                                         data: (data) {
-                                          providerData.addToCartRiverPod(
-                                              cartItem, data.gstenable);
                                           providerData.addProductsInSales(
                                               currentproductcategory == ""
                                                   ? products[i]
                                                   : filterlist[i],
+                                              cartItem,
                                               context);
+                                          providerData.addToCartRiverPod(
+                                              cartItem, data.gstenable);
                                         },
                                         error: (Object error,
                                             StackTrace stackTrace) {},
