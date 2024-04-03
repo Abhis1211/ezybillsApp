@@ -168,12 +168,12 @@ class CartNotifier extends ChangeNotifier {
   deleteToCart(int index, gst) {
     print("total gst" + totalgst.toString());
     print("product gst" + cartItemList[index].productgst.toString());
-    print("product price" + cartItemList[index].productPurchasePrice.toString());
+    print("product price" + cartItemList[index].productsalePrice.toString());
     print("product quntity" + cartItemList[index].quantity.toString());
 
     var particulartotalgst =
         (int.parse(cartItemList[index].quantity.toString()) *
-                double.parse(cartItemList[index].productPurchasePrice.toString())) *
+                double.parse(cartItemList[index].productsalePrice.toString())) *
             double.parse(cartItemList[index].productgst.toString()) /
             100;
     print("particullartotalgst" + particulartotalgst.toString());

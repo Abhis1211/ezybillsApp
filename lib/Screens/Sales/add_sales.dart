@@ -1427,6 +1427,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                       double totalSalePrice = 0;
                                       for (var element
                                           in transitionModel.productList!) {
+
                                         totalPurchasePrice =
                                             totalPurchasePrice +
                                                 (double.parse(element
@@ -1435,9 +1436,11 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                         totalSalePrice = totalSalePrice +
                                             (double.parse(element.subTotal) *
                                                 element.quantity);
-
+                                      print("total purchase price" +totalPurchasePrice.toString());
+                                      print("total sale price" +totalSalePrice.toString());
                                         totalQuantity =
                                             totalQuantity + element.quantity;
+                                            
                                       }
                                       lossProfit = ((totalSalePrice -
                                               totalPurchasePrice.toDouble()) -

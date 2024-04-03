@@ -17,6 +17,7 @@ class AddToCartModel {
       this.productBrandName,
       this.stock,
       this.productPurchasePrice,
+      this.productsalePrice,
       this.productgst,
       this.productGstamount});
 
@@ -27,6 +28,7 @@ class AddToCartModel {
   dynamic unitPrice;
   dynamic subTotal;
   dynamic productPurchasePrice;
+  dynamic productsalePrice;
   dynamic uniqueCheck;
   int quantity = 1;
   dynamic productDetails;
@@ -58,6 +60,7 @@ class AddToCartModel {
         itemCartIndex: json["item_cart_index"],
         stock: json["stock"],
         productPurchasePrice: json["productPurchasePrice"],
+        productsalePrice: json["productsalePrice"],
         productgst: json["productgst"],
         productGstamount: json["productGstamount"],
       );
@@ -77,6 +80,7 @@ class AddToCartModel {
         "item_cart_index": itemCartIndex,
         "stock": stock,
         "productPurchasePrice": productPurchasePrice,
+        "productsalePrice": productsalePrice,
         "productgst": productgst,
         "productGstamount": productGstamount,
         // ignore: prefer_null_aware_operators

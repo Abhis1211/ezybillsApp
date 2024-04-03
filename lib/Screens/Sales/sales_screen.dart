@@ -373,8 +373,11 @@ class _SaleProductsState extends State<SaleProducts> {
                                       : filterlist[i].brandName,
                                   productPurchasePrice:
                                       currentproductcategory == ""
-                                          ? products[i].productSalePrice
-                                          : filterlist[i].productSalePrice,
+                                          ? products[i].productPurchasePrice
+                                          : filterlist[i].productPurchasePrice,
+                                  productsalePrice: currentproductcategory == ""
+                                      ? products[i].productSalePrice
+                                      : filterlist[i].productSalePrice,
                                   stock: (currentproductcategory == ""
                                                   ? products[i]
                                                       .productStock
@@ -747,29 +750,31 @@ class _SaleProductsState extends State<SaleProducts> {
                                         productId: currentproductcategory == ""
                                             ? products[i].productCode
                                             : filterlist[i].productCode,
-                                        productBrandName: currentproductcategory == ""
-                                            ? products[i].brandName
-                                            : filterlist[i].brandName,
+                                        productBrandName:
+                                            currentproductcategory == ""
+                                                ? products[i].brandName
+                                                : filterlist[i].brandName,
                                         productPurchasePrice: currentproductcategory == ""
+                                            ? products[i].productPurchasePrice
+                                            : filterlist[i]
+                                                .productPurchasePrice,
+                                        productsalePrice: currentproductcategory == ""
                                             ? products[i].productSalePrice
                                             : filterlist[i].productSalePrice,
                                         stock: (currentproductcategory == "" ? products[i].productStock.toString() : filterlist[i].productStock.toString()).toString() == ""
                                             ? 0
-                                            : int.parse(currentproductcategory == ""
-                                                ? products[i]
-                                                    .productStock
-                                                    .toString()
-                                                : filterlist[i]
-                                                    .productStock
-                                                    .toString()),
+                                            : int.parse(
+                                                currentproductcategory == ""
+                                                    ? products[i]
+                                                        .productStock
+                                                        .toString()
+                                                    : filterlist[i]
+                                                        .productStock
+                                                        .toString()),
                                         uuid: currentproductcategory == ""
                                             ? products[i].productCode.toString()
-                                            : filterlist[i]
-                                                .productCode
-                                                .toString(),
-                                        productgst: currentproductcategory == ""
-                                            ? products[i].productGst
-                                            : filterlist[i].productGst,
+                                            : filterlist[i].productCode.toString(),
+                                        productgst: currentproductcategory == "" ? products[i].productGst : filterlist[i].productGst,
                                         color: currentproductcategory == "" ? products[i].color : filterlist[i].color,
                                         size: currentproductcategory == "" ? products[i].size : filterlist[i].size,
                                         weight: currentproductcategory == "" ? products[i].weight : filterlist[i].weight,
