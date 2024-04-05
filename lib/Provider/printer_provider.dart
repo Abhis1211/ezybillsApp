@@ -9,11 +9,8 @@ import 'package:nb_utils/nb_utils.dart';
 import '../model/add_to_cart_model.dart';
 import '../model/print_transaction_model.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
-import '../model/personal_information_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_pos/Provider/profile_provider.dart';
 import 'package:bluetooth_thermal_printer/bluetooth_thermal_printer.dart';
-
 final printerProviderNotifier = ChangeNotifierProvider((ref) => Printer());
 
 class Printer extends ChangeNotifier {
@@ -114,7 +111,7 @@ class Printer extends ChangeNotifier {
     if (printTransactionModel.transitionModel?.customerPhone != "" ||
         printTransactionModel.transitionModel?.customerPhone != null)
       bytes += generator.text(
-          'mobile: ${printTransactionModel.transitionModel?.customerPhone ?? 'Not Provided'}',
+          'Mobile: ${printTransactionModel.transitionModel?.customerPhone ?? 'Not Provided'}',
           styles: const PosStyles(align: PosAlign.left));
     bytes += generator.text(
       'Invoice Number: ${printTransactionModel.transitionModel?.invoiceNumber ?? 'Not Provided'}',
@@ -226,7 +223,7 @@ class Printer extends ChangeNotifier {
           )),
       PosColumn(
           text:
-              '${(printTransactionModel.transitionModel!.totalAmount!.toDouble() + printTransactionModel.transitionModel!.discountAmount!.toDouble() - printTransactionModel.transitionModel!.vat!).toString()}',
+              '${(printTransactionModel.transitionModel!.totalAmount!.toDouble() + printTransactionModel.transitionModel!.discountAmount!.toDouble() - printTransactionModel.transitionModel!.vat!).round().toString()}',
           width: 4,
           styles: const PosStyles(
             align: PosAlign.right,

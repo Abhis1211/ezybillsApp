@@ -58,14 +58,14 @@ class PrinterDue extends ChangeNotifier {
         ),
         linesAfter: 1);
 
-    printDueTransactionModel.dueTransactionModel!.sellerName.isEmptyOrNull
-        ? bytes += generator.text('Seller : Admin', styles: const PosStyles(align: PosAlign.center))
-        : bytes += generator.text('Seller :${printDueTransactionModel.dueTransactionModel!.sellerName}', styles: const PosStyles(align: PosAlign.center));
+    // printDueTransactionModel.dueTransactionModel!.sellerName.isEmptyOrNull
+    //     ? bytes += generator.text('Seller : Admin', styles: const PosStyles(align: PosAlign.center))
+    //     : bytes += generator.text('Seller :${printDueTransactionModel.dueTransactionModel!.sellerName}', styles: const PosStyles(align: PosAlign.center));
 
     bytes += generator.text(printDueTransactionModel.personalInformationModel.countryName ?? '', styles: const PosStyles(align: PosAlign.center));
     bytes += generator.text(printDueTransactionModel.personalInformationModel.phoneNumber, styles: const PosStyles(align: PosAlign.center), linesAfter: 1);
     bytes += generator.text('Received From: ${printDueTransactionModel.dueTransactionModel!.customerName} ', styles: const PosStyles(align: PosAlign.left));
-    bytes += generator.text('mobile: ${printDueTransactionModel.dueTransactionModel!.customerPhone}', styles: const PosStyles(align: PosAlign.left));
+    bytes += generator.text('Mobile: ${printDueTransactionModel.dueTransactionModel!.customerPhone}', styles: const PosStyles(align: PosAlign.left));
     bytes += generator.text('Invoice Number: ${printDueTransactionModel.dueTransactionModel?.invoiceNumber ?? 'Not Provided'}',
         styles: const PosStyles(align: PosAlign.left), linesAfter: 1);
 
@@ -114,7 +114,7 @@ class PrinterDue extends ChangeNotifier {
             align: PosAlign.left,
           )),
       PosColumn(
-          text: printDueTransactionModel.dueTransactionModel!.payDueAmount.toString(),
+          text: printDueTransactionModel.dueTransactionModel!.payDueAmount!.round().toString(),
           width: 4,
           styles: const PosStyles(
             align: PosAlign.right,
@@ -128,7 +128,7 @@ class PrinterDue extends ChangeNotifier {
             align: PosAlign.left,
           )),
       PosColumn(
-          text: printDueTransactionModel.dueTransactionModel!.dueAmountAfterPay.toString(),
+          text: printDueTransactionModel.dueTransactionModel!.dueAmountAfterPay!.round().toString(),
           width: 4,
           styles: const PosStyles(
             align: PosAlign.right,
@@ -137,12 +137,12 @@ class PrinterDue extends ChangeNotifier {
     bytes += generator.hr(ch: '=', linesAfter: 1);
 
     // ticket.feed(2);
-    bytes += generator.text('Thank you!', styles: const PosStyles(align: PosAlign.center, bold: true));
-
+   bytes += generator.text('Thank you visit Again!',
+        styles: const PosStyles(align: PosAlign.center, bold: true));
     bytes += generator.text(printDueTransactionModel.dueTransactionModel!.purchaseDate, styles: const PosStyles(align: PosAlign.center), linesAfter: 1);
 
-    bytes += generator.qrcode('https://maantechnology.com', size: QRSize.Size4);
-    bytes += generator.text('Developed By: Maan Technology', styles: const PosStyles(align: PosAlign.center), linesAfter: 1);
+    // bytes += generator.qrcode('https://maantechnology.com', size: QRSize.Size4);
+    bytes += generator.text('Developed By: ezyBills(Define Softwares Pvt. Ltd.)', styles: const PosStyles(align: PosAlign.center), linesAfter: 1);
     bytes += generator.cut();
     return bytes;
   }
