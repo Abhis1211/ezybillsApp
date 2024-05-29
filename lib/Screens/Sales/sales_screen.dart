@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:firebase_database/firebase_database.dart';
+
 import '../../currency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +20,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:mobile_pos/Screens/Customers/Model/customer_model.dart';
+
+import '../../model/product_model.dart';
 
 // ignore: must_be_immutable
 class SaleProducts extends StatefulWidget {
@@ -51,7 +57,8 @@ class _SaleProductsState extends State<SaleProducts> {
     super.initState();
   }
 
-  Future<void> scanBarcodeNormal() async {
+  Future<void> scanBarcodeNormal(providename1, providename2, cntx) async {
+    
     String barcodeScanRes;
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
@@ -64,6 +71,9 @@ class _SaleProductsState extends State<SaleProducts> {
     setState(() {
       productCode = barcodeScanRes;
     });
+ 
+      await providename1.getbarcodeproduct(productCode, true, cntx);
+    
   }
 
   @override
@@ -170,7 +180,6 @@ class _SaleProductsState extends State<SaleProducts> {
             //     ),
             //   ),
             // ),
-
             // const SizedBox(height: 20.0),
             Row(
               children: [
@@ -222,7 +231,8 @@ class _SaleProductsState extends State<SaleProducts> {
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: GestureDetector(
-                      onTap: () => scanBarcodeNormal(),
+                      onTap: () => scanBarcodeNormal(
+                          providerData, personalData, context),
                       child: Container(
                         height: 50.0,
                         width: 100.0,
@@ -779,6 +789,7 @@ class _SaleProductsState extends State<SaleProducts> {
                                         size: currentproductcategory == "" ? products[i].size : filterlist[i].size,
                                         weight: currentproductcategory == "" ? products[i].weight : filterlist[i].weight,
                                         productGstamount: currentproductcategory == "" ? products[i].productGstamount : filterlist[i].productGstamount);
+
                                     personalData.when(
                                         data: (data) {
                                           providerData.addProductsInSales(

@@ -121,6 +121,8 @@ class _AddProductState extends State<AddProduct> {
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+
+          
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
@@ -132,7 +134,9 @@ class _AddProductState extends State<AddProduct> {
         setState(() {
           productCode = barcodeScanRes;
           promoCodeHint = barcodeScanRes;
+          productCodeController.text = productCode;
         });
+        print("product bar code"+ productCode.toString());
       }
     }
   }
