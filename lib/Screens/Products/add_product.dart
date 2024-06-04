@@ -116,30 +116,30 @@ class _AddProductState extends State<AddProduct> {
     }
   }
 
-  Future<void> scanBarcodeNormal() async {
-    String barcodeScanRes;
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+    Future<void> scanBarcodeNormal() async {
+      String barcodeScanRes;
+      try {
+        barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+            '#ff6666', 'Cancel', true, ScanMode.BARCODE);
 
-          
-    } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
-    }
-    if (!mounted) return;
-    if (codeList.contains(barcodeScanRes)) {
-      EasyLoading.showError('This Product Already added!');
-    } else {
-      if (barcodeScanRes != '-1') {
-        setState(() {
-          productCode = barcodeScanRes;
-          promoCodeHint = barcodeScanRes;
-          productCodeController.text = productCode;
-        });
-        print("product bar code"+ productCode.toString());
+            
+      } on PlatformException {
+        barcodeScanRes = 'Failed to get platform version.';
+      }
+      if (!mounted) return;
+      if (codeList.contains(barcodeScanRes)) {
+        EasyLoading.showError('This Product Already added!');
+      } else {
+        if (barcodeScanRes != '-1') {
+          setState(() {
+            productCode = barcodeScanRes;
+            promoCodeHint = barcodeScanRes;
+            productCodeController.text = productCode;
+          });
+          print("product bar code"+ productCode.toString());
+        }
       }
     }
-  }
 
   @override
   void initState() {
