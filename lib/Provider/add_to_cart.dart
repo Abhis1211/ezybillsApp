@@ -19,6 +19,7 @@ class CartNotifier extends ChangeNotifier {
   String discountType = 'USD';
   var totalgst = 0.0;
   final List<ProductModel> productList = [];
+   var updateprodyctpricelist =<TextEditingController>[];
 
   void addProductsInSales(ProductModel products, AddToCartModel cartItem,
       [cntx]) {
@@ -178,6 +179,8 @@ class CartNotifier extends ChangeNotifier {
     }
     if (isNotInList) {
       cartItemList.add(cartItem);
+      updateprodyctpricelist.add(TextEditingController(text: ""));
+      
     }
     if (gst) {
       print(cartItem.productgst.toString());
