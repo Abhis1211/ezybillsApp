@@ -46,7 +46,6 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
   double dueAmount = 0;
   double subTotal = 0;
   double netTotal = 0;
-
   String? dropdownValue = 'Cash';
   String? guestname = '';
   String? selectedPaymentType;
@@ -57,7 +56,6 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
   double percentage = 0;
   double vatAmount = 0;
   double totalamount = 0;
-
   bool isClicked = false;
 
   double calculateSubtotal({required double total, vatamout}) {
@@ -370,7 +368,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                            '${providerData.cartItemList[index].quantity} X ${providerData.updateprodyctpricelist[index].text == "" ? providerData.cartItemList[index].subTotal : providerData.updateprodyctpricelist[index].text} = ${(double.parse(providerData.updateprodyctpricelist[index].text == "" ? providerData.cartItemList[index].subTotal : providerData.updateprodyctpricelist[index].text) * providerData.cartItemList[index].quantity).toStringAsFixed(2)}'),
+                                            '${providerData.cartItemList[index].quantity} X ${providerData.cartItemList[index].subTotal} = ${(double.parse(providerData.cartItemList[index].subTotal) * providerData.cartItemList[index].quantity).toStringAsFixed(2)}'),
                                         Text(providerData.isColor(providerData
                                                 .cartItemList[index].color) +
                                             providerData.isSize(providerData
@@ -591,14 +589,17 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                                                       .NAME,
                                                               initialValue:
                                                                   providerData
-                                                                      .updateprodyctpricelist[
+                                                                      .cartItemList[
                                                                           index]
-                                                                      .text,
+                                                                      .subTotal,
                                                               onChanged:
                                                                   (value) {
                                                                 setState(() {
-                                                                  result =
-                                                                      value;
+                                                                  providerData
+                                                                      .cartItemList[
+                                                                          index]
+                                                                      .subTotal = value;
+                                                                      result = value;
                                                                 });
                                                               },
                                                               decoration: InputDecoration(
@@ -618,10 +619,15 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                                               onTap: () {
                                                                 setState(() {
                                                                   providerData
-                                                                      .updateprodyctpricelist[
+                                                                      .cartItemList[
                                                                           index]
-                                                                      .text = result;
+                                                                      .subTotal = result;
+                                                               
                                                                 });
+
+                                                               
+                                                                Navigator.pop(
+                                                                      context);
                                                               },
                                                               child: Container(
                                                                 height: 40,
@@ -1865,8 +1871,6 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
       }),
     );
   }
-
-  prichangepopup(index, textvalue) {}
 
   void decreaseStock(String productCode, int quantity) async {
     final ref = FirebaseDatabase.instance.ref('$constUserId/Products/');
