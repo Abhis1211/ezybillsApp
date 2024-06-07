@@ -663,10 +663,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                                 });
                                               },
                                             );
-                                            print("textvalue1" +
-                                                providerData
-                                                    .updateprodyctpricelist
-                                                    .toString());
+                                          
                                           },
                                           child: Container(
                                             padding: const EdgeInsets.all(4),
