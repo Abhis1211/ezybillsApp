@@ -57,7 +57,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
   double vatAmount = 0;
   double totalamount = 0;
   bool isClicked = false;
-
+  CustomerModel? selected_customer;
   double calculateSubtotal({required double total, vatamout}) {
     print("vatamout" + vatAmount.toString());
     print("totalamout" + total.toString());
@@ -106,6 +106,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
   DateTime selectedDate = DateTime.now();
 
   var islaod = true;
+  var isaddguest = true;
 
   @override
   void initState() {
@@ -142,6 +143,7 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
         final providerData = consumerRef.watch(cartNotifier);
         final printerData = consumerRef.watch(printerProviderNotifier);
         final personalData = consumerRef.watch(profileDetailsProvider);
+        final customerdata = consumerRef.watch(customerProvider);
 
         return personalData.when(data: (data) {
           print(data.invoiceCounter.toString());
@@ -177,7 +179,9 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                           child: AppTextField(
                             textFieldType: TextFieldType.NAME,
                             readOnly: true,
-                            initialValue: data.invoiceCounter.toString(),
+                            initialValue: invoice.toString(),
+
+                            //  data.invoiceCounter.toString(),
                             decoration: InputDecoration(
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
@@ -240,21 +244,76 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        AppTextField(
-                          textFieldType: TextFieldType.NAME,
-                          readOnly: widget.customerModel.type == 'Guest'
-                              ? false
-                              : true,
-                          initialValue: widget.customerModel.customerName,
-                          onChanged: (value) {
-                            guestname = value;
-                          },
-                          decoration: InputDecoration(
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            labelText: lang.S.of(context).customerName,
-                            border: const OutlineInputBorder(),
-                          ),
-                        ),
+                        customerdata.when(data: (customer) {
+                          if (isaddguest == true) {
+                            customer.insert(
+                                0,
+                                CustomerModel(
+                                  'Guest',
+                                  '',
+                                  'Guest',
+                                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
+                                  'Guest',
+                                  'Guest',
+                                  '0',
+                                ));
+                            selected_customer = customer[0];
+                            isaddguest = false;
+                          }
+                          return InputDecorator(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(5))),
+                              contentPadding: EdgeInsets.all(10),
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<CustomerModel>(
+                                value: selected_customer,
+                                icon: const Icon(Icons.keyboard_arrow_down),
+                                items: customer.map((items) {
+                                  return DropdownMenuItem(
+                                    value: items,
+                                    child: items.customerName == "Guest"
+                                        ? Text(
+                                            "(Walking Customer)${items.customerName.toString()}")
+                                        : Text(items.customerName.toString()),
+                                  );
+                                }).toList(),
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    selected_customer = newValue;
+                                  });
+                                },
+                              ),
+                            ),
+                          );
+                        }, error: (Object error, StackTrace stackTrace) {
+                          return Center(
+                            child: Text(error.toString()),
+                          );
+                        }, loading: () {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+
+                            // AppTextField(
+
+                            //   textFieldType: TextFieldType.NAME,
+                            //   readOnly: widget.customerModel.type == 'Guest'
+                            //       ? false
+                            //       : true,
+                            //   initialValue: widget.customerModel.customerName,
+                            //   onChanged: (value) {
+                            //     guestname = value;
+                            //   },
+                            //   decoration: InputDecoration(
+                            //     floatingLabelBehavior: FloatingLabelBehavior.always,
+                            //     labelText: lang.S.of(context).customerName,
+                            //     border: const OutlineInputBorder(),
+                            //   ),
+                            // ),
+                            )
                       ],
                     ),
                     const SizedBox(height: 10),
@@ -356,329 +415,684 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                 // });
 
                                 return Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10),
-                                  child: ListTile(
-                                    contentPadding: const EdgeInsets.all(0),
-                                    title: Text(providerData
-                                        .cartItemList[index].productName
-                                        .toString()),
-                                    subtitle: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            '${providerData.cartItemList[index].quantity} X ${providerData.cartItemList[index].subTotal} = ${(double.parse(providerData.cartItemList[index].subTotal) * providerData.cartItemList[index].quantity).toStringAsFixed(2)}'),
-                                        Text(providerData.isColor(providerData
-                                                .cartItemList[index].color) +
-                                            providerData.isSize(providerData
-                                                .cartItemList[index].size) +
-                                            providerData.isWeight(providerData
-                                                .cartItemList[index].weight))
-                                      ],
-                                    ),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10),
+                                    child: Column(
                                       children: [
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                providerData
-                                                    .quantityDecrease(index);
-                                                Future.delayed(
-                                                    Duration(milliseconds: 1),
-                                                    () {
-                                                  vatPercentageEditingController
-                                                          .text =
-                                                      providerData.totalgst
-                                                          .toString();
-                                                  vatAmount =
-                                                      providerData.totalamount(
-                                                          discountAmount:
-                                                              discountAmount);
-                                                  vatAmountEditingController
-                                                          .text =
-                                                      vatAmount
-                                                          .toStringAsFixed(2);
-                                                  subTotal = providerData
-                                                      .calculateSubtotal(
-                                                          discountAmount:
-                                                              discountAmount);
-                                                  netTotal = providerData
-                                                      .calculateSubtotal1(
-                                                          discountAmount:
-                                                              discountAmount);
-                                                  print("subtotal" +
-                                                      subTotal.toString());
-                                                  print("subtotal" +
-                                                      netTotal.toString());
-                                                  setState(() {});
-                                                });
-                                              },
-                                              child: Container(
-                                                height: 20,
-                                                width: 20,
-                                                decoration: const BoxDecoration(
-                                                  color: kMainColor,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(10)),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(providerData
+                                                    .cartItemList[index]
+                                                    .productName
+                                                    .toString()),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                        '${providerData.cartItemList[index].quantity} X ${providerData.cartItemList[index].subTotal} = ${(double.parse(providerData.cartItemList[index].subTotal) * providerData.cartItemList[index].quantity).toStringAsFixed(2)}'),
+                                                    Text(providerData.isColor(
+                                                            providerData
+                                                                .cartItemList[
+                                                                    index]
+                                                                .color) +
+                                                        providerData.isSize(
+                                                            providerData
+                                                                .cartItemList[
+                                                                    index]
+                                                                .size) +
+                                                        providerData.isWeight(
+                                                            providerData
+                                                                .cartItemList[
+                                                                    index]
+                                                                .weight))
+                                                  ],
                                                 ),
-                                                child: const Center(
-                                                  child: Text(
-                                                    '-',
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.white),
-                                                  ),
-                                                ),
-                                              ),
+                                              ],
                                             ),
-                                            const SizedBox(width: 7),
-                                            Text(
-                                              '${providerData.cartItemList[index].quantity}',
-                                              style: GoogleFonts.inter(
-                                                color: kGreyTextColor,
-                                                fontSize: 15.0,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 7),
-                                            GestureDetector(
-                                              onTap: () {
-                                                providerData
-                                                    .quantityIncrease(index);
-                                                Future.delayed(
-                                                    Duration(milliseconds: 1),
-                                                    () {
-                                                  vatPercentageEditingController
-                                                          .text =
-                                                      providerData.totalgst
-                                                          .toString();
-                                                  vatAmount =
-                                                      providerData.totalamount(
-                                                          discountAmount:
-                                                              discountAmount);
-                                                  vatAmountEditingController
-                                                          .text =
-                                                      vatAmount
-                                                          .toStringAsFixed(2);
-                                                  subTotal = providerData
-                                                      .calculateSubtotal(
-                                                          discountAmount:
-                                                              discountAmount);
-                                                  netTotal = providerData
-                                                      .calculateSubtotal1(
-                                                          discountAmount:
-                                                              discountAmount);
-                                                  print("subtotal" +
-                                                      subTotal.toString());
-                                                  print("subtotal" +
-                                                      netTotal.toString());
-                                                  setState(() {});
-                                                });
-                                              },
-                                              child: Container(
-                                                height: 20,
-                                                width: 20,
-                                                decoration: const BoxDecoration(
-                                                  color: kMainColor,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(10)),
+                                            Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        providerData
+                                                            .quantityDecrease(
+                                                                index);
+                                                        Future.delayed(
+                                                            Duration(
+                                                                milliseconds:
+                                                                    1), () {
+                                                          vatPercentageEditingController
+                                                                  .text =
+                                                              providerData
+                                                                  .totalgst
+                                                                  .toString();
+                                                          vatAmount = providerData
+                                                              .totalamount(
+                                                                  discountAmount:
+                                                                      discountAmount);
+                                                          vatAmountEditingController
+                                                                  .text =
+                                                              vatAmount
+                                                                  .toStringAsFixed(
+                                                                      2);
+                                                          subTotal = providerData
+                                                              .calculateSubtotal(
+                                                                  discountAmount:
+                                                                      discountAmount);
+                                                          netTotal = providerData
+                                                              .calculateSubtotal1(
+                                                                  discountAmount:
+                                                                      discountAmount);
+                                                          print("subtotal" +
+                                                              subTotal
+                                                                  .toString());
+                                                          print("subtotal" +
+                                                              netTotal
+                                                                  .toString());
+                                                          setState(() {});
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        height: 25,
+                                                        width: 25,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          color: kMainColor,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          15)),
+                                                        ),
+                                                        child: Text(
+                                                          '-',
+                                                          style: TextStyle(
+                                                              fontSize: 20,
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 7),
+                                                    Text(
+                                                      '${providerData.cartItemList[index].quantity}',
+                                                      style: GoogleFonts.inter(
+                                                        color: kGreyTextColor,
+                                                        fontSize: 20.0,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 7),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        providerData
+                                                            .quantityIncrease(
+                                                                index);
+                                                        Future.delayed(
+                                                            Duration(
+                                                                milliseconds:
+                                                                    1), () {
+                                                          vatPercentageEditingController
+                                                                  .text =
+                                                              providerData
+                                                                  .totalgst
+                                                                  .toString();
+                                                          vatAmount = providerData
+                                                              .totalamount(
+                                                                  discountAmount:
+                                                                      discountAmount);
+                                                          vatAmountEditingController
+                                                                  .text =
+                                                              vatAmount
+                                                                  .toStringAsFixed(
+                                                                      2);
+                                                          subTotal = providerData
+                                                              .calculateSubtotal(
+                                                                  discountAmount:
+                                                                      discountAmount);
+                                                          netTotal = providerData
+                                                              .calculateSubtotal1(
+                                                                  discountAmount:
+                                                                      discountAmount);
+                                                          print("subtotal" +
+                                                              subTotal
+                                                                  .toString());
+                                                          print("subtotal" +
+                                                              netTotal
+                                                                  .toString());
+                                                          setState(() {});
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        height: 25,
+                                                        width: 25,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          color: kMainColor,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          15)),
+                                                        ),
+                                                        child: Text(
+                                                          '+',
+                                                          style: TextStyle(
+                                                              fontSize: 18,
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                child: const Center(
-                                                    child: Text(
-                                                  '+',
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.white),
-                                                )),
-                                              ),
+                                                const SizedBox(width: 10),
+                                                Column(
+                                                  children: [
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        providerData.deleteToCart(
+                                                            index,
+                                                            providerData
+                                                                .cartItemList[
+                                                                    index]
+                                                                .productGstamount);
+                                                        Future.delayed(
+                                                            Duration(
+                                                                milliseconds:
+                                                                    1), () {
+                                                          vatPercentageEditingController
+                                                                  .text =
+                                                              providerData
+                                                                  .totalgst
+                                                                  .toString();
+                                                          vatAmount = providerData
+                                                              .totalamount(
+                                                                  discountAmount:
+                                                                      discountAmount);
+                                                          vatAmountEditingController
+                                                                  .text =
+                                                              vatAmount
+                                                                  .toStringAsFixed(
+                                                                      2);
+                                                          subTotal = providerData
+                                                              .calculateSubtotal(
+                                                                  discountAmount:
+                                                                      discountAmount);
+                                                          netTotal = providerData
+                                                              .calculateSubtotal1(
+                                                                  discountAmount:
+                                                                      discountAmount);
+                                                          print("subtotal" +
+                                                              subTotal
+                                                                  .toString());
+                                                          print("subtotal" +
+                                                              netTotal
+                                                                  .toString());
+                                                          setState(() {});
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(4),
+                                                        color: Colors.red
+                                                            .withOpacity(0.1),
+                                                        child: const Icon(
+                                                          Icons.delete,
+                                                          size: 20,
+                                                          color: Colors.red,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 8),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        var result = "";
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return StatefulBuilder(
+                                                                builder: (BuildContext
+                                                                        context,
+                                                                    StateSetter
+                                                                        setState) {
+                                                              return Dialog(
+                                                                insetPadding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10)),
+                                                                elevation: 16,
+                                                                child:
+                                                                    Container(
+                                                                        padding: EdgeInsets.symmetric(
+                                                                            horizontal:
+                                                                                10),
+                                                                        child:
+                                                                            Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.min,
+                                                                          children: [
+                                                                            SizedBox(height: 40),
+                                                                            Text(
+                                                                              'Update price',
+                                                                              style: TextStyle(fontSize: 18, color: Colors.black),
+                                                                            ),
+                                                                            SizedBox(height: 40),
+                                                                            AppTextField(
+                                                                              textFieldType: TextFieldType.NAME,
+                                                                              initialValue: providerData.cartItemList[index].subTotal,
+                                                                              onChanged: (value) {
+                                                                                setState(() {
+                                                                                  providerData.cartItemList[index].subTotal = value;
+                                                                                  result = value;
+                                                                                });
+                                                                              },
+                                                                              decoration: InputDecoration(floatingLabelBehavior: FloatingLabelBehavior.always, labelText: "Product price", border: const OutlineInputBorder(), hintText: "Enter product price"),
+                                                                            ),
+                                                                            SizedBox(height: 40),
+                                                                            InkWell(
+                                                                              onTap: () {
+                                                                                setState(() {
+                                                                                  providerData.cartItemList[index].subTotal = result;
+                                                                                });
+
+                                                                                Navigator.pop(context);
+                                                                              },
+                                                                              child: Container(
+                                                                                height: 40,
+                                                                                decoration: const BoxDecoration(
+                                                                                  color: kMainColor,
+                                                                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                                                ),
+                                                                                child: const Center(
+                                                                                  child: Text(
+                                                                                    'Update',
+                                                                                    style: TextStyle(fontSize: 14, color: Colors.white),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(
+                                                                              height: 20,
+                                                                            )
+                                                                          ],
+                                                                        )),
+                                                              ).paddingSymmetric(
+                                                                  horizontal:
+                                                                      20);
+                                                            });
+                                                          },
+                                                        );
+                                                      },
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(4),
+                                                        color: Colors.blue
+                                                            .withOpacity(0.1),
+                                                        child: const Icon(
+                                                          Icons.edit,
+                                                          size: 20,
+                                                          color: Colors.blue,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ).paddingOnly(top: 5),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(width: 10),
-                                        GestureDetector(
-                                          onTap: () {
-                                            providerData.deleteToCart(
-                                                index,
-                                                providerData.cartItemList[index]
-                                                    .productGstamount);
-                                            Future.delayed(
-                                                Duration(milliseconds: 1), () {
-                                              vatPercentageEditingController
-                                                      .text =
-                                                  providerData.totalgst
-                                                      .toString();
-                                              vatAmount =
-                                                  providerData.totalamount(
-                                                      discountAmount:
-                                                          discountAmount);
-                                              vatAmountEditingController.text =
-                                                  vatAmount.toStringAsFixed(2);
-                                              subTotal = providerData
-                                                  .calculateSubtotal(
-                                                      discountAmount:
-                                                          discountAmount);
-                                              netTotal = providerData
-                                                  .calculateSubtotal1(
-                                                      discountAmount:
-                                                          discountAmount);
-                                              print("subtotal" +
-                                                  subTotal.toString());
-                                              print("subtotal" +
-                                                  netTotal.toString());
-                                              setState(() {});
-                                            });
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.all(4),
-                                            color: Colors.red.withOpacity(0.1),
-                                            child: const Icon(
-                                              Icons.delete,
-                                              size: 20,
-                                              color: Colors.red,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 5),
-                                        GestureDetector(
-                                          onTap: () {
-                                            var result = "";
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return StatefulBuilder(builder:
-                                                    (BuildContext context,
-                                                        StateSetter setState) {
-                                                  return Dialog(
-                                                    insetPadding:
-                                                        EdgeInsets.zero,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10)),
-                                                    elevation: 16,
-                                                    child: Container(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal: 10),
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          children: [
-                                                            SizedBox(
-                                                                height: 40),
-                                                            Text(
-                                                              'Update price',
-                                                              style: TextStyle(
-                                                                  fontSize: 18,
-                                                                  color: Colors
-                                                                      .black),
-                                                            ),
-                                                            SizedBox(
-                                                                height: 40),
-                                                            AppTextField(
-                                                              textFieldType:
-                                                                  TextFieldType
-                                                                      .NAME,
-                                                              initialValue:
-                                                                  providerData
-                                                                      .cartItemList[
-                                                                          index]
-                                                                      .subTotal,
-                                                              onChanged:
-                                                                  (value) {
-                                                                setState(() {
-                                                                  providerData
-                                                                      .cartItemList[
-                                                                          index]
-                                                                      .subTotal = value;
-                                                                      result = value;
-                                                                });
-                                                              },
-                                                              decoration: InputDecoration(
-                                                                  floatingLabelBehavior:
-                                                                      FloatingLabelBehavior
-                                                                          .always,
-                                                                  labelText:
-                                                                      "Product price",
-                                                                  border:
-                                                                      const OutlineInputBorder(),
-                                                                  hintText:
-                                                                      "Enter product price"),
-                                                            ),
-                                                            SizedBox(
-                                                                height: 40),
-                                                            InkWell(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  providerData
-                                                                      .cartItemList[
-                                                                          index]
-                                                                      .subTotal = result;
-                                                               
-                                                                });
-
-                                                               
-                                                                Navigator.pop(
-                                                                      context);
-                                                              },
-                                                              child: Container(
-                                                                height: 40,
-                                                                decoration:
-                                                                    const BoxDecoration(
-                                                                  color:
-                                                                      kMainColor,
-                                                                  borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              10)),
-                                                                ),
-                                                                child:
-                                                                    const Center(
-                                                                  child: Text(
-                                                                    'Update',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            14,
-                                                                        color: Colors
-                                                                            .white),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 20,
-                                                            )
-                                                          ],
-                                                        )),
-                                                  ).paddingSymmetric(
-                                                      horizontal: 20);
-                                                });
-                                              },
-                                            );
-                                          
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.all(4),
-                                            color: Colors.blue.withOpacity(0.1),
-                                            child: const Icon(
-                                              Icons.edit,
-                                              size: 20,
-                                              color: Colors.blue,
-                                            ),
-                                          ),
-                                        ),
+                                        Divider()
                                       ],
-                                    ),
-                                  ),
-                                );
+                                    )
+
+                                    //  ListTile(
+                                    //   contentPadding: const EdgeInsets.all(0),
+                                    //   title:
+
+                                    //   Text(providerData
+                                    //       .cartItemList[index].productName
+                                    //       .toString()),
+                                    //   subtitle: Column(
+                                    //     crossAxisAlignment:
+                                    //         CrossAxisAlignment.start,
+                                    //     children: [
+                                    //       Text(
+                                    //           '${providerData.cartItemList[index].quantity} X ${providerData.cartItemList[index].subTotal} = ${(double.parse(providerData.cartItemList[index].subTotal) * providerData.cartItemList[index].quantity).toStringAsFixed(2)}'),
+                                    //       Text(providerData.isColor(providerData
+                                    //               .cartItemList[index].color) +
+                                    //           providerData.isSize(providerData
+                                    //               .cartItemList[index].size) +
+                                    //           providerData.isWeight(providerData
+                                    //               .cartItemList[index].weight))
+                                    //     ],
+                                    //   ),
+                                    //   trailing: Row(
+                                    //     mainAxisSize: MainAxisSize.min,
+                                    //     children: [
+                                    //       Row(
+                                    //         mainAxisAlignment:
+                                    //             MainAxisAlignment.spaceBetween,
+                                    //         children: [
+                                    //           GestureDetector(
+                                    //             onTap: () {
+                                    //               providerData
+                                    //                   .quantityDecrease(index);
+                                    //               Future.delayed(
+                                    //                   Duration(milliseconds: 1),
+                                    //                   () {
+                                    //                 vatPercentageEditingController
+                                    //                         .text =
+                                    //                     providerData.totalgst
+                                    //                         .toString();
+                                    //                 vatAmount =
+                                    //                     providerData.totalamount(
+                                    //                         discountAmount:
+                                    //                             discountAmount);
+                                    //                 vatAmountEditingController
+                                    //                         .text =
+                                    //                     vatAmount
+                                    //                         .toStringAsFixed(2);
+                                    //                 subTotal = providerData
+                                    //                     .calculateSubtotal(
+                                    //                         discountAmount:
+                                    //                             discountAmount);
+                                    //                 netTotal = providerData
+                                    //                     .calculateSubtotal1(
+                                    //                         discountAmount:
+                                    //                             discountAmount);
+                                    //                 print("subtotal" +
+                                    //                     subTotal.toString());
+                                    //                 print("subtotal" +
+                                    //                     netTotal.toString());
+                                    //                 setState(() {});
+                                    //               });
+                                    //             },
+                                    //             child: Container(
+                                    //               alignment: Alignment.center,
+                                    //               height: 25,
+                                    //               width: 25,
+                                    //               decoration: const BoxDecoration(
+                                    //                 color: kMainColor,
+                                    //                 borderRadius:
+                                    //                     BorderRadius.all(
+                                    //                         Radius.circular(15)),
+                                    //               ),
+                                    //               child:  Text(
+                                    //                 '-',
+                                    //                 style: TextStyle(
+                                    //                      fontSize: 20,
+                                    //                     color: Colors.white),
+                                    //               ),
+                                    //             ),
+                                    //           ),
+                                    //           const SizedBox(width: 7),
+                                    //           Text(
+                                    //             '${providerData.cartItemList[index].quantity}',
+                                    //             style: GoogleFonts.inter(
+                                    //               color: kGreyTextColor,
+                                    //               fontSize: 20.0,
+                                    //             ),
+                                    //           ),
+                                    //           const SizedBox(width: 7),
+                                    //           GestureDetector(
+                                    //             onTap: () {
+                                    //               providerData
+                                    //                   .quantityIncrease(index);
+                                    //               Future.delayed(
+                                    //                   Duration(milliseconds: 1),
+                                    //                   () {
+                                    //                 vatPercentageEditingController
+                                    //                         .text =
+                                    //                     providerData.totalgst
+                                    //                         .toString();
+                                    //                 vatAmount =
+                                    //                     providerData.totalamount(
+                                    //                         discountAmount:
+                                    //                             discountAmount);
+                                    //                 vatAmountEditingController
+                                    //                         .text =
+                                    //                     vatAmount
+                                    //                         .toStringAsFixed(2);
+                                    //                 subTotal = providerData
+                                    //                     .calculateSubtotal(
+                                    //                         discountAmount:
+                                    //                             discountAmount);
+                                    //                 netTotal = providerData
+                                    //                     .calculateSubtotal1(
+                                    //                         discountAmount:
+                                    //                             discountAmount);
+                                    //                 print("subtotal" +
+                                    //                     subTotal.toString());
+                                    //                 print("subtotal" +
+                                    //                     netTotal.toString());
+                                    //                 setState(() {});
+                                    //               });
+                                    //             },
+                                    //             child: Container(
+                                    //             alignment: Alignment.center,
+                                    //               height: 25,
+                                    //               width: 25,
+                                    //               decoration: const BoxDecoration(
+                                    //                 color: kMainColor,
+                                    //                 borderRadius:
+                                    //                     BorderRadius.all(
+                                    //                         Radius.circular(15)),
+                                    //               ),
+                                    //               child: Text(
+                                    //                 '+',
+                                    //                 style: TextStyle(
+                                    //                 fontSize: 18,
+                                    //                 color: Colors.white),
+                                    //               ),
+                                    //             ),
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //       const SizedBox(width: 10),
+
+                                    //       Column(
+                                    //         children: [
+                                    //           GestureDetector(
+                                    //             onTap: () {
+                                    //               providerData.deleteToCart(
+                                    //                   index,
+                                    //                   providerData.cartItemList[index]
+                                    //                       .productGstamount);
+                                    //               Future.delayed(
+                                    //                   Duration(milliseconds: 1), () {
+                                    //                 vatPercentageEditingController
+                                    //                         .text =
+                                    //                     providerData.totalgst
+                                    //                         .toString();
+                                    //                 vatAmount =
+                                    //                     providerData.totalamount(
+                                    //                         discountAmount:
+                                    //                             discountAmount);
+                                    //                 vatAmountEditingController.text =
+                                    //                     vatAmount.toStringAsFixed(2);
+                                    //                 subTotal = providerData
+                                    //                     .calculateSubtotal(
+                                    //                         discountAmount:
+                                    //                             discountAmount);
+                                    //                 netTotal = providerData
+                                    //                     .calculateSubtotal1(
+                                    //                         discountAmount:
+                                    //                             discountAmount);
+                                    //                 print("subtotal" +
+                                    //                     subTotal.toString());
+                                    //                 print("subtotal" +
+                                    //                     netTotal.toString());
+                                    //                 setState(() {});
+                                    //               });
+                                    //             },
+                                    //             child: Container(
+                                    //               padding: const EdgeInsets.all(4),
+                                    //               color: Colors.red.withOpacity(0.1),
+                                    //               child: const Icon(
+                                    //                 Icons.delete,
+                                    //                 size: 20,
+                                    //                 color: Colors.red,
+                                    //               ),
+                                    //             ),
+                                    //           ),
+                                    //           SizedBox(height: 5),
+                                    //           GestureDetector(
+                                    //             onTap: () {
+                                    //               var result = "";
+                                    //               showDialog(
+                                    //                 context: context,
+                                    //                 builder: (context) {
+                                    //                   return StatefulBuilder(builder:
+                                    //                       (BuildContext context,
+                                    //                           StateSetter setState) {
+                                    //                     return Dialog(
+                                    //                       insetPadding:
+                                    //                           EdgeInsets.zero,
+                                    //                       shape:
+                                    //                           RoundedRectangleBorder(
+                                    //                               borderRadius:
+                                    //                                   BorderRadius
+                                    //                                       .circular(
+                                    //                                           10)),
+                                    //                       elevation: 16,
+                                    //                       child: Container(
+                                    //                           padding: EdgeInsets
+                                    //                               .symmetric(
+                                    //                                   horizontal: 10),
+                                    //                           child: Column(
+                                    //                             mainAxisSize:
+                                    //                                 MainAxisSize.min,
+                                    //                             children: [
+                                    //                               SizedBox(
+                                    //                                   height: 40),
+                                    //                               Text(
+                                    //                                 'Update price',
+                                    //                                 style: TextStyle(
+                                    //                                     fontSize: 18,
+                                    //                                     color: Colors
+                                    //                                         .black),
+                                    //                               ),
+                                    //                               SizedBox(
+                                    //                                   height: 40),
+                                    //                               AppTextField(
+                                    //                                 textFieldType:
+                                    //                                     TextFieldType
+                                    //                                         .NAME,
+                                    //                                 initialValue:
+                                    //                                     providerData
+                                    //                                         .cartItemList[
+                                    //                                             index]
+                                    //                                         .subTotal,
+                                    //                                 onChanged:
+                                    //                                     (value) {
+                                    //                                   setState(() {
+                                    //                                     providerData
+                                    //                                         .cartItemList[
+                                    //                                             index]
+                                    //                                         .subTotal = value;
+                                    //                                         result = value;
+                                    //                                   });
+                                    //                                 },
+                                    //                                 decoration: InputDecoration(
+                                    //                                     floatingLabelBehavior:
+                                    //                                         FloatingLabelBehavior
+                                    //                                             .always,
+                                    //                                     labelText:
+                                    //                                         "Product price",
+                                    //                                     border:
+                                    //                                         const OutlineInputBorder(),
+                                    //                                     hintText:
+                                    //                                         "Enter product price"),
+                                    //                               ),
+                                    //                               SizedBox(
+                                    //                                   height: 40),
+                                    //                               InkWell(
+                                    //                                 onTap: () {
+                                    //                                   setState(() {
+                                    //                                     providerData
+                                    //                                         .cartItemList[
+                                    //                                             index]
+                                    //                                         .subTotal = result;
+
+                                    //                                   });
+
+                                    //                                   Navigator.pop(
+                                    //                                         context);
+                                    //                                 },
+                                    //                                 child: Container(
+                                    //                                   height: 40,
+                                    //                                   decoration:
+                                    //                                       const BoxDecoration(
+                                    //                                     color:
+                                    //                                         kMainColor,
+                                    //                                     borderRadius:
+                                    //                                         BorderRadius.all(
+                                    //                                             Radius.circular(
+                                    //                                                 10)),
+                                    //                                   ),
+                                    //                                   child:
+                                    //                                       const Center(
+                                    //                                     child: Text(
+                                    //                                       'Update',
+                                    //                                       style: TextStyle(
+                                    //                                           fontSize:
+                                    //                                               14,
+                                    //                                           color: Colors
+                                    //                                               .white),
+                                    //                                     ),
+                                    //                                   ),
+                                    //                                 ),
+                                    //                               ),
+                                    //                               SizedBox(
+                                    //                                 height: 20,
+                                    //                               )
+                                    //                             ],
+                                    //                           )),
+                                    //                     ).paddingSymmetric(
+                                    //                         horizontal: 20);
+                                    //                   });
+                                    //                 },
+                                    //               );
+
+                                    //             },
+                                    //             child: Container(
+                                    //               padding: const EdgeInsets.all(4),
+                                    //               color: Colors.blue.withOpacity(0.1),
+                                    //               child: const Icon(
+                                    //                 Icons.edit,
+                                    //                 size: 20,
+                                    //                 color: Colors.blue,
+                                    //               ),
+                                    //             ),
+                                    //           ),
+                                    //         ],
+                                    //       ),
+
+                                    //     ],
+                                    //   ),
+
+                                    );
                               }),
                         ],
                       ).visible(providerData.cartItemList.isNotEmpty),
@@ -1543,10 +1957,11 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                       transitionModel.invoiceNumber =
                                           invoice.toString();
                                       transitionModel.customerName =
-                                          widget.customerModel.type == 'Guest'
-                                              ? guestname!
-                                              : widget
-                                                  .customerModel.customerName;
+                                          // widget.customerModel.type == 'Guest'
+                                          //     ? guestname!
+                                          //     : widget
+                                          //         .customerModel.customerName;
+                                          selected_customer!.customerName;
 
                                       ///__________total LossProfit & quantity________________________________________________________________
 
@@ -1653,7 +2068,8 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                           Future.delayed(
                                               const Duration(milliseconds: 500),
                                               () {
-                                            const Home().launch(context);
+                                            Navigator.pop(context);
+                                            // const Home().launch(context);
                                             // const SalesReportScreen()
                                             //     .launch(context);
                                           });
@@ -1669,140 +2085,158 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                           showDialog(
                                               context: context,
                                               builder: (_) {
-                                                return WillPopScope(
-                                                  onWillPop: () async => false,
-                                                  child: Dialog(
-                                                    child: SizedBox(
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        children: [
-                                                          Container(
-                                                            height: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .height *
-                                                                0.3,
-                                                            child: ListView
-                                                                .builder(
-                                                              shrinkWrap: true,
-                                                              itemCount: printerData
-                                                                      .availableBluetoothDevices
-                                                                      .isNotEmpty
-                                                                  ? printerData
-                                                                      .availableBluetoothDevices
-                                                                      .length
-                                                                  : 0,
-                                                              itemBuilder:
-                                                                  (context,
-                                                                      index) {
-                                                                return ListTile(
-                                                                  onTap:
-                                                                      () async {
-                                                                    String
-                                                                        select =
-                                                                        printerData
-                                                                            .availableBluetoothDevices[index];
-                                                                    List list =
-                                                                        select.split(
-                                                                            "#");
-                                                                    // String name = list[0];
-                                                                    String mac =
-                                                                        list[1];
-                                                                    bool
-                                                                        isConnect =
-                                                                        await printerData
-                                                                            .setConnect(mac);
-                                                                    if (isConnect) {
-                                                                      await printerData.printTicket(
-                                                                          printTransactionModel:
-                                                                              model,
-                                                                          productList:
-                                                                              transitionModel.productList);
-                                                                      providerData
-                                                                          .clearCart();
-                                                                      consumerRef
-                                                                          .refresh(
-                                                                              customerProvider);
-                                                                      consumerRef
-                                                                          .refresh(
-                                                                              productProvider);
-                                                                      consumerRef
-                                                                          .refresh(
-                                                                              salesReportProvider);
-                                                                      consumerRef
-                                                                          .refresh(
-                                                                              transitionProvider);
-                                                                      consumerRef
-                                                                          .refresh(
-                                                                              profileDetailsProvider);
-                                                                      EasyLoading
-                                                                          .showSuccess(
-                                                                              'Added Successfully');
-                                                                      Future.delayed(
-                                                                          const Duration(
-                                                                              milliseconds: 500),
-                                                                          () {
-                                                                        const Home()
-                                                                            .launch(context);
-                                                                      });
-                                                                    }
-                                                                  },
-                                                                  title: Text(
-                                                                      '${printerData.availableBluetoothDevices[index]}'),
-                                                                  subtitle:
-                                                                      const Text(
-                                                                          "Click to connect"),
-                                                                );
-                                                              },
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                              height: 10),
-                                                          const Text(
-                                                              'Please connect printer'),
-                                                          const SizedBox(
-                                                              height: 10),
-                                                          Container(
-                                                            height: 1,
-                                                            width:
-                                                                double.infinity,
-                                                            color: Colors.grey,
-                                                          ),
-                                                          const SizedBox(
-                                                              height: 15),
-                                                          GestureDetector(
-                                                            onTap: () {
-                                                              consumerRef.refresh(
-                                                                  customerProvider);
-                                                              consumerRef.refresh(
-                                                                  productProvider);
-                                                              consumerRef.refresh(
-                                                                  salesReportProvider);
-                                                              consumerRef.refresh(
-                                                                  transitionProvider);
-                                                              consumerRef.refresh(
-                                                                  profileDetailsProvider);
-                                                              const Home()
-                                                                  .launch(
-                                                                      context);
-                                                            },
-                                                            child: const Center(
-                                                              child: Text(
-                                                                'Cancel',
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        kMainColor),
+                                                return StatefulBuilder(builder:
+                                                    (BuildContext context,
+                                                        StateSetter setState) {
+                                                  return WillPopScope(
+                                                    onWillPop: () async =>
+                                                        false,
+                                                    child: Dialog(
+                                                      child: SizedBox(
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            Container(
+                                                              height: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height *
+                                                                  0.3,
+                                                              child: ListView
+                                                                  .builder(
+                                                                shrinkWrap:
+                                                                    true,
+                                                                itemCount: printerData
+                                                                        .availableBluetoothDevices
+                                                                        .isNotEmpty
+                                                                    ? printerData
+                                                                        .availableBluetoothDevices
+                                                                        .length
+                                                                    : 0,
+                                                                itemBuilder:
+                                                                    (context,
+                                                                        index) {
+                                                                  return ListTile(
+                                                                    onTap:
+                                                                        () async {
+                                                                      String
+                                                                          select =
+                                                                          printerData
+                                                                              .availableBluetoothDevices[index];
+                                                                      List
+                                                                          list =
+                                                                          select
+                                                                              .split("#");
+                                                                      // String name = list[0];
+                                                                      String
+                                                                          mac =
+                                                                          list[
+                                                                              1];
+                                                                      bool
+                                                                          isConnect =
+                                                                          await printerData
+                                                                              .setConnect(mac);
+                                                                      if (isConnect) {
+                                                                        await printerData.printTicket(
+                                                                            printTransactionModel:
+                                                                                model,
+                                                                            productList:
+                                                                                transitionModel.productList);
+                                                                        providerData
+                                                                            .clearCart();
+                                                                        consumerRef
+                                                                            .refresh(customerProvider);
+                                                                        consumerRef
+                                                                            .refresh(productProvider);
+                                                                        consumerRef
+                                                                            .refresh(salesReportProvider);
+                                                                        consumerRef
+                                                                            .refresh(transitionProvider);
+                                                                        consumerRef
+                                                                            .refresh(profileDetailsProvider);
+                                                                        EasyLoading.showSuccess(
+                                                                            'Added Successfully');
+                                                                        Future.delayed(
+                                                                            const Duration(milliseconds: 500),
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                          // const Home()
+                                                                          //     .launch(context);
+                                                                        });
+                                                                      }
+                                                                    },
+                                                                    title: Text(
+                                                                        '${printerData.availableBluetoothDevices[index]}'),
+                                                                    subtitle:
+                                                                        const Text(
+                                                                            "Click to connect"),
+                                                                  );
+                                                                },
                                                               ),
                                                             ),
-                                                          ),
-                                                          const SizedBox(
-                                                              height: 15),
-                                                        ],
+                                                            const SizedBox(
+                                                                height: 10),
+                                                            const Text(
+                                                                'Please connect printer'),
+                                                            const SizedBox(
+                                                                height: 10),
+                                                            Container(
+                                                              height: 1,
+                                                              width: double
+                                                                  .infinity,
+                                                              color:
+                                                                  Colors.grey,
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 15),
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                // consumerRef.refresh(
+                                                                //     customerProvider);
+                                                                consumerRef.refresh(
+                                                                    productProvider);
+                                                                consumerRef.refresh(
+                                                                    salesReportProvider);
+                                                                consumerRef.refresh(
+                                                                    transitionProvider);
+                                                                consumerRef.refresh(
+                                                                    profileDetailsProvider);
+                                                                providerData
+                                                                    .cartItemList
+                                                                    .clear();
+
+                                                                Navigator.pop(
+                                                                    context);
+                                                                setState(() {
+                                                                  invoice = data
+                                                                      .invoiceCounter!
+                                                                      .toInt();
+                                                                });
+                                                                print("invoiceno+"+invoice.toString());
+                                                                // const Home()
+                                                                //     .launch(
+                                                                //         context);
+                                                              },
+                                                              child:
+                                                                  const Center(
+                                                                child: Text(
+                                                                  'Cancel',
+                                                                  style: TextStyle(
+                                                                      color:
+                                                                          kMainColor),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 15),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                );
+                                                  );
+                                                });
                                               });
                                         }
                                       } else {
@@ -1819,7 +2253,17 @@ class _AddSalesScreenState extends State<AddSalesScreen> {
                                         Future.delayed(
                                             const Duration(milliseconds: 500),
                                             () {
-                                          const Home().launch(context);
+                                          Navigator.pop(context);
+                                           providerData
+                                                                    .cartItemList
+                                                                    .clear();
+                                           setState(() {
+                                                                  invoice = data
+                                                                      .invoiceCounter!
+                                                                      .toInt();
+                                                                });
+                                                                print("invoiceno+"+invoice.toString());
+                                          // const Home().launch(context);
                                         });
                                       }
                                     } catch (e) {

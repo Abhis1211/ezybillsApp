@@ -248,4 +248,6 @@ class CartNotifier extends ChangeNotifier {
     discountType = 'USD';
     notifyListeners();
   }
+
+  when({required InputDecorator Function(dynamic customer) data, required Center Function(Object error, StackTrace stackTrace) error, required Center Function() loading}) {}
 }

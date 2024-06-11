@@ -746,27 +746,27 @@ class _SettingScreenState extends State<SettingScreen> {
                 //   ),
                 // ),
 
-                // ///_____________________________________________________________________________language
-                // ListTile(
-                //   title: Text(
-                //     lang.S.of(context).selectLang,
-                //     style: GoogleFonts.inter(
-                //       color: Colors.black,
-                //       fontSize: 18.0,
-                //     ),
-                //   ),
-                //   onTap: () => Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => const SelectLanguage(),
-                //     ),
-                //   ),
-                //   leading: Image.asset('images/en.png'),
-                //   trailing: const Icon(
-                //     Icons.arrow_forward_ios,
-                //     color: kGreyTextColor,
-                //   ),
-                // ),
+                ///_____________________________________________________________________________language
+                ListTile(
+                  title: Text(
+                    lang.S.of(context).selectLang,
+                    style: GoogleFonts.inter(
+                      color: Colors.black,
+                      fontSize: 18.0,
+                    ),
+                  ),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SelectLanguage(),
+                    ),
+                  ),
+                  leading: Image.asset('images/en.png'),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: kGreyTextColor,
+                  ),
+                ),
 
                 ///__________log_Out_______________________________________________________________
                 ListTile(
