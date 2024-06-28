@@ -38,6 +38,8 @@ class _EditProfileState extends State<EditProfile> {
       email = '';
   double progress = 0.0;
   int invoiceNumber = 0;
+  int invoiceNumberdue = 0;
+  int invoiceNumberpurchase = 0;
   bool showProgress = false;
   String profilePicture = 'nodata';
   int openingBalance = 0;
@@ -428,6 +430,8 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   userProfileDetails.when(data: (details) {
                     invoiceNumber = details.invoiceCounter!;
+                    invoiceNumberdue = details.invoiceCounterdue!;
+                    invoiceNumberpurchase = details.invoiceCounterpurchase!;
                     openingBalance = details.shopOpeningBalance;
                     // invoicenote = details.note!;
                     remainingShopBalance = details.remainingShopBalance;
@@ -627,6 +631,8 @@ class _EditProfileState extends State<EditProfile> {
                                     ? widget.profile.altphoneNumber
                                     : altNumber,
                                 invoiceCounter: invoiceNumber,
+                                invoiceCounterdue: invoiceNumberdue,
+                                invoiceCounterpurchase: invoiceNumberpurchase,
                                 gstenable:
                                     details.gstenable == true ? true : false,
                                 gstnumber: gstnumber == ""

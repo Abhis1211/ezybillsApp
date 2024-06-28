@@ -1,21 +1,22 @@
 {
   "project_info": {
-    "project_number": "495513211928",
-    "project_id": "ezybillstest",
-    "storage_bucket": "ezybillstest.appspot.com"
+    "project_number": "1027892655296",
+    "project_id": "ezybills-33844",
+    "storage_bucket": "ezybills-33844.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:495513211928:android:7538cfa24a029eb15f9f6d",
+        "mobilesdk_app_id": "1:1027892655296:android:30663076a4699bb1d12925",
         "android_client_info": {
-          "package_name": "com.ezybillstest.app"
+            
+          "package_name": "com.ezybills.app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD6ySC2Gt1O97nIlUeHssnEzkxllKuB4BM"
+          "current_key": "AIzaSyANc42M3i2X-Z8En4X0mF-WQVdbPhItZGA"
         }
       ],
       "services": {

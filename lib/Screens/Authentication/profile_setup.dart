@@ -24,7 +24,8 @@ import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:mobile_pos/Screens/Authentication/login_form.dart';
 
 class ProfileSetup extends StatefulWidget {
-  const ProfileSetup({Key? key, required this.loginWithPhone})
+  final String? password;
+  const ProfileSetup({Key? key, required this.loginWithPhone,  this.password})
       : super(key: key);
 
   final bool loginWithPhone;
@@ -652,7 +653,10 @@ class _ProfileSetupState extends State<ProfileSetup> {
                               subscriptionMethod: 'Not Provided',
                               activeStatus: 0,
                               profileSetup: 1,
-                              created_date: DateTime.now().toString());
+                              created_date: DateTime.now().toString(),
+                              timestamp:DateTime.now().millisecondsSinceEpoch.toString(),
+                              password:widget.password.toString()
+                              );
                           await FirebaseDatabase.instance
                               .ref()
                               .child('Admin Panel')

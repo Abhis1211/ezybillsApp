@@ -10,6 +10,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_pos/generated/l10n.dart' as lang;
 import 'package:firebase_database/firebase_database.dart';
 
+import '../../model/transition_model.dart';
+
 class StockList extends StatefulWidget {
   const StockList({Key? key}) : super(key: key);
 
@@ -46,6 +48,7 @@ class _StockListState extends State<StockList> {
       ),
       body: Consumer(builder: (context, ref, __) {
         final providerData = ref.watch(productProvider);
+      
 
         return SingleChildScrollView(
           child: Column(
@@ -79,6 +82,14 @@ class _StockListState extends State<StockList> {
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
+                        // Expanded(
+                        //   flex: 2,
+                        //   child: Text(
+                        //     "TodaySale",
+                        //     style: const TextStyle(fontWeight: FontWeight.bold),
+                        //     textAlign: TextAlign.center,
+                        //   ),
+                        // ),
                         Text(
                           lang.S.of(context).sale,
                           style: const TextStyle(fontWeight: FontWeight.bold),
@@ -109,6 +120,13 @@ class _StockListState extends State<StockList> {
                           maxLines: 2,
                         ),
                       ),
+                      // DataColumn(
+                      //   label: Text(
+                      //     'TS',
+                      //     overflow: TextOverflow.ellipsis,
+                      //     maxLines: 2,
+                      //   ),
+                      // ),
                       DataColumn(
                         label: Text(
                           'Sale',
@@ -128,6 +146,7 @@ class _StockListState extends State<StockList> {
                           padding: EdgeInsets.symmetric(horizontal: 10),
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
+                           
                             return Column(
                               children: [
                                 Row(
@@ -200,6 +219,21 @@ class _StockListState extends State<StockList> {
                                             ),
                                           ),
                                         )),
+                                    // Expanded(
+                                    //   child: Center(
+                                    //     child: Text(
+                                    //     "2",  // gettodaysale().toString(), 
+                                    //       style: GoogleFonts.inter(
+                                    //         color: product[index]
+                                    //                     .productStock
+                                    //                     .toInt() <
+                                    //                 20
+                                    //             ? Colors.red
+                                    //             : Colors.black,
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     Expanded(
                                       child: Center(
                                         child: Text(
@@ -293,16 +327,17 @@ class _StockListState extends State<StockList> {
       for (var element in value.children) {
         var data = jsonDecode(jsonEncode(element.value));
         setState(() {
-          totalStock = totalStock + int.parse(data['productStock']);
+          totalStock = data['productStock'] != "" ? totalStock + int.parse(data['productStock']) :totalStock + 0;
           totalSalePrice = totalSalePrice +
               (int.parse(data['productSalePrice']) *
-                  int.parse(data['productStock']));
+
+              (  data['productStock'] == "" ? 0: int.parse(data['productStock'])));
           totalParPrice = totalParPrice +
               (data['productPurchasePrice'] == null ||
                           data['productPurchasePrice'] == ""
                       ? int.parse("0")
                       : int.parse(data['productPurchasePrice'])) *
-                  int.parse(data['productStock']);
+                  (  data['productStock'] == "" ? 0: int.parse(data['productStock']));
         });
 
         print("salesprice" + totalSalePrice.toString());
@@ -310,4 +345,37 @@ class _StockListState extends State<StockList> {
       }
     });
   }
+}
+  // gettodaysale(code) async {
+  //   final ref =
+  //       FirebaseDatabase.instance.ref(constUserId).child('Sales Transition');
+  //   List<SaleTransactionModel> transitionList = [];
+  //   await ref.orderByKey().get().then((value) {
+  //     for (var element in value.children) {
+
+  //       if( jsonDecode(jsonEncode(element.value))['purchaseDate'] ==code.toString())
+  //       DateTime dt1 = DateTime.parse(
+  //           jsonDecode(jsonEncode(element.value))['purchaseDate']);
+  //       DateTime dt2 = DateTime.now();
+
+  //       if (DateTime.utc(dt1.year,dt1.month,dt1.day) .compareTo(DateTime.utc(dt2.year,dt2.month,dt2.day)) == 0) {
+  //         transitionList.add(SaleTransactionModel.fromJson(
+  //             jsonDecode(jsonEncode(element.value))));
+  //       }
+  //     }
+  //   });
+  
+  //   print("length"+ transitionList.length.toString());
+  //   return transitionList.length;
+  // }
+
+gettodatesale() async {
+  await FirebaseDatabase.instance
+      .ref(constUserId)
+      .child('Products')
+      .orderByKey()
+      .get()
+      .then((value) {
+    for (var element in value.children) {}
+  });
 }

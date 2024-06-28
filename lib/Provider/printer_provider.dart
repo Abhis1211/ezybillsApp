@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
+
+import 'package:path_provider/path_provider.dart';
+import 'package:uri_to_file/uri_to_file.dart';
+
 import '../constant.dart';
 import 'package:intl/intl.dart';
-import 'package:image/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -11,10 +14,16 @@ import '../model/print_transaction_model.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bluetooth_thermal_printer/bluetooth_thermal_printer.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:image/image.dart' as img;
+
+// import 'package:esc_pos_utils/esc_pos_utils.dart';
 final printerProviderNotifier = ChangeNotifierProvider((ref) => Printer());
 
 class Printer extends ChangeNotifier {
   List availableBluetoothDevices = [];
+
   Future<void> getBluetooth() async {
     final List? bluetooths = await BluetoothThermalPrinter.getBluetooths;
     availableBluetoothDevices = bluetooths!;
@@ -46,7 +55,6 @@ class Printer extends ChangeNotifier {
       } else {
         toast('No Product Found');
       }
-
       isPrinted = true;
     } else {
       isPrinted = false;
@@ -70,10 +78,17 @@ class Printer extends ChangeNotifier {
     List<int> bytes = [];
     CapabilityProfile profile = await CapabilityProfile.load();
     final generator = Generator(PaperSize.mm58, profile);
-    // final ByteData data = await rootBundle.load('images/logo.png');
-    // final Uint8List imageBytes = data.buffer.asUint8List();
-    // final images.Image? imagez = decodeImage(imageBytes);
-    // bytes += generator.image(imagez!);
+
+    
+    File f = await convertUriToFile(
+        printTransactionModel.personalInformationModel.pictureUrl);
+
+    final Uint8List bytess = await File(f.path).readAsBytes();
+    final img.Image? image = img.decodeImage(bytess);
+
+    bytes += generator.image(image!, align: PosAlign.center);
+    // generator.imageRaster(image);
+    // generator.imageRaster(image, imageFn: PosImageFn.graphics);
 
     bytes += generator.text(
         printTransactionModel.personalInformationModel.companyName ?? '',
@@ -90,14 +105,12 @@ class Printer extends ChangeNotifier {
           align: PosAlign.center,
         ),
       );
-
     // printTransactionModel.transitionModel!.sellerName.isEmptyOrNull
     //     ? bytes += generator.text('Seller : Admin',
     //         styles: const PosStyles(align: PosAlign.center))
     //     : bytes += generator.text(
     //         'Seller :${printTransactionModel.transitionModel!.sellerName}',
     //         styles: const PosStyles(align: PosAlign.center));
-
     bytes += generator.text(
         printTransactionModel.personalInformationModel.countryName ?? '',
         styles: const PosStyles(align: PosAlign.center));
@@ -117,7 +130,6 @@ class Printer extends ChangeNotifier {
       'Invoice Number: ${printTransactionModel.transitionModel?.invoiceNumber ?? 'Not Provided'}',
       styles: const PosStyles(align: PosAlign.left),
     );
-
     bytes += generator.row([
       PosColumn(
           text: 'Item',
@@ -162,7 +174,6 @@ class Printer extends ChangeNotifier {
             styles: const PosStyles(align: PosAlign.right)),
       ]);
     });
-
     // bytes += generator.row([
     //   PosColumn(
     //       text: "Sada Dosa",
@@ -238,7 +249,9 @@ class Printer extends ChangeNotifier {
           )),
       PosColumn(
           text: printTransactionModel.transitionModel?.discountAmount!
-                  .toDouble().round().toString() ??
+                  .toDouble()
+                  .round()
+                  .toString() ??
               '',
           width: 4,
           styles: const PosStyles(
@@ -277,6 +290,7 @@ class Printer extends ChangeNotifier {
 
     // bytes += generator.hr(ch: '=', linesAfter: 1);
     // bytes += generator.hr();
+
 
     bytes += generator.row([
       PosColumn(
@@ -336,7 +350,10 @@ class Printer extends ChangeNotifier {
               align: PosAlign.left,
             )),
         PosColumn(
-            text: printTransactionModel.transitionModel!.dueAmount!.toDouble().round().toString(),
+            text: printTransactionModel.transitionModel!.dueAmount!
+                .toDouble()
+                .round()
+                .toString(),
             width: 4,
             styles: const PosStyles(
               align: PosAlign.right,
@@ -359,19 +376,14 @@ class Printer extends ChangeNotifier {
         printTransactionModel.personalInformationModel.note.toString(),
         styles: const PosStyles(align: PosAlign.left, bold: false),
         linesAfter: 1);
-    // bytes += generator.qrcode(
-    //   'https://ezyBills.com',
-    //   size: QRSize.Size4,
-    // );
-    // final ByteData data = await rootBundle.load(
-    //     "https://firebasestorage.googleapis.com/v0/b/ezybills-33844.appspot.com/o/Profile%20Picture%2F1706040091954?alt=media&token=b2c621d8-1031-4d61-a44f-d0b86068a8ce");
-    // var bytess = data.buffer.asUint8List();
-    // var image = decodeImage(bytess);
-    // bytes += generator.image(image!, align: PosAlign.center);
-    // bytes += generator.hr();
-    // generator.text("",
-    //     styles: const PosStyles(align: PosAlign.center, bold: false),
-    //     linesAfter: 1);
+    bytes += generator.qrcode(
+      'https://ezyBills.com',
+      size: QRSize.Size4,
+    );
+    bytes += generator.hr();
+    generator.text("",
+        styles: const PosStyles(align: PosAlign.center, bold: false),
+        linesAfter: 1);
 
     bytes += generator.text(
         'Developed By: ezyBills(Define Softwares Pvt. Ltd.)',
@@ -379,5 +391,44 @@ class Printer extends ChangeNotifier {
         linesAfter: 2);
     // bytes += generator.cut(mode: PosCutMode.partial);
     return bytes;
+  }
+
+  Future<File> getImageFileFromAssets(String path) async {
+    final byteData = await rootBundle.load('$path');
+
+    final file = File('${(await getTemporaryDirectory()).path}/$path');
+    await file.create(recursive: true);
+    await file.writeAsBytes(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+    return file;
+  }
+
+  convertUriToFile(url) async {
+    try {
+      final http.Response responseData = await http.get(Uri.parse(url));
+      Uint8List uint8list = responseData.bodyBytes;
+      var buffer = uint8list.buffer;
+      ByteData byteData = ByteData.view(buffer);
+      var tempDir = await getTemporaryDirectory();
+      File file = await File('${tempDir.path}/img').writeAsBytes(
+          buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+      // Converting uri to file
+
+      // Save the thumbnail as a PNG.
+      // img.Image imagedata = await convertFileToImage(file) as img.Image;
+      // img.Image finalimage = img.copyResize(imagedata);
+      return file;
+    } catch (e) {
+      print(e); // Exception
+    }
+  }
+
+  Future<Image> convertFileToImage(File picture) async {
+    List<int> imageBase64 = picture.readAsBytesSync();
+    String imageAsString = base64Encode(imageBase64);
+    Uint8List uint8list = base64.decode(imageAsString);
+    Image image = Image.memory(uint8list);
+    return image;
   }
 }

@@ -359,7 +359,9 @@ class _SplashScreenState extends State<SplashScreen> {
             );
             // const RedeemConfirmationScreen().launch(context);
           } else {
+            print("assadasdasdasdasd");
             if (currentUser != null) {
+
               var isprofilesetup = await checkfirsttimelogin(
                   currentUser == null ? 0 : currentUser!.email);
 
@@ -592,7 +594,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     print("seller" + sellerdata.toString());
 
-    return sellerdata.length > 0 ? sellerdata[10] : 0;
+    return sellerdata.length > 0 ? sellerdata[11] : 0;
   }
 
   @override

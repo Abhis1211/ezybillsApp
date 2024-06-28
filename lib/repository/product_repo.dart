@@ -3,6 +3,8 @@ import '../constant.dart';
 import '../model/product_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+
+
 class ProductRepo {
   Future<List<ProductModel>> getAllProduct() async {
     List<ProductModel> productList = [];
@@ -20,4 +22,5 @@ class ProductRepo {
 
     return productList;
   }
+
 }
