@@ -58,7 +58,7 @@ class _CustomerListState extends State<CustomerList> {
                       customer[index].type == 'Supplier'
                           ? color = const Color(0xFFA569BD)
                           : Colors.white;
-
+                      customer.sort((a, b) => a.customerName .compareTo(b.customerName));
                       return customer[index].type.contains('Retailer')
                           ? InkWell(
                               onTap: () {

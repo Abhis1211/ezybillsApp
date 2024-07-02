@@ -92,10 +92,11 @@ class Printer extends ChangeNotifier {
 
     bytes += generator.text(
         printTransactionModel.personalInformationModel.companyName ?? '',
-        styles: const PosStyles(
+        styles:  PosStyles(
           align: PosAlign.center,
           height: PosTextSize.size2,
           width: PosTextSize.size2,
+          fontType: PosFontType.fontA
         ),
         linesAfter: 1);
     if (printTransactionModel.personalInformationModel.gstenable == true)
@@ -115,7 +116,7 @@ class Printer extends ChangeNotifier {
         printTransactionModel.personalInformationModel.countryName ?? '',
         styles: const PosStyles(align: PosAlign.center));
     bytes += generator.text(
-        'Mo: ${printTransactionModel.personalInformationModel.phoneNumber ?? ''}',
+        'Mob: ${printTransactionModel.personalInformationModel.phoneNumber ?? ''}',
         styles: const PosStyles(align: PosAlign.center),
         linesAfter: 1);
     bytes += generator.text(
@@ -127,25 +128,25 @@ class Printer extends ChangeNotifier {
           'Mobile: ${printTransactionModel.transitionModel?.customerPhone ?? 'Not Provided'}',
           styles: const PosStyles(align: PosAlign.left));
     bytes += generator.text(
-      'Invoice Number: ${printTransactionModel.transitionModel?.invoiceNumber ?? 'Not Provided'}',
+      'Invoice No: ${printTransactionModel.transitionModel?.invoiceNumber ?? 'Not Provided'}',
       styles: const PosStyles(align: PosAlign.left),
     );
     bytes += generator.row([
       PosColumn(
           text: 'Item',
-          width: 4,
+          width: 7,
           styles: const PosStyles(align: PosAlign.left, bold: true)),
       PosColumn(
           text: 'Qty',
-          width: 2,
+          width: 1,
           styles: const PosStyles(align: PosAlign.center, bold: true)),
       PosColumn(
           text: 'Price',
-          width: 3,
+          width: 2,
           styles: const PosStyles(align: PosAlign.center, bold: true)),
       PosColumn(
           text: 'Total',
-          width: 3,
+          width: 2,
           styles: const PosStyles(align: PosAlign.right, bold: true)),
     ]);
     bytes += generator.hr();
@@ -153,24 +154,24 @@ class Printer extends ChangeNotifier {
       return bytes += generator.row([
         PosColumn(
             text: productList?[index].productName ?? 'Not Defined',
-            width: 4,
+            width: 7,
             styles: PosStyles(
               align: PosAlign.left,
             )),
         PosColumn(
             text: productList?[index].quantity.toString() ?? 'Not Defined',
-            width: 2,
+            width: 1,
             styles: const PosStyles(align: PosAlign.center)),
         PosColumn(
             text: productList?[index].subTotal ?? 'Not Defined',
-            width: 3,
+            width: 2,
             styles: const PosStyles(
               align: PosAlign.center,
             )),
         PosColumn(
             text:
                 "${(double.parse(productList?[index].subTotal) * productList![index].quantity.toInt()).toDouble().round().toString()}",
-            width: 3,
+            width: 2,
             styles: const PosStyles(align: PosAlign.right)),
       ]);
     });
@@ -286,8 +287,8 @@ class Printer extends ChangeNotifier {
               '${printTransactionModel.transitionModel!.totalAmount!..toDouble().round().toString()}',
           width: 4,
           styles: const PosStyles(align: PosAlign.right, bold: true)),
-    ]);
-
+    ]); 
+    bytes += generator.hr();
     // bytes += generator.hr(ch: '=', linesAfter: 1);
     // bytes += generator.hr();
 

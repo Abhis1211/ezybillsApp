@@ -203,17 +203,39 @@ class _EditProfileState extends State<EditProfile> {
                                         onTap: () async {
                                           pickedImage = await _picker.pickImage(
                                               source: ImageSource.gallery);
+                                          if (pickedImage != null) {
+                                            final decodedImage =
+                                                await decodeImageFromList(
+                                                    await pickedImage!
+                                                        .readAsBytes());
+                                            print("width" +
+                                                decodedImage.width.toString());
+                                            print("height" +
+                                                decodedImage.height.toString());
 
-                                          setState(() {
-                                            imageFile = File(pickedImage!.path);
-                                            imagePath = pickedImage!.path;
-                                          });
-
-                                          Future.delayed(
-                                              const Duration(milliseconds: 100),
-                                              () {
-                                            Navigator.pop(context);
-                                          });
+                                            if (decodedImage.height > 400 ||
+                                                decodedImage.width > 400) {
+                                                  setState(() {
+                                                    
+                                                  pickedImage = null;
+                                                  });
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      content: Text(
+                                                          "Image size Must be is less then 300*300")));
+                                            } else {
+                                              setState(() {
+                                                imageFile =
+                                                    File(pickedImage!.path);
+                                                imagePath = pickedImage!.path;
+                                              });
+                                            }
+                                            Future.delayed(
+                                                const Duration(
+                                                    milliseconds: 100), () {
+                                              Navigator.pop(context);
+                                            });
+                                          }
                                         },
                                         child: Column(
                                           mainAxisAlignment:
@@ -241,10 +263,34 @@ class _EditProfileState extends State<EditProfile> {
                                         onTap: () async {
                                           pickedImage = await _picker.pickImage(
                                               source: ImageSource.camera);
-                                          setState(() {
-                                            imageFile = File(pickedImage!.path);
-                                            imagePath = pickedImage!.path;
-                                          });
+                                              
+                                          if (pickedImage != null) {
+                                            final decodedImage =
+                                                await decodeImageFromList(
+                                                    await pickedImage!
+                                                        .readAsBytes());
+                                            print("width" +
+                                                decodedImage.width.toString());
+                                            print("height" +
+                                                decodedImage.height.toString());
+
+                                            if (decodedImage.height > 400 ||
+                                                decodedImage.width > 400) {
+                                                  setState(() {
+                                                    
+                                                  pickedImage = null;
+                                                  });
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      content: Text(
+                                                          "Image size Must be is less then 300*300")));
+                                            } else {
+                                              setState(() {
+                                                imageFile =
+                                                    File(pickedImage!.path);
+                                                imagePath = pickedImage!.path;
+                                              });
+                                            }}
                                           Future.delayed(
                                               const Duration(milliseconds: 100),
                                               () {

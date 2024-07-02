@@ -514,6 +514,7 @@ class _SaleProductsState extends State<SaleProducts> {
                                       physics: const BouncingScrollPhysics(),
                                       itemCount: category.length,
                                       itemBuilder: (_, i) {
+                                        category.sort((a, b) => a.categoryName .compareTo(b.categoryName));
                                         return GestureDetector(
                                           onTap: (() {
                                             setState(() {
@@ -609,6 +610,8 @@ class _SaleProductsState extends State<SaleProducts> {
                                       child: CircularProgressIndicator());
                                 }),
                               ),
+                             
+                             
                               // GestureDetector(
                               //   onTap: (() {
                               //     setState(() {
@@ -841,6 +844,7 @@ class _SaleProductsState extends State<SaleProducts> {
                       ],
                     ),
                   ),
+         
           ],
         ),
         floatingActionButtonLocation:
