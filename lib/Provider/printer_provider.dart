@@ -79,7 +79,6 @@ class Printer extends ChangeNotifier {
     CapabilityProfile profile = await CapabilityProfile.load();
     final generator = Generator(PaperSize.mm58, profile);
 
-    
     File f = await convertUriToFile(
         printTransactionModel.personalInformationModel.pictureUrl);
 
@@ -92,12 +91,11 @@ class Printer extends ChangeNotifier {
 
     bytes += generator.text(
         printTransactionModel.personalInformationModel.companyName ?? '',
-        styles:  PosStyles(
-          align: PosAlign.center,
-          height: PosTextSize.size2,
-          width: PosTextSize.size2,
-          fontType: PosFontType.fontA
-        ),
+        styles: PosStyles(
+            align: PosAlign.center,
+            height: PosTextSize.size2,
+            width: PosTextSize.size2,
+            fontType: PosFontType.fontA),
         linesAfter: 1);
     if (printTransactionModel.personalInformationModel.gstenable == true)
       bytes += generator.text(
@@ -287,11 +285,10 @@ class Printer extends ChangeNotifier {
               '${printTransactionModel.transitionModel!.totalAmount!..toDouble().round().toString()}',
           width: 4,
           styles: const PosStyles(align: PosAlign.right, bold: true)),
-    ]); 
+    ]);
     bytes += generator.hr();
     // bytes += generator.hr(ch: '=', linesAfter: 1);
     // bytes += generator.hr();
-
 
     bytes += generator.row([
       PosColumn(
@@ -365,7 +362,6 @@ class Printer extends ChangeNotifier {
     // ticket.feed(2);
     bytes += generator.text('Thank you visit Again!',
         styles: const PosStyles(align: PosAlign.center, bold: true));
-
     bytes += generator.text(
         DateFormat('dd-MM-yyyy h:mm a').format(DateTime.parse(
             printTransactionModel.transitionModel!.purchaseDate)),
@@ -377,10 +373,14 @@ class Printer extends ChangeNotifier {
         printTransactionModel.personalInformationModel.note.toString(),
         styles: const PosStyles(align: PosAlign.left, bold: false),
         linesAfter: 1);
-    bytes += generator.qrcode(
-      'https://ezyBills.com',
-      size: QRSize.Size4,
-    );
+    bytes += generator.hr();
+    File qrf = await convertUriToFile(
+        printTransactionModel.personalInformationModel.pictureUrl);
+
+    final Uint8List bytessqr = await File(qrf.path).readAsBytes();
+    final img.Image? imageqr = img.decodeImage(bytessqr);
+
+    bytes += generator.image(imageqr!, align: PosAlign.center);
     bytes += generator.hr();
     generator.text("",
         styles: const PosStyles(align: PosAlign.center, bold: false),

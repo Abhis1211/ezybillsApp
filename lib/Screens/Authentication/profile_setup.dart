@@ -237,15 +237,36 @@ class _ProfileSetupState extends State<ProfileSetup> {
                                       children: [
                                         GestureDetector(
                                           onTap: () async {
-                                            pickedImage =
-                                                await _picker.pickImage(
-                                                    source:
-                                                        ImageSource.gallery);
-                                            setState(() {
-                                              imageFile =
-                                                  File(pickedImage!.path);
-                                              imagePath = pickedImage!.path;
-                                            });
+                                            pickedImage = await _picker.pickImage(
+                                              source: ImageSource.gallery);
+                                          if (pickedImage != null) {
+                                            final decodedImage =
+                                                await decodeImageFromList(
+                                                    await pickedImage!
+                                                        .readAsBytes());
+                                            print("width" +
+                                                decodedImage.width.toString());
+                                            print("height" +
+                                                decodedImage.height.toString());
+
+                                            if (decodedImage.height > 300 ||
+                                                decodedImage.width > 300) {
+                                                  setState(() {
+                                                    
+                                                  pickedImage = null;
+                                                  });
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      content: Text(
+                                                          "Image size Must be is less then 300*300")));
+                                            } else {
+                                              setState(() {
+                                                imageFile =
+                                                    File(pickedImage!.path);
+                                                imagePath = pickedImage!.path;
+                                              });
+                                            }
+                                          }
                                             Future.delayed(
                                                 const Duration(
                                                     milliseconds: 100), () {
