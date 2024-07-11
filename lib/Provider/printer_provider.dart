@@ -375,7 +375,7 @@ class Printer extends ChangeNotifier {
         linesAfter: 1);
     bytes += generator.hr();
     File qrf = await convertUriToFile(
-        printTransactionModel.personalInformationModel.pictureUrl);
+        printTransactionModel.personalInformationModel.pictureUrlqr);
 
     final Uint8List bytessqr = await File(qrf.path).readAsBytes();
     final img.Image? imageqr = img.decodeImage(bytessqr);
